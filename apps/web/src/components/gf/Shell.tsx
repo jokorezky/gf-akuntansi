@@ -52,6 +52,7 @@ const ROUTES: Record<number, string> = {
   24652: "/barang-pindah-gudang",
   24665: "/validasi-barang-keluar",
   24521: "/kode-perkiraan",
+  24524: "/tipe-pembayaran",
   24661: "/kartu-stock",
   24662: "/kartu-hutang",
   24663: "/kartu-piutang",

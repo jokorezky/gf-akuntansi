@@ -30,6 +30,7 @@ import { PromosiModule } from "./modules/inventory/promosi/promosi.module";
 import { ProduksiModule } from "./modules/inventory/produksi/produksi.module";
 import { LaporanModule } from "./modules/laporan/laporan.module";
 import { PerkiraanModule } from "./modules/setup/perkiraan/perkiraan.module";
+import { TipePembayaranModule } from "./modules/setup/tipe-pembayaran/tipe-pembayaran.module";
 
 @Module({
   imports: [
@@ -67,6 +68,7 @@ import { PerkiraanModule } from "./modules/setup/perkiraan/perkiraan.module";
     ProduksiModule,
     LaporanModule,
     PerkiraanModule,
+    TipePembayaranModule,
   ],
 })
 export class AppModule {}
