@@ -138,4 +138,54 @@ export class JurnalService {
     );
     return { rows: rows.rows as never, total: total.rows[0].n as number };
   }
+
+  /** Buku Besar v2: baris mutasi per akun + running saldo + totals (ala GF). */
+  async bukuBesarMutasi(perkirId: number, dari?: string, sampai?: string, urutTglInput = false) {
+    const akun = await this.pool.query(
+      `SELECT id::int AS id, kode, nama, sal_awal::text AS "salAwal" FROM gf.s_perkir WHERE id=$1`,
+      [perkirId],
+    );
+    if (!akun.rows[0]) return null;
+    const params: unknown[] = [perkirId];
+    let filter = "";
+    if (dari) { params.push(dari); filter += ` AND j.tanggal >= $${params.length}::date`; }
+    if (sampai) { params.push(sampai); filter += ` AND j.tanggal <= $${params.length}::date`; }
+    const order = urutTglInput ? "d.sys_id" : "j.tanggal, d.sys_id";
+    const rows = await this.pool.query(
+      `SELECT j.id::int AS id, to_char(j.tanggal,'YYYY-MM-DD') AS tanggal, j.no::text AS no, j.catatan,
+              d.no AS "noTrans", d.mauang AS mu, d.nilai::text AS nilai, d.debet,
+              '1.0000' AS kurs, d.lunas_doc AS note, to_char(d.lunas_dt,'YYYY-MM-DD') AS date,
+              v.nama AS "vendorNama", pl.nama AS "pelangganNama", j.jenis, j.divisi_id AS "divisiId"
+       FROM gf.s_jurnex d
+       JOIN gf.s_jurnal j ON j.id=d.jurnal_id AND j.hapus_oleh IS NULL
+       LEFT JOIN gf.s_vendor v ON v.id=j.vendor
+       LEFT JOIN gf.s_pelang pl ON pl.id=j.pelang
+       WHERE d.perkir_id=$1 ${filter} AND d.tgl_hapus IS NULL
+       ORDER BY ${order} LIMIT 2000`,
+      params,
+    );
+    let saldo = Number(akun.rows[0].salAwal ?? 0);
+    let totDebet = 0, totKredit = 0;
+    const out = (rows.rows as Record<string, unknown>[]).map((r) => {
+      const nilai = Number(r.nilai ?? 0);
+      const isDebet = r.debet as boolean;
+      if (isDebet) { totDebet += nilai; saldo += nilai; } else { totKredit += nilai; saldo -= nilai; }
+      const t = (n: number) => (Math.round(n * 100) / 100).toFixed(2);
+      return {
+        id: r.id as number, tanggal: r.tanggal as string, no: r.no as string, catatan: r.catatan as string,
+        noTrans: r.noTrans as string, mu: r.mu as number,
+        debet: isDebet ? t(nilai) : "0.00", kredit: !isDebet ? t(nilai) : "0.00", saldo: t(saldo),
+        kurs: "1.0000", debetIdr: isDebet ? t(nilai) : "0.00", kreditIdr: !isDebet ? t(nilai) : "0.00", saldoIdr: t(saldo),
+        note: r.note as string, date: r.date as string, vendorNama: r.vendorNama as string, pelangganNama: r.pelangganNama as string,
+        jenis: r.jenis as number, divisiId: r.divisiId as number,
+      };
+    });
+    const t2 = (n: number) => (Math.round(n * 100) / 100).toFixed(2);
+    return {
+      akunNama: akun.rows[0].nama as string, akunKode: akun.rows[0].kode as string,
+      saldoAwal: t2(Number(akun.rows[0].salAwal ?? 0)),
+      totDebet: t2(totDebet), totKredit: t2(totKredit), saldoAkhir: t2(saldo), saldoTarikKurs: t2(saldo),
+      rows: out,
+    };
+  }
 }
