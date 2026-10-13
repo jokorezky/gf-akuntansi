@@ -17,18 +17,18 @@
 |---|---|---|---|---|---|
 | 32769 | Menu Utama | Aplikasi | `/` | [~] | shell/menu sudah replika; audit dropdown penuh F2 |
 | 24486 | User Profile | Aplikasi | `/user-profile` | [~] | V2-deep + Duplicate; audit penuh |
-| 24489 | Create Indexes | Aplikasi | — | [ ] | adaptasi-web: REINDEX (F3) |
-| 24490 | Repair Databases | Aplikasi | — | [ ] | adaptasi-web: VACUUM/REINDEX (F3) |
-| 24491 | Check Databases | Aplikasi | — | [ ] | adaptasi-web: integrity/FK check (F3) |
-| 24492 | Hapus Cache Laporan | Aplikasi | — | [ ] | pemulih penting «Sistem dalam proses laporan» (F3) |
-| 24493 | Hapus File Sementara | Aplikasi | — | [ ] | adaptasi-web: cleanup temp (F3) |
-| 24495 | Hapus Seluruh Data | Aplikasi | — | [ ] | implement w/ konfirmasi ganda (F3) |
-| 24497 | Backup or Restore Data | Aplikasi | — | [ ] | UI pg_dump/restore (F3 — wajib produksi) |
-| 24500 | Add New Background | Aplikasi | — | [ ] | paritas background GF (clone skrg pakai default abu) — F3 |
-| 24501 | Show Next Background | Aplikasi | — | [ ] | F3 (ganti background) |
-| 24502 | Delete Current Background | Aplikasi | — | [ ] | F3 |
-| 24504 | Export Data | Aplikasi | — | [ ] | CSV per tabel (F3) |
-| 24505 | Import Data | Aplikasi | — | [ ] | CSV import (F3) |
+| 24489 | Create Indexes | Aplikasi | — | [NA] | DIHAPUS dari clone (keputusan user) |
+| 24490 | Repair Databases | Aplikasi | — | [NA] | DIHAPUS dari clone (keputusan user) |
+| 24491 | Check Databases | Aplikasi | — | [NA] | DIHAPUS dari clone (keputusan user) |
+| 24492 | Hapus Cache Laporan | Aplikasi | — | [NA] | DIHAPUS dari clone (keputusan user) |
+| 24493 | Hapus File Sementara | Aplikasi | — | [NA] | DIHAPUS dari clone (keputusan user) |
+| 24495 | Hapus Seluruh Data | Aplikasi | — | [NA] | DIHAPUS dari clone (keputusan user) |
+| 24497 | Backup or Restore Data | Aplikasi | — | [NA] | DIHAPUS dari clone (keputusan user) |
+| 24500 | Add New Background | Aplikasi | — | [NA] | DIHAPUS dari clone (keputusan user) |
+| 24501 | Show Next Background | Aplikasi | — | [NA] | DIHAPUS dari clone (keputusan user) |
+| 24502 | Delete Current Background | Aplikasi | — | [NA] | DIHAPUS dari clone (keputusan user) |
+| 24504 | Export Data | Aplikasi | — | [NA] | DIHAPUS dari clone (keputusan user) |
+| 24505 | Import Data | Aplikasi | — | [NA] | DIHAPUS dari clone (keputusan user) |
 | 24514 | Tampil Kotak Menu | Aplikasi | `/` | [x] | menu box shell ada |
 | 24517 | Log Off (Alt+F10) | Aplikasi | global | [x] | GlobalShortcuts + guard modal |
 | 24518 | Exit (Alt+F4) | Aplikasi | — | [NA] | web: tutup tab (tanpa aksi) |
@@ -36,18 +36,18 @@
 | 24521 | Kode Perkiraan | Setup | `/kode-perkiraan` | [~] | V2-deep |
 | 24524 | Tipe Pembayaran | Setup | `/tipe-pembayaran` | [~] | V2-deep |
 | 24525 | Eceran List | Setup | `/eceran-list` | [~] | V2-deep |
-| 24529 | POS Export Data | Setup | — | [ ] | adaptasi export (F3) |
-| 24530 | POS Import Data | Setup | — | [ ] | adaptasi import (F3) |
+| 24529 | POS Export Data | Setup | — | [NA] | DIHAPUS dari clone (keputusan user) |
+| 24530 | POS Import Data | Setup | — | [NA] | DIHAPUS dari clone (keputusan user) |
 | 24532 | Sistem Konfigurasi | Setup | `/konfigurasi` | [~] | s_kontro 1141 kolom |
 | 24533 | PC Konfigurasi | Setup | `/konfigurasi` | [~] | gabung 1 halaman; audit selisih |
-| 24537 | Buat Jurnal Khusus | Setup | — | [ ] | F3 |
-| 24540 | Set Proteksi Data | Setup | — | [ ] | F3 |
-| 24542 | HPP Testing | Setup | — | [ ] | F3 |
-| 24543 | Tutup Hari | Setup | — | [ ] | F3 |
-| 24544 | Reset Tutup Hari | Setup | — | [ ] | F3 |
-| 24548 | Proses Hitung Point | Setup | — | [ ] | F3 |
-| 24550 | Tutup Tahun Pembukuan | Setup | — | [ ] | F3 |
-| 24551 | Hapus Data s/d Tanggal | Setup | — | [ ] | F3 |
+| 24537 | Buat Jurnal Khusus | Setup | /jurnal-khusus | [~] | dibangun v1 (observe penuh menyusul di F2.2) |
+| 24540 | Set Proteksi Data | Setup | /set-proteksi | [~] | dibangun v1 (observe penuh menyusul di F2.2) |
+| 24542 | HPP Testing | Setup | /hpp-testing | [~] | dibangun v1 (observe penuh menyusul di F2.2) |
+| 24543 | Tutup Hari | Setup | /tutup-hari | [~] | dibangun v1 (observe penuh menyusul di F2.2) |
+| 24544 | Reset Tutup Hari | Setup | /tutup-hari | [~] | dibangun v1 (observe penuh menyusul di F2.2) |
+| 24548 | Proses Hitung Point | Setup | /hitung-point | [~] | dibangun v1 (observe penuh menyusul di F2.2) |
+| 24550 | Tutup Tahun Pembukuan | Setup | /tutup-tahun | [~] | dibangun v1 (observe penuh menyusul di F2.2) |
+| 24551 | Hapus Data s/d Tanggal | Setup | /hapus-data | [~] | dibangun v1 (observe penuh menyusul di F2.2) |
 | 24553 | Karyawan | Master | `/master/karyawan` | [~] | V2 100% |
 | 24554 | Vendor | Master | `/master/vendor` | [~] | V2 100% |
 | 24556 | Pelanggan (F2) | Master | `/master/pelanggan` | [~] | V2 100% |
@@ -63,7 +63,7 @@
 | 24598 | Penjualan Eceran (F7) | Penjualan | `/penjualan-eceran` | [~] | POS V2-deep |
 | 24600 | Penjualan (F8) | Penjualan | `/penjualan` | [~] | V2-deep |
 | 24602 | Retur Penjualan | Penjualan | `/retur-penjualan` | [~] | V2-deep |
-| 24603 | Export Penjualan ke Web | Penjualan | — | [ ] | F3 |
+| 24603 | Export Penjualan ke Web | Penjualan | /export-penjualan-web | [~] | dibangun v1 (observe penuh menyusul di F2.2) |
 | 24610 | Penerimaan Piutang (Ctrl+P) | Penjualan | `/penerimaan-piutang` | [~] | V2-deep |
 | 24612 | Daftar Piutang (Ctrl+F8) | Penjualan | `/daftar-piutang` | [~] | V2-deep |
 | 24620 | Kas Masuk (Ctrl+M) | Kas | `/kas-masuk` | [~] | V2-deep + capture-phase |
@@ -84,7 +84,7 @@
 | 24644 | Laporan Keuangan | GL | `/laporan-keuangan` | [~] | V2-pass (GF sendiri error K_STKNIL) |
 | 24646 | Promosi | Lainnya | `/promosi` | [~] | re-export Barang Promosi |
 | 24647 | Barang Promosi | Lainnya | `/barang-promosi` | [~] | V2-deep |
-| 24648 | Barang Promosi (Item Group) | Lainnya | — | [ ] | variant; audit + FE (F3) |
+| 24648 | Barang Promosi (Item Group) | Lainnya | /barang-promosi-itemgroup | [~] | dibangun v1 (observe penuh menyusul di F2.2) |
 | 24650 | Barang Transfer | Lainnya | `/barang-transfer` | [~] | s_stktra/s_stktex |
 | 24651 | Barang Untransfer | Lainnya | `/barang-untransfer` | [~] | V2-deep |
 | 24652 | Barang Pindah Gudang | Lainnya | `/barang-pindah-gudang` | [~] | s_stkpin/s_stkpex |
@@ -96,14 +96,14 @@
 | 24662 | Kartu Hutang (Ctrl+E) | Lainnya | `/kartu-hutang` | [~] | V2-pass |
 | 24663 | Kartu Piutang (Ctrl+U) | Lainnya | `/kartu-piutang` | [~] | V2-pass |
 | 24665 | Validasi Barang Keluar | Lainnya | `/validasi-barang-keluar` | [~] | Fase E |
-| 24667 | Proses Laporan Total Transaksi | Lainnya | — | [ ] | masuk A4 (F4) |
+| 24667 | Proses Laporan Total Transaksi | Lainnya | /proses-total-transaksi | [~] | dibangun v1 (observe penuh menyusul di F2.2) |
 | 24668 | Fast Reports | Lainnya | `/laporan` | [~] | viewer 557 .rpt + engine |
 | 24670 | Help/Bantuan (F1) | Help | global (F1 overlay) | [x] | Key List overlay |
 | 24671 | Check Versi Update | Help | — | [NA] | offline |
 | 24672 | Download Update | Help | — | [NA] | offline |
 | 24673 | Website GFSoft | Help | — | [NA] | eksternal |
-| 24675 | DB Info | Help | — | [ ] | F3 |
-| 24676 | About GF-Akuntansi (Ctrl+H) | Help | — | [ ] | F3 (Ctrl+H dibatasi browser) |
+| 24675 | DB Info | Help | dialog DB Info | [~] | dibangun v1 (observe penuh menyusul di F2.2) |
+| 24676 | About GF-Akuntansi (Ctrl+H) | Help | dialog About | [~] | dibangun v1 (observe penuh menyusul di F2.2) |
 
 **Ringkas A:** `[x]` 3 · `[~]` 50 · `[ ]` 22 · `[NA]` 14 = 89.
 
@@ -220,3 +220,5 @@
   **Sudah diperbaiki 1:1**: (1) **title bar app** "GF-Akuntansi, Release : 951.1823 Build 2026.06.28" + 3 tombol window; (2) window **Menu Utama**: breadcrumb "Utama/Menu Utama(ESC)" dihapus dari root, diganti **nama perusahaan** biru ("MONI COSMETIC SUPERMARKET"); tombol "Menu Utama (ESC)" tetap (benar, ada di window submenu GF); (3) **kartu info** dipindah jadi **overlay desktop kanan-bawah** (bukan di dalam window), layout GF 2 kolom + baris **Eceran/TGL_KOMP** + **stempel waktu login** hijau + bola 3D merah-biru; (4) **status bar 2 sel** (tanggal | jam, format d/m/Y ✓); (5) lebar window menu ~302px (GF ~305px); (6) **hapus placeholder "Cari ..." di SELURUH 36 layar** (GF box pencarian kosong; ketik = cari).
   **Temuan menunggu tindak lanjut**: (a) GF pakai wallpaper custom (Add Background) → item 24500–24502 dipindah [NA]→[ ]; (b) ukuran/posisi default window list GF perlu diukur live (clone full-width); (c) baris "Total: n" di clone perlu verifikasi perilaku GF saat ada data; (d) audit dropdown menu (9 grup) + toolbar ikon V1c; (e) form karyawan/vendor/pelanggan/item/sisa-stock: lanjut banding form+tab vs GF (batch-2).
 - **13 Okt 2026** — File dibuat (F1). Inventaris 89 item menu dari `native_menu.json`; matriks 54 layar; status laporan dari katalog engine (Pembelian 109/109, Penjualan 174+36NA tuntas sweep).
+
+- **14 Okt 2026 (F2.0 + F2.1 v1)** — **Pagination 10 baris/halaman** global (42 file + Pager + viewer). **14 item dihapus dari clone** (Create Indexes/Repair/Check DB/Hapus Cache/Hapus File Sementara/Hapus Seluruh Data/Backup-Restore/Background x3/Export-Import Data/POS Export-Import) — hilang total dari menu (`lib/removed-menus.ts`). **15 item dibangun v1**: Setup List (13 tab lookup generik BE `lookupList`), Set Proteksi/Tutup Hari(+Reset)/Tutup Tahun (`PeriodeScreen` + `khInfo/khSave`), Buat Jurnal Khusus, HPP Testing (`hppTest` 1,6jt baris legacy tanpa HPP), Proses Hitung Point (`pointInfo`), Proses Laporan Total Transaksi, Hapus Data s/d Tanggal (preview+ketik HAPUS, belum dieksekusi), Export Penjualan ke Web (JSON+CSV), Barang Promosi Item Group (alias), DB Info (`dbInfo` 19 baris), About. Bukti: `docs/verify/1to1/setup-list/clone.png`. Semua compile 0 error.

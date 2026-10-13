@@ -34,6 +34,7 @@ import { TipePembayaranModule } from "./modules/setup/tipe-pembayaran/tipe-pemba
 import { EceranListModule } from "./modules/setup/eceran-list/eceran-list.module";
 import { KonfigurasiModule } from "./modules/setup/konfigurasi/konfigurasi.module";
 import { UserProfileModule } from "./modules/setup/user-profile/user-profile.module";
+import { UtilModule } from "./modules/util/util.module";
 
 @Module({
   imports: [
@@ -75,6 +76,7 @@ import { UserProfileModule } from "./modules/setup/user-profile/user-profile.mod
     EceranListModule,
     KonfigurasiModule,
     UserProfileModule,
+    UtilModule,
   ],
 })
 export class AppModule {}

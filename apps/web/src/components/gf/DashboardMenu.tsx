@@ -5,6 +5,7 @@ import { ChevronLeft } from "lucide-react";
 import { GF_MENU } from "@/lib/gf-menu";
 import { GF_MENU_BOXES, type GfBoxButton } from "@/lib/menu-boxes";
 import { gfLucide } from "@/lib/gf-lucide";
+import { isRemoved } from "@/lib/removed-menus";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -38,7 +39,9 @@ export function DashboardMenu({
 
   const allMenuItems = GF_MENU.flatMap((g) => g.items);
   const hotkeyFor = (id?: number) => allMenuItems.find((i) => i.id === id)?.hotkey;
-  const countFor = (label: string) => GF_MENU.find((g) => g.label === label)?.items.length;
+  const countFor = (label: string) =>
+    GF_MENU.find((g) => g.label === label)?.items.filter((i) => !isRemoved(i.id)).length;
+  const visibleItems = (box?.items ?? []).filter((it) => !isRemoved(it.id));
 
   return (
     <div className="mx-auto w-full max-w-[1240px]">
@@ -54,13 +57,13 @@ export function DashboardMenu({
             {root ? company : (box?.title.replace(/^Menu /, "") ?? "")}
           </h1>
           <p className="mt-[2px] text-[12px] text-slate-400">
-            {root ? "Pilih menu untuk mulai bekerja" : `${box?.items.length ?? 0} menu tersedia`}
+            {root ? "Pilih menu untuk mulai bekerja" : `${visibleItems.length} menu tersedia`}
           </p>
         </div>
       </div>
 
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-        {box?.items.map((it, i) => {
+        {visibleItems.map((it, i) => {
           const Icon = gfLucide(it.label);
           const special = root && SPECIAL.has(it.label);
           const hk = !root ? hotkeyFor(it.id) : undefined;
