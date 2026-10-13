@@ -1,6 +1,6 @@
 import { Args, Int, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { ProduksiService } from "./produksi.service";
-import { Produksi, ProduksiInput, ProduksiPage } from "./produksi.types";
+import { PrditmRef, Produksi, ProduksiInput, ProduksiPage } from "./produksi.types";
 
 @Resolver(() => Produksi)
 export class ProduksiResolver {
@@ -18,6 +18,11 @@ export class ProduksiResolver {
   @Query(() => Produksi, { nullable: true })
   produksiById(@Args("id", { type: () => Int }) id: number) {
     return this.service.byId(id);
+  }
+
+  @Query(() => [PrditmRef])
+  prditmRefList() {
+    return this.service.prditmRef();
   }
 
   @Mutation(() => Produksi)
