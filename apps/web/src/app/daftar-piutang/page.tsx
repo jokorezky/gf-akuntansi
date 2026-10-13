@@ -6,6 +6,7 @@ import { gql } from "@/lib/graphql";
 type Row = { id: number; no?: string | null; tanggal?: string | null; pelangNama?: string | null; total?: string | null; dibayar?: string | null; retur?: string | null; sisa?: string | null };
 
 const LIST = `query($q:String){ daftarPiutangList(q:$q){ total rows { id no tanggal pelangNama total dibayar retur sisa } } }`;
+const ICON = "/gf-icons/screens/pembelian";
 
 export default function DaftarPiutangPage() {
   const [rows, setRows] = useState<Row[]>([]);
@@ -13,6 +14,7 @@ export default function DaftarPiutangPage() {
   const [q, setQ] = useState("");
   const [err, setErr] = useState("");
   const [only, setOnly] = useState(true);
+  const [msg, setMsg] = useState("");
 
   const load = useCallback(async () => {
     const d = await gql<{ daftarPiutangList: { total: number; rows: Row[] } }>(LIST, { q });
@@ -29,13 +31,22 @@ export default function DaftarPiutangPage() {
       <div className="mx-auto max-w-[1250px] border border-gf-border bg-gf-panel">
         <div className="border-b border-gf-border bg-gf-titlebar px-2 py-1 text-[13px] font-bold">Daftar Piutang</div>
         <div className="p-2">
-          <div className="mb-1 text-center text-[12px] font-bold tracking-widest text-gf-accent">D A F T A R&nbsp;&nbsp;P I U T A N G</div>
+          <div className="mb-2 flex items-center gap-1">
+            <button onClick={() => { window.location.href = "/"; }} className="gf-3d bg-gf-menubar px-2 py-[2px] text-[10px]">Menu Utama</button>
+            <button onClick={() => setMsg("Menu — gunakan menu utama")} className="gf-3d bg-gf-menubar px-2 py-[2px] text-[10px]">Menu</button>
+            <button onClick={() => { window.location.href = "/laporan"; }} className="gf-3d bg-gf-menubar p-[1px]"><img src={`${ICON}/laporan.png`} alt="Laporan" width={54} height={44} /></button>
+            <button onClick={() => { window.location.href = "/penerimaan-piutang"; }} className="gf-3d bg-gf-menubar px-3 py-[10px] text-[11px] font-bold">Masuk Daftar Tagihan</button>
+            <button onClick={() => { window.location.href = "/"; }} className="gf-3d bg-gf-menubar px-3 py-[10px] text-[11px]">Tutup</button>
+            <span className="mx-auto text-[12px] font-bold tracking-widest text-gf-accent">D A F T A R&nbsp;&nbsp;P I U T A N G</span>
+          </div>
           <div className="mb-2 flex items-center gap-2">
+            <button onClick={() => { setMsg("Proses"); void load(); }} className="gf-3d bg-gf-menubar px-4 py-[3px] text-[12px] font-bold">Proses</button>
             <input className="gf-3d flex-1 bg-white px-2 py-[3px] text-[12px]" placeholder="Cari no / pelanggan..." value={q} onChange={(e) => setQ(e.target.value)} />
-            <label className="flex items-center gap-1 text-[12px]"><input type="checkbox" checked={only} onChange={(e) => setOnly(e.target.checked)} /> Hanya belum lunas</label>
-            <span className="text-[11px] text-gf-muted">(read-only)</span>
+            <label className="flex items-center gap-1 text-[12px]"><input type="checkbox" checked={only} onChange={(e) => setOnly(e.target.checked)} /> Yang Belum Ada Pelunasan</label>
+            <label className="flex items-center gap-1 text-[12px]"><input type="checkbox" checked={!only} onChange={(e) => setOnly(!e.target.checked)} /> Yang Sudah Ada Pelunasan</label>
           </div>
           {err && <div className="mb-2 text-[12px] text-red-700">{err}</div>}
+          {msg && !err && <div className="mb-2 text-[11px] text-gf-muted">{msg}</div>}
           <div className="overflow-auto border border-gf-border">
             <table className="w-full border-collapse text-[12px]">
               <thead><tr className="bg-gf-menubar">{["ID", "No", "Tanggal", "Pelanggan", "Total", "Diterima", "Retur", "Sisa"].map((h) => <th key={h} className="border border-gf-border px-2 py-1 text-left font-normal">{h}</th>)}</tr></thead>
