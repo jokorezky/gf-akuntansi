@@ -1,0 +1,1625 @@
+{
+  "slug": "vendor",
+  "menu_id": 24554,
+  "max_depth": 3,
+  "nodes": [
+    {
+      "index": 0,
+      "depth": 1,
+      "slug": "vendor-L1-0",
+      "title": "Vendor - GF-Akuntansi Release : 951.1823 Build 2026.06.28",
+      "class": "WndAppWindow",
+      "path": [
+        "Vendor - GF-Akuntansi Release : 951.1823 Build 2026.06.28"
+      ],
+      "controls": [
+        {
+          "hwnd": 1575696,
+          "class": "WndAppWindow",
+          "text": "",
+          "rect": [
+            0,
+            35,
+            1920,
+            976
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 3015410,
+          "class": "#32770",
+          "text": "",
+          "rect": [
+            2,
+            36,
+            1919,
+            974
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 4655372,
+          "class": "Button",
+          "text": "",
+          "rect": [
+            6,
+            740,
+            887,
+            967
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 2623796,
+          "class": "Static",
+          "text": "M A S T E R   F I L E   -   V E N D O R",
+          "rect": [
+            248,
+            41,
+            1681,
+            83
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 1704694,
+          "class": "Static",
+          "text": "",
+          "rect": [
+            366,
+            90,
+            1403,
+            149
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 1379076,
+          "class": "Static",
+          "text": "ID :",
+          "rect": [
+            32,
+            770,
+            104,
+            800
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 4655632,
+          "class": "Static",
+          "text": "Nama :",
+          "rect": [
+            32,
+            801,
+            104,
+            831
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 1837650,
+          "class": "Static",
+          "text": "Daerah :",
+          "rect": [
+            32,
+            831,
+            104,
+            861
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 3672144,
+          "class": "Static",
+          "text": "Kelompok :",
+          "rect": [
+            32,
+            860,
+            122,
+            890
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 10553506,
+          "class": "Static",
+          "text": "Hubungi :",
+          "rect": [
+            32,
+            890,
+            122,
+            922
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 3607174,
+          "class": "Static",
+          "text": "Catatan :",
+          "rect": [
+            32,
+            921,
+            122,
+            951
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 1182476,
+          "class": "Button",
+          "text": "Menu Utama",
+          "rect": [
+            6,
+            41,
+            56,
+            83
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 2099782,
+          "class": "Button",
+          "text": "Z..A",
+          "rect": [
+            56,
+            41,
+            104,
+            83
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 2819970,
+          "class": "Button",
+          "text": "CheckBox",
+          "rect": [
+            104,
+            41,
+            152,
+            83
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 787380,
+          "class": "Button",
+          "text": "&Menu",
+          "rect": [
+            150,
+            41,
+            240,
+            83
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 4066054,
+          "class": "ComboBox",
+          "text": "",
+          "rect": [
+            1686,
+            47,
+            1907,
+            77
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 2359738,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            1691,
+            51,
+            1877,
+            72
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 786690,
+          "class": "Button",
+          "text": "&Laporan",
+          "rect": [
+            6,
+            90,
+            122,
+            149
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 787282,
+          "class": "Button",
+          "text": "Kel&ompok",
+          "rect": [
+            128,
+            90,
+            241,
+            149
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 10093672,
+          "class": "Button",
+          "text": "&Sisa Hutang",
+          "rect": [
+            248,
+            90,
+            364,
+            149
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 3082736,
+          "class": "Button",
+          "text": "T&ambah",
+          "rect": [
+            1410,
+            90,
+            1530,
+            149
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 2624150,
+          "class": "Button",
+          "text": "&Koreksi",
+          "rect": [
+            1536,
+            90,
+            1656,
+            149
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 854776,
+          "class": "Button",
+          "text": "&Hapus",
+          "rect": [
+            1662,
+            90,
+            1782,
+            149
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 4328008,
+          "class": "Button",
+          "text": "&Tutup",
+          "rect": [
+            1788,
+            90,
+            1908,
+            149
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 2755168,
+          "class": "SysListView32",
+          "text": "",
+          "rect": [
+            6,
+            156,
+            1907,
+            746
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 2949772,
+          "class": "SysHeader32",
+          "text": "",
+          "rect": [
+            9,
+            159,
+            1904,
+            185
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 3541284,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            122,
+            770,
+            328,
+            802
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 2624058,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            122,
+            801,
+            868,
+            831
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 1640926,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            122,
+            831,
+            868,
+            861
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 5442114,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            122,
+            860,
+            868,
+            890
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 2818738,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            122,
+            890,
+            868,
+            922
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 1575396,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            122,
+            921,
+            868,
+            951
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 3607118,
+          "class": "Button",
+          "text": "Semua Data",
+          "rect": [
+            348,
+            770,
+            488,
+            797
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 3737642,
+          "class": "Button",
+          "text": " Ctrl+F7",
+          "rect": [
+            888,
+            746,
+            1907,
+            860
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 527114,
+          "class": "Button",
+          "text": " Ctrl+F6",
+          "rect": [
+            888,
+            860,
+            1907,
+            968
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 330546,
+          "class": "msctls_statusbar32",
+          "text": "",
+          "rect": [
+            0,
+            975,
+            1920,
+            1008
+          ],
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "depth": 2,
+      "slug": "vendor-L2-1",
+      "title": "GF-Akuntansi",
+      "class": "#32770",
+      "path": [
+        "klik:Laporan",
+        "GF-Akuntansi"
+      ],
+      "controls": [
+        {
+          "hwnd": 2820394,
+          "class": "Button",
+          "text": "",
+          "rect": [
+            297,
+            321,
+            881,
+            477
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 985876,
+          "class": "Static",
+          "text": "Cetak Laporan Vendor",
+          "rect": [
+            323,
+            356,
+            857,
+            392
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 658206,
+          "class": "Static",
+          "text": "Process no. 126/327",
+          "rect": [
+            323,
+            392,
+            857,
+            428
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 133954,
+          "class": "msctls_progress32",
+          "text": "",
+          "rect": [
+            323,
+            434,
+            857,
+            454
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 134014,
+          "class": "Button",
+          "text": "Batal",
+          "rect": [
+            297,
+            482,
+            881,
+            524
+          ],
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "depth": 2,
+      "slug": "vendor-L2-2",
+      "title": "Grouping Vendor",
+      "class": "#32770",
+      "path": [
+        "klik:Kelompok",
+        "Grouping Vendor"
+      ],
+      "controls": [
+        {
+          "hwnd": 527236,
+          "class": "Static",
+          "text": "G R O U P I N G   V E N D O R",
+          "rect": [
+            288,
+            120,
+            890,
+            162
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 461694,
+          "class": "msctls_progress32",
+          "text": "",
+          "rect": [
+            288,
+            716,
+            890,
+            733
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 2951466,
+          "class": "Button",
+          "text": "T&ambah",
+          "rect": [
+            288,
+            170,
+            440,
+            229
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 199490,
+          "class": "Button",
+          "text": "&Hapus",
+          "rect": [
+            590,
+            170,
+            739,
+            229
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 723742,
+          "class": "Button",
+          "text": "&Koreksi",
+          "rect": [
+            440,
+            170,
+            589,
+            229
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 983898,
+          "class": "Button",
+          "text": "&Tutup",
+          "rect": [
+            738,
+            170,
+            890,
+            229
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 985840,
+          "class": "SysListView32",
+          "text": "",
+          "rect": [
+            288,
+            236,
+            890,
+            716
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 7537566,
+          "class": "SysHeader32",
+          "text": "",
+          "rect": [
+            291,
+            239,
+            887,
+            265
+          ],
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "depth": 3,
+      "slug": "vendor-L3-3",
+      "title": "Grouping Vendor",
+      "class": "#32770",
+      "path": [
+        "klik:Kelompok",
+        "klik:Tambah",
+        "Grouping Vendor"
+      ],
+      "controls": [
+        {
+          "hwnd": 199502,
+          "class": "Button",
+          "text": "",
+          "rect": [
+            335,
+            389,
+            847,
+            460
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 461608,
+          "class": "Static",
+          "text": "GROUPING VENDOR",
+          "rect": [
+            335,
+            339,
+            847,
+            393
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 4655676,
+          "class": "Static",
+          "text": "Grouping :",
+          "rect": [
+            360,
+            413,
+            444,
+            443
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 2886420,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            450,
+            413,
+            822,
+            443
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 396154,
+          "class": "Button",
+          "text": "&Simpan",
+          "rect": [
+            335,
+            467,
+            587,
+            509
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 265112,
+          "class": "Button",
+          "text": "&Tutup",
+          "rect": [
+            594,
+            467,
+            846,
+            509
+          ],
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "depth": 2,
+      "slug": "vendor-L2-4",
+      "title": "Vendor",
+      "class": "#32770",
+      "path": [
+        "klik:Tambah",
+        "Vendor"
+      ],
+      "controls": [
+        {
+          "hwnd": 920426,
+          "class": "Button",
+          "text": "",
+          "rect": [
+            432,
+            134,
+            1026,
+            247
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68518,
+          "class": "Static",
+          "text": "V E N D O R",
+          "rect": [
+            1026,
+            138,
+            1490,
+            246
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68520,
+          "class": "Static",
+          "text": "ID :",
+          "rect": [
+            458,
+            168,
+            520,
+            200
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68522,
+          "class": "Static",
+          "text": "Nama :",
+          "rect": [
+            458,
+            200,
+            520,
+            230
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68524,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            518,
+            168,
+            613,
+            200
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68526,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            518,
+            200,
+            1004,
+            230
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68610,
+          "class": "#32770",
+          "text": "Dialog Caption",
+          "rect": [
+            437,
+            288,
+            1483,
+            851
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68612,
+          "class": "Button",
+          "text": "",
+          "rect": [
+            441,
+            288,
+            959,
+            486
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68614,
+          "class": "Button",
+          "text": "",
+          "rect": [
+            441,
+            479,
+            1467,
+            841
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68616,
+          "class": "Static",
+          "text": "Alamat :",
+          "rect": [
+            467,
+            318,
+            547,
+            348
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68618,
+          "class": "Static",
+          "text": "Kode Pos:",
+          "rect": [
+            467,
+            377,
+            547,
+            409
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68620,
+          "class": "Static",
+          "text": "Daerah :",
+          "rect": [
+            467,
+            408,
+            547,
+            438
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68622,
+          "class": "Static",
+          "text": "NPWP :",
+          "rect": [
+            467,
+            444,
+            547,
+            474
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68624,
+          "class": "Static",
+          "text": "Telepon :",
+          "rect": [
+            467,
+            510,
+            547,
+            540
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68626,
+          "class": "Static",
+          "text": "Fax :",
+          "rect": [
+            467,
+            600,
+            547,
+            630
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68628,
+          "class": "Static",
+          "text": "Rekening :",
+          "rect": [
+            467,
+            630,
+            547,
+            660
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68630,
+          "class": "Static",
+          "text": "Credit :",
+          "rect": [
+            467,
+            720,
+            547,
+            750
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68632,
+          "class": "Static",
+          "text": "Max Crd :",
+          "rect": [
+            467,
+            749,
+            547,
+            779
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68634,
+          "class": "Static",
+          "text": "Pajak :",
+          "rect": [
+            467,
+            786,
+            547,
+            816
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68636,
+          "class": "Static",
+          "text": "Hubungi :",
+          "rect": [
+            887,
+            503,
+            964,
+            533
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68638,
+          "class": "Static",
+          "text": "Telepon :",
+          "rect": [
+            1229,
+            503,
+            1306,
+            533
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68640,
+          "class": "Static",
+          "text": "Email :",
+          "rect": [
+            981,
+            630,
+            1061,
+            660
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68642,
+          "class": "Static",
+          "text": "Website :",
+          "rect": [
+            981,
+            659,
+            1061,
+            689
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68644,
+          "class": "Static",
+          "text": "Kelompok :",
+          "rect": [
+            981,
+            689,
+            1061,
+            721
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68646,
+          "class": "Static",
+          "text": "Divisi :",
+          "rect": [
+            981,
+            720,
+            1061,
+            750
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68648,
+          "class": "Static",
+          "text": "Default Trans.Pembelian :",
+          "rect": [
+            873,
+            756,
+            1071,
+            786
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68650,
+          "class": "Static",
+          "text": " http://",
+          "rect": [
+            1071,
+            659,
+            1139,
+            689
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68652,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            549,
+            318,
+            935,
+            377
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68654,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            549,
+            377,
+            653,
+            409
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68656,
+          "class": "ComboBox",
+          "text": "",
+          "rect": [
+            549,
+            408,
+            743,
+            438
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 68660,
+          "class": "ComboBox",
+          "text": "",
+          "rect": [
+            743,
+            408,
+            935,
+            438
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68664,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            549,
+            444,
+            935,
+            474
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68666,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            549,
+            510,
+            765,
+            540
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68668,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            549,
+            539,
+            765,
+            569
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 68670,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            549,
+            569,
+            765,
+            601
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 68672,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            549,
+            600,
+            765,
+            630
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68674,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            549,
+            630,
+            935,
+            660
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68676,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            549,
+            659,
+            935,
+            689
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 68678,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            549,
+            689,
+            935,
+            721
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 68680,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            549,
+            720,
+            635,
+            750
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68682,
+          "class": "ComboBox",
+          "text": "",
+          "rect": [
+            549,
+            749,
+            635,
+            781
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68686,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            635,
+            749,
+            797,
+            779
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68688,
+          "class": "ComboBox",
+          "text": "",
+          "rect": [
+            549,
+            786,
+            635,
+            816
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68692,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            635,
+            786,
+            712,
+            816
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68694,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            711,
+            786,
+            791,
+            816
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68696,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            887,
+            533,
+            1229,
+            565
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68698,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            1229,
+            533,
+            1445,
+            565
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 68700,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            887,
+            564,
+            1229,
+            594
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68702,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            1229,
+            564,
+            1445,
+            594
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 68704,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            887,
+            593,
+            1229,
+            623
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68706,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            1229,
+            593,
+            1445,
+            623
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 68708,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            1071,
+            630,
+            1445,
+            660
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68710,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            1139,
+            659,
+            1445,
+            689
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68712,
+          "class": "ComboBox",
+          "text": "",
+          "rect": [
+            1071,
+            689,
+            1445,
+            719
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68716,
+          "class": "ComboBox",
+          "text": "",
+          "rect": [
+            1071,
+            720,
+            1445,
+            750
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68720,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            1076,
+            725,
+            1415,
+            746
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68722,
+          "class": "ComboBox",
+          "text": "",
+          "rect": [
+            1071,
+            756,
+            1161,
+            788
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68726,
+          "class": "ComboBox",
+          "text": "",
+          "rect": [
+            1161,
+            756,
+            1445,
+            786
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68730,
+          "class": "Button",
+          "text": "Pembelian: Harga Beli diambil dari Harga Beli terakhir",
+          "rect": [
+            873,
+            791,
+            1337,
+            823
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68732,
+          "class": "SysListView32",
+          "text": "",
+          "rect": [
+            959,
+            293,
+            1277,
+            485
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68734,
+          "class": "SysHeader32",
+          "text": "",
+          "rect": [
+            962,
+            296,
+            1274,
+            296
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68738,
+          "class": "SysListView32",
+          "text": "",
+          "rect": [
+            1277,
+            293,
+            1469,
+            485
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68740,
+          "class": "SysHeader32",
+          "text": "",
+          "rect": [
+            1280,
+            296,
+            1466,
+            296
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68528,
+          "class": "SysTabControl32",
+          "text": "",
+          "rect": [
+            432,
+            254,
+            1490,
+            859
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 68530,
+          "class": "Button",
+          "text": "&Simpan",
+          "rect": [
+            432,
+            866,
+            962,
+            908
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 68532,
+          "class": "Button",
+          "text": "&Tutup",
+          "rect": [
+            962,
+            866,
+            1492,
+            908
+          ],
+          "enabled": true
+        }
+      ]
+    }
+  ],
+  "clicks": [
+    {
+      "depth": 1,
+      "at": "vendor-L1-0",
+      "button": "Menu Utama",
+      "new_windows": []
+    },
+    {
+      "depth": 1,
+      "at": "vendor-L1-0",
+      "button": "Z..A",
+      "new_windows": []
+    },
+    {
+      "depth": 1,
+      "at": "vendor-L1-0",
+      "button": "CheckBox",
+      "new_windows": []
+    },
+    {
+      "depth": 1,
+      "at": "vendor-L1-0",
+      "button": "Menu",
+      "new_windows": []
+    },
+    {
+      "depth": 1,
+      "at": "vendor-L1-0",
+      "button": "Laporan",
+      "new_windows": [
+        "GF-Akuntansi"
+      ]
+    },
+    {
+      "depth": 1,
+      "at": "vendor-L1-0",
+      "button": "Kelompok",
+      "new_windows": [
+        "Grouping Vendor"
+      ]
+    },
+    {
+      "depth": 2,
+      "at": "vendor-L2-2",
+      "button": "Tambah",
+      "new_windows": [
+        "Grouping Vendor"
+      ]
+    },
+    {
+      "depth": 2,
+      "at": "vendor-L2-2",
+      "button": "Koreksi",
+      "new_windows": []
+    },
+    {
+      "depth": 1,
+      "at": "vendor-L1-0",
+      "button": "Sisa Hutang",
+      "new_windows": []
+    },
+    {
+      "depth": 1,
+      "at": "vendor-L1-0",
+      "button": "Tambah",
+      "new_windows": [
+        "Vendor"
+      ]
+    },
+    {
+      "depth": 2,
+      "at": "vendor-L2-4",
+      "button": "Pembelian: Harga Beli diambil dari Harga Beli terakhir",
+      "new_windows": []
+    },
+    {
+      "depth": 1,
+      "at": "vendor-L1-0",
+      "button": "Koreksi",
+      "new_windows": []
+    },
+    {
+      "depth": 1,
+      "at": "vendor-L1-0",
+      "button": "Semua Data",
+      "new_windows": []
+    },
+    {
+      "depth": 1,
+      "at": "vendor-L1-0",
+      "button": "Ctrl+F7",
+      "new_windows": []
+    },
+    {
+      "depth": 1,
+      "at": "vendor-L1-0",
+      "button": "Ctrl+F6",
+      "new_windows": []
+    }
+  ],
+  "path_stack": []
+}

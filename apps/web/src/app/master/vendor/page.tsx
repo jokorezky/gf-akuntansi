@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { gql } from "@/lib/graphql";
 
@@ -83,17 +84,46 @@ export default function VendorPage() {
       <div className="mx-auto max-w-[1250px] border border-gf-border bg-gf-panel">
         <div className="border-b border-gf-border bg-gf-titlebar px-2 py-1 text-[13px] font-bold">Vendor</div>
         <div className="p-2">
-          <div className="mb-1 text-center text-[12px] font-bold tracking-widest text-gf-accent">M A S T E R&nbsp;&nbsp;F I L E&nbsp;&nbsp;-&nbsp;&nbsp;V E N D O R</div>
+          <div className="mb-1 flex items-center gap-1">
+            <button onClick={() => setMsg("Urut A..Z")} className="gf-3d bg-gf-menubar p-[1px]" title="A..Z">
+              <Image src="/gf-icons/screens/vendor/a-z.png" alt="A..Z" width={38} height={27} unoptimized />
+            </button>
+            <button onClick={() => setMsg("Menu")} className="gf-3d bg-gf-menubar p-[1px]" title="Menu">
+              <Image src="/gf-icons/screens/vendor/menu.png" alt="Menu" width={74} height={27} unoptimized />
+            </button>
+            <span className="mx-auto text-[12px] font-bold tracking-widest text-gf-accent">M A S T E R&nbsp;&nbsp;F I L E&nbsp;&nbsp;-&nbsp;&nbsp;V E N D O R</span>
+            <select className="gf-3d bg-white px-1 py-[2px] text-[11px]" title="Filter Divisi">
+              <option>(-Semua Divisi-)</option>
+            </select>
+          </div>
           <div className="mb-2 flex items-center gap-2">
+            <button onClick={() => { window.location.href = "/laporan"; }} className="gf-3d bg-gf-menubar p-[1px]" title="Laporan">
+              <Image src="/gf-icons/screens/vendor/laporan.png" alt="Laporan" width={58} height={44} unoptimized />
+            </button>
+            <button onClick={() => setMsg("Kelompok (Grouping Vendor) — menyusul")} className="gf-3d bg-gf-menubar p-[1px]" title="Kelompok">
+              <Image src="/gf-icons/screens/vendor/kelompok.png" alt="Kelompok" width={57} height={44} unoptimized />
+            </button>
+            <button onClick={() => setMsg("Sisa Hutang — menyusul")} className="gf-3d bg-gf-menubar p-[1px]" title="Sisa Hutang">
+              <Image src="/gf-icons/screens/vendor/sisa-hutang.png" alt="Sisa Hutang" width={61} height={44} unoptimized />
+            </button>
             <input className="gf-3d flex-1 bg-white px-2 py-[3px] text-[12px]" placeholder="Cari nama..." value={q} onChange={(e) => setQ(e.target.value)} />
-            <button className="gf-3d bg-gf-panel px-3 py-[3px] text-[12px] hover:bg-gf-hl hover:text-white" onClick={onTambah}>Tambah</button>
-            <button className="gf-3d bg-gf-panel px-3 py-[3px] text-[12px] hover:bg-gf-hl hover:text-white" onClick={onKoreksi}>Koreksi</button>
-            <button className="gf-3d bg-gf-panel px-3 py-[3px] text-[12px] hover:bg-gf-hl hover:text-white" onClick={onHapus}>Hapus</button>
+            <button onClick={onTambah} className="gf-3d bg-gf-menubar p-[1px]" title="Tambah">
+              <Image src="/gf-icons/screens/vendor/tambah.png" alt="Tambah" width={58} height={44} unoptimized />
+            </button>
+            <button onClick={onKoreksi} className={`gf-3d bg-gf-menubar p-[1px] ${sel == null ? "opacity-40" : ""}`} title="Koreksi">
+              <Image src="/gf-icons/screens/vendor/koreksi.png" alt="Koreksi" width={58} height={44} unoptimized />
+            </button>
+            <button onClick={onHapus} className={`gf-3d bg-gf-menubar p-[1px] ${sel == null ? "opacity-40" : ""}`} title="Hapus">
+              <Image src="/gf-icons/screens/vendor/hapus.png" alt="Hapus" width={58} height={44} unoptimized />
+            </button>
+            <button onClick={() => { window.location.href = "/"; }} className="gf-3d bg-gf-menubar p-[1px]" title="Tutup">
+              <Image src="/gf-icons/screens/vendor/tutup.png" alt="Tutup" width={56} height={44} unoptimized />
+            </button>
           </div>
           <div className="overflow-auto border border-gf-border">
             <table className="w-full border-collapse text-[12px]">
               <thead><tr className="bg-gf-menubar">
-                {["ID", "NPWP", "Nama", "Alamat", "Daerah", "Telepon", "Fax", "Rekening", "Email"].map((h) => (
+                {["ID", "Tipe", "NPWP", "Nama", "Alamat", "Daerah", "Negara", "Telepon", "Telp(2)", "Telp(3)", "Fax", "Rekening"].map((h) => (
                   <th key={h} className="border border-gf-border px-2 py-1 text-left font-normal">{h}</th>
                 ))}
               </tr></thead>
@@ -101,17 +131,20 @@ export default function VendorPage() {
                 {rows.map((r) => (
                   <tr key={r.id} onClick={() => setSel(r.id)} className={`cursor-pointer ${sel === r.id ? "bg-gf-hl text-white" : "hover:bg-[#e8eef7]"}`}>
                     <td className="border border-gf-border px-2 py-[2px]">{r.id}</td>
+                    <td className="border border-gf-border px-2 py-[2px]">{r.ppnTipe}</td>
                     <td className="border border-gf-border px-2 py-[2px]">{r.npwp}</td>
                     <td className="border border-gf-border px-2 py-[2px]">{r.nama}</td>
                     <td className="border border-gf-border px-2 py-[2px]">{r.alamat}</td>
                     <td className="border border-gf-border px-2 py-[2px]">{daerah.find((d) => d.id === r.daerahId)?.nama ?? ""}</td>
+                    <td className="border border-gf-border px-2 py-[2px]">Indonesia</td>
                     <td className="border border-gf-border px-2 py-[2px]">{r.telepon}</td>
+                    <td className="border border-gf-border px-2 py-[2px]">{r.telepon2}</td>
+                    <td className="border border-gf-border px-2 py-[2px]">{r.telepon3}</td>
                     <td className="border border-gf-border px-2 py-[2px]">{r.fax}</td>
                     <td className="border border-gf-border px-2 py-[2px]">{r.rekening1}</td>
-                    <td className="border border-gf-border px-2 py-[2px]">{r.email}</td>
                   </tr>
                 ))}
-                {rows.length === 0 && <tr><td colSpan={9} className="px-2 py-3 text-center text-gf-muted">Belum ada data.</td></tr>}
+                {rows.length === 0 && <tr><td colSpan={12} className="px-2 py-3 text-center text-gf-muted">Belum ada data.</td></tr>}
               </tbody>
             </table>
           </div>
