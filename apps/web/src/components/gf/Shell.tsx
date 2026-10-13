@@ -54,6 +54,8 @@ const ROUTES: Record<number, string> = {
   24521: "/kode-perkiraan",
   24524: "/tipe-pembayaran",
   24525: "/eceran-list",
+  24532: "/konfigurasi",
+  24533: "/konfigurasi",
   24661: "/kartu-stock",
   24662: "/kartu-hutang",
   24663: "/kartu-piutang",

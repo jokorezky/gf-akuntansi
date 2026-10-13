@@ -32,6 +32,7 @@ import { LaporanModule } from "./modules/laporan/laporan.module";
 import { PerkiraanModule } from "./modules/setup/perkiraan/perkiraan.module";
 import { TipePembayaranModule } from "./modules/setup/tipe-pembayaran/tipe-pembayaran.module";
 import { EceranListModule } from "./modules/setup/eceran-list/eceran-list.module";
+import { KonfigurasiModule } from "./modules/setup/konfigurasi/konfigurasi.module";
 
 @Module({
   imports: [
@@ -71,6 +72,7 @@ import { EceranListModule } from "./modules/setup/eceran-list/eceran-list.module
     PerkiraanModule,
     TipePembayaranModule,
     EceranListModule,
+    KonfigurasiModule,
   ],
 })
 export class AppModule {}
