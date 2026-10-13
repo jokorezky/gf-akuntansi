@@ -1,0 +1,45 @@
+[
+ {
+  "key": "F1",
+  "effect": "none"
+ },
+ {
+  "key": "F2",
+  "effect": "dialog",
+  "info": "Pictures [#32770]"
+ },
+ {
+  "key": "F4",
+  "effect": "none"
+ },
+ {
+  "key": "F5",
+  "effect": "none"
+ },
+ {
+  "key": "F7",
+  "effect": "none"
+ },
+ {
+  "key": "F8",
+  "effect": "none"
+ },
+ {
+  "key": "Ctrl+H",
+  "effect": "none"
+ },
+ {
+  "key": "Ctrl+P",
+  "effect": "dialog",
+  "info": "Penerimaan Piutang - GF-Akuntansi Release : 951.1823 Build 2026.06.28 [WndAppWindow]"
+ },
+ {
+  "key": "Ctrl+F7",
+  "effect": "dialog",
+  "info": "Sales Order - GF-Akuntansi Release : 951.1823 Build 2026.06.28 [WndAppWindow]"
+ },
+ {
+  "key": "Ctrl+U",
+  "effect": "none"
+ }
+]

@@ -1,0 +1,43 @@
+[
+ {
+  "key": "F1",
+  "effect": "none"
+ },
+ {
+  "key": "F3",
+  "effect": "none"
+ },
+ {
+  "key": "F5",
+  "effect": "dialog",
+  "info": "Vendor [#32770]"
+ },
+ {
+  "key": "F7",
+  "effect": "none"
+ },
+ {
+  "key": "F8",
+  "effect": "none"
+ },
+ {
+  "key": "F9",
+  "effect": "none"
+ },
+ {
+  "key": "F11",
+  "effect": "none"
+ },
+ {
+  "key": "Ctrl+F7",
+  "effect": "none"
+ },
+ {
+  "key": "Ctrl+F6",
+  "effect": "none"
+ },
+ {
+  "key": "Ctrl+P",
+  "effect": "none"
+ }
+]

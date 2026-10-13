@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { GlobalShortcuts } from "@/components/gf/GlobalShortcuts";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -13,7 +14,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id">
-      <body>{children}</body>
+      <body>
+        <GlobalShortcuts />
+        {children}
+      </body>
     </html>
   );
 }

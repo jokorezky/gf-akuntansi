@@ -93,8 +93,8 @@ export default function KasMasukPage() {
 
   useEffect(() => {
     const kh = (e: KeyboardEvent) => { if (e.key === "F12" && form) { e.preventDefault(); void onSimpan(); } };
-    window.addEventListener("keydown", kh);
-    return () => window.removeEventListener("keydown", kh);
+    window.addEventListener("keydown", kh, true);
+    return () => window.removeEventListener("keydown", kh, true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   });
 

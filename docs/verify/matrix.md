@@ -61,7 +61,7 @@
 | 53 | Sistem Setup: Konfigurasi (24532/24533) | [x] | [x] | [x] | [~] | [~] | [x] | [x] | [~] |
 | 54 | Antar Cabang: Pembelian (24632) | [x] | [x] | [x] | [~] | [~] | [x] | [x] | [x] |
 | 55 | Antar Cabang: Penjualan (24633) | [x] | [x] | [x] | [~] | [~] | [x] | [x] | [x] |
-| 56 | **V5 SHORTCUT AUDIT (semua layar)** | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| 56 | **V5 SHORTCUT AUDIT (semua layar)** | [x] | [x] | [x] | [~] | [x] | [x] | [x] | [x] |
 
 > Catatan: L4 `[~]` = aksi lanjutan yang sudah teridentifikasi tapi belum di-dalami penuh pada tiap layar (mis. proses massal "Tutup PO/SO", posting jurnal otomatis, dekode bitmap security). `[~]` spesifikasi = belum ada file di `docs/specs/` untuk layar tsb (spec menyatu di PROGRESS).
 > Verifikasi V4 (13 Okt 2026): regresi **23/23 quick_test PASS**, **53/53 rute FE HTTP 200**, data `s_kontro` sempat rusak oleh uji lama → **dipulihkan dari S_KONTRO.G8A (DBF)** dan API `simpanProfil` dikeraskan (COALESCE + clear-via-"").

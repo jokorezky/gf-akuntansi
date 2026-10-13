@@ -1,0 +1,74 @@
+[
+ {
+  "key": "F1",
+  "effect": "none"
+ },
+ {
+  "key": "F2",
+  "effect": "dialog",
+  "info": "Pictures"
+ },
+ {
+  "key": "F4",
+  "effect": "none"
+ },
+ {
+  "key": "F5",
+  "effect": "none"
+ },
+ {
+  "key": "F7",
+  "effect": "none"
+ },
+ {
+  "key": "F8",
+  "effect": "none"
+ },
+ {
+  "key": "Ctrl+H",
+  "effect": "none"
+ },
+ {
+  "key": "Ctrl+F5",
+  "effect": "dialog",
+  "info": "Daftar Hutang - GF-Akuntansi Release : 951.1823 Build 2026.06.28"
+ },
+ {
+  "key": "Ctrl+F7",
+  "effect": "dialog",
+  "info": "Rincian"
+ },
+ {
+  "key": "Ctrl+P",
+  "effect": "none"
+ },
+ {
+  "key": "Ctrl+F8",
+  "effect": "dialog",
+  "info": "Daftar Piutang - GF-Akuntansi Release : 951.1823 Build 2026.06.28"
+ },
+ {
+  "key": "Ctrl+M",
+  "effect": "dialog",
+  "info": "Kas Masuk - GF-Akuntansi Release : 951.1823 Build 2026.06.28"
+ },
+ {
+  "key": "Ctrl+K",
+  "effect": "dialog",
+  "info": "Kas Keluar - GF-Akuntansi Release : 951.1823 Build 2026.06.28"
+ },
+ {
+  "key": "Ctrl+S",
+  "effect": "dialog",
+  "info": "Kartu Stock"
+ },
+ {
+  "key": "Ctrl+E",
+  "effect": "dialog",
+  "info": "Kartu Hutang"
+ },
+ {
+  "key": "Ctrl+U",
+  "effect": "none"
+ }
+]
