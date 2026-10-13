@@ -9,7 +9,7 @@ Legenda: ✅ selesai 1:1 · 🔄 jalan (belum V2-pass penuh) · ⏳ belum mulai
 
 ## 0. Ringkasan
 
-**Progress keseluruhan: ±74%** (basis: 53 layar inti + layar ekstra antar cabang/setup)
+**Progress keseluruhan: ±78%** (basis: 53 layar inti + layar ekstra antar cabang/setup)
 
 | Grup | ✅ Selesai | Total | % | Catatan |
 |---|---|---|---|---|
@@ -279,8 +279,8 @@ Deep scan GF menemukan: layar antar cabang = **form induk dengan mode** — judu
 3. ~~**Fase E** — Barang Promosi ×2, Transfer, Untransfer, Pindah Gudang, Validasi Barang Keluar~~ ✅ **SELESAI 13 Okt 2026** (5 layar; modul Lainnya ~95%).
 4. **Fase F** — ~~Sistem Setup (5 layar)~~ ✅ SELESAI (inti 4/5 + Setup List observe).
 5. ~~**Fase G** — User Profile + sisa kecil~~ ✅ **SELESAI 13 Okt 2026** (semua fase A–G tuntas).
-6. **V2-pass sisa** ← batch 2 berjalan — ✅ Daftar Hutang, Kas Masuk/Keluar, Aktiva Tetap, Jurnal, **Buku Besar, Laporan Keuangan, Promosi, Produksi, Barang Masuk/Keluar**; **sisa**: Kartu ×3, Expired.
-7. **V1c** toolbar ikon individual · **A4** data laporan per modul · **V3** laporan pixel-perfect · **V4** re-check semua klaim · **Setup List FE**.
+6. ~~**V2-pass sisa**~~ ✅ **TUNTAS 13 Okt 2026** — semua 15 layar (Daftar Hutang, Kas ×3, Aktiva Tetap, Jurnal, Buku Besar, Laporan Keuangan, Promosi, Produksi, Barang Masuk/Keluar, Kartu ×3, Expired) naik ke standar V2 (kolom GF + saldo rolling + relasi).
+7. **Sisa akhir:** **Setup List FE** (11 tab) · **V1c** toolbar ikon individual · **A4** data laporan per modul · **V3** laporan pixel-perfect · **V4** re-check semua klaim.
 
 ## 12. Aturan Update File Ini
 
@@ -289,6 +289,7 @@ Deep scan GF menemukan: layar antar cabang = **form induk dengan mode** — judu
 
 ## 13. Riwayat Update
 
+- **13 Okt 2026 (11)** — **V2-PASS TUNTAS (batch 3 final)**: ✅ **Kartu Stock** (`kartuStockList` v2: item picker + Tampil-yang-dibatal + **saldo rolling** + kolom GF 18 kolom + Rincian Stock Awal dari `sisa_stk01`; total 17.927 mutasi) · ✅ **Kartu Hutang** (`kartuHutangList` v2: **4 sumber** — Pembelian(+) / Retur Pembelian(−) / Pembayaran(−, lunas−disc+denda via `s_lpemma` non-hapus) / Deposit(−); filter vendor+tanggal; **saldo rolling**; 47.398 mutasi) · ✅ **Kartu Piutang** (mirror: Penjualan(+) / Retur(−) / Penerimaan(−) / Deposit(+); 1.242.446 mutasi) · ✅ **Barang Expired** (read-only terverifikasi; 0 baris konsisten dgn data). Temuan kolom: `s_retpem`/`s_deppem`/`s_lpemma` **tanpa `no_c`** (pakai `no`), `s_lpenma`/`s_retpen`/`s_deppen` punya `no_c`. **Seluruh V2-pass 15 layar TUNTAS**; progress **±78%**; sisa akhir: Setup List FE, V1c, A4, V3, V4.
 - **13 Okt 2026 (10)** — **V2-pass batch 2 (6 layar)**: ✅ **Buku Besar** (`bukuBesarMutasi`: baris mutasi per akun + **running saldo** + totals ala GF; filter #Acc/Tanggal/Tanpa-Saldo/urut-input; teruji akun 11101—977 mutasi, saldo konsisten) · ✅ **Laporan Keuangan** (`laporanKeuanganList(dari,sampai)` = sal_awal + mutasi rentang; **GF sendiri error K_STKNIL** saat dibuka—dicatat) · ✅ **Promosi 24646 = form sama Barang Promosi** (satu komponen dua rute) · ✅ **Produksi/„Barang Produksi"** (`s_prodsi` + perkir_1-3/per1-3_nil + **relasi prditm_id→s_prditm** + nav/groupbox) · ✅ **Barang Masuk Lainnya/Keluar** (`s_stkmas/s_stkklr` + **perkir_id (CR #Acc) + grpsmk_id (Grouping→s_grpsmk)** + baris **hpp**; list Harga Pokok=totHpp). Semua uji PASS + cleanup. Progress **±74%**; sisa V2-pass: Kartu Stock/Hutang/Piutang, Expired.
 - **13 Okt 2026 (9)** — **V2-pass batch 1**: ✅ **Daftar Hutang** (panel vendor + Proses; kolom GF: jatuh tempo = tgl+credit, lunasOn/lunasOnDisc, adjust/PJK/retur/deposit; bayar via `s_lpemma` non-hapus) · ✅ **Kas Masuk/Keluar** (form **2 grid DEBET/KREDIT** double-entry + Terima Dari/Masuk List/perkir_1-2/penjEcr + baris note/date/CH-BG/MU; `s_kasklr` tanpa perkir_2) · ✅ **Aktiva Tetap** (+kode/beli_dari/jual_kpd/out_ket) · ✅ **Jurnal** (2 grid, `jenis` **INTEGER**, vendor/pelang, note/date; balance check). Semua uji PASS + cleanup. Progress **±72%**; sisa V2-pass: Buku Besar/LK/Promosi/Produksi/Barang Masuk-Keluar/Kartu ×3/Expired.
 - **13 Okt 2026 (8)** — **FASE G SELESAI: User Profile (24486)** — window User Profile (grid USER + GROUP, tombol **Duplicate**), form "Security - Group"; `s_securi` (39 grup, bitmap+secfile001..030) + `s_secusr` (249 user, **relasi securi_id**). Temuan: `hapus_oleh=0`=aktif (tabel security), reserved-word `"user"`, nama grup varchar(10). CRUD+duplicate+rename PASS + cleanup total. **Semua fase A–G TUNTAS**; progress **±70%**; sisa: V2-pass (~15 layar), V1c, A4, V3, V4, Setup List FE.

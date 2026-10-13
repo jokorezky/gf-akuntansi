@@ -3,52 +3,118 @@
 import { useCallback, useEffect, useState } from "react";
 import { gql } from "@/lib/graphql";
 
-type Row = { pelangNama?: string | null; tanggal?: string | null; jenis?: string | null; no?: string | null; nilai?: string | null };
+type Ref = { id: number; nama: string };
+type Row = { pelangNama?: string | null; tanggal?: string | null; jenis?: string | null; no?: string | null; nilai?: string | null; debet?: string | null; kredit?: string | null; saldo?: string | null };
 
-const LIST = `query($q:String){ kartuPiutangList(q:$q){ total rows { pelangNama tanggal jenis no nilai } } }`;
+const LIST = `query($pelangId:Int,$dari:String,$sampai:String){ kartuPiutangList(pelangId:$pelangId, dari:$dari, sampai:$sampai, limit:500){ total rows { pelangNama tanggal jenis no nilai debet kredit saldo } } }`;
+const REFS = `{ pelangganRefList { id nama } }`;
+
+const rp = (v: unknown): string => Number(v ?? 0).toLocaleString("id-ID", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 export default function KartuHutangPage() {
+  const [pelanggans, setPelanggans] = useState<Ref[]>([]);
+  const [pelangId, setVendorId] = useState<number | null>(null);
+  const [dari, setDari] = useState("");
+  const [sampai, setSampai] = useState("");
   const [rows, setRows] = useState<Row[]>([]);
   const [total, setTotal] = useState(0);
-  const [q, setQ] = useState("");
   const [err, setErr] = useState("");
+  const [msg, setMsg] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const load = useCallback(async () => {
-    const d = await gql<{ kartuPiutangList: { total: number; rows: Row[] } }>(LIST, { q });
-    setRows(d.kartuPiutangList.rows); setTotal(d.kartuPiutangList.total);
-  }, [q]);
+  useEffect(() => {
+    gql<{ pelangganRefList: Ref[] }>(REFS).then((d) => setPelanggans(d.pelangganRefList)).catch(() => undefined);
+  }, []);
 
-  useEffect(() => { load().catch((e) => setErr(String(e.message ?? e))); }, [load]);
+  const proses = useCallback(async () => {
+    setErr(""); setMsg(""); setLoading(true);
+    try {
+      const d = await gql<{ kartuPiutangList: { total: number; rows: Row[] } }>(LIST, { pelangId: pelangId ?? null, dari: dari || null, sampai: sampai || null });
+      setRows(d.kartuPiutangList.rows); setTotal(d.kartuPiutangList.total);
+      setMsg(`${d.kartuPiutangList.total} mutasi${pelangId ? ` — ${pelanggans.find((v) => v.id === pelangId)?.nama ?? `vendor #${pelangId}`}` : " (semua pelanggan)"}.`);
+    } catch (e) { setErr(String((e as Error).message ?? e)); }
+    finally { setLoading(false); }
+  }, [pelangId, dari, sampai, pelanggans]);
+
+  const td = "border border-gf-border px-1 py-[1px]";
+  const totDebet = rows.reduce((s, r) => s + Number(r.debet ?? 0), 0);
+  const totKredit = rows.reduce((s, r) => s + Number(r.kredit ?? 0), 0);
+  const saldoAkhir = rows.length > 0 ? Number(rows[0].saldo ?? 0) : 0;
 
   return (
     <div className="min-h-screen bg-gf-bg p-3 text-gf-text">
-      <div className="mx-auto max-w-[1100px] border border-gf-border bg-gf-panel">
+      <div className="mx-auto max-w-[1250px] border border-gf-border bg-gf-panel">
         <div className="border-b border-gf-border bg-gf-titlebar px-2 py-1 text-[13px] font-bold">Kartu Piutang</div>
         <div className="p-2">
-          <div className="mb-1 text-center text-[12px] font-bold tracking-widest text-gf-accent">K A R T U&nbsp;&nbsp;H U T A N G</div>
-          <div className="mb-2 flex items-center gap-2">
-            <input className="gf-3d flex-1 bg-white px-2 py-[3px] text-[12px]" placeholder="Cari nama pelanggan..." value={q} onChange={(e) => setQ(e.target.value)} />
-            <span className="text-[11px] text-gf-muted">(read-only)</span>
+          <div className="mb-1 grid grid-cols-[80px_1fr_70px_330px] items-center gap-x-2 gap-y-1 text-[12px]">
+            <span>Pelanggan :</span>
+            <select className="gf-3d w-[380px] bg-white px-1 py-[2px]" value={pelangId ?? ""} onChange={(e) => setVendorId(e.target.value ? Number(e.target.value) : null)}>
+              <option value="">(Semua pelanggan)</option>
+              {pelanggans.map((v) => <option key={v.id} value={v.id}>{v.nama}</option>)}
+            </select>
+            <span className="text-right">M.U. :</span>
+            <div className="flex items-center gap-2">
+              <select className="gf-3d w-[80px] bg-white px-1 py-[2px] text-[11px]"><option>IDR</option></select>
+              <span className="text-[11px]">(Penjualan Credit / Retur Penjualan Credit / Penerimaan Piutang / Deposit)</span>
+            </div>
+            <span>Tanggal :</span>
+            <div className="flex items-center gap-1">
+              <input type="date" className="gf-3d w-[150px] bg-white px-1 py-[2px]" value={dari} onChange={(e) => setDari(e.target.value)} />
+              <span>-</span>
+              <input type="date" className="gf-3d w-[150px] bg-white px-1 py-[2px]" value={sampai} onChange={(e) => setSampai(e.target.value)} />
+            </div>
+            <span className="text-right">Jenis :</span>
+            <div className="flex flex-wrap gap-2 text-[11px]">
+              {["Penjualan Credit", "Retur Penjualan Credit", "Penerimaan Piutang", "Deposit"].map((t) => (
+                <label key={t} className="flex items-center gap-1"><input type="checkbox" defaultChecked /> {t}</label>
+              ))}
+            </div>
+          </div>
+          <div className="mb-1 flex gap-1">
+            <button onClick={proses} className="gf-3d w-[240px] bg-gf-menubar py-[4px] text-[12px] font-bold">Proses</button>
+            <button onClick={() => { setRows([]); setVendorId(null); setDari(""); setSampai(""); setMsg("Dibatalkan."); }} className="gf-3d w-[240px] bg-gf-menubar py-[4px] text-[12px]">Batal</button>
+            <button onClick={() => setMsg("ReSort ListView — urut selesai per tanggal")} className="gf-3d w-[240px] bg-gf-menubar py-[4px] text-[12px]">ReSort ListView</button>
           </div>
           {err && <div className="mb-2 text-[12px] text-red-700">{err}</div>}
-          <div className="overflow-auto border border-gf-border">
-            <table className="w-full border-collapse text-[12px]">
-              <thead><tr className="bg-gf-menubar">{["Tanggal", "Vendor", "Jenis", "No", "Nilai"].map((h) => <th key={h} className="border border-gf-border px-2 py-1 text-left font-normal">{h}</th>)}</tr></thead>
+          {msg && !err && <div className="mb-1 text-[11px] text-gf-muted">{msg}</div>}
+
+          <div className="max-h-[400px] overflow-auto border border-gf-border bg-white">
+            <table className="w-full border-collapse text-[11px]">
+              <thead className="sticky top-0"><tr className="bg-gf-menubar">
+                {["Jenis", "Tanggal", "No", "Pelanggan", "Nilai", "Debet", "Kredit", "Saldo"].map((h) => (
+                  <th key={h} className="whitespace-nowrap border border-gf-border px-1 py-[1px] text-left font-normal">{h}</th>
+                ))}
+              </tr></thead>
               <tbody>
                 {rows.map((r, i) => (
                   <tr key={i} className="hover:bg-[#e8eef7]">
-                    <td className="border border-gf-border px-2 py-[2px]">{r.tanggal}</td>
-                    <td className="border border-gf-border px-2 py-[2px]">{r.pelangNama}</td>
-                    <td className={`border border-gf-border px-2 py-[2px] ${r.jenis === "PENJUALAN" ? "text-red-700" : "text-green-700"}`}>{r.jenis}</td>
-                    <td className="border border-gf-border px-2 py-[2px]">{r.no}</td>
-                    <td className="border border-gf-border px-2 py-[2px] text-right font-mono">{r.nilai}</td>
+                    <td className={td}>{r.jenis}</td>
+                    <td className={td}>{r.tanggal}</td>
+                    <td className={td}>{r.no}</td>
+                    <td className={td}>{r.pelangNama}</td>
+                    <td className={`${td} text-right font-mono`}>{r.nilai}</td>
+                    <td className={`${td} text-right font-mono`}>{r.debet}</td>
+                    <td className={`${td} text-right font-mono`}>{r.kredit}</td>
+                    <td className={`${td} text-right font-mono font-bold`}>{r.saldo}</td>
                   </tr>
                 ))}
-                {rows.length === 0 && <tr><td colSpan={5} className="px-2 py-3 text-center text-gf-muted">Belum ada data.</td></tr>}
+                {rows.length === 0 && <tr><td colSpan={8} className="px-2 py-3 text-center text-gf-muted">{loading ? "Memproses..." : "Pilih pelanggan (opsional) lalu Proses."}</td></tr>}
               </tbody>
             </table>
           </div>
-          <div className="mt-1 text-[11px] text-gf-muted">Total: {total}</div>
+          <div className="mt-1 flex flex-wrap gap-4 text-[11px] text-gf-muted">
+            <span>Total: {total}</span>
+            <span>Debet: <b className="font-mono">{rp(totDebet)}</b></span>
+            <span>Kredit: <b className="font-mono">{rp(totKredit)}</b></span>
+            <span>Saldo (baris teratas): <b className="font-mono">{rp(saldoAkhir)}</b></span>
+          </div>
+          <div className="mt-1 text-[10px] text-gf-muted">Sumber: s_pembel(+) / s_retpem(−) / s_lunpem via s_lpemma non-hapus(−, lunas−disc+denda) / s_deppem(−).</div>
+
+          <div className="mt-2 flex items-center gap-1 border-t border-gf-border pt-2">
+            <button onClick={() => setMsg("Cetak Setup — gunakan layar Laporan")} className="gf-3d w-[320px] bg-gf-menubar py-[3px] text-[12px]">Cetak Setup</button>
+            <button onClick={() => setMsg("Cetak — gunakan layar Laporan")} className="gf-3d w-[320px] bg-gf-menubar py-[3px] text-[12px]">Cetak</button>
+            <button onClick={() => { window.location.href = "/"; }} className="gf-3d w-[320px] bg-gf-menubar py-[3px] text-[12px]">Tutup</button>
+          </div>
         </div>
       </div>
     </div>

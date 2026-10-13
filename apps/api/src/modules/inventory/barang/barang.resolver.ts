@@ -74,8 +74,10 @@ export class BarangResolver {
     @Args("limit", { type: () => Int, nullable: true }) limit?: number,
     @Args("offset", { type: () => Int, nullable: true }) offset?: number,
     @Args("q", { nullable: true }) q?: string,
+    @Args("stockId", { type: () => Int, nullable: true }) stockId?: number,
+    @Args("tampilBatal", { nullable: true }) tampilBatal?: boolean,
   ) {
-    return this.service.kartuStockList(limit ?? 100, offset ?? 0, q);
+    return this.service.kartuStockList(limit ?? 200, offset ?? 0, q, stockId, tampilBatal ?? false);
   }
 
   @Query(() => BarangExpiredPage)

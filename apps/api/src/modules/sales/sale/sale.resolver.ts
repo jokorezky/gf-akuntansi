@@ -40,7 +40,10 @@ export class SaleResolver {
     @Args("limit", { type: () => Int, nullable: true }) limit?: number,
     @Args("offset", { type: () => Int, nullable: true }) offset?: number,
     @Args("q", { nullable: true }) q?: string,
+    @Args("pelangId", { type: () => Int, nullable: true }) pelangId?: number,
+    @Args("dari", { nullable: true }) dari?: string,
+    @Args("sampai", { nullable: true }) sampai?: string,
   ) {
-    return this.service.kartuPiutangList(limit ?? 100, offset ?? 0, q);
+    return this.service.kartuPiutangList(limit ?? 200, offset ?? 0, q, pelangId, dari, sampai);
   }
 }

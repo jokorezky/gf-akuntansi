@@ -104,6 +104,9 @@ export class KartuHutang {
   @Field({ nullable: true }) jenis?: string;
   @Field({ nullable: true }) no?: string;
   @Field({ nullable: true }) nilai?: string;
+  @Field({ nullable: true }) debet?: string;
+  @Field({ nullable: true }) kredit?: string;
+  @Field({ nullable: true }) saldo?: string;
 }
 
 @ObjectType()

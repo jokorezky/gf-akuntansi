@@ -180,31 +180,53 @@ export class PurchaseService {
     return (r.rowCount ?? 0) > 0;
   }
 
-  /** Kartu Hutang (read-only): mutasi per vendor = pembelian (DEBET) + pembayaran (KREDIT). */
-  async kartuHutangList(limit = 100, offset = 0, q?: string): Promise<KartuHutangPage> {
+  /** Kartu Hutang v2 (read-only, ala GF): 4 sumber (Pembelian+ / Retur− / Pembayaran− / Deposit−) per vendor + saldo rolling. */
+  async kartuHutangList(limit = 200, offset = 0, q?: string, vendorId?: number, dari?: string, sampai?: string): Promise<KartuHutangPage> {
     const params: unknown[] = [];
-    let filter = "";
+    let f = "";
     if (q && q.trim()) {
       params.push(`%${q.trim()}%`);
-      filter = ` AND v.nama ILIKE $${params.length}`;
+      f += ` AND v.nama ILIKE $${params.length}`;
     }
+    if (vendorId) {
+      params.push(vendorId);
+      f += ` AND v.id = $${params.length}`;
+    }
+    let fd = "";
+    if (dari) { params.push(dari); fd += ` AND tgl >= $${params.length}::date`; }
+    if (sampai) { params.push(sampai); fd += ` AND tgl <= $${params.length}::date`; }
     const union = `
-      SELECT v.nama AS vendor_nama, p.tanggal, 'PEMBELIAN' AS jenis, p.no AS no,
-             round(p.tot_harga + COALESCE(p.ppn_nilai,0),2) AS nilai
+      SELECT v.nama AS party, p.tanggal AS tgl, 'PEMBELIAN' AS jenis, p.no::text AS no,
+             round(p.tot_harga + COALESCE(p.ppn_nilai,0),2) AS nilai, p.id AS ref
       FROM gf.s_pembel p LEFT JOIN gf.s_vendor v ON v.id=p.vendor
-      WHERE p.hapus_oleh IS NULL${filter}
+      WHERE COALESCE(p.hapus_oleh,0)=0${f}
       UNION ALL
-      SELECT v.nama AS vendor_nama, l.tanggal, 'PEMBAYARAN' AS jenis, m.no::text AS no,
-             round(l.lunas,2) AS nilai
-      FROM gf.s_lunpem l JOIN gf.s_lpemma m ON m.id=l.lpemma_id LEFT JOIN gf.s_vendor v ON v.id=m.vendor
-      WHERE m.hapus_oleh IS NULL${filter}`;
-    const total = await this.pool.query(`SELECT count(*)::int AS n FROM (${union}) x`, params);
-    params.push(limit, offset);
-    const rows = await this.pool.query(
-      `SELECT vendor_nama AS "vendorNama", to_char(tanggal,'YYYY-MM-DD') AS tanggal, jenis, no::text AS no, nilai::text AS nilai
-       FROM (${union}) x ORDER BY tanggal DESC, jenis LIMIT $${params.length - 1} OFFSET $${params.length}`,
+      SELECT v.nama, r.tanggal, 'RETUR PEMBELIAN', r.no::text, round(COALESCE(r.tot_harga,0),2), r.id
+      FROM gf.s_retpem r LEFT JOIN gf.s_vendor v ON v.id=r.vendor
+      WHERE COALESCE(r.hapus_oleh,0)=0${f}
+      UNION ALL
+      SELECT v.nama, l.tanggal, 'PEMBAYARAN', m.no::text, round(l.lunas - COALESCE(l.discount,0) + COALESCE(l.denda,0),2), l.sys_id::int
+      FROM gf.s_lunpem l JOIN gf.s_lpemma m ON m.id=l.lpemma_id AND COALESCE(m.hapus_oleh,0)=0 LEFT JOIN gf.s_vendor v ON v.id=m.vendor
+      WHERE true${f}
+      UNION ALL
+      SELECT v.nama, d.tanggal, 'DEPOSIT', d.no::text, round(COALESCE(d.deposit,0),2), d.id
+      FROM gf.s_deppem d LEFT JOIN gf.s_vendor v ON v.id=d.vendor
+      WHERE COALESCE(d.hapus_oleh,0)=0${f}`;
+    const total = await this.pool.query(`SELECT count(*)::int AS n FROM (${union}) x WHERE true${fd}`, params);
+    const asc = await this.pool.query(
+      `SELECT party, tgl, jenis, no, nilai FROM (${union}) x WHERE true${fd} ORDER BY tgl ASC, ref ASC LIMIT 5000`,
       params,
     );
-    return { rows: rows.rows as never, total: total.rows[0].n as number };
+    let saldo = 0;
+    const t2 = (n: number) => (Math.round(n * 100) / 100).toFixed(2);
+    const running = (asc.rows as { party: string; tgl: Date; jenis: string; no: string; nilai: number }[]).map((r) => {
+      const v = Number(r.nilai ?? 0);
+      const plus = r.jenis === "PEMBELIAN";
+      saldo += plus ? v : -v;
+      return { vendorNama: r.party, tanggal: r.tgl, jenis: r.jenis, no: r.no, nilai: t2(v), debet: plus ? t2(v) : "0.00", kredit: !plus ? t2(v) : "0.00", saldo: t2(saldo) };
+    });
+    const desc = running.reverse();
+    const rows = desc.slice(offset, offset + limit).map((r) => ({ ...r, tanggal: (r.tanggal as unknown as Date).toISOString?.()?.slice(0, 10) ?? String(r.tanggal).slice(0, 10) }));
+    return { rows: rows as never, total: total.rows[0].n as number };
   }
 }

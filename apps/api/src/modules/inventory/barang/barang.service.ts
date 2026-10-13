@@ -144,31 +144,56 @@ export class BarangService {
     return r.rows;
   }
 
-  /** Kartu Stock (read-only): mutasi stok dari Barang Masuk & Barang Keluar. */
-  async kartuStockList(limit = 100, offset = 0, q?: string): Promise<KartuStockPage> {
+  /** Kartu Stock v2 (read-only, ala GF): mutasi per item + saldo rolling + HPP + filter batal. */
+  async kartuStockList(limit = 200, offset = 0, q?: string, stockId?: number, tampilBatal = false): Promise<KartuStockPage> {
     const params: unknown[] = [];
     let filter = "";
     if (q && q.trim()) {
       params.push(`%${q.trim()}%`);
-      filter = ` AND s.nama ILIKE $${params.length}`;
+      filter += ` AND s.nama ILIKE $${params.length}`;
     }
+    if (stockId) {
+      params.push(stockId);
+      filter += ` AND d.stock_id = $${params.length}`;
+    }
+    const batal = tampilBatal ? "" : " AND COALESCE(m.als_batal,'') = ''";
+    const batal2 = tampilBatal ? "" : " AND COALESCE(k.als_batal,'') = ''";
     const union = `
-      SELECT m.id AS no, m.tanggal, d.stock_id, s.nama AS stock_nama, 'MASUK' AS jenis, m.gudang, d.jumlah, d.catatan
+      SELECT m.id AS no_int, m.tanggal, d.stock_id, s.nama AS stock_nama, 'BARANG MASUK' AS keterangan, m.gudang,
+             d.jumlah, d.hpp, m.no::text AS no_doc, d.catatan
       FROM gf.s_stkmex d JOIN gf.s_stkmas m ON m.id=d.stkmas_id LEFT JOIN gf.s_stock s ON s.id=d.stock_id
-      WHERE m.hapus_oleh IS NULL${filter}
+      WHERE m.hapus_oleh IS NULL${batal}${filter}
       UNION ALL
-      SELECT k.id AS no, k.tanggal, d.stock_id, s.nama AS stock_nama, 'KELUAR' AS jenis, k.gudang, d.jumlah, d.catatan
+      SELECT k.id AS no_int, k.tanggal, d.stock_id, s.nama AS stock_nama, 'BARANG KELUAR' AS keterangan, k.gudang,
+             d.jumlah, d.hpp, k.no::text AS no_doc, d.catatan
       FROM gf.s_stkkex d JOIN gf.s_stkklr k ON k.id=d.stkklr_id LEFT JOIN gf.s_stock s ON s.id=d.stock_id
-      WHERE k.hapus_oleh IS NULL${filter}`;
+      WHERE k.hapus_oleh IS NULL${batal2}${filter}`;
     const total = await this.pool.query(`SELECT count(*)::int AS n FROM (${union}) x`, params);
-    params.push(limit, offset);
-    const rows = await this.pool.query(
-      `SELECT stock_id::int AS "stockId", stock_nama AS "stockNama", to_char(tanggal,'YYYY-MM-DD') AS tanggal,
-              no::text AS no, jenis, gudang, jumlah::text AS jumlah, catatan
-       FROM (${union}) x ORDER BY tanggal DESC, no DESC LIMIT $${params.length - 1} OFFSET $${params.length}`,
+    const asc = await this.pool.query(
+      `SELECT tanggal, stock_id, stock_nama, keterangan, gudang, jumlah, hpp, no_doc, no_int, catatan
+       FROM (${union}) x ORDER BY tanggal ASC, no_int ASC LIMIT 5000`,
       params,
     );
-    return { rows: rows.rows as never, total: total.rows[0].n as number };
+    const t2 = (n: number) => (Math.round(n * 100) / 100).toFixed(2);
+    let saldo = 0;
+    const running = (asc.rows as Record<string, unknown>[]).map((r) => {
+      const qty = Number(r.jumlah ?? 0);
+      const masuk = r.keterangan === "BARANG MASUK";
+      saldo += masuk ? qty : -qty;
+      const hpp = Number(r.hpp ?? 0);
+      return {
+        tanggal: r.tanggal as Date, stockId: r.stock_id as number, stockNama: r.stock_nama as string,
+        keterangan: r.keterangan as string, gudang: r.gudang as number, debet: masuk ? t2(qty) : "0.00",
+        kredit: !masuk ? t2(qty) : "0.00", saldo: t2(saldo), outputDari: r.no_doc as string,
+        mu: 1, hargaAt: t2(hpp), nilai: t2(qty * hpp), hpp: t2(hpp), sisa: t2(saldo),
+        catatanItem: null, catatan: r.catatan as string, info: "", noInt: r.no_int as number,
+      };
+    });
+    const desc = running.reverse();
+    const rows = desc.slice(offset, offset + limit).map((r) => ({
+      ...r, tanggal: (r.tanggal as unknown as Date).toISOString?.()?.slice(0, 10) ?? String(r.tanggal).slice(0, 10),
+    }));
+    return { rows: rows as never, total: total.rows[0].n as number };
   }
 
   /** Barang Expired (read-only): baris pembelian yang punya tanggal ED. */

@@ -182,31 +182,53 @@ export class SaleService {
     return (r.rowCount ?? 0) > 0;
   }
 
-  /** Kartu Piutang (read-only): mutasi per pelanggan = penjualan (DEBET) + penerimaan (KREDIT). */
-  async kartuPiutangList(limit = 100, offset = 0, q?: string): Promise<KartuPiutangPage> {
+  /** Kartu Piutang v2 (read-only, ala GF): 4 sumber (Penjualan+ / Retur− / Penerimaan− / Deposit+) per pelanggan + saldo rolling. */
+  async kartuPiutangList(limit = 200, offset = 0, q?: string, pelangId?: number, dari?: string, sampai?: string): Promise<KartuPiutangPage> {
     const params: unknown[] = [];
-    let filter = "";
+    let f = "";
     if (q && q.trim()) {
       params.push(`%${q.trim()}%`);
-      filter = ` AND p.nama ILIKE $${params.length}`;
+      f += ` AND p.nama ILIKE $${params.length}`;
     }
+    if (pelangId) {
+      params.push(pelangId);
+      f += ` AND p.id = $${params.length}`;
+    }
+    let fd = "";
+    if (dari) { params.push(dari); fd += ` AND tgl >= $${params.length}::date`; }
+    if (sampai) { params.push(sampai); fd += ` AND tgl <= $${params.length}::date`; }
     const union = `
-      SELECT p.nama AS pelang_nama, j.tanggal, 'PENJUALAN' AS jenis, COALESCE(j.no_c, j.no::text) AS no,
-             round(j.tot_harga + COALESCE(j.ppn_nilai,0),2) AS nilai
+      SELECT p.nama AS party, j.tanggal AS tgl, 'PENJUALAN' AS jenis, COALESCE(j.no_c, j.no::text) AS no,
+             round(j.tot_harga + COALESCE(j.ppn_nilai,0),2) AS nilai, j.id AS ref
       FROM gf.s_penjua j LEFT JOIN gf.s_pelang p ON p.id=j.pelang
-      WHERE j.hapus_oleh IS NULL${filter}
+      WHERE COALESCE(j.hapus_oleh,0)=0${f}
       UNION ALL
-      SELECT p.nama AS pelang_nama, l.tanggal, 'PENERIMAAN' AS jenis, COALESCE(m.no_c, m.no::text) AS no,
-             round(l.lunas,2) AS nilai
-      FROM gf.s_lunpen l JOIN gf.s_lpenma m ON m.id=l.lpenma_id LEFT JOIN gf.s_pelang p ON p.id=m.pelang
-      WHERE m.hapus_oleh IS NULL${filter}`;
-    const total = await this.pool.query(`SELECT count(*)::int AS n FROM (${union}) x`, params);
-    params.push(limit, offset);
-    const rows = await this.pool.query(
-      `SELECT pelang_nama AS "pelangNama", to_char(tanggal,'YYYY-MM-DD') AS tanggal, jenis, no::text AS no, nilai::text AS nilai
-       FROM (${union}) x ORDER BY tanggal DESC, jenis LIMIT $${params.length - 1} OFFSET $${params.length}`,
+      SELECT p.nama, r.tanggal, 'RETUR PENJUALAN', COALESCE(r.no_c, 'RJ'||r.no::text), round(COALESCE(r.tot_harga,0),2), r.id
+      FROM gf.s_retpen r LEFT JOIN gf.s_pelang p ON p.id=r.pelang
+      WHERE COALESCE(r.hapus_oleh,0)=0${f}
+      UNION ALL
+      SELECT p.nama, l.tanggal, 'PENERIMAAN', COALESCE(m.no_c, m.no::text), round(l.lunas - COALESCE(l.discount,0) + COALESCE(l.denda,0),2), l.sys_id::int
+      FROM gf.s_lunpen l JOIN gf.s_lpenma m ON m.id=l.lpenma_id AND COALESCE(m.hapus_oleh,0)=0 LEFT JOIN gf.s_pelang p ON p.id=m.pelang
+      WHERE true${f}
+      UNION ALL
+      SELECT p.nama, d.tanggal, 'DEPOSIT', COALESCE(d.no_c, d.no::text), round(COALESCE(d.deposit,0),2), d.id
+      FROM gf.s_deppen d LEFT JOIN gf.s_pelang p ON p.id=d.pelang
+      WHERE COALESCE(d.hapus_oleh,0)=0${f}`;
+    const total = await this.pool.query(`SELECT count(*)::int AS n FROM (${union}) x WHERE true${fd}`, params);
+    const asc = await this.pool.query(
+      `SELECT party, tgl, jenis, no, nilai FROM (${union}) x WHERE true${fd} ORDER BY tgl ASC, ref ASC LIMIT 5000`,
       params,
     );
-    return { rows: rows.rows as never, total: total.rows[0].n as number };
+    let saldo = 0;
+    const t2 = (n: number) => (Math.round(n * 100) / 100).toFixed(2);
+    const running = (asc.rows as { party: string; tgl: Date; jenis: string; no: string; nilai: number }[]).map((r) => {
+      const v = Number(r.nilai ?? 0);
+      const plus = r.jenis === "PENJUALAN";
+      saldo += plus ? v : -v;
+      return { pelangNama: r.party, tanggal: r.tgl, jenis: r.jenis, no: r.no, nilai: t2(v), debet: plus ? t2(v) : "0.00", kredit: !plus ? t2(v) : "0.00", saldo: t2(saldo) };
+    });
+    const desc = running.reverse();
+    const rows = desc.slice(offset, offset + limit).map((r) => ({ ...r, tanggal: (r.tanggal as unknown as Date).toISOString?.()?.slice(0, 10) ?? String(r.tanggal).slice(0, 10) }));
+    return { rows: rows as never, total: total.rows[0].n as number };
   }
 }

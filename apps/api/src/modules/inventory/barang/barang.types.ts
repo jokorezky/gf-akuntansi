@@ -104,9 +104,21 @@ export class KartuStock {
   @Field({ nullable: true }) tanggal?: string;
   @Field({ nullable: true }) no?: string;
   @Field({ nullable: true }) jenis?: string;
-  @Field({ nullable: true }) gudang?: number;
+  @Field({ nullable: true }) keterangan?: string;
+  @Field(() => Int, { nullable: true }) gudang?: number;
   @Field({ nullable: true }) jumlah?: string;
+  @Field({ nullable: true }) debet?: string;
+  @Field({ nullable: true }) kredit?: string;
+  @Field({ nullable: true }) saldo?: string;
+  @Field({ nullable: true }) outputDari?: string;
+  @Field(() => Int, { nullable: true }) mu?: number;
+  @Field({ nullable: true }) hargaAt?: string;
+  @Field({ nullable: true }) nilai?: string;
+  @Field({ nullable: true }) hpp?: string;
+  @Field({ nullable: true }) sisa?: string;
+  @Field({ nullable: true }) catatanItem?: string;
   @Field({ nullable: true }) catatan?: string;
+  @Field({ nullable: true }) info?: string;
 }
 
 @ObjectType()

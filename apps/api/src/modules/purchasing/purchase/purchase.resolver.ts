@@ -40,7 +40,10 @@ export class PurchaseResolver {
     @Args("limit", { type: () => Int, nullable: true }) limit?: number,
     @Args("offset", { type: () => Int, nullable: true }) offset?: number,
     @Args("q", { nullable: true }) q?: string,
+    @Args("vendorId", { type: () => Int, nullable: true }) vendorId?: number,
+    @Args("dari", { nullable: true }) dari?: string,
+    @Args("sampai", { nullable: true }) sampai?: string,
   ) {
-    return this.service.kartuHutangList(limit ?? 100, offset ?? 0, q);
+    return this.service.kartuHutangList(limit ?? 200, offset ?? 0, q, vendorId, dari, sampai);
   }
 }
