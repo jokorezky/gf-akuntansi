@@ -1,0 +1,401 @@
+{
+  "slug": "gl-cek-kurs-jurnal",
+  "window": {
+    "hwnd": 329886,
+    "class": "ShellWindow",
+    "title": "GF-Akuntansi, Release : 951.1823 Build 2026.06.28 - [Cek Kurs Jurnal]",
+    "rect": [
+      -12,
+      -12,
+      1932,
+      1020
+    ]
+  },
+  "controls": [
+    {
+      "hwnd": 461058,
+      "class": "MDIClient",
+      "text": "",
+      "rect": [
+        0,
+        104,
+        1920,
+        976
+      ]
+    },
+    {
+      "hwnd": 2032798,
+      "class": "DocAppWindow",
+      "text": "Cek Kurs Jurnal",
+      "rect": [
+        -9,
+        60,
+        1929,
+        984
+      ]
+    },
+    {
+      "hwnd": 657656,
+      "class": "WndAppWindow",
+      "text": "",
+      "rect": [
+        3,
+        107,
+        1917,
+        973
+      ]
+    },
+    {
+      "hwnd": 395602,
+      "class": "#32770",
+      "text": "",
+      "rect": [
+        5,
+        108,
+        1916,
+        971
+      ]
+    },
+    {
+      "hwnd": 526678,
+      "class": "Button",
+      "text": "",
+      "rect": [
+        9,
+        108,
+        1139,
+        197
+      ]
+    },
+    {
+      "hwnd": 461090,
+      "class": "Static",
+      "text": "MU :",
+      "rect": [
+        35,
+        143,
+        89,
+        175
+      ]
+    },
+    {
+      "hwnd": 592112,
+      "class": "Static",
+      "text": "Tanggal :",
+      "rect": [
+        221,
+        143,
+        293,
+        175
+      ]
+    },
+    {
+      "hwnd": 526666,
+      "class": "Static",
+      "text": "Kurs yang bisa diterima :",
+      "rect": [
+        611,
+        143,
+        791,
+        175
+      ]
+    },
+    {
+      "hwnd": 1049840,
+      "class": "Static",
+      "text": "-",
+      "rect": [
+        437,
+        143,
+        455,
+        175
+      ]
+    },
+    {
+      "hwnd": 1444036,
+      "class": "Static",
+      "text": "-",
+      "rect": [
+        917,
+        143,
+        935,
+        175
+      ]
+    },
+    {
+      "hwnd": 854268,
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        89,
+        143,
+        191,
+        175
+      ]
+    },
+    {
+      "hwnd": 461002,
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        297,
+        143,
+        437,
+        175
+      ]
+    },
+    {
+      "hwnd": 460998,
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        455,
+        143,
+        593,
+        175
+      ]
+    },
+    {
+      "hwnd": 592148,
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        791,
+        143,
+        917,
+        175
+      ]
+    },
+    {
+      "hwnd": 1116442,
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        935,
+        143,
+        1061,
+        175
+      ]
+    },
+    {
+      "hwnd": 788750,
+      "class": "SysListView32",
+      "text": "",
+      "rect": [
+        9,
+        203,
+        1908,
+        917
+      ]
+    },
+    {
+      "hwnd": 592144,
+      "class": "SysHeader32",
+      "text": "",
+      "rect": [
+        12,
+        206,
+        1905,
+        232
+      ]
+    },
+    {
+      "hwnd": 854294,
+      "class": "Button",
+      "text": "&Proses",
+      "rect": [
+        12,
+        921,
+        959,
+        963
+      ]
+    },
+    {
+      "hwnd": 657662,
+      "class": "Button",
+      "text": "&Tutup",
+      "rect": [
+        959,
+        921,
+        1906,
+        963
+      ]
+    },
+    {
+      "hwnd": 329876,
+      "class": "DocAppWindow",
+      "text": "Online",
+      "rect": [
+        1274,
+        107,
+        1918,
+        847
+      ]
+    },
+    {
+      "hwnd": 329874,
+      "class": "WndAppWindow",
+      "text": "",
+      "rect": [
+        1286,
+        153,
+        1906,
+        834
+      ]
+    },
+    {
+      "hwnd": 329868,
+      "class": "#32770",
+      "text": "",
+      "rect": [
+        1287,
+        155,
+        1904,
+        833
+      ]
+    },
+    {
+      "hwnd": 329866,
+      "class": "Static",
+      "text": "BMP_WHATSAPP",
+      "rect": [
+        1796,
+        723,
+        1892,
+        819
+      ]
+    },
+    {
+      "hwnd": 329872,
+      "class": "Static",
+      "text": " Lebih banyak video training/tutor/dll di https://youtube.com/gfsoftindo",
+      "rect": [
+        1299,
+        669,
+        1893,
+        701
+      ]
+    },
+    {
+      "hwnd": 264328,
+      "class": "Static",
+      "text": " eSupport: http://www.gfsoftindo.com/esupport ",
+      "rect": [
+        1436,
+        701,
+        1792,
+        731
+      ]
+    },
+    {
+      "hwnd": 329840,
+      "class": "Static",
+      "text": "Support via Whatsapp : +62 813 6310 4503 ",
+      "rect": [
+        1436,
+        731,
+        1790,
+        761
+      ]
+    },
+    {
+      "hwnd": 264296,
+      "class": "Button",
+      "text": "Lapor Bugs / Beri Masukan",
+      "rect": [
+        1299,
+        165,
+        1595,
+        209
+      ]
+    },
+    {
+      "hwnd": 264326,
+      "class": "Button",
+      "text": "Our Products",
+      "rect": [
+        1598,
+        165,
+        1894,
+        209
+      ]
+    },
+    {
+      "hwnd": 329848,
+      "class": "_VOOLEContainer",
+      "text": "",
+      "rect": [
+        1299,
+        213,
+        1893,
+        665
+      ]
+    },
+    {
+      "hwnd": 1115818,
+      "class": "Shell Embedding",
+      "text": "",
+      "rect": [
+        1299,
+        213,
+        1893,
+        665
+      ]
+    },
+    {
+      "hwnd": 264352,
+      "class": "Shell DocObject View",
+      "text": "",
+      "rect": [
+        1299,
+        213,
+        1893,
+        665
+      ]
+    },
+    {
+      "hwnd": 395498,
+      "class": "Internet Explorer_Server",
+      "text": "",
+      "rect": [
+        1299,
+        213,
+        1893,
+        665
+      ]
+    },
+    {
+      "hwnd": 264344,
+      "class": "Button",
+      "text": "PAKET ACCOUNTING 1 USER",
+      "rect": [
+        1299,
+        767,
+        1793,
+        821
+      ]
+    },
+    {
+      "hwnd": 395476,
+      "class": "msctls_statusbar32",
+      "text": "",
+      "rect": [
+        0,
+        975,
+        1920,
+        1008
+      ]
+    },
+    {
+      "hwnd": 854236,
+      "class": "ToolbarWindow32",
+      "text": "",
+      "rect": [
+        0,
+        65,
+        1920,
+        104
+      ]
+    }
+  ]
+}

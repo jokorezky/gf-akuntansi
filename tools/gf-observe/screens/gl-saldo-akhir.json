@@ -1,0 +1,171 @@
+{
+  "slug": "gl-saldo-akhir",
+  "window": {
+    "hwnd": 2426014,
+    "title": "Saldo Akhir Perkiraan",
+    "rect": [
+      375,
+      111,
+      1545,
+      899
+    ]
+  },
+  "controls": [
+    {
+      "hwnd": 788728,
+      "class": "Button",
+      "text": "",
+      "rect": [
+        384,
+        150,
+        1536,
+        263
+      ],
+      "enabled": true
+    },
+    {
+      "hwnd": 526674,
+      "class": "Static",
+      "text": "Periode :",
+      "rect": [
+        410,
+        173,
+        494,
+        205
+      ],
+      "enabled": true
+    },
+    {
+      "hwnd": 657750,
+      "class": "Static",
+      "text": "-",
+      "rect": [
+        632,
+        173,
+        650,
+        205
+      ],
+      "enabled": true
+    },
+    {
+      "hwnd": 1575108,
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        492,
+        173,
+        632,
+        205
+      ],
+      "enabled": true
+    },
+    {
+      "hwnd": 723220,
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        650,
+        173,
+        788,
+        205
+      ],
+      "enabled": true
+    },
+    {
+      "hwnd": 1247514,
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        410,
+        209,
+        958,
+        239
+      ],
+      "enabled": true
+    },
+    {
+      "hwnd": 985366,
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        960,
+        209,
+        1514,
+        239
+      ],
+      "enabled": true
+    },
+    {
+      "hwnd": 723216,
+      "class": "_VOCustomControl",
+      "text": "",
+      "rect": [
+        384,
+        263,
+        1536,
+        829
+      ],
+      "enabled": true
+    },
+    {
+      "hwnd": 788678,
+      "class": "ScrollBar",
+      "text": "b",
+      "rect": [
+        387,
+        800,
+        1508,
+        826
+      ],
+      "enabled": true
+    },
+    {
+      "hwnd": 592074,
+      "class": "ScrollBar",
+      "text": "b",
+      "rect": [
+        1508,
+        266,
+        1534,
+        800
+      ],
+      "enabled": true
+    },
+    {
+      "hwnd": 788734,
+      "class": "Button",
+      "text": "Cetak Set&up",
+      "rect": [
+        384,
+        833,
+        770,
+        883
+      ],
+      "enabled": true
+    },
+    {
+      "hwnd": 788486,
+      "class": "Button",
+      "text": "&Cetak",
+      "rect": [
+        770,
+        833,
+        1156,
+        883
+      ],
+      "enabled": true
+    },
+    {
+      "hwnd": 1180912,
+      "class": "Button",
+      "text": "&Tutup",
+      "rect": [
+        1154,
+        833,
+        1537,
+        883
+      ],
+      "enabled": true
+    }
+  ]
+}

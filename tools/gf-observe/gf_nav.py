@@ -173,8 +173,9 @@ def cmd_dump(sub, slug, shot=False):
         json.dump(data, f, indent=2, ensure_ascii=False)
     if shot:
         win32gui.ShowWindow(w, 3)
-        win32gui.SetForegroundWindow(w)
-        time.sleep(0.4)
+        ctypes.windll.user32.BringWindowToTop(w)
+        ctypes.windll.user32.SetWindowPos(w, -1, 0, 0, 0, 0, 0x0003)  # HWND_TOPMOST, NOMOVE|NOSIZE
+        time.sleep(0.5)
         l, t, r, b = win32gui.GetWindowRect(w)
         pyautogui.screenshot(region=(l, t, r - l, b - t)).save(os.path.join(OUT, slug + ".png"))
     print(f"dumped {len(rows)} controls -> {slug}.json")

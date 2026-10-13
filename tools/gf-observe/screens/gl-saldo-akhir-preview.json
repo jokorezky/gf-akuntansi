@@ -1,0 +1,58 @@
+{
+  "slug": "gl-saldo-akhir-preview",
+  "window": {
+    "title": "Preview - D:\\GF Akuntansi\\ST_Rep2\\Form Saldo Akhir Perkiraan.RP3",
+    "rect": [
+      75,
+      75,
+      1845,
+      1005
+    ]
+  },
+  "controls": [
+    {
+      "hwnd": 657706,
+      "class": "cm_CustomControl",
+      "text": "",
+      "rect": [
+        87,
+        122,
+        1833,
+        994
+      ]
+    },
+    {
+      "hwnd": 592080,
+      "class": "ToolbarWindow32",
+      "text": "",
+      "rect": [
+        87,
+        122,
+        1833,
+        164
+      ]
+    },
+    {
+      "hwnd": 1050876,
+      "class": "Static",
+      "text": " Halaman 1",
+      "rect": [
+        539,
+        125,
+        1834,
+        158
+      ]
+    },
+    {
+      "hwnd": 3147814,
+      "class": "cm_CustomControl",
+      "text": "",
+      "rect": [
+        87,
+        164,
+        1833,
+        994
+      ]
+    }
+  ]
+}

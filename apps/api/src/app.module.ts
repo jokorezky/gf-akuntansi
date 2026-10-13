@@ -21,6 +21,7 @@ import { PosModule } from "./modules/sales/pos/pos.module";
 import { KasModule } from "./modules/cash/kas.module";
 import { JurnalModule } from "./modules/ledger/jurnal/jurnal.module";
 import { AktivaTetapModule } from "./modules/ledger/aktiva-tetap/aktiva-tetap.module";
+import { GlChecksModule } from "./modules/ledger/gl-checks/gl-checks.module";
 import { BarangModule } from "./modules/inventory/barang/barang.module";
 import { PromosiModule } from "./modules/inventory/promosi/promosi.module";
 import { ProduksiModule } from "./modules/inventory/produksi/produksi.module";
@@ -53,6 +54,7 @@ import { LaporanModule } from "./modules/laporan/laporan.module";
     KasModule,
     JurnalModule,
     AktivaTetapModule,
+    GlChecksModule,
     BarangModule,
     PromosiModule,
     ProduksiModule,

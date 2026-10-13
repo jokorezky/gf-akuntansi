@@ -46,6 +46,10 @@ const ROUTES: Record<number, string> = {
   24663: "/kartu-piutang",
   24656: "/barang-expired",
   24654: "/barang-produksi",
+  24639: "/gl/cek-kurs-jurnal",
+  24640: "/gl/cek-perantara",
+  24641: "/gl/saldo-akhir",
+  24668: "/laporan",
 };
 
 export function Shell() {
