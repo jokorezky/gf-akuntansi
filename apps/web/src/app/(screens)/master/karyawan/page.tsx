@@ -30,10 +30,12 @@ type Row = {
   grpstk?: string | null;
   grpst2?: string | null;
   grpst3?: string | null;
+  tambahEx1?: string | null;
+  tambahEx2?: string | null;
 };
 type Ref = { id: number; nama: string };
 
-const FIELDS = "id nama alamat telepon komisi catatan nonAktif sales supir helper collector admin jenpenId divisiId grpstk grpst2 grpst3";
+const FIELDS = "id nama alamat telepon komisi catatan nonAktif sales supir helper collector admin jenpenId divisiId grpstk grpst2 grpst3 tambahEx1 tambahEx2";
 const LIST = `query($q:String, $limit:Int, $offset:Int){ karyawanList(q:$q, limit:$limit, offset:$offset){ total rows { ${FIELDS} } } }`;
 const REFS = `{ jenpenRefList { id nama } divisiRefList { id nama } grpstkRefList { id nama } grpst2RefList { id nama } grpst3RefList { id nama } }`;
 const BYID = `query($id:Int!){ karyawanById(id:$id){ ${FIELDS} } }`;
@@ -41,10 +43,13 @@ const CREATE = `mutation($input:KaryawanInput!){ createKaryawan(input:$input){ i
 const UPDATE = `mutation($id:Int!,$input:KaryawanInput!){ updateKaryawan(id:$id, input:$input){ id } }`;
 const DELETE = `mutation($id:Int!){ deleteKaryawan(id:$id) }`;
 
+// GF menampilkan field "Tambahan Harga Extra > POS" hanya bila konfigurasi POS-extra aktif; default tersembunyi.
+const SHOW_TAMBAHAN_EX_POS = false;
+
 const empty = (): Row => ({
   id: 0, nama: "", alamat: "", telepon: "", komisi: "0.00", catatan: "", nonAktif: "",
   sales: false, supir: false, helper: false, collector: false, admin: false,
-  jenpenId: null, divisiId: null, grpstk: "", grpst2: "", grpst3: "",
+  jenpenId: null, divisiId: null, grpstk: "", grpst2: "", grpst3: "", tambahEx1: "0.00", tambahEx2: "0.00",
 });
 
 function tipe(r: Row): string {
@@ -174,6 +179,17 @@ function KaryawanForm({
                     {k}
                   </label>
                 ))}
+                {SHOW_TAMBAHAN_EX_POS && (
+                  <div className="mt-3 border-t border-gf-border pt-2">
+                    <div className="mb-1 text-[11px] font-medium text-slate-500">Tambahan Harga Extra &gt; POS :</div>
+                    <div className="grid grid-cols-[58px_1fr] items-center gap-y-[6px] text-[12px]">
+                      <span className="text-slate-500">Ex *1 :</span>
+                      <input className="rounded-md border border-gf-border bg-white px-2 py-[5px] outline-none focus:border-gf-accent/50" value={f.tambahEx1 ?? ""} onChange={(e) => set("tambahEx1", e.target.value)} />
+                      <span className="text-slate-500">Ex *2 :</span>
+                      <input className="rounded-md border border-gf-border bg-white px-2 py-[5px] outline-none focus:border-gf-accent/50" value={f.tambahEx2 ?? ""} onChange={(e) => set("tambahEx2", e.target.value)} />
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           ) : (

@@ -20,6 +20,8 @@ export class Karyawan {
   @Field({ nullable: true }) grpstk?: string;
   @Field({ nullable: true }) grpst2?: string;
   @Field({ nullable: true }) grpst3?: string;
+  @Field(() => String, { nullable: true }) tambahEx1?: string;
+  @Field(() => String, { nullable: true }) tambahEx2?: string;
 }
 
 @InputType()
@@ -40,6 +42,8 @@ export class KaryawanInput {
   @Field({ nullable: true }) grpstk?: string;
   @Field({ nullable: true }) grpst2?: string;
   @Field({ nullable: true }) grpst3?: string;
+  @Field(() => String, { nullable: true }) tambahEx1?: string;
+  @Field(() => String, { nullable: true }) tambahEx2?: string;
 }
 
 @ObjectType()
