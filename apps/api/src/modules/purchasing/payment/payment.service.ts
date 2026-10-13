@@ -13,8 +13,11 @@ function num(v: unknown): number {
 
 const HDR = `
   m.id::int AS id, m.no, to_char(m.tanggal,'YYYY-MM-DD') AS tanggal, m.vendor AS "vendorId", v.nama AS "vendorNama",
-  m.divisi_id AS "divisiId", m.catatan,
-  (SELECT COALESCE(SUM(l.lunas),0)::text FROM gf.s_lunpem l WHERE l.lpemma_id=m.id) AS total`;
+  m.divisi_id AS "divisiId", m.catatan, m.als_batal AS "alsBatal", m.konf_oleh AS "konfOleh",
+  to_char(m.konf_tgl,'YYYY-MM-DD') AS "konfTgl", m.konf_jam AS "konfJam",
+  m.input_oleh AS "entryBy", to_char(m.tgl_input,'YYYY-MM-DD') AS "entryDate",
+  (SELECT COALESCE(SUM(l.lunas),0)::text FROM gf.s_lunpem l WHERE l.lpemma_id=m.id) AS total,
+  (SELECT COALESCE(SUM(l.discount),0)::text FROM gf.s_lunpem l WHERE l.lpemma_id=m.id) AS "discTotal"`;
 
 @Injectable()
 export class PaymentService {
@@ -46,9 +49,13 @@ export class PaymentService {
     );
     if (!h.rows[0]) return null;
     const d = await this.pool.query(
-      `SELECT l.pembel_id::int AS "pembelId", l.lunas::text AS lunas, l.discount::text AS discount,
-              l.denda::text AS denda, l.catatan
-       FROM gf.s_lunpem l WHERE l.lpemma_id=$1 ORDER BY l.sys_id`,
+      `SELECT l.pembel_id::int AS "pembelId", l.retpem_id::int AS "retpemId", l.dcnhut_id::int AS "dcnhutId",
+              l.deppem_id::int AS "deppemId",
+              l.lunas::text AS lunas, l.discount::text AS discount,
+              l.denda::text AS denda, l.catatan,
+              p.no AS no, to_char(p.tanggal,'YYYY-MM-DD') AS tanggal,
+              (SELECT round(COALESCE(pp.tot_harga,0)+COALESCE(pp.ppn_nilai,0),2)::text FROM gf.s_pembel pp WHERE pp.id=l.pembel_id) AS "invTotal"
+       FROM gf.s_lunpem l LEFT JOIN gf.s_pembel p ON p.id=l.pembel_id WHERE l.lpemma_id=$1 ORDER BY l.sys_id`,
       [id],
     );
     return { ...(h.rows[0] as Payment), lines: d.rows as PayLine[] };
@@ -67,9 +74,10 @@ export class PaymentService {
       const pid = h.rows[0].id as number;
       for (const l of input.lines) {
         await client.query(
-          `INSERT INTO gf.s_lunpem (lpemma_id, pembel_id, tanggal, lunas, discount, denda, catatan)
-           VALUES ($1,$2, COALESCE($3, now()::date), $4, $5, $6, $7)`,
-          [pid, nn(l.pembelId), nn(input.tanggal), num(l.lunas), num(l.discount), num(l.denda), nn(l.catatan)],
+          `INSERT INTO gf.s_lunpem (lpemma_id, pembel_id, retpem_id, dcnhut_id, deppem_id, tanggal, lunas, discount, denda, catatan)
+           VALUES ($1,$2,$3,$4,$5, COALESCE($6, now()::date), $7, $8, $9, $10)`,
+          [pid, nn(l.pembelId), nn(l.retpemId), nn(l.dcnhutId), nn(l.deppemId), nn(input.tanggal),
+           num(l.lunas), num(l.discount), num(l.denda), nn(l.catatan)],
         );
       }
       await client.query("COMMIT");
@@ -95,9 +103,10 @@ export class PaymentService {
       await client.query(`DELETE FROM gf.s_lunpem WHERE lpemma_id=$1`, [id]);
       for (const l of input.lines) {
         await client.query(
-          `INSERT INTO gf.s_lunpem (lpemma_id, pembel_id, tanggal, lunas, discount, denda, catatan)
-           VALUES ($1,$2, COALESCE($3, now()::date), $4, $5, $6, $7)`,
-          [id, nn(l.pembelId), nn(input.tanggal), num(l.lunas), num(l.discount), num(l.denda), nn(l.catatan)],
+          `INSERT INTO gf.s_lunpem (lpemma_id, pembel_id, retpem_id, dcnhut_id, deppem_id, tanggal, lunas, discount, denda, catatan)
+           VALUES ($1,$2,$3,$4,$5, COALESCE($6, now()::date), $7, $8, $9, $10)`,
+          [id, nn(l.pembelId), nn(l.retpemId), nn(l.dcnhutId), nn(l.deppemId), nn(input.tanggal),
+           num(l.lunas), num(l.discount), num(l.denda), nn(l.catatan)],
         );
       }
       await client.query("COMMIT");
