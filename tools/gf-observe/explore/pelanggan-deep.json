@@ -1,0 +1,3215 @@
+{
+  "slug": "pelanggan",
+  "menu_id": 24556,
+  "max_depth": 3,
+  "nodes": [
+    {
+      "index": 0,
+      "depth": 1,
+      "slug": "pelanggan-L1-0",
+      "title": "Pelanggan - GF-Akuntansi Release : 951.1823 Build 2026.06.28",
+      "class": "WndAppWindow",
+      "path": [
+        "Pelanggan - GF-Akuntansi Release : 951.1823 Build 2026.06.28"
+      ],
+      "controls": [
+        {
+          "hwnd": 1379080,
+          "class": "WndAppWindow",
+          "text": "",
+          "rect": [
+            0,
+            35,
+            1920,
+            976
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 789374,
+          "class": "#32770",
+          "text": "",
+          "rect": [
+            2,
+            36,
+            1919,
+            974
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 461702,
+          "class": "Button",
+          "text": "",
+          "rect": [
+            6,
+            687,
+            1026,
+            968
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 2034454,
+          "class": "Static",
+          "text": "M A S T E R   F I L E   -   P E L A N G G A N",
+          "rect": [
+            248,
+            41,
+            1681,
+            83
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 3279146,
+          "class": "Static",
+          "text": "",
+          "rect": [
+            366,
+            90,
+            1428,
+            149
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 1248052,
+          "class": "Static",
+          "text": "ID :",
+          "rect": [
+            32,
+            716,
+            104,
+            746
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 854916,
+          "class": "Static",
+          "text": "Kode :",
+          "rect": [
+            32,
+            746,
+            122,
+            778
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 723780,
+          "class": "Static",
+          "text": "Nama :",
+          "rect": [
+            32,
+            777,
+            122,
+            807
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 658266,
+          "class": "Static",
+          "text": "Sales :",
+          "rect": [
+            524,
+            777,
+            637,
+            804
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 527170,
+          "class": "Static",
+          "text": "Daerah :",
+          "rect": [
+            32,
+            806,
+            122,
+            836
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 1051422,
+          "class": "Static",
+          "text": "Daerah *2 :",
+          "rect": [
+            524,
+            806,
+            637,
+            836
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 461716,
+          "class": "Static",
+          "text": "Telepon :",
+          "rect": [
+            32,
+            836,
+            122,
+            868
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 461722,
+          "class": "Static",
+          "text": "No. KTP :",
+          "rect": [
+            524,
+            836,
+            637,
+            868
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 1444592,
+          "class": "Static",
+          "text": "Hubungi :",
+          "rect": [
+            32,
+            867,
+            122,
+            897
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 7996318,
+          "class": "Static",
+          "text": "Catatan :",
+          "rect": [
+            524,
+            867,
+            637,
+            897
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 789398,
+          "class": "Static",
+          "text": "Kelompok :",
+          "rect": [
+            32,
+            896,
+            122,
+            926
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 527224,
+          "class": "Static",
+          "text": "Kel *2 :",
+          "rect": [
+            524,
+            896,
+            637,
+            926
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 1313616,
+          "class": "Static",
+          "text": "NPWP :",
+          "rect": [
+            32,
+            926,
+            122,
+            956
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 3803172,
+          "class": "Static",
+          "text": "Nama (NPWP) :",
+          "rect": [
+            524,
+            926,
+            637,
+            958
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 1180580,
+          "class": "Button",
+          "text": "Menu Utama",
+          "rect": [
+            6,
+            41,
+            56,
+            83
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 1508498,
+          "class": "Button",
+          "text": "Z..A",
+          "rect": [
+            56,
+            41,
+            104,
+            83
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 458974,
+          "class": "Button",
+          "text": "CheckBox",
+          "rect": [
+            104,
+            41,
+            152,
+            83
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 592658,
+          "class": "Button",
+          "text": "&Menu",
+          "rect": [
+            150,
+            41,
+            240,
+            83
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 723840,
+          "class": "ComboBox",
+          "text": "",
+          "rect": [
+            1686,
+            47,
+            1907,
+            77
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 658190,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            1691,
+            51,
+            1877,
+            72
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 658230,
+          "class": "Button",
+          "text": "Kel&ompok",
+          "rect": [
+            128,
+            90,
+            241,
+            149
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 658254,
+          "class": "Button",
+          "text": "&Sisa Piutang",
+          "rect": [
+            248,
+            90,
+            364,
+            149
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 461610,
+          "class": "Button",
+          "text": "&Laporan",
+          "rect": [
+            6,
+            90,
+            122,
+            149
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 658252,
+          "class": "Button",
+          "text": "T&ambah",
+          "rect": [
+            1434,
+            90,
+            1547,
+            149
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 592696,
+          "class": "Button",
+          "text": "&Koreksi",
+          "rect": [
+            1554,
+            90,
+            1670,
+            149
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 1182602,
+          "class": "Button",
+          "text": "&Hapus",
+          "rect": [
+            1673,
+            90,
+            1789,
+            149
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 527234,
+          "class": "Button",
+          "text": "&Tutup",
+          "rect": [
+            1794,
+            90,
+            1907,
+            149
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 524520,
+          "class": "SysListView32",
+          "text": "",
+          "rect": [
+            6,
+            156,
+            1907,
+            692
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 1313650,
+          "class": "SysHeader32",
+          "text": "",
+          "rect": [
+            9,
+            159,
+            1904,
+            185
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 2951848,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            122,
+            716,
+            278,
+            746
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 1641334,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            122,
+            746,
+            278,
+            778
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 1313680,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            122,
+            777,
+            500,
+            807
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 396188,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            636,
+            777,
+            1004,
+            807
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 3148564,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            122,
+            806,
+            500,
+            836
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 527256,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            636,
+            806,
+            1004,
+            836
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 265236,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            122,
+            836,
+            500,
+            868
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265410,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            636,
+            836,
+            1004,
+            868
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265362,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            122,
+            867,
+            500,
+            897
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265412,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            636,
+            867,
+            1004,
+            897
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265458,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            122,
+            896,
+            500,
+            926
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 265448,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            636,
+            896,
+            1004,
+            926
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 265386,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            122,
+            926,
+            500,
+            958
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265384,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            636,
+            926,
+            1004,
+            958
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265446,
+          "class": "Button",
+          "text": "Semua Data",
+          "rect": [
+            308,
+            740,
+            446,
+            767
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265464,
+          "class": "ComboBox",
+          "text": "",
+          "rect": [
+            614,
+            723,
+            860,
+            753
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265460,
+          "class": "Button",
+          "text": "&Cari",
+          "rect": [
+            870,
+            711,
+            1004,
+            770
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265242,
+          "class": "Button",
+          "text": " Ctrl+F7",
+          "rect": [
+            1028,
+            692,
+            1907,
+            832
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265244,
+          "class": "Button",
+          "text": " Ctrl+F6",
+          "rect": [
+            1028,
+            831,
+            1907,
+            968
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 5638722,
+          "class": "msctls_statusbar32",
+          "text": "",
+          "rect": [
+            0,
+            975,
+            1920,
+            1008
+          ],
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "depth": 2,
+      "slug": "pelanggan-L2-1",
+      "title": "Grouping Pelanggan",
+      "class": "#32770",
+      "path": [
+        "klik:Kelompok",
+        "Grouping Pelanggan"
+      ],
+      "controls": [
+        {
+          "hwnd": 3017564,
+          "class": "Static",
+          "text": "G R O U P I N G   P E L A N G G A N",
+          "rect": [
+            204,
+            80,
+            974,
+            122
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 1444598,
+          "class": "#32770",
+          "text": "Dialog Caption",
+          "rect": [
+            209,
+            164,
+            967,
+            715
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 1903348,
+          "class": "msctls_progress32",
+          "text": "",
+          "rect": [
+            213,
+            690,
+            959,
+            710
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 5245500,
+          "class": "Static",
+          "text": "G R O U P I N G   (1)",
+          "rect": [
+            213,
+            168,
+            501,
+            230
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265348,
+          "class": "Button",
+          "text": "T&ambah",
+          "rect": [
+            515,
+            168,
+            667,
+            230
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265346,
+          "class": "Button",
+          "text": "&Koreksi",
+          "rect": [
+            665,
+            168,
+            814,
+            230
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 265220,
+          "class": "Button",
+          "text": "&Hapus",
+          "rect": [
+            813,
+            168,
+            965,
+            230
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 265340,
+          "class": "SysListView32",
+          "text": "",
+          "rect": [
+            213,
+            234,
+            959,
+            690
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265350,
+          "class": "SysHeader32",
+          "text": "",
+          "rect": [
+            216,
+            237,
+            956,
+            263
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 920306,
+          "class": "SysTabControl32",
+          "text": "",
+          "rect": [
+            204,
+            129,
+            974,
+            722
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 590020,
+          "class": "Button",
+          "text": "&Tutup",
+          "rect": [
+            204,
+            729,
+            974,
+            771
+          ],
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "depth": 3,
+      "slug": "pelanggan-L3-2",
+      "title": "Grouping Pelanggan",
+      "class": "#32770",
+      "path": [
+        "klik:Kelompok",
+        "klik:Tambah",
+        "Grouping Pelanggan"
+      ],
+      "controls": [
+        {
+          "hwnd": 330852,
+          "class": "Button",
+          "text": "",
+          "rect": [
+            335,
+            390,
+            847,
+            461
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330844,
+          "class": "Static",
+          "text": "GROUPING PELANGGAN",
+          "rect": [
+            335,
+            341,
+            847,
+            395
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330848,
+          "class": "Static",
+          "text": "Grouping :",
+          "rect": [
+            360,
+            414,
+            444,
+            444
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330846,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            450,
+            414,
+            822,
+            444
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330850,
+          "class": "Button",
+          "text": "&Simpan",
+          "rect": [
+            335,
+            468,
+            587,
+            510
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 265306,
+          "class": "Button",
+          "text": "&Tutup",
+          "rect": [
+            594,
+            468,
+            846,
+            510
+          ],
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "depth": 2,
+      "slug": "pelanggan-L2-3",
+      "title": "Proses Laporan",
+      "class": "#32770",
+      "path": [
+        "klik:Laporan",
+        "Proses Laporan"
+      ],
+      "controls": [
+        {
+          "hwnd": 852192,
+          "class": "Button",
+          "text": "",
+          "rect": [
+            537,
+            120,
+            1383,
+            209
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 655556,
+          "class": "Button",
+          "text": " Periode Laporan : ",
+          "rect": [
+            537,
+            215,
+            1118,
+            421
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 985842,
+          "class": "Button",
+          "text": "",
+          "rect": [
+            1121,
+            215,
+            1387,
+            421
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 1510134,
+          "class": "Static",
+          "text": "Kelompok Laporan :",
+          "rect": [
+            563,
+            155,
+            743,
+            187
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330880,
+          "class": "Static",
+          "text": "Terakhir Proses :",
+          "rect": [
+            1139,
+            245,
+            1367,
+            281
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330876,
+          "class": "Static",
+          "text": "...",
+          "rect": [
+            1139,
+            281,
+            1367,
+            317
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330878,
+          "class": "Static",
+          "text": "-",
+          "rect": [
+            803,
+            371,
+            821,
+            401
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 330756,
+          "class": "Static",
+          "text": "...",
+          "rect": [
+            537,
+            689,
+            1383,
+            725
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330882,
+          "class": "Static",
+          "text": "...",
+          "rect": [
+            537,
+            744,
+            1383,
+            779
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 5311036,
+          "class": "msctls_progress32",
+          "text": "",
+          "rect": [
+            537,
+            725,
+            1383,
+            745
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 1968884,
+          "class": "msctls_progress32",
+          "text": "",
+          "rect": [
+            537,
+            779,
+            1383,
+            799
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330874,
+          "class": "ComboBox",
+          "text": "",
+          "rect": [
+            743,
+            155,
+            1363,
+            187
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330862,
+          "class": "Button",
+          "text": "Tahun :",
+          "rect": [
+            563,
+            252,
+            665,
+            282
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330864,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            663,
+            252,
+            725,
+            282
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 330858,
+          "class": "Button",
+          "text": "Bulan :",
+          "rect": [
+            563,
+            281,
+            665,
+            311
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330860,
+          "class": "ComboBox",
+          "text": "",
+          "rect": [
+            663,
+            281,
+            821,
+            311
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 330866,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            821,
+            281,
+            880,
+            311
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 330872,
+          "class": "ComboBox",
+          "text": "",
+          "rect": [
+            879,
+            281,
+            1037,
+            311
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 3083100,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            1037,
+            281,
+            1096,
+            311
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 396390,
+          "class": "Button",
+          "text": "Bulan :",
+          "rect": [
+            563,
+            311,
+            665,
+            343
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 396384,
+          "class": "ComboBox",
+          "text": "",
+          "rect": [
+            663,
+            311,
+            821,
+            341
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 330840,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            821,
+            311,
+            880,
+            343
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 330842,
+          "class": "Button",
+          "text": "Tanggal :",
+          "rect": [
+            563,
+            342,
+            665,
+            372
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 396386,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            663,
+            342,
+            803,
+            372
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 396382,
+          "class": "Button",
+          "text": "Custom :",
+          "rect": [
+            563,
+            371,
+            665,
+            401
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 396380,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            663,
+            371,
+            803,
+            401
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 265302,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            821,
+            371,
+            959,
+            401
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 265300,
+          "class": "SysListView32",
+          "text": "",
+          "rect": [
+            537,
+            420,
+            1383,
+            533
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265296,
+          "class": "SysHeader32",
+          "text": "",
+          "rect": [
+            540,
+            423,
+            1380,
+            423
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265290,
+          "class": "SysListView32",
+          "text": "",
+          "rect": [
+            537,
+            533,
+            1383,
+            689
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265294,
+          "class": "SysHeader32",
+          "text": "",
+          "rect": [
+            540,
+            536,
+            1380,
+            562
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265288,
+          "class": "Button",
+          "text": "&Proses",
+          "rect": [
+            537,
+            803,
+            821,
+            845
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265286,
+          "class": "Button",
+          "text": "&Batal",
+          "rect": [
+            821,
+            803,
+            1103,
+            845
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 265282,
+          "class": "Button",
+          "text": "&Tutup",
+          "rect": [
+            1103,
+            803,
+            1385,
+            845
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265284,
+          "class": "Button",
+          "text": "&Laporan",
+          "rect": [
+            537,
+            852,
+            1383,
+            894
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 265278,
+          "class": "msctls_statusbar32",
+          "text": "",
+          "rect": [
+            533,
+            891,
+            1387,
+            924
+          ],
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "depth": 3,
+      "slug": "pelanggan-L3-4",
+      "title": "Reports / Laporan",
+      "class": "#32770",
+      "path": [
+        "klik:Laporan",
+        "klik:Proses",
+        "Reports / Laporan"
+      ],
+      "controls": [
+        {
+          "hwnd": 265272,
+          "class": "Static",
+          "text": "Daftar Pelanggan",
+          "rect": [
+            407,
+            188,
+            1513,
+            238
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265268,
+          "class": "Static",
+          "text": "",
+          "rect": [
+            407,
+            242,
+            772,
+            850
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265270,
+          "class": "Static",
+          "text": "Untuk informasi tentang laporan ini dan contohnya, tekan tombol >>>",
+          "rect": [
+            774,
+            242,
+            1404,
+            284
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265264,
+          "class": "Static",
+          "text": "PILIH KELOMPOK LAPORAN",
+          "rect": [
+            414,
+            249,
+            764,
+            350
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265266,
+          "class": "Static",
+          "text": "Pilih dgn mouse klik / tombol 1-9",
+          "rect": [
+            414,
+            795,
+            764,
+            842
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265262,
+          "class": "Static",
+          "text": "NAMA-NAMA LAPORAN",
+          "rect": [
+            774,
+            291,
+            1512,
+            333
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265258,
+          "class": "Static",
+          "text": "  1. Daftar Pelanggan",
+          "rect": [
+            414,
+            356,
+            764,
+            406
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265260,
+          "class": "Static",
+          "text": "",
+          "rect": [
+            414,
+            405,
+            764,
+            452
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 265252,
+          "class": "Static",
+          "text": "",
+          "rect": [
+            414,
+            452,
+            764,
+            502
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 265254,
+          "class": "Static",
+          "text": "",
+          "rect": [
+            414,
+            500,
+            764,
+            550
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 265256,
+          "class": "Static",
+          "text": "",
+          "rect": [
+            414,
+            549,
+            764,
+            596
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 265248,
+          "class": "Static",
+          "text": "",
+          "rect": [
+            414,
+            596,
+            764,
+            646
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 265250,
+          "class": "Static",
+          "text": "",
+          "rect": [
+            414,
+            644,
+            764,
+            694
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 1706848,
+          "class": "Static",
+          "text": "",
+          "rect": [
+            414,
+            693,
+            764,
+            740
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 265366,
+          "class": "Button",
+          "text": "Info",
+          "rect": [
+            1410,
+            242,
+            1512,
+            284
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265370,
+          "class": "SysListView32",
+          "text": "",
+          "rect": [
+            774,
+            332,
+            1512,
+            761
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265364,
+          "class": "SysHeader32",
+          "text": "",
+          "rect": [
+            777,
+            335,
+            1509,
+            361
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265368,
+          "class": "Button",
+          "text": "&Export >>> Text File",
+          "rect": [
+            774,
+            764,
+            1512,
+            808
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265414,
+          "class": "Button",
+          "text": "º",
+          "rect": [
+            774,
+            812,
+            876,
+            854
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265416,
+          "class": "Button",
+          "text": "Setup",
+          "rect": [
+            875,
+            812,
+            983,
+            854
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265418,
+          "class": "Button",
+          "text": "&Cetak",
+          "rect": [
+            983,
+            812,
+            1249,
+            854
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265434,
+          "class": "Button",
+          "text": "&Tutup",
+          "rect": [
+            1248,
+            812,
+            1512,
+            854
+          ],
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "depth": 3,
+      "slug": "pelanggan-L3-5",
+      "title": "Reports / Laporan",
+      "class": "#32770",
+      "path": [
+        "klik:Laporan",
+        "klik:Laporan",
+        "Reports / Laporan"
+      ],
+      "controls": [
+        {
+          "hwnd": 330954,
+          "class": "Static",
+          "text": "Daftar Pelanggan",
+          "rect": [
+            407,
+            188,
+            1513,
+            238
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330952,
+          "class": "Static",
+          "text": "",
+          "rect": [
+            407,
+            242,
+            772,
+            850
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330950,
+          "class": "Static",
+          "text": "Untuk informasi tentang laporan ini dan contohnya, tekan tombol >>>",
+          "rect": [
+            774,
+            242,
+            1404,
+            284
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330904,
+          "class": "Static",
+          "text": "PILIH KELOMPOK LAPORAN",
+          "rect": [
+            414,
+            249,
+            764,
+            350
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330906,
+          "class": "Static",
+          "text": "Pilih dgn mouse klik / tombol 1-9",
+          "rect": [
+            414,
+            795,
+            764,
+            842
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330900,
+          "class": "Static",
+          "text": "NAMA-NAMA LAPORAN",
+          "rect": [
+            774,
+            291,
+            1512,
+            333
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330888,
+          "class": "Static",
+          "text": "  1. Daftar Pelanggan",
+          "rect": [
+            414,
+            356,
+            764,
+            406
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330902,
+          "class": "Static",
+          "text": "",
+          "rect": [
+            414,
+            405,
+            764,
+            452
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 854822,
+          "class": "Static",
+          "text": "",
+          "rect": [
+            414,
+            452,
+            764,
+            502
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 393464,
+          "class": "Static",
+          "text": "",
+          "rect": [
+            414,
+            500,
+            764,
+            550
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 1772384,
+          "class": "Static",
+          "text": "",
+          "rect": [
+            414,
+            549,
+            764,
+            596
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 330786,
+          "class": "Static",
+          "text": "",
+          "rect": [
+            414,
+            596,
+            764,
+            646
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 330784,
+          "class": "Static",
+          "text": "",
+          "rect": [
+            414,
+            644,
+            764,
+            694
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 330792,
+          "class": "Static",
+          "text": "",
+          "rect": [
+            414,
+            693,
+            764,
+            740
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 330796,
+          "class": "Button",
+          "text": "Info",
+          "rect": [
+            1410,
+            242,
+            1512,
+            284
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330794,
+          "class": "SysListView32",
+          "text": "",
+          "rect": [
+            774,
+            332,
+            1512,
+            761
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330798,
+          "class": "SysHeader32",
+          "text": "",
+          "rect": [
+            777,
+            335,
+            1509,
+            361
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330800,
+          "class": "Button",
+          "text": "&Export >>> Text File",
+          "rect": [
+            774,
+            764,
+            1512,
+            808
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330806,
+          "class": "Button",
+          "text": "º",
+          "rect": [
+            774,
+            812,
+            876,
+            854
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330804,
+          "class": "Button",
+          "text": "Setup",
+          "rect": [
+            875,
+            812,
+            983,
+            854
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330808,
+          "class": "Button",
+          "text": "&Cetak",
+          "rect": [
+            983,
+            812,
+            1249,
+            854
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 3869576,
+          "class": "Button",
+          "text": "&Tutup",
+          "rect": [
+            1248,
+            812,
+            1512,
+            854
+          ],
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "index": 6,
+      "depth": 2,
+      "slug": "pelanggan-L2-6",
+      "title": "Pelanggan",
+      "class": "#32770",
+      "path": [
+        "klik:Tambah",
+        "Pelanggan"
+      ],
+      "controls": [
+        {
+          "hwnd": 1051378,
+          "class": "Button",
+          "text": "",
+          "rect": [
+            396,
+            120,
+            1026,
+            264
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 917728,
+          "class": "Static",
+          "text": "ID :",
+          "rect": [
+            890,
+            179,
+            926,
+            209
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330816,
+          "class": "Static",
+          "text": "Tanggal :",
+          "rect": [
+            422,
+            150,
+            502,
+            180
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330820,
+          "class": "Static",
+          "text": "Non-aktif :",
+          "rect": [
+            752,
+            150,
+            854,
+            180
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330818,
+          "class": "Static",
+          "text": "Kode :",
+          "rect": [
+            422,
+            179,
+            502,
+            209
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 330822,
+          "class": "Static",
+          "text": "Nama :",
+          "rect": [
+            422,
+            209,
+            502,
+            241
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330824,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            926,
+            179,
+            1006,
+            209
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330826,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            500,
+            150,
+            644,
+            180
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330830,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            860,
+            150,
+            1004,
+            180
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330828,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            500,
+            179,
+            572,
+            209
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 330836,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            500,
+            209,
+            1004,
+            241
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330832,
+          "class": "Button",
+          "text": "Corporate / Perusahaan",
+          "rect": [
+            1040,
+            137,
+            1261,
+            164
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330834,
+          "class": "Button",
+          "text": "Personal / Perorangan",
+          "rect": [
+            1268,
+            137,
+            1528,
+            164
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 330838,
+          "class": "Button",
+          "text": "Gabungan dari beberapa pelanggan eceran",
+          "rect": [
+            1040,
+            162,
+            1526,
+            189
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 461916,
+          "class": "Button",
+          "text": "Penjualan: Harga Jual diambil dari Harga Jual terakhir",
+          "rect": [
+            1040,
+            186,
+            1526,
+            213
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 461918,
+          "class": "Button",
+          "text": "Pelanggan diblack list..",
+          "rect": [
+            1040,
+            209,
+            1256,
+            239
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 396378,
+          "class": "Button",
+          "text": "Tanpa cek limit saat Simpan Penjualan",
+          "rect": [
+            1040,
+            233,
+            1448,
+            260
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 527286,
+          "class": "#32770",
+          "text": "Dialog Caption",
+          "rect": [
+            401,
+            303,
+            1519,
+            837
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 5310992,
+          "class": "Button",
+          "text": "",
+          "rect": [
+            405,
+            303,
+            917,
+            830
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 920352,
+          "class": "Button",
+          "text": "",
+          "rect": [
+            917,
+            303,
+            1505,
+            830
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 2163446,
+          "class": "Static",
+          "text": "Title :",
+          "rect": [
+            431,
+            333,
+            511,
+            363
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 527596,
+          "class": "Static",
+          "text": "Alamat :",
+          "rect": [
+            431,
+            362,
+            511,
+            392
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 4065870,
+          "class": "Static",
+          "text": "Kode Pos:",
+          "rect": [
+            431,
+            423,
+            511,
+            453
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 527594,
+          "class": "Static",
+          "text": "Daerah :",
+          "rect": [
+            431,
+            452,
+            511,
+            482
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 1510206,
+          "class": "Static",
+          "text": "Negara :",
+          "rect": [
+            431,
+            482,
+            511,
+            514
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 658658,
+          "class": "Static",
+          "text": "NPWP :",
+          "rect": [
+            431,
+            518,
+            511,
+            548
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 527580,
+          "class": "Static",
+          "text": "Pemilik :",
+          "rect": [
+            431,
+            548,
+            511,
+            580
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 1772300,
+          "class": "Static",
+          "text": "Alamat :",
+          "rect": [
+            431,
+            579,
+            511,
+            609
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 593108,
+          "class": "Static",
+          "text": "Telepon :",
+          "rect": [
+            431,
+            638,
+            511,
+            670
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 658642,
+          "class": "Static",
+          "text": "Fax :",
+          "rect": [
+            431,
+            728,
+            511,
+            760
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 11208866,
+          "class": "Static",
+          "text": "Email :",
+          "rect": [
+            431,
+            759,
+            511,
+            789
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 658618,
+          "class": "Static",
+          "text": "Website :",
+          "rect": [
+            431,
+            788,
+            511,
+            818
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 1180940,
+          "class": "Static",
+          "text": "Hubungi :",
+          "rect": [
+            941,
+            326,
+            1018,
+            358
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 527588,
+          "class": "Static",
+          "text": "Telepon :",
+          "rect": [
+            1265,
+            326,
+            1342,
+            358
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 527584,
+          "class": "Static",
+          "text": "Glb Disc :",
+          "rect": [
+            941,
+            482,
+            1018,
+            514
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 527574,
+          "class": "Static",
+          "text": "-------------------------->",
+          "rect": [
+            1103,
+            482,
+            1234,
+            514
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 527600,
+          "class": "Static",
+          "text": "Itm Disc :",
+          "rect": [
+            941,
+            513,
+            1018,
+            543
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 3803730,
+          "class": "Static",
+          "text": "-------------------------->",
+          "rect": [
+            1103,
+            513,
+            1234,
+            543
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 5376268,
+          "class": "Static",
+          "text": "Credit :",
+          "rect": [
+            941,
+            452,
+            1018,
+            482
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265230,
+          "class": "Static",
+          "text": "Max :",
+          "rect": [
+            941,
+            650,
+            1025,
+            682
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265232,
+          "class": "Static",
+          "text": "Max Crd :",
+          "rect": [
+            941,
+            584,
+            1018,
+            616
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265234,
+          "class": "Static",
+          "text": "Jatuh Tempo :",
+          "rect": [
+            989,
+            620,
+            1105,
+            644
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265138,
+          "class": "Static",
+          "text": " http://",
+          "rect": [
+            509,
+            788,
+            575,
+            818
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265136,
+          "class": "Static",
+          "text": "/ Kuantiti Jual (Hirau Satuan)",
+          "rect": [
+            1247,
+            548,
+            1481,
+            572
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265140,
+          "class": "Static",
+          "text": "Berdasarkan tanggal jatuh tempo",
+          "rect": [
+            1229,
+            650,
+            1481,
+            682
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265228,
+          "class": "ComboBox",
+          "text": "",
+          "rect": [
+            509,
+            333,
+            611,
+            363
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265376,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            509,
+            362,
+            892,
+            424
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265380,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            509,
+            423,
+            611,
+            453
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265378,
+          "class": "ComboBox",
+          "text": "",
+          "rect": [
+            509,
+            452,
+            701,
+            482
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 265396,
+          "class": "ComboBox",
+          "text": "",
+          "rect": [
+            701,
+            452,
+            893,
+            482
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 265382,
+          "class": "ComboBox",
+          "text": "",
+          "rect": [
+            509,
+            482,
+            701,
+            512
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 327926,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            509,
+            518,
+            892,
+            548
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 527150,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            509,
+            548,
+            892,
+            580
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 265118,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            509,
+            579,
+            892,
+            638
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 983874,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            509,
+            638,
+            761,
+            670
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 7538872,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            509,
+            669,
+            761,
+            699
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 396114,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            509,
+            698,
+            761,
+            728
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 592668,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            509,
+            728,
+            761,
+            760
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 4196806,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            509,
+            759,
+            892,
+            789
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 461684,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            575,
+            788,
+            893,
+            818
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 787260,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            941,
+            357,
+            1265,
+            387
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 983988,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            1265,
+            357,
+            1481,
+            387
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 265172,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            941,
+            386,
+            1265,
+            416
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265170,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            1265,
+            386,
+            1481,
+            416
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 265358,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            941,
+            416,
+            1265,
+            448
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 265354,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            1265,
+            416,
+            1481,
+            448
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 265360,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            1025,
+            452,
+            1109,
+            482
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 1772304,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            1107,
+            452,
+            1193,
+            482
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 396106,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            1025,
+            482,
+            1097,
+            514
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 723722,
+          "class": "ComboBox",
+          "text": "",
+          "rect": [
+            1241,
+            482,
+            1483,
+            512
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 1837534,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            1025,
+            513,
+            1097,
+            543
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 3146380,
+          "class": "ComboBox",
+          "text": "",
+          "rect": [
+            1241,
+            513,
+            1483,
+            543
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 3279344,
+          "class": "ComboBox",
+          "text": "",
+          "rect": [
+            1025,
+            542,
+            1109,
+            574
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 2951776,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            1107,
+            542,
+            1241,
+            572
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 10290280,
+          "class": "ComboBox",
+          "text": "",
+          "rect": [
+            1025,
+            584,
+            1109,
+            616
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 1051384,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            1107,
+            584,
+            1241,
+            616
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 983890,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            1241,
+            584,
+            1367,
+            616
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 4262662,
+          "class": "ComboBox",
+          "text": "",
+          "rect": [
+            1367,
+            584,
+            1483,
+            614
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 199638,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            1107,
+            615,
+            1241,
+            645
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 199640,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            1241,
+            615,
+            1367,
+            645
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 199642,
+          "class": "ComboBox",
+          "text": "",
+          "rect": [
+            1367,
+            615,
+            1483,
+            645
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 199646,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            1025,
+            650,
+            1109,
+            682
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 199644,
+          "class": "ComboBox",
+          "text": "",
+          "rect": [
+            1107,
+            650,
+            1223,
+            680
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 396376,
+          "class": "SysTabControl32",
+          "text": "",
+          "rect": [
+            396,
+            269,
+            1526,
+            845
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 461920,
+          "class": "Button",
+          "text": "&Simpan",
+          "rect": [
+            396,
+            852,
+            962,
+            894
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 461924,
+          "class": "Button",
+          "text": "&Tutup",
+          "rect": [
+            962,
+            852,
+            1528,
+            894
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 69138,
+          "class": "msctls_statusbar32",
+          "text": "",
+          "rect": [
+            392,
+            890,
+            1531,
+            923
+          ],
+          "enabled": true
+        }
+      ]
+    }
+  ],
+  "clicks": [
+    {
+      "depth": 1,
+      "at": "pelanggan-L1-0",
+      "button": "Menu Utama",
+      "new_windows": []
+    },
+    {
+      "depth": 1,
+      "at": "pelanggan-L1-0",
+      "button": "Z..A",
+      "new_windows": []
+    },
+    {
+      "depth": 1,
+      "at": "pelanggan-L1-0",
+      "button": "CheckBox",
+      "new_windows": []
+    },
+    {
+      "depth": 1,
+      "at": "pelanggan-L1-0",
+      "button": "Menu",
+      "new_windows": []
+    },
+    {
+      "depth": 1,
+      "at": "pelanggan-L1-0",
+      "button": "Kelompok",
+      "new_windows": [
+        "Grouping Pelanggan"
+      ]
+    },
+    {
+      "depth": 2,
+      "at": "pelanggan-L2-1",
+      "button": "Tambah",
+      "new_windows": [
+        "Grouping Pelanggan"
+      ]
+    },
+    {
+      "depth": 2,
+      "at": "pelanggan-L2-1",
+      "button": "Koreksi",
+      "new_windows": []
+    },
+    {
+      "depth": 1,
+      "at": "pelanggan-L1-0",
+      "button": "Sisa Piutang",
+      "new_windows": []
+    },
+    {
+      "depth": 1,
+      "at": "pelanggan-L1-0",
+      "button": "Laporan",
+      "new_windows": [
+        "Proses Laporan"
+      ]
+    },
+    {
+      "depth": 2,
+      "at": "pelanggan-L2-3",
+      "button": "Periode Laporan :",
+      "new_windows": []
+    },
+    {
+      "depth": 2,
+      "at": "pelanggan-L2-3",
+      "button": "Tahun :",
+      "new_windows": []
+    },
+    {
+      "depth": 2,
+      "at": "pelanggan-L2-3",
+      "button": "Bulan :",
+      "new_windows": []
+    },
+    {
+      "depth": 2,
+      "at": "pelanggan-L2-3",
+      "button": "Bulan :",
+      "new_windows": []
+    },
+    {
+      "depth": 2,
+      "at": "pelanggan-L2-3",
+      "button": "Tanggal :",
+      "new_windows": []
+    },
+    {
+      "depth": 2,
+      "at": "pelanggan-L2-3",
+      "button": "Custom :",
+      "new_windows": []
+    },
+    {
+      "depth": 2,
+      "at": "pelanggan-L2-3",
+      "button": "Proses",
+      "new_windows": [
+        "Reports / Laporan"
+      ]
+    },
+    {
+      "depth": 3,
+      "at": "pelanggan-L3-4",
+      "button": "Info",
+      "new_windows": [
+        "Contoh Laporan"
+      ]
+    },
+    {
+      "depth": 3,
+      "at": "pelanggan-L3-4",
+      "button": "Export >>> Text File",
+      "new_windows": [
+        "Export >>> Text File"
+      ]
+    },
+    {
+      "depth": 3,
+      "at": "pelanggan-L3-4",
+      "button": "º",
+      "new_windows": []
+    },
+    {
+      "depth": 3,
+      "at": "pelanggan-L3-4",
+      "button": "Setup",
+      "new_windows": [
+        "Print Setup"
+      ]
+    },
+    {
+      "depth": 3,
+      "at": "pelanggan-L3-4",
+      "button": "Cetak",
+      "new_windows": [
+        "Setting Output: Daftar Limit Kredit Pelanggan"
+      ]
+    },
+    {
+      "depth": 2,
+      "at": "pelanggan-L2-3",
+      "button": "Laporan",
+      "new_windows": [
+        "Reports / Laporan"
+      ]
+    },
+    {
+      "depth": 3,
+      "at": "pelanggan-L3-5",
+      "button": "Info",
+      "new_windows": [
+        "Contoh Laporan"
+      ]
+    },
+    {
+      "depth": 3,
+      "at": "pelanggan-L3-5",
+      "button": "Export >>> Text File",
+      "new_windows": [
+        "Export >>> Text File"
+      ]
+    },
+    {
+      "depth": 3,
+      "at": "pelanggan-L3-5",
+      "button": "º",
+      "new_windows": []
+    },
+    {
+      "depth": 3,
+      "at": "pelanggan-L3-5",
+      "button": "Setup",
+      "new_windows": [
+        "Print Setup"
+      ]
+    },
+    {
+      "depth": 3,
+      "at": "pelanggan-L3-5",
+      "button": "Cetak",
+      "new_windows": [
+        "Setting Output: Daftar Limit Kredit Pelanggan"
+      ]
+    },
+    {
+      "depth": 1,
+      "at": "pelanggan-L1-0",
+      "button": "Tambah",
+      "new_windows": [
+        "Pelanggan"
+      ]
+    },
+    {
+      "depth": 2,
+      "at": "pelanggan-L2-6",
+      "button": "Corporate / Perusahaan",
+      "new_windows": []
+    },
+    {
+      "depth": 2,
+      "at": "pelanggan-L2-6",
+      "button": "Personal / Perorangan",
+      "new_windows": []
+    },
+    {
+      "depth": 2,
+      "at": "pelanggan-L2-6",
+      "button": "Gabungan dari beberapa pelanggan eceran",
+      "new_windows": []
+    },
+    {
+      "depth": 2,
+      "at": "pelanggan-L2-6",
+      "button": "Penjualan: Harga Jual diambil dari Harga Jual terakhir",
+      "new_windows": []
+    },
+    {
+      "depth": 2,
+      "at": "pelanggan-L2-6",
+      "button": "Pelanggan diblack list..",
+      "new_windows": []
+    },
+    {
+      "depth": 1,
+      "at": "pelanggan-L1-0",
+      "button": "Koreksi",
+      "new_windows": []
+    },
+    {
+      "depth": 1,
+      "at": "pelanggan-L1-0",
+      "button": "Semua Data",
+      "new_windows": []
+    },
+    {
+      "depth": 1,
+      "at": "pelanggan-L1-0",
+      "button": "Cari",
+      "new_windows": []
+    },
+    {
+      "depth": 1,
+      "at": "pelanggan-L1-0",
+      "button": "Ctrl+F7",
+      "new_windows": []
+    },
+    {
+      "depth": 1,
+      "at": "pelanggan-L1-0",
+      "button": "Ctrl+F6",
+      "new_windows": []
+    }
+  ],
+  "path_stack": []
+}
