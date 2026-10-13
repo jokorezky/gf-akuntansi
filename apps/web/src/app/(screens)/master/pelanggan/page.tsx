@@ -14,7 +14,7 @@ import { gql } from "@/lib/graphql";
 type Row = Record<string, string | number | boolean | null | undefined> & { id: number; nama: string };
 type Ref = { id: number; nama: string };
 
-const FIELDS = "id tipe tglDaftar nonAktif kode title nama alamat kodePos daerahId daerah2Id npwp npwpNama npwpAlamat telepon telepon2 telepon3 fax email website hubungi hubTelp1 hubungi2 hubTelp2 hubungi3 hubTelp3 termCrd termCrdex spsDisc discPri muCredit muJual maxCrd maxCrd2 max2Crd max2Crd2 max3Crd tanpaCrdc blackList pjHarLst pelGabung catShow groupPelId groupPe2Id jenpenId fakpjkNo salesId collectorId divisiId grphjlId hargaJual ppnTipe ppnPers ppnPersex setadj1per setadj2per setadj3per setadj4per setadj5per setadj1nil setadj2nil setadj3nil setadj4nil setadj5nil stsPers agama noKtp jenisKel tmpLahir tglLahir pendAkhir krmNama krmAlamat userLvl catatan";
+const FIELDS = "id tipe tglDaftar nonAktif kode title nama alamat kodePos daerahId daerah2Id npwp npwpNama npwpAlamat telepon telepon2 telepon3 fax email website hubungi hubTelp1 hubungi2 hubTelp2 hubungi3 hubTelp3 termCrd termCrdex spsDisc discPri muCredit muJual maxCrd maxCrd2 max2Crd max2Crd2 max3Crd tanpaCrdc blackList pjHarLst pelGabung catShow groupPelId groupPe2Id jenpenId fakpjkNo salesId collectorId divisiId grphjlId hjitemDsc hjEcrlst hargaJual ppnTipe ppnPers ppnPersex setadj1per setadj2per setadj3per setadj4per setadj5per setadj1nil setadj2nil setadj3nil setadj4nil setadj5nil stsPers agama noKtp jenisKel tmpLahir tglLahir pendAkhir krmNama krmAlamat userLvl catatan";
 const LIST = `query($q:String, $limit:Int, $offset:Int){ pelangganList(q:$q, limit:$limit, offset:$offset){ total rows { ${FIELDS} } } }`;
 const REFS = `{ daerahRefList { id nama } jenpenRefList { id nama } divisiRefList { id nama } grpvenRefList { id nama } }`;
 const BYID = `query($id:Int!){ pelangganById(id:$id){ ${FIELDS} } }`;
@@ -320,6 +320,22 @@ export default function PelangganPage() {
                         <input className="gf-3d bg-white px-1 py-[1px] text-right text-[11px]" value={String(form[nk] ?? "")} onChange={(e) => set({ [nk]: e.target.value })} />
                       </span>
                     ))}
+                  </span>
+                  <span className={lbl}>HJ Item :</span>
+                  <span className="col-span-2 flex items-center gap-1">
+                    <input className={inp} value={String(form.hjitemDsc ?? "")} onChange={(e) => set({ hjitemDsc: e.target.value })} />
+                    <span title="Diskon harga item khusus" className="gf-3d flex h-[18px] w-[18px] items-center justify-center bg-gf-menubar text-[10px]">!</span>
+                  </span>
+                  <span className="col-span-3 mt-1 rounded-md border border-gf-border bg-white p-2">
+                    <div className="mb-1 text-[11px] font-medium text-slate-500">Kirim Ke :</div>
+                    <div className="mb-1 flex items-center gap-1">
+                      <span className="w-[60px] text-[11px] text-slate-500">Nama :</span>
+                      <input className={inp} value={String(form.krmNama ?? "")} onChange={(e) => set({ krmNama: e.target.value })} />
+                    </div>
+                    <div className="flex items-start gap-1">
+                      <span className="w-[60px] pt-1 text-[11px] text-slate-500">Alamat :</span>
+                      <textarea className="h-[54px] w-full rounded-md border border-gf-border bg-white px-2 py-[2px] text-[12px]" value={String(form.krmAlamat ?? "")} onChange={(e) => set({ krmAlamat: e.target.value })} />
+                    </div>
                   </span>
                   <span className={lbl}>Pajak :</span>
                   <span className="col-span-2 flex gap-1">

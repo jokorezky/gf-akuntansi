@@ -59,6 +59,8 @@ const FIELDS: FieldDef[] = [
   { t: "collectorId", sql: "collector", kind: "n" },
   { t: "divisiId", sql: "divisi_id", kind: "n" },
   { t: "grphjlId", sql: "grphjl_id", kind: "n" },
+  { t: "hjitemDsc", sql: "hjitem_dsc", kind: "s" },
+  { t: "hjEcrlst", sql: "hj_ecrlst", kind: "s" },
   { t: "hargaJual", sql: "harga_jual", kind: "n" },
   { t: "ppnTipe", sql: "ppn_tipe", kind: "n" },
   { t: "ppnPers", sql: "ppn_pers", kind: "s" },

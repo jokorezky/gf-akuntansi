@@ -54,6 +54,8 @@ export class Pelanggan {
   @Field(() => Int, { nullable: true }) collectorId?: number;
   @Field(() => Int, { nullable: true }) divisiId?: number;
   @Field(() => Int, { nullable: true }) grphjlId?: number;
+  @Field(() => String, { nullable: true }) hjitemDsc?: string;
+  @Field(() => String, { nullable: true }) hjEcrlst?: string;
   @Field(() => Int, { nullable: true }) hargaJual?: number;
   @Field(() => Int, { nullable: true }) ppnTipe?: number;
   @Field(() => String, { nullable: true }) ppnPers?: string;
@@ -135,6 +137,8 @@ export class PelangganInput {
   @Field(() => Int, { nullable: true }) collectorId?: number;
   @Field(() => Int, { nullable: true }) divisiId?: number;
   @Field(() => Int, { nullable: true }) grphjlId?: number;
+  @Field(() => String, { nullable: true }) hjitemDsc?: string;
+  @Field(() => String, { nullable: true }) hjEcrlst?: string;
   @Field(() => Int, { nullable: true }) hargaJual?: number;
   @Field(() => Int, { nullable: true }) ppnTipe?: number;
   @Field(() => String, { nullable: true }) ppnPers?: string;
