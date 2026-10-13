@@ -12,9 +12,12 @@ function num(v: unknown): number {
 }
 
 const HDR = `
-  j.id::int AS id, j.no::text AS no, to_char(j.tanggal,'YYYY-MM-DD') AS tanggal, j.divisi_id AS "divisiId", j.catatan,
+  j.id::int AS id, j.no::text AS no, to_char(j.tanggal,'YYYY-MM-DD') AS tanggal, j.divisi_id AS "divisiId",
+  j.vendor AS "vendorId", v.nama AS "vendorNama", j.pelang::int AS "pelangId", pl.nama AS "pelangNama", j.jenis, j.catatan,
   (SELECT round(COALESCE(SUM(CASE WHEN d.debet THEN d.nilai ELSE 0 END),0),2)::text FROM gf.s_jurnex d WHERE d.jurnal_id=j.id) AS "totalDebet",
   (SELECT round(COALESCE(SUM(CASE WHEN NOT d.debet THEN d.nilai ELSE 0 END),0),2)::text FROM gf.s_jurnex d WHERE d.jurnal_id=j.id) AS "totalKredit"`;
+
+const JOIN = `LEFT JOIN gf.s_vendor v ON v.id=j.vendor LEFT JOIN gf.s_pelang pl ON pl.id=j.pelang`;
 
 @Injectable()
 export class JurnalService {
@@ -30,17 +33,18 @@ export class JurnalService {
     const total = await this.pool.query(`SELECT count(*)::int AS n FROM gf.s_jurnal j ${where}`, params);
     params.push(limit, offset);
     const rows = await this.pool.query(
-      `SELECT ${HDR} FROM gf.s_jurnal j ${where} ORDER BY j.id DESC LIMIT $${params.length - 1} OFFSET $${params.length}`,
+      `SELECT ${HDR} FROM gf.s_jurnal j ${JOIN} ${where} ORDER BY j.id DESC LIMIT $${params.length - 1} OFFSET $${params.length}`,
       params,
     );
     return { rows: rows.rows as Jurnal[], total: total.rows[0].n as number };
   }
 
   async byId(id: number): Promise<Jurnal | null> {
-    const h = await this.pool.query(`SELECT ${HDR} FROM gf.s_jurnal j WHERE j.id=$1 AND j.hapus_oleh IS NULL`, [id]);
+    const h = await this.pool.query(`SELECT ${HDR} FROM gf.s_jurnal j ${JOIN} WHERE j.id=$1 AND j.hapus_oleh IS NULL`, [id]);
     if (!h.rows[0]) return null;
     const d = await this.pool.query(
-      `SELECT d.perkir_id::int AS "perkirId", p.nama AS "perkirNama", d.nilai::text AS nilai, d.debet
+      `SELECT d.perkir_id::int AS "perkirId", p.nama AS "perkirNama", d.nilai::text AS nilai, d.debet,
+              d.lunas_doc AS note, to_char(d.lunas_dt,'YYYY-MM-DD') AS date, d.mauang
        FROM gf.s_jurnex d LEFT JOIN gf.s_perkir p ON p.id=d.perkir_id WHERE d.jurnal_id=$1 ORDER BY d.sys_id`,
       [id],
     );
@@ -52,17 +56,18 @@ export class JurnalService {
     try {
       await client.query("BEGIN");
       const h = await client.query(
-        `INSERT INTO gf.s_jurnal (id, no, tanggal, divisi_id, catatan, input_oleh, tgl_input, jam_input)
+        `INSERT INTO gf.s_jurnal (id, no, tanggal, divisi_id, vendor, pelang, jenis, catatan, input_oleh, tgl_input, jam_input)
          VALUES ((SELECT COALESCE(MAX(id),0)+1 FROM gf.s_jurnal), (SELECT COALESCE(MAX(no),0)+1 FROM gf.s_jurnal),
-          COALESCE($1, now()::date), $2, $3, $4, now()::date, to_char(now(),'HH24:MI:SS'))
+          COALESCE($1, now()::date), $2, $3, $4, $5, $6, $7, now()::date, to_char(now(),'HH24:MI:SS'))
          RETURNING id`,
-        [nn(input.tanggal), nn(input.divisiId), nn(input.catatan), userId],
+        [nn(input.tanggal), nn(input.divisiId), nn(input.vendorId), nn(input.pelangId), nn(input.jenis), nn(input.catatan), userId],
       );
       const pid = h.rows[0].id as number;
       for (const l of input.lines) {
         await client.query(
-          `INSERT INTO gf.s_jurnex (jurnal_id, perkir_id, debet, nilai, tanggal) VALUES ($1,$2,$3,$4, COALESCE($5, now()::date))`,
-          [pid, nn(l.perkirId), l.debet ?? false, num(l.nilai), nn(input.tanggal)],
+          `INSERT INTO gf.s_jurnex (jurnal_id, perkir_id, debet, nilai, tanggal, lunas_doc, lunas_dt, mauang)
+           VALUES ($1,$2,$3,$4, COALESCE($5, now()::date), $6, $7, COALESCE($8,1))`,
+          [pid, nn(l.perkirId), l.debet ?? false, num(l.nilai), nn(input.tanggal), nn(l.note), nn(l.date), nn(l.mauang)],
         );
       }
       await client.query("COMMIT");
@@ -80,16 +85,17 @@ export class JurnalService {
     try {
       await client.query("BEGIN");
       await client.query(
-        `UPDATE gf.s_jurnal SET tanggal=COALESCE($2, tanggal), divisi_id=$3, catatan=$4,
-           ubah_oleh=$5, tgl_ubah=now()::date, jam_ubah=to_char(now(),'HH24:MI:SS')
+        `UPDATE gf.s_jurnal SET tanggal=COALESCE($2, tanggal), divisi_id=$3, vendor=$4, pelang=$5, jenis=$6, catatan=$7,
+           ubah_oleh=$8, tgl_ubah=now()::date, jam_ubah=to_char(now(),'HH24:MI:SS')
          WHERE id=$1 AND hapus_oleh IS NULL`,
-        [id, nn(input.tanggal), nn(input.divisiId), nn(input.catatan), userId],
+        [id, nn(input.tanggal), nn(input.divisiId), nn(input.vendorId), nn(input.pelangId), nn(input.jenis), nn(input.catatan), userId],
       );
       await client.query(`DELETE FROM gf.s_jurnex WHERE jurnal_id=$1`, [id]);
       for (const l of input.lines) {
         await client.query(
-          `INSERT INTO gf.s_jurnex (jurnal_id, perkir_id, debet, nilai, tanggal) VALUES ($1,$2,$3,$4, COALESCE($5, now()::date))`,
-          [id, nn(l.perkirId), l.debet ?? false, num(l.nilai), nn(input.tanggal)],
+          `INSERT INTO gf.s_jurnex (jurnal_id, perkir_id, debet, nilai, tanggal, lunas_doc, lunas_dt, mauang)
+           VALUES ($1,$2,$3,$4, COALESCE($5, now()::date), $6, $7, COALESCE($8,1))`,
+          [id, nn(l.perkirId), l.debet ?? false, num(l.nilai), nn(input.tanggal), nn(l.note), nn(l.date), nn(l.mauang)],
         );
       }
       await client.query("COMMIT");

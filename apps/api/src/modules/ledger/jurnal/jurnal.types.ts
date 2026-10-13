@@ -6,6 +6,9 @@ export class JurnalLine {
   @Field({ nullable: true }) perkirNama?: string;
   @Field({ nullable: true }) nilai?: string;
   @Field({ nullable: true }) debet?: boolean;
+  @Field({ nullable: true }) note?: string;
+  @Field({ nullable: true }) date?: string;
+  @Field(() => Int, { nullable: true }) mauang?: number;
 }
 
 @InputType()
@@ -13,6 +16,9 @@ export class JurnalLineInput {
   @Field(() => Int, { nullable: true }) perkirId?: number;
   @Field({ nullable: true }) nilai?: string;
   @Field({ nullable: true }) debet?: boolean;
+  @Field({ nullable: true }) note?: string;
+  @Field({ nullable: true }) date?: string;
+  @Field(() => Int, { nullable: true }) mauang?: number;
 }
 
 @ObjectType()
@@ -21,6 +27,11 @@ export class Jurnal {
   @Field({ nullable: true }) no?: string;
   @Field({ nullable: true }) tanggal?: string;
   @Field(() => Int, { nullable: true }) divisiId?: number;
+  @Field(() => Int, { nullable: true }) vendorId?: number;
+  @Field({ nullable: true }) vendorNama?: string;
+  @Field(() => Int, { nullable: true }) pelangId?: number;
+  @Field({ nullable: true }) pelangNama?: string;
+  @Field(() => Int, { nullable: true }) jenis?: number;
   @Field({ nullable: true }) catatan?: string;
   @Field({ nullable: true }) totalDebet?: string;
   @Field({ nullable: true }) totalKredit?: string;
@@ -32,6 +43,9 @@ export class JurnalInput {
   @Field({ nullable: true }) no?: string;
   @Field({ nullable: true }) tanggal?: string;
   @Field(() => Int, { nullable: true }) divisiId?: number;
+  @Field(() => Int, { nullable: true }) vendorId?: number;
+  @Field(() => Int, { nullable: true }) pelangId?: number;
+  @Field(() => Int, { nullable: true }) jenis?: number;
   @Field({ nullable: true }) catatan?: string;
   @Field(() => [JurnalLineInput]) lines: JurnalLineInput[];
 }

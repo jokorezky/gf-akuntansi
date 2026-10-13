@@ -9,7 +9,7 @@ Legenda: ✅ selesai 1:1 · 🔄 jalan (belum V2-pass penuh) · ⏳ belum mulai
 
 ## 0. Ringkasan
 
-**Progress keseluruhan: ±70%** (basis: 53 layar inti + layar ekstra antar cabang/setup)
+**Progress keseluruhan: ±72%** (basis: 53 layar inti + layar ekstra antar cabang/setup)
 
 | Grup | ✅ Selesai | Total | % | Catatan |
 |---|---|---|---|---|
@@ -279,7 +279,7 @@ Deep scan GF menemukan: layar antar cabang = **form induk dengan mode** — judu
 3. ~~**Fase E** — Barang Promosi ×2, Transfer, Untransfer, Pindah Gudang, Validasi Barang Keluar~~ ✅ **SELESAI 13 Okt 2026** (5 layar; modul Lainnya ~95%).
 4. **Fase F** — ~~Sistem Setup (5 layar)~~ ✅ SELESAI (inti 4/5 + Setup List observe).
 5. ~~**Fase G** — User Profile + sisa kecil~~ ✅ **SELESAI 13 Okt 2026** (semua fase A–G tuntas).
-6. **V2-pass sisa** ← berikutnya — Daftar Hutang, Kas Masuk/Keluar/Transfer, Aktiva Tetap, Jurnal, BB, LK, Promosi, Produksi, Barang Masuk/Keluar, Kartu ×3, Expired.
+6. **V2-pass sisa** ← sedang berjalan — ✅ Daftar Hutang, ✅ Kas Masuk/Keluar (2 grid DEBET/KREDIT), ✅ Aktiva Tetap (+kode/beliDari/jualKpd/outKet), ✅ Jurnal (2 grid + jenis/vendor/pelang + note/date); **sisa**: Buku Besar, Laporan Keuangan, Promosi, Produksi, Barang Masuk/Keluar, Kartu ×3, Expired.
 7. **V1c** toolbar ikon individual · **A4** data laporan per modul · **V3** laporan pixel-perfect · **V4** re-check semua klaim · **Setup List FE**.
 
 ## 12. Aturan Update File Ini
@@ -289,6 +289,7 @@ Deep scan GF menemukan: layar antar cabang = **form induk dengan mode** — judu
 
 ## 13. Riwayat Update
 
+- **13 Okt 2026 (9)** — **V2-pass batch 1**: ✅ **Daftar Hutang** (panel vendor + Proses; kolom GF: jatuh tempo = tgl+credit, lunasOn/lunasOnDisc, adjust/PJK/retur/deposit; bayar via `s_lpemma` non-hapus) · ✅ **Kas Masuk/Keluar** (form **2 grid DEBET/KREDIT** double-entry + Terima Dari/Masuk List/perkir_1-2/penjEcr + baris note/date/CH-BG/MU; `s_kasklr` tanpa perkir_2) · ✅ **Aktiva Tetap** (+kode/beli_dari/jual_kpd/out_ket) · ✅ **Jurnal** (2 grid, `jenis` **INTEGER**, vendor/pelang, note/date; balance check). Semua uji PASS + cleanup. Progress **±72%**; sisa V2-pass: Buku Besar/LK/Promosi/Produksi/Barang Masuk-Keluar/Kartu ×3/Expired.
 - **13 Okt 2026 (8)** — **FASE G SELESAI: User Profile (24486)** — window User Profile (grid USER + GROUP, tombol **Duplicate**), form "Security - Group"; `s_securi` (39 grup, bitmap+secfile001..030) + `s_secusr` (249 user, **relasi securi_id**). Temuan: `hapus_oleh=0`=aktif (tabel security), reserved-word `"user"`, nama grup varchar(10). CRUD+duplicate+rename PASS + cleanup total. **Semua fase A–G TUNTAS**; progress **±70%**; sisa: V2-pass (~15 layar), V1c, A4, V3, V4, Setup List FE.
 - **13 Okt 2026 (7)** — **FASE F SELESAI (inti 4/5 + Setup List observe)**: Kode Perkiraan (`s_perkir` 373 akun, CRUD+toggle), Tipe Pembayaran (`s_luntip`, charges/disc/toggles; glb_discs boolean & adjust int dikoreksi), Eceran List (`s_ecrlst` preset, FK 3 arah terverifikasi), **Konfigurasi** (`s_kontro` 1.141 kolom; temuan `s_konhjn` = map Harga Jual per modul usaha). Semua uji PASS + cleanup/revert. Progress **±68%**; berikutnya **Fase G (User Profile)** + V2-pass sisa.
 - **13 Okt 2026 (6)** — **FASE E SELESAI (5/5)**: + **Validasi Barang Keluar (24665)** (viewer scan: Scan Cty live Nota, Penjualan/Pindah Gdg/Tutup Error, log kuning, validasi lawan `saleById`/`barangPindahGudangById`, auto-stop pada batas error). Modul Lainnya ~95%; progress keseluruhan **±66%**; berikutnya **Fase F (Sistem Setup 5 layar)**.
