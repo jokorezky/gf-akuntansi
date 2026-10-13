@@ -9,7 +9,7 @@ Legenda: ✅ selesai 1:1 · 🔄 jalan (belum V2-pass penuh) · ⏳ belum mulai
 
 ## 0. Ringkasan
 
-**Progress keseluruhan: ±62%** (basis: 53 layar inti + layar ekstra antar cabang/setup)
+**Progress keseluruhan: ±64%** (basis: 53 layar inti + layar ekstra antar cabang/setup)
 
 | Grup | ✅ Selesai | Total | % | Catatan |
 |---|---|---|---|---|
@@ -19,6 +19,7 @@ Legenda: ✅ selesai 1:1 · 🔄 jalan (belum V2-pass penuh) · ⏳ belum mulai
 | Pembelian | 6 | 6 | **100%** | PO, Pembelian, Retur, Deposit, Bayar Hutang, Daftar Hutang |
 | Penjualan | 6 | 6 | **100%** | Penjualan, SO, POS, Retur, Penerimaan Piutang, Daftar Piutang |
 | Kas | 7 | 7 | **100%** | + Cari/Pencairan CH-BG (4 layar, V2-deep) |
+| Antar Cabang | 2 | 2 | **100%** | Pembelian/Penjualan [ANTAR CABANG] + combo Cabang/Jenis/Tanpa Item/Gudang per divisi |
 | GL | 7 | 7 | ~90% | Semua jalan; Jurnal/BB/LK belum V2-pass |
 | Lainnya | 9 | 14 | ~65% | Sisa: Barang Promosi ×2, Transfer, Untransfer, Pindah Gudang, Validasi |
 | Laporan | viewer ✅ | — | ~60% | 557 `.rpt` + viewer; isi data laporan per modul (A4) sebagian |
@@ -184,6 +185,22 @@ Legenda: ✅ selesai 1:1 · 🔄 jalan (belum V2-pass penuh) · ⏳ belum mulai
 - Analog dari `gf.s_kaskex`; tombol & logic sama (`Cairkan`/`Batal Cair` → `cairchbg/lunas_cair/luncair_nb`).
 - **Rute**: `/cari-chbg-masuk`, `/cari-chbg-keluar`, `/pencairan-chbg-masuk`, `/pencairan-chbg-keluar` (terdaftar di Shell → menu id 24624/24625/24627/24628).
 
+## 6b. Antar Cabang — ✅ 2/2 (100%) — *Fase D*
+
+Deep scan GF menemukan: layar antar cabang = **form induk dengan mode** — judul form GF: "Pembelian **[ANTAR CABANG]**" (24632) & "Penjualan **[ANTAR CABANG]**" (24633); **tidak ada kolom diskriminator baru** di DB (write tetap `s_pembel/s_pembed` & `s_penjua/s_penjud`, memakai `divisi_id` + `gudang`).
+
+### 6b.1 Pembelian Antar Cabang (24632) ✅
+- **UI 1:1** (hasil dump kontrol GF): baris tambahan **Cabang :** combo (14 cabang dari `s_divisi`), **Jenis** combo ('Pembelian Barang'), combo mode **'---' / 'Tanpa Item'**, dan **Gudang** combo **16 opsi** (GUDANG MASTER + "GUDANG <NAMA CABANG>" per divisi — di GF gudang = turunan divisi, bukan tabel s_gudang), PJK/PPN.
+- Mode 'Tanpa Item' → boleh simpan tanpa baris barang.
+- **BE**: `PurchaseInput` + `Purchase` dapat `divisiId` (kolom `s_pembel.divisi_id`); CRUD sama.
+- **Teruji (MATH+RELASI)**: create gudang=6/divisi=6 → tersimpan & terbaca ulang; cleanup bersih.
+
+### 6b.2 Penjualan Antar Cabang (24633) ✅
+- Pengamatan GF: form **2 tab** (sama pola dengan Penjualan) + mode [ANTAR CABANG]; ekstra Cabang/Jenis('Penjualan Barang')/Tanpa Item/Gudang-per-divisi (simetris dengan pembelian).
+- **BE**: `SaleInput` + `Sale` dapat `divisiId` (kolom `s_penjua.divisi_id`).
+- **Teruji**: create gudang=6/divisi=6 (no auto 41021847) → tersimpan; cleanup bersih.
+- **Rute**: `/pembelian-antar-cabang`, `/penjualan-antar-cabang` (Shell → 24632/24633).
+
 ---
 
 ## 7. GL — 🔄 7/7 (~90%)
@@ -232,9 +249,9 @@ Legenda: ✅ selesai 1:1 · 🔄 jalan (belum V2-pass penuh) · ⏳ belum mulai
 
 ## 11. Antrian Fase (urutan kerja)
 
-1. ~~**Fase C** — Cari/Pencairan CH-BG (4 layar)~~ ✅ **SELESAI 13 Okt 2026** (modul Kas tuntas 7/7).
-2. **Fase D** — Antar Cabang (2 layar) ← berikutnya.
-3. **Fase E** — Barang Promosi ×2, Transfer, Untransfer, Pindah Gudang, Validasi Barang Keluar.
+1. ~~**Fase C** — Cari/Pencairan CH-BG (4 layar)~~ ✅ **SELESAI** (modul Kas tuntas 7/7).
+2. ~~**Fase D** — Antar Cabang (2 layar)~~ ✅ **SELESAI 13 Okt 2026** (mode [ANTAR CABANG] + combo cabang/gudang; divisiId tersimpan).
+3. **Fase E** — Barang Promosi ×2, Transfer, Untransfer, Pindah Gudang, Validasi Barang Keluar ← berikutnya.
 4. **Fase F** — Sistem Setup (5 layar).
 5. **Fase G** — User Profile + sisa kecil.
 6. **V2-pass sisa** — Daftar Hutang, Kas Masuk/Keluar/Transfer, Aktiva Tetap, Jurnal, BB, LK, Promosi, Produksi, Barang Masuk/Keluar, Kartu ×3, Expired.
@@ -247,5 +264,6 @@ Legenda: ✅ selesai 1:1 · 🔄 jalan (belum V2-pass penuh) · ⏳ belum mulai
 
 ## 13. Riwayat Update
 
+- **13 Okt 2026 (3)** — **Fase D SELESAI**: Pembelian & Penjualan [ANTAR CABANG] (24632/24633) V2-deep. Temuan: antar cabang = mode dari form induk (judul "Pembelian [ANTAR CABANG]"), tanpa tabel/kolom baru; gudang = turunan divisi (16 opsi dari MASTER+14 cabang). BE Pembelian & Penjualan dapat `divisiId` (`s_pembel/s_penjua.divisi_id`). Smoke PASS + cleanup bersih. Progress ±64%; berikutnya Fase E (Barang Promosi/Transfer/Untransfer/Pindah Gudang/Validasi).
 - **13 Okt 2026 (2)** — **Fase C SELESAI**: 4 layar Cari/Pencairan CH-BG dibangun V2-deep (BE modul `chbg` + FE `ChbgScreen` bersama + 4 rute). Teruji: list masuk 19.396 / keluar 18.286 baris; cari no; Cairkan → `cairchbg/lunas_cair/luncair_nb`; filter belum/sudah; Batal Cair (reversal, data uji dikembalikan). **Modul Kas tuntas 7/7 (100%)**; progress keseluruhan ±62%; berikutnya Fase D (Antar Cabang).
 - **13 Okt 2026 (1)** — File dibuat. Rekap seluruh pencapaian: Fondasi, Shell/Menu, Master File 5/5, Pembelian 6/6, **Penjualan 6/6 (all LOGIC + RELASI TABLE teruji)**; progress keseluruhan ±60%.

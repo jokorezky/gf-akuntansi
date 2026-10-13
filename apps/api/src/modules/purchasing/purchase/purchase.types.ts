@@ -40,6 +40,7 @@ export class Purchase {
   @Field(() => Int, { nullable: true }) vendorId?: number;
   @Field({ nullable: true }) vendorNama?: string;
   @Field(() => Int, { nullable: true }) gudang?: number;
+  @Field(() => Int, { nullable: true }) divisiId?: number;
   @Field(() => Int, { nullable: true }) purcorId?: number;
   @Field({ nullable: true }) noFakpjk?: string;
   @Field({ nullable: true }) tglFakpjk?: string;
@@ -70,6 +71,7 @@ export class PurchaseInput {
   @Field({ nullable: true }) tanggal2?: string;
   @Field(() => Int) vendorId: number;
   @Field(() => Int, { nullable: true }) gudang?: number;
+  @Field(() => Int, { nullable: true }) divisiId?: number;
   @Field(() => Int, { nullable: true }) purcorId?: number;
   @Field({ nullable: true }) noFakpjk?: string;
   @Field({ nullable: true }) tglFakpjk?: string;

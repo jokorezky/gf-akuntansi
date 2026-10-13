@@ -41,6 +41,7 @@ export class Sale {
   @Field(() => Int, { nullable: true }) pelangId?: number;
   @Field({ nullable: true }) pelangNama?: string;
   @Field(() => Int, { nullable: true }) gudang?: number;
+  @Field(() => Int, { nullable: true }) divisiId?: number;
   @Field(() => Int, { nullable: true }) salordId?: number;
   @Field({ nullable: true }) po?: string;
   @Field(() => Int, { nullable: true }) salesId?: number;
@@ -76,6 +77,7 @@ export class SaleInput {
   @Field({ nullable: true }) tanggal?: string;
   @Field(() => Int) pelangId: number;
   @Field(() => Int, { nullable: true }) gudang?: number;
+  @Field(() => Int, { nullable: true }) divisiId?: number;
   @Field(() => Int, { nullable: true }) salordId?: number;
   @Field({ nullable: true }) po?: string;
   @Field(() => Int, { nullable: true }) salesId?: number;

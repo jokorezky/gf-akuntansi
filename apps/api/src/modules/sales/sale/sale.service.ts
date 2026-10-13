@@ -16,7 +16,7 @@ function r2(n: number): number {
 
 const HDR = `
   j.id::int AS id, COALESCE(j.no_c, j.no::text) AS no, to_char(j.tanggal,'YYYY-MM-DD') AS tanggal,
-  j.pelang::int AS "pelangId", p.nama AS "pelangNama", j.gudang, j.salord_id::int AS "salordId", j.po,
+  j.pelang::int AS "pelangId", p.nama AS "pelangNama", j.gudang, j.divisi_id AS "divisiId", j.salord_id::int AS "salordId", j.po,
   j.sales, j.sales_kom::text AS "salesKom", j.mauang, j.kurs::text AS kurs,
   j.tot_harga::text AS "totHarga", j.tot_disc::text AS "totDisc", j.disc_nilai::text AS "discNilai",
   j.tot_retur::text AS "totRetur",
@@ -109,7 +109,7 @@ export class SaleService {
            (id, no, no_c, tanggal, pelang, gudang, salord_id, po, sales, sales_kom, mauang, kurs,
             tot_harga, tot_disc, disc_nilai, tot_retur,
             ppn_tipe, ppn_pers, ppn_nilai, adj_01, adj_02, adj_03, adj_04, adj_05,
-            deposit, term_crd, lunas, no_pjk, no_pjk_sr, tgl_pajak, kurs_pajak, catatan,
+            deposit, term_crd, lunas, no_pjk, no_pjk_sr, tgl_pajak, kurs_pajak, catatan, divisi_id,
             input_oleh, tgl_input, jam_input)
          VALUES
            ((SELECT COALESCE(MAX(id),0)+1 FROM gf.s_penjua),
@@ -117,8 +117,8 @@ export class SaleService {
             $1, COALESCE($2, now()::date), $3, $4, $5, $6, $7, $8, $9, $10,
             $11, $12, $13, 0,
             $14, $15, $16, $17, $18, $19, $20, $21,
-            $22, $23, $24, $25, $26, $27, $28, $29,
-            $30, now()::date, to_char(now(),'HH24:MI:SS'))
+            $22, $23, $24, $25, $26, $27, $28, $29, $30,
+            $31, now()::date, to_char(now(),'HH24:MI:SS'))
          RETURNING id`,
         [nn(input.no), nn(input.tanggal), input.pelangId, nn(input.gudang), nn(input.salordId), nn(input.po),
          nn(input.salesId), num(input.salesKom), nn(input.mauang), nn(input.kurs),
@@ -126,7 +126,7 @@ export class SaleService {
          input.ppnTipe ?? 0, num(input.ppnPers), t.ppnNilai,
          num(input.adj01), num(input.adj02), num(input.adj03), num(input.adj04), num(input.adj05),
          num(input.deposit), nn(input.termCrd), num(input.lunas), nn(input.noPjk), nn(input.noPjkSr),
-         nn(input.tglPajak), nn(input.kursPajak), nn(input.catatan), userId],
+         nn(input.tglPajak), nn(input.kursPajak), nn(input.catatan), nn(input.divisiId), userId],
       );
       const pid = h.rows[0].id as number;
       await this.insertLines(client, pid, input);
@@ -151,7 +151,7 @@ export class SaleService {
            tot_harga=$12, tot_disc=$13, disc_nilai=$14,
            ppn_tipe=$15, ppn_pers=$16, ppn_nilai=$17, adj_01=$18, adj_02=$19, adj_03=$20, adj_04=$21, adj_05=$22,
            deposit=$23, term_crd=$24, lunas=$25, no_pjk=$26, no_pjk_sr=$27, tgl_pajak=$28, kurs_pajak=$29, catatan=$30,
-           ubah_oleh=$31, tgl_ubah=now()::date, jam_ubah=to_char(now(),'HH24:MI:SS')
+           divisi_id=$31, ubah_oleh=$32, tgl_ubah=now()::date, jam_ubah=to_char(now(),'HH24:MI:SS')
          WHERE id=$1 AND hapus_oleh IS NULL`,
         [id, nn(input.no), nn(input.tanggal), input.pelangId, nn(input.gudang),
          nn(input.salordId), nn(input.po), nn(input.salesId), num(input.salesKom), nn(input.mauang), nn(input.kurs),
@@ -159,7 +159,7 @@ export class SaleService {
          input.ppnTipe ?? 0, num(input.ppnPers), t.ppnNilai,
          num(input.adj01), num(input.adj02), num(input.adj03), num(input.adj04), num(input.adj05),
          num(input.deposit), nn(input.termCrd), num(input.lunas), nn(input.noPjk), nn(input.noPjkSr),
-         nn(input.tglPajak), nn(input.kursPajak), nn(input.catatan), userId],
+         nn(input.tglPajak), nn(input.kursPajak), nn(input.catatan), nn(input.divisiId), userId],
       );
       await client.query(`DELETE FROM gf.s_penjud WHERE penjua_id=$1`, [id]);
       await this.insertLines(client, id, input);

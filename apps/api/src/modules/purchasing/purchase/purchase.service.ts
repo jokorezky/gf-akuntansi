@@ -17,7 +17,7 @@ function r2(n: number): number {
 const HDR = `
   p.id::int AS id, p.no, to_char(p.tanggal,'YYYY-MM-DD') AS tanggal, to_char(p.tanggal2,'YYYY-MM-DD') AS tanggal2,
   p.vendor AS "vendorId", v.nama AS "vendorNama",
-  p.gudang, p.purcor_id AS "purcorId", p.no_fakpjk AS "noFakpjk", to_char(p.tgl_fakpjk,'YYYY-MM-DD') AS "tglFakpjk",
+  p.gudang, p.divisi_id AS "divisiId", p.purcor_id AS "purcorId", p.no_fakpjk AS "noFakpjk", to_char(p.tgl_fakpjk,'YYYY-MM-DD') AS "tglFakpjk",
   p.mauang, p.kurs::text AS kurs,
   p.tot_harga::text AS "totHarga", p.tot_disc::text AS "totDisc", p.disc_nilai::text AS "discNilai",
   p.tot_retur::text AS "totRetur",
@@ -97,19 +97,20 @@ export class PurchaseService {
         `INSERT INTO gf.s_pembel
            (id, no, tanggal, tanggal2, vendor, gudang, purcor_id, no_fakpjk, tgl_fakpjk, mauang, kurs,
             tot_harga, tot_disc, disc_nilai, adj_01, adj_02, adj_03, adj_04, adj_05,
-            ppn_tipe, ppn_pers, ppn_nilai, deposit, term_crd, catatan,
+            ppn_tipe, ppn_pers, ppn_nilai, deposit, term_crd, catatan, divisi_id,
             input_oleh, tgl_input, jam_input)
          VALUES
            ((SELECT COALESCE(MAX(id),0)+1 FROM gf.s_pembel), $1, COALESCE($2, now()::date), $3, $4, $5, $6, $7, $8, $9, $10,
             $11, $12, $13, $14, $15, $16, $17, $18,
-            $19, $20, $21, $22, $23, $24,
-            $25, now()::date, to_char(now(),'HH24:MI:SS'))
+            $19, $20, $21, $22, $23, $24, $25,
+            $26, now()::date, to_char(now(),'HH24:MI:SS'))
          RETURNING id`,
         [nn(input.no), nn(input.tanggal), nn(input.tanggal2), input.vendorId, nn(input.gudang), nn(input.purcorId),
          nn(input.noFakpjk), nn(input.tglFakpjk), nn(input.mauang), nn(input.kurs),
          t.totHarga, t.totDisc, num(input.discNilai),
          num(input.adj01), num(input.adj02), num(input.adj03), num(input.adj04), num(input.adj05),
-         input.ppnTipe ?? 0, t.ppnPers, t.ppnNilai, num(input.deposit), nn(input.termCrd), nn(input.catatan), userId],
+         input.ppnTipe ?? 0, t.ppnPers, t.ppnNilai, num(input.deposit), nn(input.termCrd), nn(input.catatan),
+         nn(input.divisiId), userId],
       );
       const pid = h.rows[0].id as number;
       for (const l of input.lines) {
@@ -140,14 +141,15 @@ export class PurchaseService {
         `UPDATE gf.s_pembel SET no=$2, tanggal=COALESCE($3, tanggal), tanggal2=$4, vendor=$5, gudang=$6,
            purcor_id=$7, no_fakpjk=$8, tgl_fakpjk=$9, mauang=$10, kurs=$11,
            tot_harga=$12, tot_disc=$13, disc_nilai=$14, adj_01=$15, adj_02=$16, adj_03=$17, adj_04=$18, adj_05=$19,
-           ppn_tipe=$20, ppn_pers=$21, ppn_nilai=$22, deposit=$23, term_crd=$24, catatan=$25,
-           ubah_oleh=$26, tgl_ubah=now()::date, jam_ubah=to_char(now(),'HH24:MI:SS')
+           ppn_tipe=$20, ppn_pers=$21, ppn_nilai=$22, deposit=$23, term_crd=$24, catatan=$25, divisi_id=$26,
+           ubah_oleh=$27, tgl_ubah=now()::date, jam_ubah=to_char(now(),'HH24:MI:SS')
          WHERE id=$1 AND hapus_oleh IS NULL`,
         [id, nn(input.no), nn(input.tanggal), nn(input.tanggal2), input.vendorId, nn(input.gudang),
          nn(input.purcorId), nn(input.noFakpjk), nn(input.tglFakpjk), nn(input.mauang), nn(input.kurs),
          t.totHarga, t.totDisc, num(input.discNilai),
          num(input.adj01), num(input.adj02), num(input.adj03), num(input.adj04), num(input.adj05),
-         input.ppnTipe ?? 0, t.ppnPers, t.ppnNilai, num(input.deposit), nn(input.termCrd), nn(input.catatan), userId],
+         input.ppnTipe ?? 0, t.ppnPers, t.ppnNilai, num(input.deposit), nn(input.termCrd), nn(input.catatan),
+         nn(input.divisiId), userId],
       );
       await client.query(`DELETE FROM gf.s_pembed WHERE pembel_id=$1`, [id]);
       for (const l of input.lines) {

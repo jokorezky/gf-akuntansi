@@ -37,6 +37,8 @@ const ROUTES: Record<number, string> = {
   24625: "/cari-chbg-keluar",
   24627: "/pencairan-chbg-masuk",
   24628: "/pencairan-chbg-keluar",
+  24632: "/pembelian-antar-cabang",
+  24633: "/penjualan-antar-cabang",
   24637: "/jurnal",
   24642: "/buku-besar",
   24644: "/laporan-keuangan",
