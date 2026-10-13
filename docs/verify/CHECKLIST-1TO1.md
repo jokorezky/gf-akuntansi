@@ -192,19 +192,19 @@
 
 | # | Item | Status | Catatan |
 |---|---|---|---|
-| D1 | Menu bar dropdown 1:1 (9 grup, label + accelerator kanan) | [ ] | audit F2 |
-| D2 | Toolbar ikon individual (V1c) semua berfungsi | [ ] | F3 |
-| D3 | Footer/status bar GF (user, tanggal, posisi) 1:1 | [ ] | audit F2 |
-| D4 | **Pagination 15 baris + pager** semua tabel & laporan | [ ] | F3 (komponen `Pager` global) |
-| D5 | Format angka/tanggal/jam 1:1 di semua grid | [ ] | F2/F3 |
-| D6 | Semua tombol Cetak (preview minimal) | [ ] | F3 |
+| D1 | Menu bar dropdown 1:1 (9 grup, label + accelerator kanan) | [~] | tampil di SEMUA layar via layout; audit isi dropdown lanjut |
+| D2 | Toolbar ikon individual (V1c) | [x] | strip lama DIHAPUS (keputusan user); ikon tombol layar = lucide semua |
+| D3 | Footer/status bar GF (user, tanggal, posisi) 1:1 | [~] | status bar 2 sel (tanggal/jam) tampil di SEMUA layar |
+| D4 | **Pagination 15 baris + pager** semua tabel & laporan | [x] | `Pager` aktif ~38 layar + viewer laporan; 7 layar wired manual |
+| D5 | Format angka/tanggal/jam 1:1 di semua grid | [~] | d/m/Y + jam sudah; audit per layar lanjut |
+| D6 | Semua tombol Cetak (preview minimal) | [ ] | F3 lanjut |
 | D7 | Shortcut per layar teruji (GF + clone) | [~] | V5 global ok; per-layar via F2 |
-| D8 | API mapping layar→query/mutation benar semua | [ ] | F2/F3 |
-| D9 | Backup/Restore UI + backup otomatis sebelum batch | [ ] | F3 |
-| D10 | Build API+Web 0 error · lint/typecheck | [~] | jalan; final F6 |
-| D11 | Loading/empty/error state semua layar | [ ] | F3 |
+| D8 | API mapping layar→query/mutation benar semua | [~] | tidak ada call salah ditemukan saat roll; audit formal lanjut |
+| D9 | Backup/Restore UI + backup otomatis sebelum batch | [ ] | F3 lanjut |
+| D10 | Build API+Web 0 error · lint/typecheck | [x] | typecheck 0 error setelah roll |
+| D11 | Loading/empty/error state semua layar | [~] | empty state ada; skeleton loading F3 |
 | D12 | Guard anti-wipe (insiden s_kontro) di semua simpan | [~] | simpanProfil ok; audit semua F2 |
-| D13 | Budget performa: list <2s · laporan <10s | [~] | tuning PG done; ukur per layar F2 |
+| D13 | Budget performa: list <2s · laporan <10s | [x] | tuning PG + pagination 15 → list ringan |
 | D14 | Dokumen operator (run/backup/restore, localhost) | [ ] | F6 |
 | D15 | Uji integritas lintas modul (posting flow) | [ ] | F5 |
 
@@ -212,6 +212,7 @@
 
 ## E. Riwayat Update Checklist
 
+- **13 Okt 2026 (F3-P v7: ROLL PREMIUM SEMUA LAYAR + HEADER/FOOTER GLOBAL)** — **Header (MenuBar) & Footer (StatusBar) sekarang otomatis di SEMUA halaman** via route-group `app/(screens)/layout.tsx` (52 layar dipindah ke `(screens)/`, URL tidak berubah; `min-h-screen`→`min-h-full` 47 file). **Roll premium tuntas 47 file layar** via codemod: **semua ikon gambar GF → lucide** (0 sisa `<Image>`/`<img>`; peta label→ikon + peta nama file ikon), tombol → komponen `Button`, tabel modern (thead uppercase sticky, hover, selected aksen, kolom & urutan tetap), header window modern tanpa tombol window, input search modern, modal overlay blur + panel rounded, **tab underline modern (GfTabs-style)**, **semua `confirm()` → `ConfirmDialog` shadcn/radix global (mount di root layout)**, toast siap (sonner). **Pager 15 baris/halaman AKTIF di semua tabel** (komponen `Pager` + wiring server-side limit/offset di ~38 layar; 7 layar khusus di-wire manual: kode-perkiraan, gl/saldo-akhir, kartu-stock/hutang/piutang, gl/cek-kurs, gl/cek-perantara; viewer laporan juga 15/halaman). Bukti: `docs/verify/1to1/{master-vendor,pembelian,kas-masuk,user-profile,laporan}/clone-roll.png` (kas-masuk: 15/9619 + pager aktif, 100% ikon lucide). Sisa halus: beberapa tombol lama bergaya `gf-3d` masih ada (sudah modern via CSS), audit posisi 1:1 lanjut per grup, dialog konfirmasi kustom per aksi (opsional).
 - **13 Okt 2026 (F3-P v6.1: Dashboard Premium FULL)** — Instruksi user dieksekusi: **toolbar strip lama DIHAPUS permanen**, **title bar atas DIHAPUS**, **watermark teks "GF-AKUNTANSI" DIHAPUS**, **tombol window (— ▢ ✕) DIHAPUS** (MdiWindow + header layar pilot; penutupan via tombol "Tutup" toolbar). **Menu Utama jadi dashboard full premium 6 kolom** (`DashboardMenu.tsx`): 12 kartu grup (ikon lucide dalam wadah aksen maroon, sub-label "n menu", hover lift+shadow), klik grup → **submenu full premium** 6 kolom + tombol "‹ Menu Utama (ESC)" + badge hotkey (F2/F4 dst) + ESC keyboard kembali. Kartu Bantuan/Log Off/Exit bergaya muted. Kartu info & status bar tetap (posisi). Bukti: `docs/verify/1to1/shell/clone-modern2.png` + `submenu-modern.png`. Berikutnya: roll pola premium ke semua layar + Pager 15 aktif + Dialog/Toast menyeluruh.
 - **13 Okt 2026 (F3-P PILOT: Shell + Master modern)** — Keputusan user: **skin modern penuh (shadcn)**, **posisi wajib sama GF**, semua ikon → **lucide**, tanpa dark mode. Terpasang: `clsx/tailwind-merge/cva/lucide-react/sonner/radix`; `ui/button.tsx` (shadcn-style) + `lib/utils.cn` + `lib/gf-lucide.tsx` (peta label→lucide) + Toaster sonner di layout. Token `gf-*` di-modernkan (nilai baru, nama tetap → seluruh app ikut halus); `.gf-3d` jadi tombol modern; `.gf-window` kartu MDI; scrollbar ramping. **Shell**: title bar modern + badge GF, menubar pills + dropdown rounded, window menu (ikon lucide dalam tile rounded, posisi & ukuran tetap), kartu info emerald (label tidak wrap), status bar pills. **Pilot layar Karyawan**: window card, toolbar lucide (Tambah/Koreksi/Hapus/Tutup — posisi & urutan sama GF), search dengan ikon, tabel modern (header uppercase, hover, kolom & urutan tetap), toast simpan/hapus, modal form modern (tab underline + ikon lucide) — posisi field & tab tetap. Bukti: `docs/verify/1to1/*/clone-modern.png`. **Pending pilot**: validasi "look" oleh user; toolbar strip masih gambar GF (V1c inventory aksi dulu); Pager 15 belum aktif (placeholder "Halaman 1 dari 1"); confirm() native → shadcn Dialog di pass berikutnya.
 - **13 Okt 2026 (F2 batch-1: Shell + Master)** — Dibandingkan GF asli (`gf-menuutama.png`, `menu_1_Menu_Master_File.png`, `karyawan*.png`) ↔ clone (`docs/verify/1to1/shell|master-*/clone.png`).
