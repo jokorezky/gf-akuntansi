@@ -54,7 +54,7 @@ export default function SisaStockPage() {
             <button onClick={() => { window.location.href = "/master/item"; }} className="gf-3d bg-gf-menubar p-[1px]"><Image src={`${ICON}/sisa-stock.png`} alt="Item" width={49} height={44} unoptimized /></button>
             <button onClick={() => setMsg("Gabungan — menyusul")} className="gf-3d bg-gf-menubar p-[1px]"><Image src={`${ICON}/gabungan.png`} alt="Gabungan" width={48} height={44} unoptimized /></button>
             <button onClick={() => setMsg("Cetak — gunakan layar Laporan")} className="gf-3d bg-gf-menubar p-[1px]"><Image src={`${ICON}/cetak.png`} alt="Cetak" width={47} height={44} unoptimized /></button>
-            <input className="gf-3d flex-1 bg-white px-2 py-[3px] text-[12px]" placeholder="Cari nama / barcode..." value={q} onChange={(e) => setQ(e.target.value)} />
+            <input className="gf-3d flex-1 bg-white px-2 py-[3px] text-[12px]" placeholder="" title="Pencarian (ketik untuk mencari)" value={q} onChange={(e) => setQ(e.target.value)} />
             <button onClick={() => setMsg("Tambah — Sisa Stock bersifat read-only")} className="gf-3d bg-gf-menubar p-[1px] opacity-60"><Image src={`${ICON}/tambah.png`} alt="Tambah" width={54} height={44} unoptimized /></button>
             <button onClick={() => setMsg("Koreksi — Sisa Stock bersifat read-only")} className="gf-3d bg-gf-menubar p-[1px] opacity-60"><Image src={`${ICON}/koreksi.png`} alt="Koreksi" width={54} height={44} unoptimized /></button>
             <button onClick={() => setMsg("Hapus — Sisa Stock bersifat read-only")} className="gf-3d bg-gf-menubar p-[1px] opacity-60"><Image src={`${ICON}/hapus.png`} alt="Hapus" width={54} height={44} unoptimized /></button>

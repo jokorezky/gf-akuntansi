@@ -41,7 +41,7 @@ export default function DaftarPiutangPage() {
           </div>
           <div className="mb-2 flex items-center gap-2">
             <button onClick={() => { setMsg("Proses"); void load(); }} className="gf-3d bg-gf-menubar px-4 py-[3px] text-[12px] font-bold">Proses</button>
-            <input className="gf-3d flex-1 bg-white px-2 py-[3px] text-[12px]" placeholder="Cari no / pelanggan..." value={q} onChange={(e) => setQ(e.target.value)} />
+            <input className="gf-3d flex-1 bg-white px-2 py-[3px] text-[12px]" placeholder="" title="Pencarian (ketik untuk mencari)" value={q} onChange={(e) => setQ(e.target.value)} />
             <label className="flex items-center gap-1 text-[12px]"><input type="checkbox" checked={only} onChange={(e) => setOnly(e.target.checked)} /> Yang Belum Ada Pelunasan</label>
             <label className="flex items-center gap-1 text-[12px]"><input type="checkbox" checked={!only} onChange={(e) => setOnly(!e.target.checked)} /> Yang Sudah Ada Pelunasan</label>
           </div>

@@ -114,7 +114,7 @@ export default function UserProfilePage() {
         <div className="border-b border-gf-border bg-gf-titlebar px-2 py-1 text-[13px] font-bold">User Profile</div>
         <div className="p-2">
           <div className="mb-2 flex items-center gap-1">
-            <input className="gf-3d w-[260px] bg-white px-2 py-[3px] text-[12px]" placeholder="Cari user / grup..." value={q} onChange={(e) => setQ(e.target.value)} />
+            <input className="gf-3d w-[260px] bg-white px-2 py-[3px] text-[12px]" placeholder="" title="Pencarian (ketik untuk mencari)" value={q} onChange={(e) => setQ(e.target.value)} />
             <button onClick={onDuplicate} className="gf-3d bg-gf-menubar px-3 py-[3px] text-[11px]">Duplicate</button>
             <button onClick={onTambahUser} className="gf-3d bg-gf-menubar px-3 py-[3px] text-[11px] font-bold">Tambah User</button>
             <button onClick={onKoreksiUser} className="gf-3d bg-gf-menubar px-3 py-[3px] text-[11px]">Koreksi User</button>

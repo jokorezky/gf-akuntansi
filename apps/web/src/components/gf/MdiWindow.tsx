@@ -12,7 +12,7 @@ export function MdiWindow({
   return (
     <div className="border border-gf-border bg-gf-panel shadow-sm">
       <div className="flex items-center justify-between bg-gf-titlebar px-1">
-        <span className="py-[2px] text-[13px] font-bold text-black">{title}</span>
+        <span className="py-[2px] text-[12px] font-bold text-black">{title}</span>
         <span className="flex items-center gap-1">
           <button className="gf-3d h-[16px] w-[18px] bg-gf-panel text-[10px] leading-none" title="Minimize">
             _

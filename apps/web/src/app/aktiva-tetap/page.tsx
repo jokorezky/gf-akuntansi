@@ -72,7 +72,7 @@ export default function AktivaTetapPage() {
         <div className="p-2">
           <div className="mb-1 text-center text-[12px] font-bold tracking-widest text-gf-accent">A K T I V A&nbsp;&nbsp;T E T A P</div>
           <div className="mb-2 flex items-center gap-2">
-            <input className="gf-3d flex-1 bg-white px-2 py-[3px] text-[12px]" placeholder="Cari nama A/T..." value={q} onChange={(e) => setQ(e.target.value)} />
+            <input className="gf-3d flex-1 bg-white px-2 py-[3px] text-[12px]" placeholder="" title="Pencarian (ketik untuk mencari)" value={q} onChange={(e) => setQ(e.target.value)} />
             <button className="gf-3d bg-gf-panel px-3 py-[3px] text-[12px] hover:bg-gf-hl hover:text-white" onClick={onTambah}>Tambah</button>
             <button className="gf-3d bg-gf-panel px-3 py-[3px] text-[12px] hover:bg-gf-hl hover:text-white" onClick={onKoreksi}>Koreksi</button>
             <button className="gf-3d bg-gf-panel px-3 py-[3px] text-[12px] hover:bg-gf-hl hover:text-white" onClick={onHapus}>Hapus</button>

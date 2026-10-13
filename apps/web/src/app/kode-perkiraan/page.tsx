@@ -89,7 +89,7 @@ export default function KodePerkiraanPage() {
             <span className="mx-auto text-[12px] font-bold tracking-widest text-gf-accent">K O D E&nbsp;&nbsp;P E R K I R A A N</span>
           </div>
           <div className="mb-2 flex items-center gap-1">
-            <input className="gf-3d flex-1 bg-white px-2 py-[3px] text-[12px]" placeholder="Cari kode / nama..." value={q} onChange={(e) => setQ(e.target.value)} />
+            <input className="gf-3d flex-1 bg-white px-2 py-[3px] text-[12px]" placeholder="" title="Pencarian (ketik untuk mencari)" value={q} onChange={(e) => setQ(e.target.value)} />
             <select className="gf-3d bg-white px-1 py-[3px] text-[12px]" value={golF} onChange={(e) => setGolF(Number(e.target.value))}>
               {GOL.map((g, i) => <option key={i} value={i}>{i === 0 ? "(-Semua Golongan-)" : g}</option>)}
             </select>

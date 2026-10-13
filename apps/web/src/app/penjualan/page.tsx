@@ -152,7 +152,7 @@ export default function PenjualanPage() {
             <button onClick={() => setMsg("Rincian Per Item — menyusul")} className="gf-3d bg-gf-menubar p-[1px]"><Image src={`${ICON}/rincian.png`} alt="Rincian" width={52} height={44} unoptimized /></button>
             <button onClick={() => setMsg("Cetak Setup — gunakan layar Laporan")} className="gf-3d bg-gf-menubar p-[1px]"><Image src={`${ICON}/cetak-setup.png`} alt="Cetak Setup" width={52} height={44} unoptimized /></button>
             <button onClick={() => setMsg("Cetak — gunakan layar Laporan")} className="gf-3d bg-gf-menubar p-[1px]"><Image src={`${ICON}/cetak.png`} alt="Cetak" width={52} height={44} unoptimized /></button>
-            <input className="gf-3d flex-1 bg-white px-2 py-[3px] text-[12px]" placeholder="Cari no / pelanggan..." value={q} onChange={(e) => setQ(e.target.value)} />
+            <input className="gf-3d flex-1 bg-white px-2 py-[3px] text-[12px]" placeholder="" title="Pencarian (ketik untuk mencari)" value={q} onChange={(e) => setQ(e.target.value)} />
             <button onClick={onTambah} className="gf-3d bg-gf-menubar p-[1px]"><Image src={`${ICON}/tambah.png`} alt="Tambah" width={56} height={44} unoptimized /></button>
             <button onClick={onKoreksi} className={`gf-3d bg-gf-menubar p-[1px] ${sel == null ? "opacity-40" : ""}`}><Image src={`${ICON}/koreksi.png`} alt="Koreksi" width={56} height={44} unoptimized /></button>
             <button onClick={onHapus} className={`gf-3d bg-gf-menubar p-[1px] ${sel == null ? "opacity-40" : ""}`}><Image src={`${ICON}/hapus.png`} alt="Hapus" width={56} height={44} unoptimized /></button>
@@ -198,8 +198,8 @@ export default function PenjualanPage() {
               <label className="flex items-center gap-1"><input type="checkbox" defaultChecked /> Semua Data</label>
               <span>Tanggal :</span><input type="date" className="gf-3d bg-white px-2 py-[1px]" onChange={() => undefined} />
               <span>No :</span><input className="gf-3d bg-white px-2 py-[1px]" value={q} onChange={(e) => setQ(e.target.value)} />
-              <span>S/O :</span><input className="gf-3d bg-white px-2 py-[1px]" placeholder="cari S/O..." onChange={(e) => setQ(e.target.value)} />
-              <span>P/O :</span><input className="gf-3d bg-white px-2 py-[1px]" placeholder="cari P/O..." onChange={(e) => setQ(e.target.value)} />
+              <span>S/O :</span><input className="gf-3d bg-white px-2 py-[1px]" placeholder="" title="Pencarian (ketik untuk mencari)" onChange={(e) => setQ(e.target.value)} />
+              <span>P/O :</span><input className="gf-3d bg-white px-2 py-[1px]" placeholder="" title="Pencarian (ketik untuk mencari)" onChange={(e) => setQ(e.target.value)} />
               <span>Pelanggan :</span><input className="gf-3d col-span-3 bg-white px-2 py-[1px]" readOnly value={rows.find((x) => x.id === sel)?.pelangNama ?? ""} />
               <span>Catatan :</span><input className="gf-3d col-span-3 bg-white px-2 py-[1px]" readOnly value={rows.find((x) => x.id === sel)?.catatan ?? ""} />
             </div>

@@ -24,9 +24,9 @@
 | 24493 | Hapus File Sementara | Aplikasi | — | [ ] | adaptasi-web: cleanup temp (F3) |
 | 24495 | Hapus Seluruh Data | Aplikasi | — | [ ] | implement w/ konfirmasi ganda (F3) |
 | 24497 | Backup or Restore Data | Aplikasi | — | [ ] | UI pg_dump/restore (F3 — wajib produksi) |
-| 24500 | Add New Background | Aplikasi | — | [NA] | kosmetik wallpaper |
-| 24501 | Show Next Background | Aplikasi | — | [NA] | kosmetik |
-| 24502 | Delete Current Background | Aplikasi | — | [NA] | kosmetik |
+| 24500 | Add New Background | Aplikasi | — | [ ] | paritas background GF (clone skrg pakai default abu) — F3 |
+| 24501 | Show Next Background | Aplikasi | — | [ ] | F3 (ganti background) |
+| 24502 | Delete Current Background | Aplikasi | — | [ ] | F3 |
 | 24504 | Export Data | Aplikasi | — | [ ] | CSV per tabel (F3) |
 | 24505 | Import Data | Aplikasi | — | [ ] | CSV import (F3) |
 | 24514 | Tampil Kotak Menu | Aplikasi | `/` | [x] | menu box shell ada |
@@ -212,4 +212,7 @@
 
 ## E. Riwayat Update Checklist
 
+- **13 Okt 2026 (F2 batch-1: Shell + Master)** — Dibandingkan GF asli (`gf-menuutama.png`, `menu_1_Menu_Master_File.png`, `karyawan*.png`) ↔ clone (`docs/verify/1to1/shell|master-*/clone.png`).
+  **Sudah diperbaiki 1:1**: (1) **title bar app** "GF-Akuntansi, Release : 951.1823 Build 2026.06.28" + 3 tombol window; (2) window **Menu Utama**: breadcrumb "Utama/Menu Utama(ESC)" dihapus dari root, diganti **nama perusahaan** biru ("MONI COSMETIC SUPERMARKET"); tombol "Menu Utama (ESC)" tetap (benar, ada di window submenu GF); (3) **kartu info** dipindah jadi **overlay desktop kanan-bawah** (bukan di dalam window), layout GF 2 kolom + baris **Eceran/TGL_KOMP** + **stempel waktu login** hijau + bola 3D merah-biru; (4) **status bar 2 sel** (tanggal | jam, format d/m/Y ✓); (5) lebar window menu ~302px (GF ~305px); (6) **hapus placeholder "Cari ..." di SELURUH 36 layar** (GF box pencarian kosong; ketik = cari).
+  **Temuan menunggu tindak lanjut**: (a) GF pakai wallpaper custom (Add Background) → item 24500–24502 dipindah [NA]→[ ]; (b) ukuran/posisi default window list GF perlu diukur live (clone full-width); (c) baris "Total: n" di clone perlu verifikasi perilaku GF saat ada data; (d) audit dropdown menu (9 grup) + toolbar ikon V1c; (e) form karyawan/vendor/pelanggan/item/sisa-stock: lanjut banding form+tab vs GF (batch-2).
 - **13 Okt 2026** — File dibuat (F1). Inventaris 89 item menu dari `native_menu.json`; matriks 54 layar; status laporan dari katalog engine (Pembelian 109/109, Penjualan 174+36NA tuntas sweep).

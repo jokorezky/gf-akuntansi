@@ -259,7 +259,7 @@ export default function PosPage() {
           <div className="flex h-[300px] flex-col border border-gf-border bg-white">
             <div className="flex items-center gap-1 border-b border-gf-border bg-gf-menubar px-1 py-[2px] text-[11px]">
               <span>Katalog :</span>
-              <input className="gf-3d flex-1 bg-white px-2 py-[1px]" value={kq} onChange={(e) => setKq(e.target.value)} placeholder="cari nama / kode..." />
+              <input className="gf-3d flex-1 bg-white px-2 py-[1px]" value={kq} onChange={(e) => setKq(e.target.value)} placeholder="" title="Pencarian (ketik untuk mencari)" />
               <span>HJ {hargaLevel}</span>
             </div>
             <div className="flex-1 overflow-auto">

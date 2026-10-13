@@ -121,9 +121,8 @@ export function Shell() {
     { label: "Nama", value: "MONI COSMETIC SUPERMARKET" },
     { label: "User Login", value: "Acu [U.1 G.Owner]" },
     { label: "System Date", value: new Date().toLocaleDateString("id-ID", { weekday: "long", day: "numeric", month: "long", year: "numeric" }) },
-    { label: "Proteksi", value: "12/10/2026" },
-    { label: "Tutup Hari", value: "30/06/2026" },
-    { label: "Tutup Buku", value: "31/12/2025" },
+    { label: "Proteksi", value: "11/10/2026", col2Label: "Tutup Hari", col2Value: "30/06/2026" },
+    { label: "Eceran", value: "TGL_KOMP", col2Label: "Tutup Buku", col2Value: "31/12/2025" },
   ];
 
   const currentBox =
@@ -133,6 +132,17 @@ export function Shell() {
 
   return (
     <div className="flex h-screen flex-col bg-gf-bg">
+      <div className="flex h-[26px] items-center justify-between border-b border-gf-border bg-gradient-to-b from-[#f8f8f8] to-[#e8e8e8] px-2">
+        <span className="flex items-center gap-2 text-[12px] text-black">
+          <span className="inline-block h-[14px] w-[14px] rounded-[2px] bg-gf-accent" />
+          GF-Akuntansi, Release : 951.1823 Build 2026.06.28
+        </span>
+        <span className="flex items-center gap-[6px]">
+          <span className="gf-3d flex h-[16px] w-[22px] items-center justify-center bg-gf-panel text-[10px]">_</span>
+          <span className="gf-3d flex h-[16px] w-[22px] items-center justify-center bg-gf-panel text-[10px]">▢</span>
+          <span className="gf-3d flex h-[16px] w-[22px] items-center justify-center bg-gf-panel text-[10px]">✕</span>
+        </span>
+      </div>
       <MenuBar onSelect={onSelect} />
       <Toolbar />
 
@@ -142,7 +152,7 @@ export function Shell() {
           <span className="text-[64px] font-bold tracking-tight text-gf-accent">GF-AKUNTANSI</span>
         </div>
 
-        <div className="relative w-[360px]">
+        <div className="relative w-fit">
           <MdiWindow
             title={currentBox?.title ?? "Menu Utama"}
             onClose={() => {
@@ -151,23 +161,23 @@ export function Shell() {
             }}
           >
             {currentBox && (
-              <>
-                <MenuBox
-                  box={currentBox}
-                  onItem={onBoxItem}
-                  onHome={() => {
-                    setView("home");
-                    setMessage("");
-                  }}
-                />
-                {view === "home" && (
-                  <div className="mb-2 px-3">
-                    <InfoBox rows={infoRows} />
-                  </div>
-                )}
-              </>
+              <MenuBox
+                box={currentBox}
+                root={view === "home"}
+                company="MONI COSMETIC SUPERMARKET"
+                onItem={onBoxItem}
+                onHome={() => {
+                  setView("home");
+                  setMessage("");
+                }}
+              />
             )}
           </MdiWindow>
+        </div>
+
+        {/* Kartu info desktop GF — overlay kanan-bawah, selalu tampil */}
+        <div className="absolute bottom-2 right-2 z-10">
+          <InfoBox rows={infoRows} />
         </div>
       </div>
 

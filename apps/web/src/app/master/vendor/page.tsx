@@ -130,7 +130,7 @@ export default function VendorPage() {
             <button onClick={() => setMsg("Sisa Hutang — menyusul")} className="gf-3d bg-gf-menubar p-[1px]" title="Sisa Hutang">
               <Image src="/gf-icons/screens/vendor/sisa-hutang.png" alt="Sisa Hutang" width={61} height={44} unoptimized />
             </button>
-            <input className="gf-3d flex-1 bg-white px-2 py-[3px] text-[12px]" placeholder="Cari nama..." value={q} onChange={(e) => setQ(e.target.value)} />
+            <input className="gf-3d flex-1 bg-white px-2 py-[3px] text-[12px]" placeholder="" title="Pencarian (ketik untuk mencari)" value={q} onChange={(e) => setQ(e.target.value)} />
             <button onClick={onTambah} className="gf-3d bg-gf-menubar p-[1px]" title="Tambah">
               <Image src="/gf-icons/screens/vendor/tambah.png" alt="Tambah" width={58} height={44} unoptimized />
             </button>

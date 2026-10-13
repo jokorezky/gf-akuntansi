@@ -100,7 +100,7 @@ export default function PelangganPage() {
             <button onClick={() => { window.location.href = "/laporan"; }} className="gf-3d bg-gf-menubar p-[1px]"><Image src={`${ICON}/laporan.png`} alt="Laporan" width={58} height={44} unoptimized /></button>
             <button onClick={() => setMsg("Kelompok (Grouping Pelanggan) — menyusul")} className="gf-3d bg-gf-menubar p-[1px]"><Image src={`${ICON}/kelompok.png`} alt="Kelompok" width={57} height={44} unoptimized /></button>
             <button onClick={() => setMsg("Sisa Piutang — menyusul")} className="gf-3d bg-gf-menubar p-[1px]"><Image src={`${ICON}/sisa-piutang.png`} alt="Sisa Piutang" width={62} height={44} unoptimized /></button>
-            <input className="gf-3d flex-1 bg-white px-2 py-[3px] text-[12px]" placeholder="Cari nama / kode..." value={q} onChange={(e) => setQ(e.target.value)} />
+            <input className="gf-3d flex-1 bg-white px-2 py-[3px] text-[12px]" placeholder="" title="Pencarian (ketik untuk mencari)" value={q} onChange={(e) => setQ(e.target.value)} />
             <button onClick={onTambah} className="gf-3d bg-gf-menubar p-[1px]"><Image src={`${ICON}/tambah.png`} alt="Tambah" width={62} height={44} unoptimized /></button>
             <button onClick={onKoreksi} className={`gf-3d bg-gf-menubar p-[1px] ${sel == null ? "opacity-40" : ""}`}><Image src={`${ICON}/koreksi.png`} alt="Koreksi" width={62} height={44} unoptimized /></button>
             <button onClick={onHapus} className={`gf-3d bg-gf-menubar p-[1px] ${sel == null ? "opacity-40" : ""}`}><Image src={`${ICON}/hapus.png`} alt="Hapus" width={62} height={44} unoptimized /></button>

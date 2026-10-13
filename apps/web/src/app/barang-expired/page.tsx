@@ -28,7 +28,7 @@ export default function BarangExpiredPage() {
         <div className="p-2">
           <div className="mb-1 text-center text-[12px] font-bold tracking-widest text-gf-accent">B A R A N G&nbsp;&nbsp;E X P I R E D</div>
           <div className="mb-2 flex items-center gap-2">
-            <input className="gf-3d flex-1 bg-white px-2 py-[3px] text-[12px]" placeholder="Cari nama barang..." value={q} onChange={(e) => setQ(e.target.value)} />
+            <input className="gf-3d flex-1 bg-white px-2 py-[3px] text-[12px]" placeholder="" title="Pencarian (ketik untuk mencari)" value={q} onChange={(e) => setQ(e.target.value)} />
             <span className="text-[11px] text-gf-muted">(read-only)</span>
           </div>
           {err && <div className="mb-2 text-[12px] text-red-700">{err}</div>}

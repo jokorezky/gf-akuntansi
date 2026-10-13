@@ -67,7 +67,7 @@ export default function TransferKasPage() {
         <div className="p-2">
           <div className="mb-1 text-center text-[12px] font-bold tracking-widest text-gf-accent">T R A N S F E R&nbsp;&nbsp;K A S</div>
           <div className="mb-2 flex items-center gap-2">
-            <input className="gf-3d flex-1 bg-white px-2 py-[3px] text-[12px]" placeholder="Cari no / catatan..." value={q} onChange={(e) => setQ(e.target.value)} />
+            <input className="gf-3d flex-1 bg-white px-2 py-[3px] text-[12px]" placeholder="" title="Pencarian (ketik untuk mencari)" value={q} onChange={(e) => setQ(e.target.value)} />
             <button className="gf-3d bg-gf-panel px-3 py-[3px] text-[12px] hover:bg-gf-hl hover:text-white" onClick={onTambah}>Transfer Baru</button>
             <button className="gf-3d bg-gf-panel px-3 py-[3px] text-[12px] hover:bg-gf-hl hover:text-white" onClick={onHapus}>Hapus</button>
           </div>

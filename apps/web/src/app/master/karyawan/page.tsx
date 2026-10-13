@@ -259,7 +259,7 @@ export default function KaryawanPage() {
           <div className="mb-2 flex items-center gap-2">
             <input
               className="gf-3d flex-1 bg-white px-2 py-[3px] text-[12px]"
-              placeholder="Cari nama..."
+              placeholder="" title="Pencarian (ketik untuk mencari)"
               value={q}
               onChange={(e) => setQ(e.target.value)}
             />
