@@ -9,7 +9,7 @@ Legenda: ✅ selesai 1:1 · 🔄 jalan (belum V2-pass penuh) · ⏳ belum mulai
 
 ## 0. Ringkasan
 
-**Progress keseluruhan: ±64%** (basis: 53 layar inti + layar ekstra antar cabang/setup)
+**Progress keseluruhan: ±65%** (basis: 53 layar inti + layar ekstra antar cabang/setup)
 
 | Grup | ✅ Selesai | Total | % | Catatan |
 |---|---|---|---|---|
@@ -21,7 +21,7 @@ Legenda: ✅ selesai 1:1 · 🔄 jalan (belum V2-pass penuh) · ⏳ belum mulai
 | Kas | 7 | 7 | **100%** | + Cari/Pencairan CH-BG (4 layar, V2-deep) |
 | Antar Cabang | 2 | 2 | **100%** | Pembelian/Penjualan [ANTAR CABANG] + combo Cabang/Jenis/Tanpa Item/Gudang per divisi |
 | GL | 7 | 7 | ~90% | Semua jalan; Jurnal/BB/LK belum V2-pass |
-| Lainnya | 9 | 14 | ~65% | Sisa: Barang Promosi ×2, Transfer, Untransfer, Pindah Gudang, Validasi |
+| Lainnya | 10 | 14 | ~70% | + Barang Promosi (V2-deep); sisa: Transfer, Untransfer, Pindah Gudang, Validasi |
 | Laporan | viewer ✅ | — | ~60% | 557 `.rpt` + viewer; isi data laporan per modul (A4) sebagian |
 | Sistem Setup + User Profile | 0 | 6 | 0% | Fase F & G |
 | Offline | ✅ | — | 100% | windows-mcp lokal, dev.ps1, restore-db.ps1 |
@@ -226,6 +226,12 @@ Deep scan GF menemukan: layar antar cabang = **form induk dengan mode** — judu
 - **Kartu Piutang** ✅ (read-only): penjualan + penerimaan per pelanggan; FE `/kartu-piutang`.
 - **Barang Expired** ✅ (read-only): `s_pembed.expired`; FE `/barang-expired`.
 - **Barang Produksi** ✅: BE CRUD `s_prodsi`; FE `/barang-produksi`.
+- **Barang Promosi (24647)** ✅ V2-deep — form 3 tab GF: **Main** (Hari checklist 8: Senin–Minggu+LiburNas; Tanggal & **Pukul** HHMM; **Item** + F3; radio **Disc % / Disc / Setting Harga Jual Spesial**; grid 7 baris Harga Beli + Harga Jual *1..*5 dengan DISC%/DISC2%/DISC3% per level + SET%/NILAI) · **Kelompok Pelanggan** (checklist Group Pel/Group Pe2 — tanpa pilihan = semua) · **Lain-Lain** (checklist **Divisi** 14 + **Tipe Entry** 5: SO/Eceran/Cash-Credit/AC/Retur).
+  - **BE**: modul promosi diperluas — `groupPel/groupPe2` (kolom `s_promos.group_pel/group_pe2`), `promoItemInfo` (harga beli + 5 harga jual + disc master), `promoTerapkanItem(promosId, stockId, mode, levels)`:
+    - mode **harga** → tulis Harga Jual *1..*5 + Disc1..3 ke master `s_stock` (teruji: 75000→80000+disc5%→revert 75000);
+    - mode **disc/discnil** → baris `s_prome1` (**relasi `promos_id`** ke s_promos + FK `mauang_id`→s_mauang=IDR); teruji 2 baris + cleanup.
+  - **Relasi**: `s_promos.id ↔ s_prome1.promos_id`, `s_prome1.mauang_id → s_mauang`, master item `s_stock` (harga_j_01..05/disc1..3_j_01..05).
+  - Catatan: checkbox SO/AC/Retur pada Tipe Entry tidak punya kolom di `s_promos` (hanya penj_ecr/penj_csh/penj_crd yang dipersist) — dicatat sebagai keterbatasan skema GF. Hari/Divisi/Group disimpan comma-list ("tanpa pilihan = semua").
 - ⏳ **Belum**: Barang Promosi ×2, Barang Transfer, Barang Untransfer, Pindah Gudang, Validasi Barang Keluar (Fase E).
 
 ---
@@ -264,6 +270,7 @@ Deep scan GF menemukan: layar antar cabang = **form induk dengan mode** — judu
 
 ## 13. Riwayat Update
 
+- **13 Okt 2026 (4)** — **Fase E mulai: Barang Promosi (24647) SELESAI V2-deep** — form 3 tab (Main/Kelompok Pelanggan/Lain-Lain), hari checklist, pukul HHMM, radio Disc/Jual-Spesial, grid 7 harga; BE promosi diperluas (groupPel/groupPe2 + promoTerapkanItem → s_stock master harga ATAU s_prome1 relasi promos_id). Semua uji PASS + cleanup. Progress ±65%. Sisa Fase E: Transfer, Untransfer, Pindah Gudang, Validasi Barang Keluar.
 - **13 Okt 2026 (3)** — **Fase D SELESAI**: Pembelian & Penjualan [ANTAR CABANG] (24632/24633) V2-deep. Temuan: antar cabang = mode dari form induk (judul "Pembelian [ANTAR CABANG]"), tanpa tabel/kolom baru; gudang = turunan divisi (16 opsi dari MASTER+14 cabang). BE Pembelian & Penjualan dapat `divisiId` (`s_pembel/s_penjua.divisi_id`). Smoke PASS + cleanup bersih. Progress ±64%; berikutnya Fase E (Barang Promosi/Transfer/Untransfer/Pindah Gudang/Validasi).
 - **13 Okt 2026 (2)** — **Fase C SELESAI**: 4 layar Cari/Pencairan CH-BG dibangun V2-deep (BE modul `chbg` + FE `ChbgScreen` bersama + 4 rute). Teruji: list masuk 19.396 / keluar 18.286 baris; cari no; Cairkan → `cairchbg/lunas_cair/luncair_nb`; filter belum/sudah; Batal Cair (reversal, data uji dikembalikan). **Modul Kas tuntas 7/7 (100%)**; progress keseluruhan ±62%; berikutnya Fase D (Antar Cabang).
 - **13 Okt 2026 (1)** — File dibuat. Rekap seluruh pencapaian: Fondasi, Shell/Menu, Master File 5/5, Pembelian 6/6, **Penjualan 6/6 (all LOGIC + RELASI TABLE teruji)**; progress keseluruhan ±60%.
