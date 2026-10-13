@@ -81,7 +81,17 @@ export class SisaStock {
   @Field({ nullable: true }) groupNama?: string;
   @Field({ nullable: true }) kode?: string;
   @Field(() => Int, { nullable: true }) tipeSatu?: number;
+  @Field(() => Int, { nullable: true }) jenis?: number;
+  @Field({ nullable: true }) minStock?: string;
+  @Field({ nullable: true }) catatan?: string;
+  @Field(() => Int, { nullable: true }) inputOleh?: number;
+  @Field({ nullable: true }) tglInput?: string;
+  @Field({ nullable: true }) jamInput?: string;
+  @Field(() => Int, { nullable: true }) ubahOleh?: number;
+  @Field({ nullable: true }) tglUbah?: string;
+  @Field({ nullable: true }) jamUbah?: string;
   @Field({ nullable: true }) sisa?: string;
+  @Field({ nullable: true }) sisaAc?: string;
   @Field({ nullable: true }) hargaJual1?: string;
   @Field({ nullable: true }) hargaJual2?: string;
   @Field({ nullable: true }) hargaJual3?: string;

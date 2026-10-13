@@ -117,8 +117,12 @@ export class ItemService {
     const total = await this.pool.query(`SELECT count(*)::int AS n FROM gf.s_stock s ${where}`, params);
     params.push(limit, offset);
     const rows = await this.pool.query(
-      `SELECT s.id, s.nama, g.nama AS "groupNama", s.kode_c AS kode, s.tipe_satu AS "tipeSatu",
+      `SELECT s.id, s.nama, g.nama AS "groupNama", s.kode_c AS kode, s.tipe_satu AS "tipeSatu", s.jenis,
+              s.min_stock::text AS "minStock", s.catatan,
+              s.input_oleh AS "inputOleh", to_char(s.tgl_input,'YYYY-MM-DD') AS "tglInput", s.jam_input AS "jamInput",
+              s.ubah_oleh AS "ubahOleh", to_char(s.tgl_ubah,'YYYY-MM-DD') AS "tglUbah", s.jam_ubah AS "jamUbah",
               (COALESCE(s.sisa_stk01,0)+COALESCE(s.sisa_stk02,0)+COALESCE(s.sisa_stk03,0)+COALESCE(s.sisa_stk04,0)+COALESCE(s.sisa_stk05,0))::text AS sisa,
+              COALESCE(s.sisa_stk01,0)::text AS "sisaAc",
               s.harga_j_01::text AS "hargaJual1", s.harga_j_02::text AS "hargaJual2", s.harga_j_03::text AS "hargaJual3",
               s.harga_j_04::text AS "hargaJual4", s.harga_j_05::text AS "hargaJual5"
        FROM gf.s_stock s LEFT JOIN gf.s_grpstk g ON g.id = s.group_stk

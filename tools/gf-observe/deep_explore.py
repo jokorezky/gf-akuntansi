@@ -27,6 +27,7 @@ BLOCKLIST = {
     "create indexes", "repair database", "check database", "hapus", "delete",
     "tutup hari", "tutup tahun", "reset tutup hari", "backup", "restore", "import", "export data",
     "set proteksi", "hapus seluruh", "hapus data", "clear", "simpan", "save",
+    "proses", "laporan",
 }
 
 
