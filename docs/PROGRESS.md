@@ -21,7 +21,7 @@ Legenda: ✅ selesai 1:1 · 🔄 jalan (belum V2-pass penuh) · ⏳ belum mulai
 | Kas | 7 | 7 | **100%** | + Cari/Pencairan CH-BG (4 layar, V2-deep) |
 | Antar Cabang | 2 | 2 | **100%** | Pembelian/Penjualan [ANTAR CABANG] + combo Cabang/Jenis/Tanpa Item/Gudang per divisi |
 | GL | 7 | 7 | ~90% | Semua jalan; Jurnal/BB/LK belum V2-pass |
-| Lainnya | 11 | 14 | ~78% | + Barang Promosi, Barang Transfer, UnTransfer; sisa: Pindah Gudang, Validasi |
+| Lainnya | 12 | 14 | ~85% | + Barang Promosi, Transfer/UnTransfer, Pindah Gudang; sisa: Validasi |
 | Laporan | viewer ✅ | — | ~60% | 557 `.rpt` + viewer; isi data laporan per modul (A4) sebagian |
 | Sistem Setup + User Profile | 0 | 6 | 0% | Fase F & G |
 | Offline | ✅ | — | 100% | windows-mcp lokal, dev.ps1, restore-db.ps1 |
@@ -235,7 +235,10 @@ Deep scan GF menemukan: layar antar cabang = **form induk dengan mode** — judu
 - **Barang Transfer (24650)** ✅ V2-deep: form GF — Divisi/Tanggal/**ID hijau**/Gudang/Item(F3)/**Jumlah**/**Sisa Stock [TIDAK DIHITUNG]**/Catatan ×4 + panel navigasi (▲▼+⭐ HP Pukul Rata) + seksi biru **"Item/Stock yang berkurang"** (grid G.. /Kode/Nama/Jumlah/Catatan + Tambah/Koreksi/Hapus + tombol oranye **HP Pukul Rata**) + **"Tambahan Cost/Biaya" #Acc *1..*3 + Nilai *1..*3** + status "Jumlah belum diisi !"; LIST + tombol **Template** (khas layar ini).
   - **DB**: `s_trmstk` (header: divisi_id/gudang/tanggal/pukul/tot_harga/tot_harex1/tot_harex2/catatan×3) + `s_trmsex` (**relasi `trmstk_id`**, stock_id/jumlah/harga/catatan). `nilai1/2/3` dipetakan ke `tot_harga/tot_harex1/tot_harex2`; #Acc perkiraan = UI (tidak ada kolom — kemungkinan posting jurnal; dicatat).
   - **Uji PASS**: tot=189000/jml 3, relasi 2 baris, sisa stock, update, delete bersih. **HP Pukul Rata** = harga/unit = (Nilai1+2+3)/Σjumlah.
-- **Barang UnTransfer (24651)** ✅ V2-deep: **mirror** Transfer dengan judul GF asli "Barang **UnTransfer**" — seksi **"Item/Stock yang bertambah"** (+ kolom **HPP%**), panel **<< < > >> + Template**, grup **"Tambahan Cost/Biaya dari :"**. **DB sama** (`s_trmstk/s_trmsex` — tidak ada tabel terpisah; tidak ada kolom diskriminator). Uji memakai jalur API yang sama (PASS + cleanup).
+- **Barang UnTransfer (24651)** ✅ V2-deep: **mirror** Transfer dengan judul GF asli "Barang **UnTransfer**" — seksi **"Item/Stock yang bertambah"** (+ kolom **HPP%**), panel **<< < > >> + Template**, grup **"Tambahan Cost/Biaya dari :"**. Uji memakai jalur API yang sama (PASS + cleanup); lihat REVISI peta tabel di bawah.
+  - **⚠️ REVISI PETA TABEL (13 Okt)**: setelah field-match penuh, **Barang Transfer/UnTransfer = `s_stktra` (header) + `s_stktex` (baris "Item/Stock yang berkurang", relasi `stktra_id`)** — `per1_nil/per2_nil/per3_nil` = Nilai*1..3, `perkir_1/2/3` = #Acc*1..3, `catatan`×3, `hpp`. `s_trmstk/s_trmsex` (ber-link `pembel_id/purcor_id/vendor`) BUKAN layar ini. BE/FE dirombak: header kini berisi item utama (`stock_id/jumlah/hpp`) + combo item (bukan field gelap). Uji ulang PASS (header+2 baris, relasi, update, delete bersih); semua baris uji `s_trmstk/s_trmsex` dibersihkan.
+- **Barang Pindah Gudang (24652)** ✅ V2-deep — judul GF asli "Barang Pindah Gudang". Form: nav **<< < > >>** besar, **Divisi / Tanggal / ID / Dr Gudang / Ke Gudang / No / Kirim Ke (nama+alamat) / Catatan** + grid + tombol **Scan / Tambah / Koreksi / Hapus / Copy Item ke Clipboard / Paste Item dari Clipboard** (pola S/O). LIST kolom **Dari / Ke / No / Tanggal / Nama**.
+  - **DB**: `s_stkpin` (38 kol: divisi_id/nama/alamat/no int/gudang_1/gudang_2/catatan + audit) + `s_stkpex` (**relasi `stkpin_id`**; stock_id/stock_gdg/stock_gdg2/jumlah/hpp/catatan). Data asli: **58.372 dokumen** (modul aktif; `no` auto lanjut 58066+). Teruji: create (no auto 58066, total 5), relasi 2 baris, cari, update, delete + cleanup total.
 - ⏳ **Belum**: Barang Promosi ×2, Barang Transfer, Barang Untransfer, Pindah Gudang, Validasi Barang Keluar (Fase E).
 
 ---
@@ -274,6 +277,7 @@ Deep scan GF menemukan: layar antar cabang = **form induk dengan mode** — judu
 
 ## 13. Riwayat Update
 
+- **13 Okt 2026 (5)** — **Fase E 4/5**: Barang Transfer + UnTransfer (REVISI peta tabel → `s_stktra/s_stktex`) + **Barang Pindah Gudang** (24652, `s_stkpin/s_stkpex` 58.372 dokumen — no auto lanjut 58066) V2-deep, semua uji PASS + cleanup. Progress ±65%; sisa Fase E: **Validasi Barang Keluar (24665)**.
 - **13 Okt 2026 (4)** — **Fase E mulai: Barang Promosi (24647) SELESAI V2-deep** — form 3 tab (Main/Kelompok Pelanggan/Lain-Lain), hari checklist, pukul HHMM, radio Disc/Jual-Spesial, grid 7 harga; BE promosi diperluas (groupPel/groupPe2 + promoTerapkanItem → s_stock master harga ATAU s_prome1 relasi promos_id). Semua uji PASS + cleanup. Progress ±65%. Sisa Fase E: Transfer, Untransfer, Pindah Gudang, Validasi Barang Keluar.
 - **13 Okt 2026 (3)** — **Fase D SELESAI**: Pembelian & Penjualan [ANTAR CABANG] (24632/24633) V2-deep. Temuan: antar cabang = mode dari form induk (judul "Pembelian [ANTAR CABANG]"), tanpa tabel/kolom baru; gudang = turunan divisi (16 opsi dari MASTER+14 cabang). BE Pembelian & Penjualan dapat `divisiId` (`s_pembel/s_penjua.divisi_id`). Smoke PASS + cleanup bersih. Progress ±64%; berikutnya Fase E (Barang Promosi/Transfer/Untransfer/Pindah Gudang/Validasi).
 - **13 Okt 2026 (2)** — **Fase C SELESAI**: 4 layar Cari/Pencairan CH-BG dibangun V2-deep (BE modul `chbg` + FE `ChbgScreen` bersama + 4 rute). Teruji: list masuk 19.396 / keluar 18.286 baris; cari no; Cairkan → `cairchbg/lunas_cair/luncair_nb`; filter belum/sudah; Batal Cair (reversal, data uji dikembalikan). **Modul Kas tuntas 7/7 (100%)**; progress keseluruhan ±62%; berikutnya Fase D (Antar Cabang).

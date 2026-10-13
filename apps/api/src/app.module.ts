@@ -24,6 +24,7 @@ import { JurnalModule } from "./modules/ledger/jurnal/jurnal.module";
 import { AktivaTetapModule } from "./modules/ledger/aktiva-tetap/aktiva-tetap.module";
 import { GlChecksModule } from "./modules/ledger/gl-checks/gl-checks.module";
 import { BarangTransferModule } from "./modules/inventory/barang-transfer/barang-transfer.module";
+import { BarangPindahGudangModule } from "./modules/inventory/barang-pindah-gudang/barang-pindah-gudang.module";
 import { BarangModule } from "./modules/inventory/barang/barang.module";
 import { PromosiModule } from "./modules/inventory/promosi/promosi.module";
 import { ProduksiModule } from "./modules/inventory/produksi/produksi.module";
@@ -60,6 +61,7 @@ import { LaporanModule } from "./modules/laporan/laporan.module";
     GlChecksModule,
     BarangModule,
     BarangTransferModule,
+    BarangPindahGudangModule,
     PromosiModule,
     ProduksiModule,
     LaporanModule,
