@@ -2,13 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Minus, Square, X } from "lucide-react";
 import { MenuBar } from "./MenuBar";
-import { Toolbar } from "./Toolbar";
-import { MdiWindow } from "./MdiWindow";
 import { InfoBox } from "./InfoBox";
 import { StatusBar } from "./StatusBar";
-import { MenuBox } from "./MenuBox";
+import { DashboardMenu } from "./DashboardMenu";
 import { GF_MENU, type GfMenuItem } from "@/lib/gf-menu";
 import { GF_MENU_BOXES, type GfBoxButton } from "@/lib/menu-boxes";
 
@@ -82,17 +79,16 @@ export function Shell() {
     }
   }, []);
 
-  /** Klik item di kotak menu GF (layout 1:1). */
-  function onBoxItem(b: GfBoxButton) {
-    // Menu Utama: item = grup
+  /** Klik kartu dashboard (root = buka grup; submenu = buka layar/aksi). */
+  function onItem(b: GfBoxButton) {
     const grp = GF_MENU.find((g) => g.label === b.label);
-    if ((view === "home" || view === "Menu Utama") && grp) {
+    if (view === "home" && grp) {
       setView(grp.label);
       setMessage(`Menu ${grp.label}`);
       return;
     }
     if (b.label === "Bantuan") {
-      setMessage("Bantuan — belum diimplementasikan (Fase V2)");
+      setMessage("Bantuan — F1 untuk daftar tombol (Key List)");
       return;
     }
     if (b.label === "Log Off" || b.label === "Exit") {
@@ -104,7 +100,7 @@ export function Shell() {
       return;
     }
     setMessage(
-      `${view} › ${b.label}${b.blocked ? " (dinonaktifkan — destruktif/berat)" : " — belum diimplementasikan (Fase V2)"}`,
+      `${view} › ${b.label}${b.blocked ? " (dinonaktifkan — destruktif/berat)" : " — belum diimplementasikan"}`,
     );
   }
 
@@ -114,7 +110,7 @@ export function Shell() {
       return;
     }
     setMessage(
-      `${menuGroup} › ${item.label}${item.blocked ? " (dinonaktifkan)" : " — belum diimplementasikan (P1)"}`,
+      `${menuGroup} › ${item.label}${item.blocked ? " (dinonaktifkan)" : " — belum diimplementasikan"}`,
     );
   }
 
@@ -126,65 +122,22 @@ export function Shell() {
     { label: "Eceran", value: "TGL_KOMP", col2Label: "Tutup Buku", col2Value: "31/12/2025" },
   ];
 
-  const currentBox =
-    view === "home"
-      ? GF_MENU_BOXES.find((b) => b.group === "Menu Utama")
-      : GF_MENU_BOXES.find((b) => b.group === view);
-
   return (
     <div className="flex h-screen flex-col bg-gf-bg">
-      <div className="flex h-[30px] items-center justify-between border-b border-gf-border bg-white/95 px-3 backdrop-blur">
-        <span className="flex items-center gap-2 text-[12px] font-medium text-slate-700">
-          <span className="flex h-[16px] w-[16px] items-center justify-center rounded-[4px] bg-gf-accent text-[8px] font-bold text-white">
-            GF
-          </span>
-          GF-Akuntansi, Release : 951.1823 Build 2026.06.28
-        </span>
-        <span className="flex items-center gap-[4px]">
-          <span className="flex h-[22px] w-[22px] items-center justify-center rounded-md text-slate-500 hover:bg-slate-100">
-            <Minus className="h-[13px] w-[13px]" />
-          </span>
-          <span className="flex h-[22px] w-[22px] items-center justify-center rounded-md text-slate-500 hover:bg-slate-100">
-            <Square className="h-[11px] w-[11px]" />
-          </span>
-          <span className="flex h-[22px] w-[22px] items-center justify-center rounded-md text-slate-500 hover:bg-red-50 hover:text-red-600">
-            <X className="h-[14px] w-[14px]" />
-          </span>
-        </span>
-      </div>
       <MenuBar onSelect={onSelect} />
-      <Toolbar />
 
-      <div className="relative flex-1 overflow-auto bg-gradient-to-br from-slate-100 via-slate-50 to-slate-200 p-3">
-        {/* watermark ala GF (halus) */}
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <span className="text-[64px] font-bold tracking-tight text-gf-accent/[0.05]">GF-AKUNTANSI</span>
-        </div>
+      <div className="relative flex-1 overflow-auto bg-gradient-to-b from-slate-50 to-slate-100 px-4 py-5 md:px-8">
+        <DashboardMenu
+          view={view}
+          company="MONI COSMETIC SUPERMARKET"
+          onItem={onItem}
+          onHome={() => {
+            setView("home");
+            setMessage("");
+          }}
+        />
 
-        <div className="relative w-fit">
-          <MdiWindow
-            title={currentBox?.title ?? "Menu Utama"}
-            onClose={() => {
-              setView("home");
-              setMessage("");
-            }}
-          >
-            {currentBox && (
-              <MenuBox
-                box={currentBox}
-                root={view === "home"}
-                company="MONI COSMETIC SUPERMARKET"
-                onItem={onBoxItem}
-                onHome={() => {
-                  setView("home");
-                  setMessage("");
-                }}
-              />
-            )}
-          </MdiWindow>
-        </div>
-
-        {/* Kartu info desktop GF — overlay kanan-bawah, posisi tetap */}
+        {/* Kartu info desktop GF — overlay kanan-bawah */}
         <div className="absolute bottom-3 right-3 z-10">
           <InfoBox rows={infoRows} />
         </div>

@@ -263,21 +263,6 @@ export default function KaryawanPage() {
       <div className="gf-window mx-auto max-w-[1100px]">
         <div className="flex items-center justify-between border-b border-gf-border bg-white px-3 py-[6px]">
           <span className="text-[12.5px] font-semibold text-slate-800">Karyawan</span>
-          <span className="flex items-center gap-[4px]">
-            <button className="flex h-[22px] w-[22px] items-center justify-center rounded-md text-slate-500 hover:bg-slate-100" title="Minimize">
-              <span className="block h-[2px] w-[10px] rounded bg-current" />
-            </button>
-            <button className="flex h-[22px] w-[22px] items-center justify-center rounded-md text-slate-500 hover:bg-slate-100" title="Maximize">
-              <span className="block h-[9px] w-[9px] rounded-[2px] border-[1.5px] border-current" />
-            </button>
-            <button
-              onClick={() => router.push("/")}
-              className="flex h-[22px] w-[22px] items-center justify-center rounded-md text-slate-500 hover:bg-red-50 hover:text-red-600"
-              title="Tutup"
-            >
-              <X className="h-[14px] w-[14px]" />
-            </button>
-          </span>
         </div>
         <div className="p-3">
           <div className="mb-2 text-center text-[12px] font-semibold tracking-[0.35em] text-gf-accent">
