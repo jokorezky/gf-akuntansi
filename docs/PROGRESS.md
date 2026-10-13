@@ -9,7 +9,7 @@ Legenda: ✅ selesai 1:1 · 🔄 jalan (belum V2-pass penuh) · ⏳ belum mulai
 
 ## 0. Ringkasan
 
-**Progress keseluruhan: ±66%** (basis: 53 layar inti + layar ekstra antar cabang/setup)
+**Progress keseluruhan: ±68%** (basis: 53 layar inti + layar ekstra antar cabang/setup)
 
 | Grup | ✅ Selesai | Total | % | Catatan |
 |---|---|---|---|---|
@@ -23,7 +23,7 @@ Legenda: ✅ selesai 1:1 · 🔄 jalan (belum V2-pass penuh) · ⏳ belum mulai
 | GL | 7 | 7 | ~90% | Semua jalan; Jurnal/BB/LK belum V2-pass |
 | Lainnya | 13 | 14 | ~95% | + Validasi Barang Keluar; sisa: polish pass |
 | Laporan | viewer ✅ | — | ~60% | 557 `.rpt` + viewer; isi data laporan per modul (A4) sebagian |
-| Sistem Setup + User Profile | 0 | 6 | 0% | Fase F & G |
+| Sistem Setup + User Profile | 4 | 6 | ~80% | Kode Perkiraan/Tipe Bayar/Eceran List/Konfigurasi ✅; Setup List observe; User Profile sisa |
 | Offline | ✅ | — | 100% | windows-mcp lokal, dev.ps1, restore-db.ps1 |
 
 ---
@@ -254,11 +254,14 @@ Deep scan GF menemukan: layar antar cabang = **form induk dengan mode** — judu
 
 ---
 
-## 10. Sistem Setup & User Profile — ⏳ 0/6
+## 10. Sistem Setup — 🔄 4/5 inti (≈80%) — *Fase F 13 Okt 2026*
 
-- ⏳ Sistem Setup: Kode Perkiraan (24521), List (24520), Tipe Pembayaran (24524), Eceran List (24525), Konfigurasi (24532/24533) — *Fase F*.
-- ⏳ User Profile (24486) + sisa kecil — *Fase G*.
-- ⏳ Antar Cabang (2 layar) — *Fase D*.
+- **Kode Perkiraan (24521)** ✅ V2-deep: form GF "Kode Perkiraan" (tab Header|Detail, golongan 1=AKTIVA..5=BIAYA, M.U.+Kurs, Saldo Awal, toggle **Kode Perkiraan Nilai Debet / Multi Currency / Tarik Selisih Kurs / Non-Reverse / DB + CH-BG**; grid User = bitmap biner GF — read-only catatan). **BE**: `s_perkir` **373 akun** + `mauangList`; CRUD teruji (create/update/debet=false/nonRev/saldo) + cleanup. Rute `/kode-perkiraan`.
+- **Tipe Pembayaran (24524)** ✅ V2-deep (POS): `s_luntip` — charges (`chargestxt/charges/chargesnil/chargescd1..2` = "Jika Total >="), toggles **Non Aktif/GF-Payment/Tampil QRIS/Charges Hitung Per Item/Charges Tanpa Pembulatan**, Disc global (`glb_discs` **boolean**, `glb_disc/glb_discnl/glb_disccd`), `adjust` int, Kas Perkiraan + `#Link`. Data master GF = 4 baris (TRANSFER/QRIS/DEBIT BCA/CREDIT BCA) berstatus soft-deleted — list konsisten. CRUD teruji + cleanup. Rute `/tipe-pembayaran`.
+- **Eceran List (24525)** ✅ V2-deep: `s_ecrlst` **baris preset (`sts_ecr IS NULL`)** — Kelompok/Hitungan/H.Jual/**Harga *1..*5 (`mu_h_j_01..05`)**/#Item/#Item Extra (`stock_id/stock_id2`)/PABX Ext/#Key Room/#Key Lift/Def. ChkOut/Non Aktif. **FK relasi**: `grpecr_id→s_grpecr`, `grpec2_id→s_grpec2`, `stock_id→s_stock` (terverifikasi). Teruji CRUD + harga 1-5 + relasi item + cleanup total. Rute `/eceran-list`.
+- **Konfigurasi (24532/24533)** ✅ (inti): GF "Sistem Konfigurasi" **`s_kontro` = 1.141 kolom (1 baris: MONI COSMETIC SUPERMARKET)**. FE 5 tab: Profil (form + Simpan subset: nama/alamat/NPWP/PKP/Fak Pjk/telepon/email/website/rekening 1–5/QRIS/menu), Divisi & Gudang (14), No. Dokumen (`s_kontno` 45: untuk/divisi/tahun/last_nn), **Map Harga Jual Modul** (`s_konhjn` 50 — kolom hotel/ktv/billiard/rental/spa berisi 'Harga Jual *n' = PEMETAAN level harga per modul usaha!), Info Paket (PAKET ACCOUNTING 1 USER + `s_ownrid` 48 + `s_koncab` 0). Teruji baca penuh + update website + **revert**. Rute `/konfigurasi`. Sisa: tab bulanan (ratusan kolom) pass lanjutan.
+- **Setup List (24520)** 🔄 observe penuh: window **"List (Sistem Setup)" = 11 TAB** (terlihat: Mata Uang/Kurs/Pembulatan Harga Jual/Negara/Daerah/Daerah*2/Divisi; 4 tersembunyi di balik panah — panah inert saat diprobe); form **Mata Uang** (Auto Pay KK/KM Perkiraan, Decimal, Terbilang MU/Sen) ter-capture. FE pass lanjutan.
+- ⏳ User Profile (24486) — Fase G.
 
 ---
 
@@ -279,6 +282,7 @@ Deep scan GF menemukan: layar antar cabang = **form induk dengan mode** — judu
 
 ## 13. Riwayat Update
 
+- **13 Okt 2026 (7)** — **FASE F SELESAI (inti 4/5 + Setup List observe)**: Kode Perkiraan (`s_perkir` 373 akun, CRUD+toggle), Tipe Pembayaran (`s_luntip`, charges/disc/toggles; glb_discs boolean & adjust int dikoreksi), Eceran List (`s_ecrlst` preset, FK 3 arah terverifikasi), **Konfigurasi** (`s_kontro` 1.141 kolom; temuan `s_konhjn` = map Harga Jual per modul usaha). Semua uji PASS + cleanup/revert. Progress **±68%**; berikutnya **Fase G (User Profile)** + V2-pass sisa.
 - **13 Okt 2026 (6)** — **FASE E SELESAI (5/5)**: + **Validasi Barang Keluar (24665)** (viewer scan: Scan Cty live Nota, Penjualan/Pindah Gdg/Tutup Error, log kuning, validasi lawan `saleById`/`barangPindahGudangById`, auto-stop pada batas error). Modul Lainnya ~95%; progress keseluruhan **±66%**; berikutnya **Fase F (Sistem Setup 5 layar)**.
 - **13 Okt 2026 (5)** — **Fase E 4/5**: Barang Transfer + UnTransfer (REVISI peta tabel → `s_stktra/s_stktex`) + **Barang Pindah Gudang** (24652, `s_stkpin/s_stkpex` 58.372 dokumen — no auto lanjut 58066) V2-deep, semua uji PASS + cleanup. Progress ±65%; sisa Fase E: **Validasi Barang Keluar (24665)**.
 - **13 Okt 2026 (4)** — **Fase E mulai: Barang Promosi (24647) SELESAI V2-deep** — form 3 tab (Main/Kelompok Pelanggan/Lain-Lain), hari checklist, pukul HHMM, radio Disc/Jual-Spesial, grid 7 harga; BE promosi diperluas (groupPel/groupPe2 + promoTerapkanItem → s_stock master harga ATAU s_prome1 relasi promos_id). Semua uji PASS + cleanup. Progress ±65%. Sisa Fase E: Transfer, Untransfer, Pindah Gudang, Validasi Barang Keluar.
