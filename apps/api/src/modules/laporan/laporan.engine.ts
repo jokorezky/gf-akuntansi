@@ -71,9 +71,10 @@ const whereBatal = (ctx: RuleCtx): string =>
 
 // ---------- builder per keluarga ----------
 function withLines(ctx: RuleCtx, doc: string, lineJoin: string, kode: string): LapSpec {
+  const noVend = doc === "gf.s_purreq";
   const cols: LapCol[] = [
     { sql: doc === "gf.s_purcor" ? "h.po::text" : "h.no::text", label: "No" }, { sql: tgl(), label: "Tanggal" },
-    { sql: "COALESCE(v.nama,'')", label: "Vendor" },
+    { sql: noVend ? "COALESCE(h.diminta,'')" : "COALESCE(v.nama,'')", label: noVend ? "Diminta" : "Vendor" },
     { sql: "COALESCE(s.kode_c, s.kode_c_2, d.stock_id::text)", label: "Kode" },
     { sql: "COALESCE(s.nama,'')", label: "Nama" },
     { sql: "COALESCE(d.jumlah,0)::text", label: "Jumlah", align: "r" },
@@ -85,7 +86,7 @@ function withLines(ctx: RuleCtx, doc: string, lineJoin: string, kode: string): L
     { sql: "COALESCE(d.catatan,'')", label: "Catatan" },
   ];
   return {
-    base: `FROM ${doc} h ${V} JOIN ${lineJoin} d ON d.${kode}_id=h.id LEFT JOIN gf.s_stock s ON s.id=d.stock_id`,
+    base: `FROM ${doc} h ${noVend ? "" : V} JOIN ${lineJoin} d ON d.${kode}_id=h.id LEFT JOIN gf.s_stock s ON s.id=d.stock_id`,
     cols, where: `${whereBatal(ctx)} AND d.tgl_hapus IS NULL`,
     orderBy: "h.id DESC, d.sys_id",
     catatan: `Sumber: ${doc} + ${lineJoin} (relasi ${kode}_id)`,
@@ -103,7 +104,7 @@ function perBarang(ctx: RuleCtx, doc: string, lineJoin: string, kode: string, by
     { sql: "round(COALESCE(SUM(d.jumlah*d.harga*(1-COALESCE(d.disc_pers,0)/100)),0),2)::text", label: "Nilai", align: "r" },
   ];
   return {
-    base: `FROM ${doc} h ${V} JOIN ${lineJoin} d ON d.${kode}_id=h.id LEFT JOIN gf.s_stock s ON s.id=d.stock_id ${gJoin}`,
+    base: `FROM ${doc} h ${doc === "gf.s_purreq" ? "" : V} JOIN ${lineJoin} d ON d.${kode}_id=h.id LEFT JOIN gf.s_stock s ON s.id=d.stock_id ${gJoin}`,
     cols, where: `${whereBatal(ctx)} AND d.tgl_hapus IS NULL`,
     groupBy: `GROUP BY ${byGroup ? gExp : `${kodeExp}, ${gExp}`}`,
     orderBy: "1",
