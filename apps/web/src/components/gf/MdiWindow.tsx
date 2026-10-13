@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Minus, Square, X } from "lucide-react";
 
 export function MdiWindow({
   title,
@@ -10,22 +11,28 @@ export function MdiWindow({
   onClose?: () => void;
 }) {
   return (
-    <div className="border border-gf-border bg-gf-panel shadow-sm">
-      <div className="flex items-center justify-between bg-gf-titlebar px-1">
-        <span className="py-[2px] text-[12px] font-bold text-black">{title}</span>
-        <span className="flex items-center gap-1">
-          <button className="gf-3d h-[16px] w-[18px] bg-gf-panel text-[10px] leading-none" title="Minimize">
-            _
-          </button>
-          <button className="gf-3d h-[16px] w-[18px] bg-gf-panel text-[10px] leading-none" title="Maximize">
-            ▢
+    <div className="gf-window">
+      <div className="flex items-center justify-between border-b border-gf-border bg-white px-3 py-[5px]">
+        <span className="text-[12.5px] font-semibold text-slate-800">{title}</span>
+        <span className="flex items-center gap-[4px]">
+          <button
+            className="flex h-[22px] w-[22px] items-center justify-center rounded-md text-slate-500 transition-colors hover:bg-slate-100"
+            title="Minimize"
+          >
+            <Minus className="h-[13px] w-[13px]" />
           </button>
           <button
-            className="gf-3d h-[16px] w-[18px] bg-gf-panel text-[10px] leading-none"
+            className="flex h-[22px] w-[22px] items-center justify-center rounded-md text-slate-500 transition-colors hover:bg-slate-100"
+            title="Maximize"
+          >
+            <Square className="h-[11px] w-[11px]" />
+          </button>
+          <button
+            className="flex h-[22px] w-[22px] items-center justify-center rounded-md text-slate-500 transition-colors hover:bg-red-50 hover:text-red-600"
             title="Tutup"
             onClick={onClose}
           >
-            ✕
+            <X className="h-[14px] w-[14px]" />
           </button>
         </span>
       </div>

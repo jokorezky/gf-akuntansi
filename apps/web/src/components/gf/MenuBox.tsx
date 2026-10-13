@@ -1,9 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import type { GfBoxButton, GfMenuBox } from "@/lib/menu-boxes";
+import { gfLucide } from "@/lib/gf-lucide";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
-/** Kotak menu GF 1:1: posisi absolut (%) dari hasil observasi + ikon asli hasil crop. */
+/** Kotak menu GF: posisi absolut (%) dari observasi GF dipertahankan; skin modern + ikon lucide. */
 export function MenuBox({
   box,
   onItem,
@@ -20,32 +22,37 @@ export function MenuBox({
   return (
     <div className="px-2 pb-2 pt-1">
       {root ? (
-        <div className="mb-1 text-center text-[12px] text-[#1e3fae]">{company ?? ""}</div>
+        <div className="mb-2 text-center text-[12.5px] font-semibold tracking-wide text-gf-accent">
+          {company ?? ""}
+        </div>
       ) : (
         <>
-          <div className="mb-1 flex items-center justify-center gap-2">
-            <span className="text-[12px] text-gf-text">{box.title.replace(/^Menu /, "")}</span>
+          <div className="mb-1.5 text-center text-[12px] font-semibold text-slate-500">
+            {box.title.replace(/^Menu /, "")}
           </div>
-          <button
-            type="button"
-            onClick={onHome}
-            className="gf-3d mb-2 w-full bg-gf-panel py-[4px] text-[12px] hover:bg-gf-hl hover:text-white"
-          >
+          <Button variant="default" size="sm" className="mb-2 w-full" onClick={onHome}>
             Menu Utama (<span className="underline">ESC</span>)
-          </button>
+          </Button>
         </>
       )}
-      <div className="relative bg-[#e4e4e4]" style={{ width: 268, height: Math.round(268 * box.ratio) }}>
-        {box.items.map((it, i) =>
-          it.small ? (
+      <div
+        className="relative rounded-lg border border-slate-200 bg-slate-100/70"
+        style={{ width: 268, height: Math.round(268 * box.ratio) }}
+      >
+        {box.items.map((it, i) => {
+          const Icon = gfLucide(it.label);
+          return it.small ? (
             <button
               key={i}
               type="button"
               title={it.blocked ? "Dinonaktifkan (destruktif/berat)" : it.label}
               onClick={() => onItem(it)}
-              className={`gf-3d absolute flex items-center justify-center bg-gf-menubar px-1 text-center text-[11px] leading-[12px] ${
-                it.blocked ? "text-gf-muted/70" : "hover:bg-gf-hl hover:text-white"
-              }`}
+              className={cn(
+                "absolute flex items-center justify-center rounded-md border border-gf-border bg-white px-1 text-center text-[10.5px] font-medium leading-[12px] transition-all",
+                it.blocked
+                  ? "text-slate-300"
+                  : "text-slate-600 hover:border-gf-accent/30 hover:text-gf-accent hover:shadow-sm",
+              )}
               style={{ left: `${it.x}%`, top: `${it.y}%`, width: `${it.w}%`, height: `${it.h}%` }}
             >
               {it.label}
@@ -56,18 +63,21 @@ export function MenuBox({
               type="button"
               title={it.blocked ? "Dinonaktifkan (destruktif/berat)" : it.label}
               onClick={() => onItem(it)}
-              className={`gf-3d absolute flex flex-col items-center justify-start bg-gf-panel pb-[1px] pt-[2px] ${
-                it.blocked ? "opacity-70" : "hover:bg-gf-hl hover:text-white"
-              }`}
+              className={cn(
+                "absolute flex flex-col items-center justify-center gap-1 rounded-xl border border-gf-border bg-white pb-1 pt-2 transition-all",
+                it.blocked
+                  ? "opacity-60"
+                  : "hover:-translate-y-[1px] hover:border-gf-accent/30 hover:shadow-md",
+              )}
               style={{ left: `${it.x}%`, top: `${it.y}%`, width: `${it.w}%`, height: `${it.h}%` }}
             >
-              <span className="relative block h-[72%] w-full">
-                <Image src={it.icon} alt={it.label} fill sizes="120px" className="object-contain" unoptimized />
+              <Icon className="h-[30px] w-[30px] text-gf-accent" strokeWidth={1.7} />
+              <span className="block w-full px-[2px] text-center text-[10.5px] font-medium leading-[12px] text-slate-600">
+                {it.label}
               </span>
-              <span className="mt-[1px] block w-full px-[2px] text-center text-[10px] leading-[11px]">{it.label}</span>
             </button>
-          ),
-        )}
+          );
+        })}
       </div>
     </div>
   );

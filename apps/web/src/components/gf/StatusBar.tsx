@@ -20,11 +20,15 @@ export function StatusBar({ message }: { message?: string }) {
   }, []);
 
   return (
-    <div className="flex items-center justify-between border-t border-gf-border bg-gf-menubar px-1 py-[2px] text-[11px]">
-      <span className="truncate pl-1 text-gf-text">{message ?? ""}</span>
-      <span className="flex items-center gap-1">
-        <span className="gf-3d min-w-[86px] bg-gf-panel px-2 text-right text-gf-text">{now.date}</span>
-        <span className="gf-3d min-w-[72px] bg-gf-panel px-2 text-right text-gf-text">{now.time}</span>
+    <div className="flex items-center justify-between border-t border-gf-border bg-white px-2 py-[3px] text-[11px] text-slate-500">
+      <span className="truncate pl-1">{message ?? ""}</span>
+      <span className="flex items-center gap-[6px]">
+        <span className="rounded-md border border-gf-border bg-slate-50 px-2 py-[1px] text-right font-medium text-slate-600">
+          {now.date}
+        </span>
+        <span className="rounded-md border border-gf-border bg-slate-50 px-2 py-[1px] text-right font-medium text-slate-600">
+          {now.time}
+        </span>
       </span>
     </div>
   );

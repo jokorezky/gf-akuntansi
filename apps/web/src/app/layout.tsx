@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Toaster } from "sonner";
 import { GlobalShortcuts } from "@/components/gf/GlobalShortcuts";
 import "./globals.css";
 
@@ -17,6 +18,7 @@ export default function RootLayout({
       <body>
         <GlobalShortcuts />
         {children}
+        <Toaster position="bottom-right" richColors closeButton />
       </body>
     </html>
   );

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { GF_MENU, type GfMenuItem } from "@/lib/gf-menu";
+import { cn } from "@/lib/utils";
 
 export function MenuBar({
   onSelect,
@@ -12,21 +13,24 @@ export function MenuBar({
 
   return (
     <div className="relative select-none">
-      <div className="flex items-stretch bg-gf-menubar border-b border-gf-border">
+      <div className="flex items-stretch gap-[2px] border-b border-gf-border bg-gf-menubar px-2 py-[3px]">
         {GF_MENU.map((g, i) => (
           <div key={g.label} className="relative">
             <button
               type="button"
-              className={`px-2 py-[3px] text-[12px] ${
-                open === i ? "bg-gf-hl text-white" : "text-gf-text hover:bg-gf-hl hover:text-white"
-              }`}
+              className={cn(
+                "rounded-md px-2.5 py-[3px] text-[12px] font-medium transition-colors",
+                open === i
+                  ? "bg-gf-accent text-white shadow-sm"
+                  : "text-slate-700 hover:bg-slate-100 hover:text-gf-accent",
+              )}
               onClick={() => setOpen(open === i ? null : i)}
               onMouseEnter={() => open !== null && setOpen(i)}
             >
               {g.label}
             </button>
             {open === i && (
-              <div className="absolute left-0 top-full z-30 min-w-[230px] bg-gf-panel border border-gf-border py-1 shadow">
+              <div className="absolute left-0 top-full z-30 mt-1 min-w-[250px] rounded-lg border border-gf-border bg-white py-1.5 shadow-[0_10px_38px_rgba(15,23,42,0.15)]">
                 {g.items.map((it) => (
                   <button
                     key={it.id}
@@ -36,15 +40,20 @@ export function MenuBar({
                       onSelect(g.label, it);
                       setOpen(null);
                     }}
-                    className={`flex w-full items-center justify-between gap-6 px-3 py-[3px] text-left text-[12px] ${
+                    className={cn(
+                      "mx-1 flex w-[calc(100%-8px)] items-center justify-between gap-6 rounded-md px-2.5 py-[5px] text-left text-[12px] transition-colors",
                       it.blocked
-                        ? "text-gf-muted/60 cursor-not-allowed"
-                        : "text-gf-text hover:bg-gf-hl hover:text-white"
-                    }`}
+                        ? "cursor-not-allowed text-slate-300"
+                        : "text-slate-700 hover:bg-gf-accent/5 hover:text-gf-accent",
+                    )}
                     title={it.blocked ? "Dinonaktifkan (aksi destruktif/berat)" : it.label}
                   >
                     <span>{it.label}</span>
-                    {it.hotkey && <span className="text-[11px] opacity-70">{it.hotkey}</span>}
+                    {it.hotkey && (
+                      <span className="rounded border border-slate-200 bg-slate-50 px-1 py-[1px] text-[10px] text-slate-400">
+                        {it.hotkey}
+                      </span>
+                    )}
                   </button>
                 ))}
               </div>
@@ -52,9 +61,7 @@ export function MenuBar({
           </div>
         ))}
       </div>
-      {open !== null && (
-        <div className="fixed inset-0 z-20" onClick={() => setOpen(null)} />
-      )}
+      {open !== null && <div className="fixed inset-0 z-20" onClick={() => setOpen(null)} />}
     </div>
   );
 }

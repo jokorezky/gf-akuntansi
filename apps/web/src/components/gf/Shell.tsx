@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Minus, Square, X } from "lucide-react";
 import { MenuBar } from "./MenuBar";
 import { Toolbar } from "./Toolbar";
 import { MdiWindow } from "./MdiWindow";
@@ -132,24 +133,32 @@ export function Shell() {
 
   return (
     <div className="flex h-screen flex-col bg-gf-bg">
-      <div className="flex h-[26px] items-center justify-between border-b border-gf-border bg-gradient-to-b from-[#f8f8f8] to-[#e8e8e8] px-2">
-        <span className="flex items-center gap-2 text-[12px] text-black">
-          <span className="inline-block h-[14px] w-[14px] rounded-[2px] bg-gf-accent" />
+      <div className="flex h-[30px] items-center justify-between border-b border-gf-border bg-white/95 px-3 backdrop-blur">
+        <span className="flex items-center gap-2 text-[12px] font-medium text-slate-700">
+          <span className="flex h-[16px] w-[16px] items-center justify-center rounded-[4px] bg-gf-accent text-[8px] font-bold text-white">
+            GF
+          </span>
           GF-Akuntansi, Release : 951.1823 Build 2026.06.28
         </span>
-        <span className="flex items-center gap-[6px]">
-          <span className="gf-3d flex h-[16px] w-[22px] items-center justify-center bg-gf-panel text-[10px]">_</span>
-          <span className="gf-3d flex h-[16px] w-[22px] items-center justify-center bg-gf-panel text-[10px]">▢</span>
-          <span className="gf-3d flex h-[16px] w-[22px] items-center justify-center bg-gf-panel text-[10px]">✕</span>
+        <span className="flex items-center gap-[4px]">
+          <span className="flex h-[22px] w-[22px] items-center justify-center rounded-md text-slate-500 hover:bg-slate-100">
+            <Minus className="h-[13px] w-[13px]" />
+          </span>
+          <span className="flex h-[22px] w-[22px] items-center justify-center rounded-md text-slate-500 hover:bg-slate-100">
+            <Square className="h-[11px] w-[11px]" />
+          </span>
+          <span className="flex h-[22px] w-[22px] items-center justify-center rounded-md text-slate-500 hover:bg-red-50 hover:text-red-600">
+            <X className="h-[14px] w-[14px]" />
+          </span>
         </span>
       </div>
       <MenuBar onSelect={onSelect} />
       <Toolbar />
 
-      <div className="relative flex-1 overflow-auto p-2">
-        {/* background splash ala GF */}
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-[0.08]">
-          <span className="text-[64px] font-bold tracking-tight text-gf-accent">GF-AKUNTANSI</span>
+      <div className="relative flex-1 overflow-auto bg-gradient-to-br from-slate-100 via-slate-50 to-slate-200 p-3">
+        {/* watermark ala GF (halus) */}
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+          <span className="text-[64px] font-bold tracking-tight text-gf-accent/[0.05]">GF-AKUNTANSI</span>
         </div>
 
         <div className="relative w-fit">
@@ -175,8 +184,8 @@ export function Shell() {
           </MdiWindow>
         </div>
 
-        {/* Kartu info desktop GF — overlay kanan-bawah, selalu tampil */}
-        <div className="absolute bottom-2 right-2 z-10">
+        {/* Kartu info desktop GF — overlay kanan-bawah, posisi tetap */}
+        <div className="absolute bottom-3 right-3 z-10">
           <InfoBox rows={infoRows} />
         </div>
       </div>

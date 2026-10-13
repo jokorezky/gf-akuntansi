@@ -1,9 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Pencil, Plus, Save, Search, Settings2, Trash2, UserRound, X } from "lucide-react";
+import { toast } from "sonner";
 import { gql } from "@/lib/graphql";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 type Row = {
   id: number;
@@ -33,8 +36,6 @@ const BYID = `query($id:Int!){ karyawanById(id:$id){ ${FIELDS} } }`;
 const CREATE = `mutation($input:KaryawanInput!){ createKaryawan(input:$input){ id } }`;
 const UPDATE = `mutation($id:Int!,$input:KaryawanInput!){ updateKaryawan(id:$id, input:$input){ id } }`;
 const DELETE = `mutation($id:Int!){ deleteKaryawan(id:$id) }`;
-
-const ICON = "/gf-icons/screens/karyawan";
 
 const empty = (): Row => ({
   id: 0, nama: "", alamat: "", telepon: "", komisi: "0.00", catatan: "", nonAktif: "",
@@ -75,13 +76,14 @@ function KaryawanForm({
   }
 
   const grp = (k: "grpstk" | "grpst2" | "grpst3", list: Ref[]) => (
-    <div className="h-[380px] overflow-auto border border-gf-border bg-white">
+    <div className="h-[380px] overflow-auto rounded-md border border-gf-border bg-white">
       {list.map((g) => {
         const checked = splitIds(f[k]).includes(g.id);
         return (
-          <label key={g.id} className="flex items-center gap-1 px-1 py-[1px] text-[11px] hover:bg-[#e8eef7]">
+          <label key={g.id} className="flex items-center gap-2 px-2 py-[3px] text-[11px] hover:bg-gf-accent/5">
             <input
               type="checkbox"
+              className="accent-gf-accent"
               checked={checked}
               onChange={(e) => {
                 const ids = new Set(splitIds(f[k]));
@@ -97,103 +99,110 @@ function KaryawanForm({
   );
 
   return (
-    <div className="fixed inset-0 z-30 flex items-start justify-center bg-black/20 pt-10">
-      <div className="w-[860px] border border-gf-border bg-gf-panel shadow-lg">
-        <div className="flex items-center justify-between border-b border-gf-border bg-gf-titlebar px-2 py-1 text-[13px] font-bold">
-          <span>Karyawan</span>
-          <button className="gf-3d bg-gf-menubar px-2 text-[11px]" onClick={onClose}>✕</button>
+    <div className="fixed inset-0 z-30 flex items-start justify-center bg-slate-900/30 pt-10 backdrop-blur-[2px]">
+      <div className="w-[860px] overflow-hidden rounded-xl border border-gf-border bg-white shadow-2xl">
+        <div className="flex items-center justify-between border-b border-gf-border bg-white px-3 py-[7px]">
+          <span className="text-[13px] font-semibold text-slate-800">Karyawan</span>
+          <button className="flex h-[22px] w-[22px] items-center justify-center rounded-md text-slate-500 hover:bg-red-50 hover:text-red-600" onClick={onClose}>
+            <X className="h-[14px] w-[14px]" />
+          </button>
         </div>
-        <div className="p-2">
-          <div className="flex gap-1 border-b border-gf-border pb-[-1px]">
+        <div className="p-3">
+          <div className="mb-3 flex gap-1 border-b border-gf-border">
             {[
-              { icon: `${ICON}/tab-data-utama.png`, label: "Data Utama" },
-              { icon: `${ICON}/tab-inisialisasi.png`, label: "Inisialisasi" },
+              { Ico: UserRound, label: "Data Utama" },
+              { Ico: Settings2, label: "Inisialisasi" },
             ].map((t, i) => (
               <button
                 key={t.label}
                 onClick={() => setTab(i)}
-                className={`gf-3d flex items-center gap-1 border-b-0 px-3 py-[2px] text-[12px] ${tab === i ? "bg-white" : "bg-gf-menubar"}`}
+                className={cn(
+                  "-mb-[1px] flex items-center gap-1.5 border-b-2 px-3 py-[6px] text-[12px] font-medium transition-colors",
+                  tab === i
+                    ? "border-gf-accent text-gf-accent"
+                    : "border-transparent text-slate-500 hover:text-slate-700",
+                )}
               >
-                <Image src={t.icon} alt="" width={18} height={18} unoptimized />
+                <t.Ico className="h-[15px] w-[15px]" />
                 {t.label}
               </button>
             ))}
           </div>
           {tab === 0 ? (
-            <div className="flex gap-2 border border-gf-border bg-[#f4f4f4] p-3">
+            <div className="flex gap-3 rounded-lg border border-gf-border bg-slate-50 p-3">
               <div className="w-[380px]">
-                <div className="grid grid-cols-[90px_1fr] items-center gap-y-[6px] text-[12px]">
-                  <span>ID :</span>
-                  <span className="border border-gf-border bg-[#ccff99] px-2 py-[2px] font-mono text-[12px]">{mode === "create" ? "???" : f.id}</span>
-                  <span>Nama :</span>
-                  <input className="gf-3d bg-white px-2 py-[2px]" value={f.nama ?? ""} onChange={(e) => set("nama", e.target.value)} />
-                  <span className="self-start pt-1">Alamat :</span>
-                  <textarea className="gf-3d h-[70px] bg-white px-2 py-[2px]" value={f.alamat ?? ""} onChange={(e) => set("alamat", e.target.value)} />
-                  <span>Telepon :</span>
-                  <input className="gf-3d bg-white px-2 py-[2px]" value={f.telepon ?? ""} onChange={(e) => set("telepon", e.target.value)} />
-                  <span>Komisi :</span>
+                <div className="grid grid-cols-[90px_1fr] items-center gap-y-[7px] text-[12px]">
+                  <span className="text-slate-500">ID :</span>
+                  <span className="w-fit rounded-md border border-emerald-200 bg-emerald-50 px-2 py-[3px] font-mono text-[12px] font-medium text-emerald-700">{mode === "create" ? "???" : f.id}</span>
+                  <span className="text-slate-500">Nama :</span>
+                  <input className="rounded-md border border-gf-border bg-white px-2 py-[5px] outline-none focus:border-gf-accent/50 focus:ring-2 focus:ring-gf-accent/15" value={f.nama ?? ""} onChange={(e) => set("nama", e.target.value)} />
+                  <span className="self-start pt-1 text-slate-500">Alamat :</span>
+                  <textarea className="h-[70px] rounded-md border border-gf-border bg-white px-2 py-[5px] outline-none focus:border-gf-accent/50 focus:ring-2 focus:ring-gf-accent/15" value={f.alamat ?? ""} onChange={(e) => set("alamat", e.target.value)} />
+                  <span className="text-slate-500">Telepon :</span>
+                  <input className="rounded-md border border-gf-border bg-white px-2 py-[5px] outline-none focus:border-gf-accent/50 focus:ring-2 focus:ring-gf-accent/15" value={f.telepon ?? ""} onChange={(e) => set("telepon", e.target.value)} />
+                  <span className="text-slate-500">Komisi :</span>
                   <div className="flex items-center gap-1">
-                    <input className="gf-3d w-[90px] bg-white px-2 py-[2px] text-right" value={f.komisi ?? ""} onChange={(e) => set("komisi", e.target.value)} />
-                    <span>%</span>
+                    <input className="w-[90px] rounded-md border border-gf-border bg-white px-2 py-[5px] text-right outline-none focus:border-gf-accent/50 focus:ring-2 focus:ring-gf-accent/15" value={f.komisi ?? ""} onChange={(e) => set("komisi", e.target.value)} />
+                    <span className="text-slate-500">%</span>
                   </div>
-                  <span>Catatan :</span>
-                  <input className="gf-3d bg-white px-2 py-[2px]" value={f.catatan ?? ""} onChange={(e) => set("catatan", e.target.value)} />
+                  <span className="text-slate-500">Catatan :</span>
+                  <input className="rounded-md border border-gf-border bg-white px-2 py-[5px] outline-none focus:border-gf-accent/50 focus:ring-2 focus:ring-gf-accent/15" value={f.catatan ?? ""} onChange={(e) => set("catatan", e.target.value)} />
                 </div>
-                <div className="mt-3 grid grid-cols-[90px_1fr] items-center gap-y-[6px] border-t border-gf-border pt-2 text-[12px]">
-                  <span>Non-Aktif :</span>
-                  <input type="date" className="gf-3d w-[140px] bg-white px-2 py-[2px]" value={f.nonAktif ?? ""} onChange={(e) => set("nonAktif", e.target.value)} />
-                  <span>Jenis Penj :</span>
-                  <select className="gf-3d w-full bg-white px-1 py-[2px]" value={f.jenpenId ?? ""} onChange={(e) => set("jenpenId", e.target.value ? Number(e.target.value) : null)}>
+                <div className="mt-3 grid grid-cols-[90px_1fr] items-center gap-y-[7px] border-t border-gf-border pt-3 text-[12px]">
+                  <span className="text-slate-500">Non-Aktif :</span>
+                  <input type="date" className="w-[150px] rounded-md border border-gf-border bg-white px-2 py-[5px] outline-none focus:border-gf-accent/50" value={f.nonAktif ?? ""} onChange={(e) => set("nonAktif", e.target.value)} />
+                  <span className="text-slate-500">Jenis Penj :</span>
+                  <select className="w-full rounded-md border border-gf-border bg-white px-2 py-[5px] outline-none focus:border-gf-accent/50" value={f.jenpenId ?? ""} onChange={(e) => set("jenpenId", e.target.value ? Number(e.target.value) : null)}>
                     <option value="">---</option>
                     {refs.jenpen.map((r) => <option key={r.id} value={r.id}>{r.nama}</option>)}
                   </select>
-                  <span>Divisi :</span>
-                  <select className="gf-3d w-full bg-white px-1 py-[2px]" value={f.divisiId ?? ""} onChange={(e) => set("divisiId", e.target.value ? Number(e.target.value) : null)}>
+                  <span className="text-slate-500">Divisi :</span>
+                  <select className="w-full rounded-md border border-gf-border bg-white px-2 py-[5px] outline-none focus:border-gf-accent/50" value={f.divisiId ?? ""} onChange={(e) => set("divisiId", e.target.value ? Number(e.target.value) : null)}>
                     <option value="">---semua divisi--</option>
                     {refs.divisi.map((r) => <option key={r.id} value={r.id}>{r.nama}</option>)}
                   </select>
                 </div>
               </div>
-              <div className="flex-1 border border-gf-border bg-white p-3">
+              <div className="flex-1 rounded-lg border border-gf-border bg-white p-3">
                 {(["sales", "supir", "helper", "collector", "admin"] as const).map((k) => (
-                  <label key={k} className="mb-1 flex items-center gap-2 text-[12px] capitalize">
-                    <input type="checkbox" checked={Boolean(f[k])} onChange={(e) => set(k, e.target.checked)} />
+                  <label key={k} className="mb-1.5 flex items-center gap-2 text-[12px] capitalize">
+                    <input type="checkbox" className="accent-gf-accent" checked={Boolean(f[k])} onChange={(e) => set(k, e.target.checked)} />
                     {k}
                   </label>
                 ))}
               </div>
             </div>
           ) : (
-            <div className="border border-gf-border bg-[#f4f4f4] p-2">
-              <div className="mb-2 bg-[#c8f0c8] px-2 py-[3px] text-center text-[12px] text-green-800">
+            <div className="rounded-lg border border-gf-border bg-slate-50 p-3">
+              <div className="mb-2 rounded-md border border-emerald-200 bg-emerald-50 px-2 py-[4px] text-center text-[12px] text-emerald-700">
                 Tidak dipilih, berarti semuanya boleh.
               </div>
-              <div className="grid grid-cols-3 gap-1 text-[12px]">
+              <div className="grid grid-cols-3 gap-2 text-[12px]">
                 <div>
-                  <div className="border border-gf-border bg-white px-1 text-[11px]">Grouping</div>
+                  <div className="mb-1 text-[11px] font-medium text-slate-500">Grouping</div>
                   {grp("grpstk", refs.g1)}
                 </div>
                 <div>
-                  <div className="border border-gf-border bg-white px-1 text-[11px]">Grouping *2</div>
+                  <div className="mb-1 text-[11px] font-medium text-slate-500">Grouping *2</div>
                   {grp("grpst2", refs.g2)}
                 </div>
                 <div>
-                  <div className="border border-gf-border bg-white px-1 text-[11px]">Grouping *3</div>
+                  <div className="mb-1 text-[11px] font-medium text-slate-500">Grouping *3</div>
                   {grp("grpst3", refs.g3)}
                 </div>
               </div>
             </div>
           )}
-          {err && <div className="mt-2 text-[12px] text-red-700">{err}</div>}
-          <div className="mt-2 grid grid-cols-2 gap-2">
-            <button onClick={simpan} className="gf-3d flex items-center justify-center gap-2 bg-gf-menubar py-[4px] text-[13px]">
-              <Image src={`${ICON}/simpan.png`} alt="" width={22} height={22} unoptimized />
+          {err && <div className="mt-2 rounded-md border border-red-200 bg-red-50 px-2 py-1 text-[12px] text-red-700">{err}</div>}
+          <div className="mt-3 grid grid-cols-2 gap-2">
+            <Button variant="primary" size="lg" onClick={simpan}>
+              <Save className="h-[15px] w-[15px]" />
               Simpan
-            </button>
-            <button onClick={onClose} className="gf-3d flex items-center justify-center gap-2 bg-gf-menubar py-[4px] text-[13px]">
-              <Image src={`${ICON}/form-tutup.png`} alt="" width={22} height={22} unoptimized />
+            </Button>
+            <Button variant="default" size="lg" onClick={onClose}>
+              <X className="h-[15px] w-[15px]" />
               Tutup
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -245,45 +254,70 @@ export default function KaryawanPage() {
     await gql(DELETE, { id: sel });
     setSel(null);
     setMsg("Terhapus.");
+    toast.success("Karyawan terhapus (soft delete).");
     await load();
   }
 
   return (
-    <div className="min-h-screen bg-gf-bg p-3 text-gf-text">
-      <div className="mx-auto max-w-[1100px] border border-gf-border bg-gf-panel">
-        <div className="border-b border-gf-border bg-gf-titlebar px-2 py-1 text-[13px] font-bold">Karyawan</div>
-        <div className="p-2">
-          <div className="mb-1 text-center text-[12px] font-bold tracking-widest text-gf-accent">
-            M A S T E R&nbsp;&nbsp;F I L E&nbsp;&nbsp;-&nbsp;&nbsp;K A R Y A W A N
+    <div className="min-h-screen bg-transparent p-3 text-gf-text">
+      <div className="gf-window mx-auto max-w-[1100px]">
+        <div className="flex items-center justify-between border-b border-gf-border bg-white px-3 py-[6px]">
+          <span className="text-[12.5px] font-semibold text-slate-800">Karyawan</span>
+          <span className="flex items-center gap-[4px]">
+            <button className="flex h-[22px] w-[22px] items-center justify-center rounded-md text-slate-500 hover:bg-slate-100" title="Minimize">
+              <span className="block h-[2px] w-[10px] rounded bg-current" />
+            </button>
+            <button className="flex h-[22px] w-[22px] items-center justify-center rounded-md text-slate-500 hover:bg-slate-100" title="Maximize">
+              <span className="block h-[9px] w-[9px] rounded-[2px] border-[1.5px] border-current" />
+            </button>
+            <button
+              onClick={() => router.push("/")}
+              className="flex h-[22px] w-[22px] items-center justify-center rounded-md text-slate-500 hover:bg-red-50 hover:text-red-600"
+              title="Tutup"
+            >
+              <X className="h-[14px] w-[14px]" />
+            </button>
+          </span>
+        </div>
+        <div className="p-3">
+          <div className="mb-2 text-center text-[12px] font-semibold tracking-[0.35em] text-gf-accent">
+            MASTER FILE - KARYAWAN
           </div>
-          <div className="mb-2 flex items-center gap-2">
-            <input
-              className="gf-3d flex-1 bg-white px-2 py-[3px] text-[12px]"
-              placeholder="" title="Pencarian (ketik untuk mencari)"
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-            />
-            <button onClick={onTambah} className="gf-3d bg-gf-menubar p-1" title="Tambah">
-              <Image src={`${ICON}/tambah.png`} alt="Tambah" width={102} height={53} unoptimized />
-            </button>
-            <button onClick={onKoreksi} className={`gf-3d bg-gf-menubar p-1 ${sel == null ? "opacity-40" : ""}`} title="Koreksi">
-              <Image src={`${ICON}/koreksi.png`} alt="Koreksi" width={102} height={53} unoptimized />
-            </button>
-            <button onClick={onHapus} className={`gf-3d bg-gf-menubar p-1 ${sel == null ? "opacity-40" : ""}`} title="Hapus">
-              <Image src={`${ICON}/hapus.png`} alt="Hapus" width={102} height={53} unoptimized />
-            </button>
-            <button onClick={() => router.push("/")} className="gf-3d bg-gf-menubar p-1" title="Tutup">
-              <Image src={`${ICON}/tutup.png`} alt="Tutup" width={102} height={53} unoptimized />
-            </button>
+          <div className="mb-3 flex items-center gap-2">
+            <div className="relative flex-1">
+              <Search className="pointer-events-none absolute left-2.5 top-1/2 h-[14px] w-[14px] -translate-y-1/2 text-slate-400" />
+              <input
+                className="h-[30px] w-full rounded-md border border-gf-border bg-white pl-8 pr-3 text-[12px] shadow-inner outline-none focus:border-gf-accent/50 focus:ring-2 focus:ring-gf-accent/15"
+                placeholder="" title="Pencarian (ketik untuk mencari)"
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+              />
+            </div>
+            <Button variant="default" onClick={onTambah} title="Tambah (F?)">
+              <Plus className="h-[14px] w-[14px] text-emerald-600" />
+              Tambah
+            </Button>
+            <Button variant="default" onClick={onKoreksi} disabled={sel == null} title="Koreksi">
+              <Pencil className="h-[13px] w-[13px] text-sky-600" />
+              Koreksi
+            </Button>
+            <Button variant="default" onClick={onHapus} disabled={sel == null} title="Hapus">
+              <Trash2 className="h-[13px] w-[13px] text-red-600" />
+              Hapus
+            </Button>
+            <Button variant="default" onClick={() => router.push("/")} title="Tutup">
+              <X className="h-[14px] w-[14px] text-slate-500" />
+              Tutup
+            </Button>
           </div>
-          {err && <div className="mb-2 text-[12px] text-red-700">{err}</div>}
+          {err && <div className="mb-2 rounded-md border border-red-200 bg-red-50 px-2 py-1 text-[12px] text-red-700">{err}</div>}
           {msg && <div className="mb-1 text-[11px] text-gf-muted">{msg}</div>}
-          <div className="overflow-auto border border-gf-border bg-white max-h-[460px]">
+          <div className="max-h-[460px] overflow-auto rounded-lg border border-gf-border bg-white">
             <table className="w-full border-collapse text-[12px]">
-              <thead className="sticky top-0">
-                <tr className="bg-gf-menubar">
+              <thead className="sticky top-0 z-10">
+                <tr className="bg-slate-50 text-[11px] uppercase tracking-wide text-slate-500">
                   {["ID", "Nama", "Alamat", "Tipe", "Komisi", "Telepon", "Non-Aktif", "Catatan"].map((h) => (
-                    <th key={h} className="border border-gf-border px-2 py-1 text-left font-normal">{h}</th>
+                    <th key={h} className="border-b border-gf-border px-3 py-[7px] text-left font-medium">{h}</th>
                   ))}
                 </tr>
               </thead>
@@ -292,25 +326,31 @@ export default function KaryawanPage() {
                   <tr
                     key={r.id}
                     onClick={() => setSel(r.id)}
-                    className={`cursor-pointer ${sel === r.id ? "bg-[#316ac5] text-white" : "hover:bg-[#e8eef7]"}`}
+                    className={cn(
+                      "cursor-pointer border-b border-slate-100 transition-colors",
+                      sel === r.id ? "bg-gf-accent/[0.07]" : "hover:bg-slate-50",
+                    )}
                   >
-                    <td className="border border-gf-border px-2 py-[2px]">{r.id}</td>
-                    <td className="border border-gf-border px-2 py-[2px]">{r.nama}</td>
-                    <td className="border border-gf-border px-2 py-[2px]">{r.alamat}</td>
-                    <td className="border border-gf-border px-2 py-[2px]">{tipe(r)}</td>
-                    <td className="border border-gf-border px-2 py-[2px] text-right font-mono">{r.komisi}</td>
-                    <td className="border border-gf-border px-2 py-[2px]">{r.telepon}</td>
-                    <td className="border border-gf-border px-2 py-[2px]">{r.nonAktif}</td>
-                    <td className="border border-gf-border px-2 py-[2px]">{r.catatan}</td>
+                    <td className="px-3 py-[6px] font-mono text-slate-500">{r.id}</td>
+                    <td className="px-3 py-[6px] font-medium text-slate-700">{r.nama}</td>
+                    <td className="px-3 py-[6px] text-slate-600">{r.alamat}</td>
+                    <td className="px-3 py-[6px] text-slate-600">{tipe(r)}</td>
+                    <td className="px-3 py-[6px] text-right font-mono text-slate-700">{r.komisi}</td>
+                    <td className="px-3 py-[6px] text-slate-600">{r.telepon}</td>
+                    <td className="px-3 py-[6px] text-slate-600">{r.nonAktif}</td>
+                    <td className="px-3 py-[6px] text-slate-600">{r.catatan}</td>
                   </tr>
                 ))}
                 {rows.length === 0 && (
-                  <tr><td colSpan={8} className="px-2 py-3 text-center text-gf-muted">Belum ada data.</td></tr>
+                  <tr><td colSpan={8} className="px-2 py-6 text-center text-slate-400">Belum ada data.</td></tr>
                 )}
               </tbody>
             </table>
           </div>
-          <div className="mt-1 text-[11px] text-gf-muted">Total: {total}</div>
+          <div className="mt-2 flex items-center justify-between text-[11px] text-slate-400">
+            <span>Total: {total}</span>
+            <span className="rounded-md border border-gf-border bg-slate-50 px-2 py-[1px] text-slate-500">Halaman 1 dari 1</span>
+          </div>
         </div>
       </div>
 
@@ -323,6 +363,7 @@ export default function KaryawanPage() {
           onSaved={async () => {
             setForm(null);
             setMsg("Tersimpan.");
+            toast.success("Karyawan tersimpan.");
             await load();
           }}
         />
