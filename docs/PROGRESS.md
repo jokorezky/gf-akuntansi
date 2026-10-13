@@ -9,7 +9,7 @@ Legenda: ✅ selesai 1:1 · 🔄 jalan (belum V2-pass penuh) · ⏳ belum mulai
 
 ## 0. Ringkasan
 
-**Progress keseluruhan: ±60%** (basis: 53 layar inti + layar ekstra antar cabang/setup)
+**Progress keseluruhan: ±62%** (basis: 53 layar inti + layar ekstra antar cabang/setup)
 
 | Grup | ✅ Selesai | Total | % | Catatan |
 |---|---|---|---|---|
@@ -18,7 +18,7 @@ Legenda: ✅ selesai 1:1 · 🔄 jalan (belum V2-pass penuh) · ⏳ belum mulai
 | Master File | 5 | 5 | **100%** | Karyawan, Vendor, Pelanggan, Item, Sisa Stock |
 | Pembelian | 6 | 6 | **100%** | PO, Pembelian, Retur, Deposit, Bayar Hutang, Daftar Hutang |
 | Penjualan | 6 | 6 | **100%** | Penjualan, SO, POS, Retur, Penerimaan Piutang, Daftar Piutang |
-| Kas | 3 | 7 | ~45% | Sisa: Cari/Pencairan CH-BG (4 layar) |
+| Kas | 7 | 7 | **100%** | + Cari/Pencairan CH-BG (4 layar, V2-deep) |
 | GL | 7 | 7 | ~90% | Semua jalan; Jurnal/BB/LK belum V2-pass |
 | Lainnya | 9 | 14 | ~65% | Sisa: Barang Promosi ×2, Transfer, Untransfer, Pindah Gudang, Validasi |
 | Laporan | viewer ✅ | — | ~60% | 557 `.rpt` + viewer; isi data laporan per modul (A4) sebagian |
@@ -155,7 +155,7 @@ Legenda: ✅ selesai 1:1 · 🔄 jalan (belum V2-pass penuh) · ⏳ belum mulai
 
 ---
 
-## 6. Kas — 🔄 3/7 (~45%)
+## 6. Kas — ✅ 7/7 (100%)
 
 ### 6.1 Kas Masuk ✅ (basic, belum V2-pass)
 - BE CRUD `s_kasmsk + s_kasmex` (debet/kredit); FE `/kas-masuk`. Sisa: V2-pass UI (ikon+kolom GF).
@@ -166,7 +166,23 @@ Legenda: ✅ selesai 1:1 · 🔄 jalan (belum V2-pass penuh) · ⏳ belum mulai
 ### 6.3 Transfer Kas ✅ (basic)
 - FE `/transfer-kas`: Dari = kredit, Ke = debet + biaya; balanced; menulis dokumen kas. Sisa: V2-pass.
 
-### 6.4–6.7 Cari CH/BG Masuk/Keluar + Pencairan CH/BG Masuk/Keluar — ⏳ belum (Fase C)
+### 6.4 Cari CH/BG Masuk (24624) ✅ V2-deep
+- **UI 1:1** (judul asli GF: "CH/BG Kas Masuk/Transfer Kas"): panel **KHUSUS VENDOR** (Nama/Alamat/ID) kiri + **KHUSUS PELANGGAN** (Nama/Alamat/Daerah/DaerahID/ID) kanan — double-click = filter; range **Tanggal Jatuh Tempo** + **Cari CH/BG** + tombol **Proses/Batal/Tutup**; grid GF (DB/CR, Note, Date, MU*, Nilai, Nilai-3, Kurs, Perkiraan, Tgl Cair, Cair ke, Information, Tanggal/Vendor-Pelanggan).
+- **BE**: `chbgList(tipe:"masuk")` dari `gf.s_kasmex` (join s_kasmsk + s_perkir + s_vendor + s_pelang); `DB/CR` = flag `kredit`; filter q (no/lunas_doc/nama), tanggal, vendor/pelang; refs `chbgVendorRef`/`chbgPelangganRef`.
+- **Teruji**: 19.396 baris terbaca + total nilai; cari no `...174` ketemu; panel ref 300 vendor/13 pelanggan.
+- Sisa: filter persis Tgl Jatuh Tempo (`lunas_dt`) bila data giro bertambah.
+
+### 6.5 Cari CH/BG Keluar (24625) ✅ V2-deep
+- Analog dari `gf.s_kaskex` (join s_kasklr); `DB/CR` = flag `debet`. **Teruji**: 18.286 baris + total nilai.
+
+### 6.6 Pencairan CH/BG Masuk (24627) ✅ V2-deep
+- **UI 1:1**: static "P E N C A I R A N   C H / B G" + range Tanggal + Cari CH/BG + dua grid: **atas = belum cair** (dipilih, Ctrl+klik multi), **bawah = sudah cair** + kolom **Catatan**; tombol Cetak Setup/Cetak/**Refresh**/**Cairkan** (disabled tanpa pilihan)/Tutup + Batal Cair (pemulih, tambahan kecil).
+- **LOGIC (teruji penuh)**: Cairkan → `cairchbg=true, lunas_cair=<Tgl Cair>, luncair_nb=<catatan>`; filter status belum/sudah berpindah benar; **Batal Cair** mengembalikan (REVERSAL) — data uji dikembalikan bersih.
+- Field Tgl Cair + Catatan disediakan di baris filter (nilai masuk `lunas_cair`/`luncair_nb`).
+
+### 6.7 Pencairan CH/BG Keluar (24628) ✅ V2-deep
+- Analog dari `gf.s_kaskex`; tombol & logic sama (`Cairkan`/`Batal Cair` → `cairchbg/lunas_cair/luncair_nb`).
+- **Rute**: `/cari-chbg-masuk`, `/cari-chbg-keluar`, `/pencairan-chbg-masuk`, `/pencairan-chbg-keluar` (terdaftar di Shell → menu id 24624/24625/24627/24628).
 
 ---
 
@@ -216,12 +232,12 @@ Legenda: ✅ selesai 1:1 · 🔄 jalan (belum V2-pass penuh) · ⏳ belum mulai
 
 ## 11. Antrian Fase (urutan kerja)
 
-1. **Fase C** — Cari/Pencairan CH-BG (4 layar) → melengkapi modul Kas.
-2. **Fase D** — Antar Cabang (2 layar).
+1. ~~**Fase C** — Cari/Pencairan CH-BG (4 layar)~~ ✅ **SELESAI 13 Okt 2026** (modul Kas tuntas 7/7).
+2. **Fase D** — Antar Cabang (2 layar) ← berikutnya.
 3. **Fase E** — Barang Promosi ×2, Transfer, Untransfer, Pindah Gudang, Validasi Barang Keluar.
 4. **Fase F** — Sistem Setup (5 layar).
 5. **Fase G** — User Profile + sisa kecil.
-6. **V2-pass sisa** — Daftar Hutang, Kas ×3, Aktiva Tetap, Jurnal, BB, LK, Promosi, Produksi, Barang Masuk/Keluar, Kartu ×3, Expired.
+6. **V2-pass sisa** — Daftar Hutang, Kas Masuk/Keluar/Transfer, Aktiva Tetap, Jurnal, BB, LK, Promosi, Produksi, Barang Masuk/Keluar, Kartu ×3, Expired.
 7. **V1c** toolbar ikon individual · **A4** data laporan per modul · **V3** laporan pixel-perfect · **V4** re-check semua klaim.
 
 ## 12. Aturan Update File Ini
@@ -231,4 +247,5 @@ Legenda: ✅ selesai 1:1 · 🔄 jalan (belum V2-pass penuh) · ⏳ belum mulai
 
 ## 13. Riwayat Update
 
-- **13 Okt 2026** — File dibuat. Rekap seluruh pencapaian: Fondasi, Shell/Menu, Master File 5/5, Pembelian 6/6, **Penjualan 6/6 (baru tuntas: Penjualan, Sales Order, POS, Retur Penjualan, Penerimaan Piutang, Daftar Piutang — semua dengan LOGIC + RELASI TABLE teruji)**; progress keseluruhan ±60%.
+- **13 Okt 2026 (2)** — **Fase C SELESAI**: 4 layar Cari/Pencairan CH-BG dibangun V2-deep (BE modul `chbg` + FE `ChbgScreen` bersama + 4 rute). Teruji: list masuk 19.396 / keluar 18.286 baris; cari no; Cairkan → `cairchbg/lunas_cair/luncair_nb`; filter belum/sudah; Batal Cair (reversal, data uji dikembalikan). **Modul Kas tuntas 7/7 (100%)**; progress keseluruhan ±62%; berikutnya Fase D (Antar Cabang).
+- **13 Okt 2026 (1)** — File dibuat. Rekap seluruh pencapaian: Fondasi, Shell/Menu, Master File 5/5, Pembelian 6/6, **Penjualan 6/6 (all LOGIC + RELASI TABLE teruji)**; progress keseluruhan ±60%.

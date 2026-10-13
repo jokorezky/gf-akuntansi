@@ -19,6 +19,7 @@ import { ReturPenjualanModule } from "./modules/sales/retur-penjualan/retur-penj
 import { ReceiptModule } from "./modules/sales/receipt/receipt.module";
 import { PosModule } from "./modules/sales/pos/pos.module";
 import { KasModule } from "./modules/cash/kas.module";
+import { ChbgModule } from "./modules/cash/chbg/chbg.module";
 import { JurnalModule } from "./modules/ledger/jurnal/jurnal.module";
 import { AktivaTetapModule } from "./modules/ledger/aktiva-tetap/aktiva-tetap.module";
 import { GlChecksModule } from "./modules/ledger/gl-checks/gl-checks.module";
@@ -52,6 +53,7 @@ import { LaporanModule } from "./modules/laporan/laporan.module";
     ReceiptModule,
     PosModule,
     KasModule,
+    ChbgModule,
     JurnalModule,
     AktivaTetapModule,
     GlChecksModule,
