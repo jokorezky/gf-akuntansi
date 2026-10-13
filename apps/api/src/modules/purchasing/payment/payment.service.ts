@@ -141,11 +141,18 @@ export class PaymentService {
       WHERE p.hapus_oleh IS NULL${filter}`;
     const expr = `
       (p.tot_harga + COALESCE(p.ppn_nilai,0))::text AS total,
-      COALESCE((SELECT SUM(l.lunas) FROM gf.s_lunpem l WHERE l.pembel_id=p.id),0)::text AS dibayar,
+      COALESCE((SELECT SUM(l.lunas) FROM gf.s_lunpem l JOIN gf.s_lpemma m2 ON m2.id=l.lpemma_id AND COALESCE(m2.hapus_oleh,0)=0 WHERE l.pembel_id=p.id),0)::text AS dibayar,
       COALESCE((SELECT SUM(r.tot_harga) FROM gf.s_retpem r WHERE r.pembel_id=p.id AND r.hapus_oleh IS NULL),0)::text AS retur,
       (p.tot_harga + COALESCE(p.ppn_nilai,0)
-        - COALESCE((SELECT SUM(l.lunas) FROM gf.s_lunpem l WHERE l.pembel_id=p.id),0)
-        - COALESCE((SELECT SUM(r.tot_harga) FROM gf.s_retpem r WHERE r.pembel_id=p.id AND r.hapus_oleh IS NULL),0))::text AS sisa`;
+        - COALESCE((SELECT SUM(l.lunas) FROM gf.s_lunpem l JOIN gf.s_lpemma m2 ON m2.id=l.lpemma_id AND COALESCE(m2.hapus_oleh,0)=0 WHERE l.pembel_id=p.id),0)
+        - COALESCE((SELECT SUM(r.tot_harga) FROM gf.s_retpem r WHERE r.pembel_id=p.id AND r.hapus_oleh IS NULL),0))::text AS sisa,
+      p.divisi_id AS "divisiId", p.purcor_id::int AS "purcorId",
+      p.tot_harga::text AS "totHarga", p.tot_disc::text AS "totDisc", p.disc_nilai::text AS "adjNilai",
+      p.ppn_nilai::text AS "ppnNilai", p.deposit::text AS deposit, p.kurs::text AS kurs, p.term_crd AS "termCrd",
+      to_char(p.tanggal + COALESCE(p.term_crd,0),'YYYY-MM-DD') AS "jatuhTempo",
+      to_char((SELECT MAX(l.tanggal) FROM gf.s_lunpem l JOIN gf.s_lpemma m2 ON m2.id=l.lpemma_id AND COALESCE(m2.hapus_oleh,0)=0 WHERE l.pembel_id=p.id),'YYYY-MM-DD') AS "lunasOn",
+      to_char((SELECT MAX(l.tanggal) FROM gf.s_lunpem l JOIN gf.s_lpemma m2 ON m2.id=l.lpemma_id AND COALESCE(m2.hapus_oleh,0)=0 WHERE l.pembel_id=p.id AND COALESCE(l.discount,0)>0),'YYYY-MM-DD') AS "lunasOnDisc",
+      p.konf_oleh AS "konfOleh", p.catatan`;
     const total = await this.pool.query(`SELECT count(*)::int AS n ${base}`, params);
     params.push(limit, offset);
     const rows = await this.pool.query(
