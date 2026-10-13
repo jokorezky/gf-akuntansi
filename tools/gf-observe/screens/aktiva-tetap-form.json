@@ -1,0 +1,492 @@
+{
+  "slug": "aktiva-tetap-form",
+  "title": "Aktiva Tetap",
+  "rect": [
+    455,
+    69,
+    1466,
+    939
+  ],
+  "controls": [
+    {
+      "class": "Static",
+      "text": "KENDARAAN (IDR *)",
+      "rect": [
+        464,
+        113,
+        1454,
+        155
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        464,
+        150,
+        1454,
+        852
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Status :",
+      "rect": [
+        1094,
+        186,
+        1162,
+        216
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Divisi :",
+      "rect": [
+        1094,
+        221,
+        1162,
+        253
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Tanggal Beli :",
+      "rect": [
+        489,
+        186,
+        609,
+        216
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Kode A/T :",
+      "rect": [
+        489,
+        221,
+        609,
+        253
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Nama A/T :",
+      "rect": [
+        489,
+        252,
+        609,
+        282
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Beli Dari :",
+      "rect": [
+        489,
+        281,
+        609,
+        311
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Harga Beli :",
+      "rect": [
+        489,
+        311,
+        609,
+        343
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Mulai Susut :",
+      "rect": [
+        489,
+        342,
+        609,
+        372
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Metode Susut :",
+      "rect": [
+        489,
+        372,
+        609,
+        402
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "% Susut :",
+      "rect": [
+        873,
+        372,
+        957,
+        402
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Usia Susut :",
+      "rect": [
+        1094,
+        372,
+        1192,
+        402
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Catatan :",
+      "rect": [
+        489,
+        408,
+        609,
+        438
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Penambahan/ Pengurangan Nilai Aktiva Tetap :",
+      "rect": [
+        500,
+        515,
+        608,
+        605
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Tanggal Jual :",
+      "rect": [
+        489,
+        671,
+        605,
+        701
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Jual Kepada :",
+      "rect": [
+        489,
+        701,
+        605,
+        733
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Tanggal Out :",
+      "rect": [
+        489,
+        737,
+        605,
+        767
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Debet #Acc :",
+      "rect": [
+        489,
+        767,
+        605,
+        799
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Keterangan :",
+      "rect": [
+        489,
+        798,
+        605,
+        828
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        1161,
+        186,
+        1425,
+        216
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        1161,
+        221,
+        1425,
+        251
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1166,
+        225,
+        1396,
+        246
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        608,
+        186,
+        752,
+        216
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        752,
+        186,
+        1030,
+        216
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        608,
+        221,
+        838,
+        253
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        608,
+        252,
+        1426,
+        282
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        608,
+        281,
+        1426,
+        311
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        608,
+        311,
+        680,
+        343
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        680,
+        311,
+        832,
+        343
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        608,
+        342,
+        760,
+        372
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        759,
+        342,
+        831,
+        372
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        608,
+        372,
+        832,
+        402
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        963,
+        372,
+        1035,
+        402
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        1191,
+        372,
+        1425,
+        402
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        608,
+        408,
+        1432,
+        503
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        608,
+        671,
+        752,
+        701
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        752,
+        671,
+        1054,
+        701
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        608,
+        701,
+        1432,
+        733
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        608,
+        737,
+        752,
+        767
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        752,
+        737,
+        1054,
+        767
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        608,
+        767,
+        730,
+        799
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        729,
+        767,
+        801,
+        799
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        801,
+        767,
+        1431,
+        799
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        608,
+        798,
+        1432,
+        828
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Simpan",
+      "rect": [
+        464,
+        857,
+        958,
+        899
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Tutup",
+      "rect": [
+        957,
+        857,
+        1455,
+        899
+      ]
+    },
+    {
+      "class": "msctls_statusbar32",
+      "text": "",
+      "rect": [
+        459,
+        902,
+        1461,
+        935
+      ]
+    }
+  ]
+}

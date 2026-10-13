@@ -1,0 +1,302 @@
+{
+  "slug": "promosi-form",
+  "title": "Promosi",
+  "rect": [
+    615,
+    54,
+    1307,
+    954
+  ],
+  "controls": [
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        624,
+        128,
+        1298,
+        554
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<<",
+      "rect": [
+        624,
+        93,
+        794,
+        135
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<",
+      "rect": [
+        794,
+        93,
+        964,
+        135
+      ]
+    },
+    {
+      "class": "Button",
+      "text": ">",
+      "rect": [
+        962,
+        93,
+        1129,
+        135
+      ]
+    },
+    {
+      "class": "Button",
+      "text": ">>",
+      "rect": [
+        1128,
+        93,
+        1298,
+        135
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Tanggal :",
+      "rect": [
+        650,
+        159,
+        730,
+        189
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Pukul :",
+      "rect": [
+        650,
+        194,
+        730,
+        226
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Divisi: Jika tanpa pilihan artinya semua dipilih...",
+      "rect": [
+        650,
+        303,
+        722,
+        491
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Catatan :",
+      "rect": [
+        650,
+        506,
+        730,
+        538
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "-",
+      "rect": [
+        866,
+        159,
+        892,
+        189
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "-",
+      "rect": [
+        794,
+        194,
+        820,
+        226
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        728,
+        159,
+        866,
+        189
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        890,
+        159,
+        1028,
+        189
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        728,
+        194,
+        796,
+        226
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        818,
+        194,
+        886,
+        226
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Penj Eceran",
+      "rect": [
+        728,
+        230,
+        854,
+        260
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Penj Cash",
+      "rect": [
+        866,
+        230,
+        986,
+        260
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Penj Credit",
+      "rect": [
+        984,
+        230,
+        1110,
+        260
+      ]
+    },
+    {
+      "class": "SysListView32",
+      "text": "",
+      "rect": [
+        728,
+        266,
+        1124,
+        500
+      ]
+    },
+    {
+      "class": "SysListView32",
+      "text": "",
+      "rect": [
+        1128,
+        213,
+        1272,
+        501
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        728,
+        506,
+        1273,
+        538
+      ]
+    },
+    {
+      "class": "SysListView32",
+      "text": "",
+      "rect": [
+        633,
+        600,
+        1277,
+        798
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "T&ambah",
+      "rect": [
+        633,
+        806,
+        849,
+        848
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Koreksi",
+      "rect": [
+        849,
+        806,
+        1065,
+        848
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Hapus",
+      "rect": [
+        1065,
+        806,
+        1277,
+        848
+      ]
+    },
+    {
+      "class": "SysTabControl32",
+      "text": "",
+      "rect": [
+        624,
+        561,
+        1298,
+        866
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Simpan",
+      "rect": [
+        624,
+        873,
+        962,
+        915
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Tutup",
+      "rect": [
+        962,
+        873,
+        1298,
+        915
+      ]
+    },
+    {
+      "class": "msctls_statusbar32",
+      "text": "",
+      "rect": [
+        620,
+        917,
+        1303,
+        950
+      ]
+    }
+  ]
+}

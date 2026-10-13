@@ -1,0 +1,93 @@
+{
+  "slug": "karyawan-list",
+  "window_class": "DocAppWindow",
+  "title": "Karyawan",
+  "rect": [
+    81,
+    185,
+    1155,
+    881
+  ],
+  "controls": [
+    {
+      "class": "Static",
+      "text": "M A S T E R   F I L E   -   K A R Y A W A N",
+      "rect": [
+        99,
+        237,
+        1133,
+        279
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "",
+      "rect": [
+        99,
+        287,
+        675,
+        346
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "T&ambah",
+      "rect": [
+        683,
+        287,
+        791,
+        346
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Koreksi",
+      "rect": [
+        797,
+        287,
+        905,
+        346
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Hapus",
+      "rect": [
+        909,
+        287,
+        1017,
+        346
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Tutup",
+      "rect": [
+        1025,
+        287,
+        1133,
+        346
+      ]
+    },
+    {
+      "class": "SysListView32",
+      "text": "",
+      "rect": [
+        99,
+        353,
+        1133,
+        809
+      ]
+    },
+    {
+      "class": "msctls_statusbar32",
+      "text": "",
+      "rect": [
+        93,
+        836,
+        1143,
+        869
+      ]
+    }
+  ]
+}

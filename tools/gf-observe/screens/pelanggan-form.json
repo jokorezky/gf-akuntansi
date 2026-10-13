@@ -1,0 +1,872 @@
+{
+  "slug": "pelanggan-form",
+  "title": "Pelanggan",
+  "rect": [
+    387,
+    81,
+    1535,
+    927
+  ],
+  "controls": [
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        396,
+        120,
+        1026,
+        264
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "ID :",
+      "rect": [
+        890,
+        179,
+        926,
+        209
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Tanggal :",
+      "rect": [
+        422,
+        150,
+        502,
+        180
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Non-aktif :",
+      "rect": [
+        752,
+        150,
+        854,
+        180
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Kode :",
+      "rect": [
+        422,
+        179,
+        502,
+        209
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Nama :",
+      "rect": [
+        422,
+        209,
+        502,
+        241
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        926,
+        179,
+        1006,
+        209
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        500,
+        150,
+        644,
+        180
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        860,
+        150,
+        1004,
+        180
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        500,
+        179,
+        572,
+        209
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        500,
+        209,
+        1004,
+        241
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Corporate / Perusahaan",
+      "rect": [
+        1040,
+        137,
+        1261,
+        164
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Personal / Perorangan",
+      "rect": [
+        1268,
+        137,
+        1528,
+        164
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Gabungan dari beberapa pelanggan eceran",
+      "rect": [
+        1040,
+        162,
+        1526,
+        189
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Penjualan: Harga Jual diambil dari Harga Jual terakhir",
+      "rect": [
+        1040,
+        186,
+        1526,
+        213
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Pelanggan diblack list..",
+      "rect": [
+        1040,
+        209,
+        1256,
+        239
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Tanpa cek limit saat Simpan Penjualan",
+      "rect": [
+        1040,
+        233,
+        1448,
+        260
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        405,
+        303,
+        917,
+        830
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        917,
+        303,
+        1505,
+        830
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Title :",
+      "rect": [
+        431,
+        333,
+        511,
+        363
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Alamat :",
+      "rect": [
+        431,
+        362,
+        511,
+        392
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Kode Pos:",
+      "rect": [
+        431,
+        423,
+        511,
+        453
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Daerah :",
+      "rect": [
+        431,
+        452,
+        511,
+        482
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Negara :",
+      "rect": [
+        431,
+        482,
+        511,
+        514
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "NPWP :",
+      "rect": [
+        431,
+        518,
+        511,
+        548
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Pemilik :",
+      "rect": [
+        431,
+        548,
+        511,
+        580
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Alamat :",
+      "rect": [
+        431,
+        579,
+        511,
+        609
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Telepon :",
+      "rect": [
+        431,
+        638,
+        511,
+        670
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Fax :",
+      "rect": [
+        431,
+        728,
+        511,
+        760
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Email :",
+      "rect": [
+        431,
+        759,
+        511,
+        789
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Website :",
+      "rect": [
+        431,
+        788,
+        511,
+        818
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Hubungi :",
+      "rect": [
+        941,
+        326,
+        1018,
+        358
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Telepon :",
+      "rect": [
+        1265,
+        326,
+        1342,
+        358
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Glb Disc :",
+      "rect": [
+        941,
+        482,
+        1018,
+        514
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "-------------------------->",
+      "rect": [
+        1103,
+        482,
+        1234,
+        514
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Itm Disc :",
+      "rect": [
+        941,
+        513,
+        1018,
+        543
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "-------------------------->",
+      "rect": [
+        1103,
+        513,
+        1234,
+        543
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Credit :",
+      "rect": [
+        941,
+        452,
+        1018,
+        482
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Max :",
+      "rect": [
+        941,
+        650,
+        1025,
+        682
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Max Crd :",
+      "rect": [
+        941,
+        584,
+        1018,
+        616
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Jatuh Tempo :",
+      "rect": [
+        989,
+        620,
+        1105,
+        644
+      ]
+    },
+    {
+      "class": "Static",
+      "text": " http://",
+      "rect": [
+        509,
+        788,
+        575,
+        818
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "/ Kuantiti Jual (Hirau Satuan)",
+      "rect": [
+        1247,
+        548,
+        1481,
+        572
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Berdasarkan tanggal jatuh tempo",
+      "rect": [
+        1229,
+        650,
+        1481,
+        682
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        509,
+        333,
+        611,
+        363
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        509,
+        362,
+        892,
+        424
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        509,
+        423,
+        611,
+        453
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        509,
+        452,
+        701,
+        482
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        701,
+        452,
+        893,
+        482
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        509,
+        482,
+        701,
+        512
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        509,
+        518,
+        892,
+        548
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        509,
+        548,
+        892,
+        580
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        509,
+        579,
+        892,
+        638
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        509,
+        638,
+        761,
+        670
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        509,
+        669,
+        761,
+        699
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        509,
+        698,
+        761,
+        728
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        509,
+        728,
+        761,
+        760
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        509,
+        759,
+        892,
+        789
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        575,
+        788,
+        893,
+        818
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        941,
+        357,
+        1265,
+        387
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1265,
+        357,
+        1481,
+        387
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        941,
+        386,
+        1265,
+        416
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1265,
+        386,
+        1481,
+        416
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        941,
+        416,
+        1265,
+        448
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1265,
+        416,
+        1481,
+        448
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1025,
+        452,
+        1109,
+        482
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1107,
+        452,
+        1193,
+        482
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1025,
+        482,
+        1097,
+        514
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        1241,
+        482,
+        1483,
+        512
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1025,
+        513,
+        1097,
+        543
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        1241,
+        513,
+        1483,
+        543
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        1025,
+        542,
+        1109,
+        574
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1107,
+        542,
+        1241,
+        572
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        1025,
+        584,
+        1109,
+        616
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1107,
+        584,
+        1241,
+        616
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1241,
+        584,
+        1367,
+        616
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        1367,
+        584,
+        1483,
+        614
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1107,
+        615,
+        1241,
+        645
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1241,
+        615,
+        1367,
+        645
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        1367,
+        615,
+        1483,
+        645
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1025,
+        650,
+        1109,
+        682
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        1107,
+        650,
+        1223,
+        680
+      ]
+    },
+    {
+      "class": "SysTabControl32",
+      "text": "",
+      "rect": [
+        396,
+        269,
+        1526,
+        845
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Simpan",
+      "rect": [
+        396,
+        852,
+        962,
+        894
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Tutup",
+      "rect": [
+        962,
+        852,
+        1528,
+        894
+      ]
+    },
+    {
+      "class": "msctls_statusbar32",
+      "text": "",
+      "rect": [
+        392,
+        890,
+        1531,
+        923
+      ]
+    }
+  ]
+}

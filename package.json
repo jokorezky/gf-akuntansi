@@ -1,0 +1,12 @@
+{
+  "name": "gf-akuntansi-clone",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Rebuild GF Akuntansi (GFsoft, CA-Visual Objects 2.8.3) — web, TypeScript. UI mirrors GF, logic per spec.",
+  "packageManager": "pnpm@12.11.2",
+  "scripts": {
+    "dev": "pnpm --filter @gf/web dev",
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck"
+  }
+}

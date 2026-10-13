@@ -1,0 +1,372 @@
+{
+  "slug": "barang-masuk-form",
+  "title": "Barang Masuk Lainnya",
+  "rect": [
+    486,
+    60,
+    1436,
+    950
+  ],
+  "controls": [
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        503,
+        141,
+        1417,
+        383
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        503,
+        719,
+        1417,
+        856
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "ID :",
+      "rect": [
+        1248,
+        173,
+        1284,
+        203
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Divisi :",
+      "rect": [
+        528,
+        173,
+        618,
+        203
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "No :",
+      "rect": [
+        528,
+        201,
+        626,
+        231
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Tanggal :",
+      "rect": [
+        528,
+        231,
+        626,
+        263
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Gudang :",
+      "rect": [
+        528,
+        263,
+        626,
+        293
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Catatan :",
+      "rect": [
+        528,
+        747,
+        626,
+        777
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Grouping :",
+      "rect": [
+        528,
+        293,
+        626,
+        323
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "CR #Acc :",
+      "rect": [
+        528,
+        333,
+        626,
+        363
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<<",
+      "rect": [
+        503,
+        107,
+        733,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<",
+      "rect": [
+        732,
+        107,
+        960,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": ">",
+      "rect": [
+        960,
+        107,
+        1188,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": ">>",
+      "rect": [
+        1187,
+        107,
+        1417,
+        149
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1284,
+        173,
+        1392,
+        203
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        624,
+        173,
+        881,
+        203
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        629,
+        177,
+        851,
+        198
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        624,
+        201,
+        762,
+        231
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        624,
+        231,
+        762,
+        263
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        624,
+        263,
+        1043,
+        295
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        624,
+        293,
+        1043,
+        323
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        629,
+        297,
+        1013,
+        318
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        624,
+        333,
+        744,
+        363
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        744,
+        333,
+        816,
+        363
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        816,
+        333,
+        1392,
+        363
+      ]
+    },
+    {
+      "class": "SysListView32",
+      "text": "",
+      "rect": [
+        503,
+        383,
+        1417,
+        683
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "T&ambah",
+      "rect": [
+        503,
+        683,
+        809,
+        725
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Koreksi",
+      "rect": [
+        809,
+        683,
+        1115,
+        725
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Hapus",
+      "rect": [
+        1115,
+        683,
+        1417,
+        725
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        624,
+        747,
+        1385,
+        777
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        624,
+        777,
+        1385,
+        809
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        624,
+        809,
+        1385,
+        839
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<>",
+      "rect": [
+        503,
+        863,
+        565,
+        905
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Simpan",
+      "rect": [
+        564,
+        863,
+        990,
+        905
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Tutup",
+      "rect": [
+        989,
+        863,
+        1417,
+        905
+      ]
+    },
+    {
+      "class": "msctls_statusbar32",
+      "text": "",
+      "rect": [
+        498,
+        905,
+        1424,
+        938
+      ]
+    }
+  ]
+}

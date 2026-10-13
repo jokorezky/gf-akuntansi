@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+/* GF tokens — dari DESIGN.md (sampel aplikasi GF) */
+@theme {
+  --color-gf-bg: #abacab;
+  --color-gf-panel: #fbfbfb;
+  --color-gf-titlebar: #afd8f7;
+  --color-gf-border: #808080;
+  --color-gf-text: #111111;
+  --color-gf-muted: #4a4a4a;
+  --color-gf-accent: #520009;
+  --color-gf-accent-soft: #7b1113;
+  --color-gf-menubar: #f3f3f3;
+  --color-gf-hl: #316ac5; /* highlight klasik menu */
+  --color-gf-info-a: #eaf7d6;
+  --color-gf-info-b: #d6efb0;
+
+  --font-ui: Tahoma, "Segoe UI", system-ui, sans-serif;
+  --font-mono: Consolas, "Cascadia Mono", monospace;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-gf-bg);
+  color: var(--color-gf-text);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* efek tombol 3D klasik ala GF/Win32 */
+.gf-3d {
+  border: 1px solid var(--color-gf-border);
+  box-shadow: inset 1px 1px 0 #ffffff;
+}
+.gf-3d:active {
+  box-shadow: inset 1px 1px 0 #808080;
+}

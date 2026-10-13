@@ -1,0 +1,30 @@
+{
+  "name": "@gf/api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "GF Akuntansi Clone — backend (NestJS + GraphQL + PostgreSQL legacy gf schema)",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc -p tsconfig.json && node --watch dist/main.js",
+    "start": "node dist/main.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@apollo/server": "^5.0.0",
+    "@as-integrations/express5": "^1.1.2",
+    "@nestjs/apollo": "^13.4.5",
+    "@nestjs/common": "^11.1.6",
+    "@nestjs/core": "^11.1.6",
+    "@nestjs/graphql": "^13.4.5",
+    "@nestjs/platform-express": "^11.1.6",
+    "graphql": "^16.11.0",
+    "pg": "^8.16.3",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "@types/pg": "^8.11.10",
+    "typescript": "^5.9.2"
+  }
+}

@@ -1,0 +1,812 @@
+{
+  "slug": "penjualan-form",
+  "title": "Penjualan",
+  "rect": [
+    384,
+    57,
+    1538,
+    950
+  ],
+  "controls": [
+    {
+      "class": "Static",
+      "text": "",
+      "rect": [
+        815,
+        860,
+        1135,
+        902
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        905,
+        108,
+        1121,
+        138
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        909,
+        113,
+        1091,
+        134
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        1121,
+        108,
+        1337,
+        138
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        1337,
+        108,
+        1517,
+        140
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        405,
+        143,
+        1503,
+        353
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        405,
+        627,
+        1166,
+        845
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "",
+      "rect": [
+        1166,
+        587,
+        1504,
+        845
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Pelanggan :",
+      "rect": [
+        423,
+        173,
+        513,
+        203
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Sales :",
+      "rect": [
+        423,
+        303,
+        513,
+        333
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Komisi :",
+      "rect": [
+        765,
+        303,
+        824,
+        333
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Gudang :",
+      "rect": [
+        1017,
+        173,
+        1094,
+        197
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "No :",
+      "rect": [
+        1017,
+        201,
+        1094,
+        225
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "No S/O :",
+      "rect": [
+        1017,
+        231,
+        1094,
+        255
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "No P/O :",
+      "rect": [
+        1017,
+        263,
+        1094,
+        287
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Tanggal :",
+      "rect": [
+        1017,
+        291,
+        1094,
+        315
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "MU/Kurs :",
+      "rect": [
+        1017,
+        321,
+        1094,
+        345
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Discount :",
+      "rect": [
+        428,
+        665,
+        514,
+        695
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Credit :",
+      "rect": [
+        819,
+        693,
+        878,
+        723
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Catatan :",
+      "rect": [
+        428,
+        731,
+        514,
+        761
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Adjustment :",
+      "rect": [
+        1197,
+        603,
+        1299,
+        627
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Total Harga :",
+      "rect": [
+        1197,
+        627,
+        1299,
+        651
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Total Disc :",
+      "rect": [
+        1197,
+        653,
+        1299,
+        677
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "...",
+      "rect": [
+        1197,
+        677,
+        1299,
+        700
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "...",
+      "rect": [
+        1197,
+        699,
+        1299,
+        723
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Total Retur :",
+      "rect": [
+        1197,
+        723,
+        1299,
+        747
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Adjustment :",
+      "rect": [
+        1197,
+        747,
+        1299,
+        771
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "TOTAL :",
+      "rect": [
+        1197,
+        771,
+        1299,
+        795
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Deposit :",
+      "rect": [
+        1197,
+        797,
+        1299,
+        821
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        518,
+        173,
+        994,
+        203
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        518,
+        303,
+        748,
+        335
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        522,
+        308,
+        717,
+        331
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        824,
+        303,
+        910,
+        333
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        909,
+        303,
+        993,
+        333
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        1094,
+        165,
+        1444,
+        197
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1094,
+        197,
+        1174,
+        227
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1094,
+        225,
+        1444,
+        255
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<>",
+      "rect": [
+        1443,
+        225,
+        1487,
+        255
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1094,
+        255,
+        1444,
+        287
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1094,
+        287,
+        1234,
+        317
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        1094,
+        315,
+        1192,
+        347
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1191,
+        315,
+        1293,
+        345
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1292,
+        315,
+        1390,
+        345
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1389,
+        315,
+        1487,
+        345
+      ]
+    },
+    {
+      "class": "SysListView32",
+      "text": "",
+      "rect": [
+        405,
+        353,
+        1503,
+        583
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Tambah Dari &SO",
+      "rect": [
+        405,
+        587,
+        608,
+        634
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "T&ambah",
+      "rect": [
+        608,
+        587,
+        796,
+        634
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Koreksi",
+      "rect": [
+        795,
+        587,
+        983,
+        634
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Hapus",
+      "rect": [
+        981,
+        587,
+        1166,
+        634
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        518,
+        665,
+        652,
+        695
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        651,
+        665,
+        731,
+        695
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        428,
+        692,
+        518,
+        724
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        518,
+        693,
+        652,
+        723
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        651,
+        693,
+        731,
+        723
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        729,
+        693,
+        806,
+        723
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        878,
+        693,
+        958,
+        723
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        957,
+        693,
+        1145,
+        723
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        518,
+        731,
+        1144,
+        761
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        518,
+        759,
+        1144,
+        789
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        518,
+        789,
+        1144,
+        821
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1305,
+        603,
+        1472,
+        627
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1305,
+        627,
+        1472,
+        651
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1305,
+        653,
+        1472,
+        677
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1305,
+        677,
+        1472,
+        700
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1305,
+        699,
+        1472,
+        723
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1305,
+        723,
+        1472,
+        747
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1305,
+        747,
+        1472,
+        771
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1305,
+        771,
+        1472,
+        795
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1305,
+        797,
+        1472,
+        821
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<>",
+      "rect": [
+        417,
+        777,
+        483,
+        824
+      ]
+    },
+    {
+      "class": "SysTabControl32",
+      "text": "",
+      "rect": [
+        401,
+        108,
+        1522,
+        852
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<<",
+      "rect": [
+        468,
+        860,
+        504,
+        902
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<",
+      "rect": [
+        504,
+        860,
+        540,
+        902
+      ]
+    },
+    {
+      "class": "Button",
+      "text": ">",
+      "rect": [
+        540,
+        860,
+        576,
+        902
+      ]
+    },
+    {
+      "class": "Button",
+      "text": ">>",
+      "rect": [
+        576,
+        860,
+        612,
+        902
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<>",
+      "rect": [
+        401,
+        860,
+        464,
+        902
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "C R E D I T",
+      "rect": [
+        612,
+        860,
+        815,
+        902
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Simpan",
+      "rect": [
+        1137,
+        860,
+        1329,
+        902
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Tutup",
+      "rect": [
+        1328,
+        860,
+        1522,
+        902
+      ]
+    },
+    {
+      "class": "msctls_statusbar32",
+      "text": "",
+      "rect": [
+        396,
+        905,
+        1526,
+        938
+      ]
+    }
+  ]
+}

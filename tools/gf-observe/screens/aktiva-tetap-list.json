@@ -1,0 +1,312 @@
+{
+  "slug": "aktiva-tetap-list",
+  "title": "Aktiva Tetap - GF-Akuntansi Release : 951.1823 Build 2026.06.28",
+  "rect": [
+    -12,
+    -12,
+    1932,
+    1020
+  ],
+  "controls": [
+    {
+      "class": "SysListView32",
+      "text": "",
+      "rect": [
+        15,
+        195,
+        1902,
+        834
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        15,
+        830,
+        1902,
+        958
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Tgl Beli :",
+      "rect": [
+        33,
+        854,
+        123,
+        881
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Kode :",
+      "rect": [
+        33,
+        882,
+        123,
+        912
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Nama :",
+      "rect": [
+        33,
+        912,
+        123,
+        944
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "-",
+      "rect": [
+        263,
+        854,
+        281,
+        884
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        123,
+        854,
+        263,
+        884
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        281,
+        854,
+        419,
+        884
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<>",
+      "rect": [
+        425,
+        854,
+        466,
+        884
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        123,
+        882,
+        357,
+        912
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        123,
+        912,
+        587,
+        944
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Semua Data",
+      "rect": [
+        509,
+        854,
+        643,
+        884
+      ]
+    },
+    {
+      "class": "Button",
+      "text": " Ctrl+F7",
+      "rect": [
+        659,
+        854,
+        772,
+        937
+      ]
+    },
+    {
+      "class": "Button",
+      "text": " Ctrl+F6",
+      "rect": [
+        771,
+        854,
+        887,
+        937
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "A K T I V A   T E T A P",
+      "rect": [
+        254,
+        41,
+        1681,
+        83
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "",
+      "rect": [
+        222,
+        90,
+        1452,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Menu Utama",
+      "rect": [
+        6,
+        41,
+        56,
+        83
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Z..A",
+      "rect": [
+        56,
+        41,
+        104,
+        83
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "CheckBox",
+      "rect": [
+        104,
+        41,
+        152,
+        83
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Menu",
+      "rect": [
+        150,
+        41,
+        248,
+        83
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        1686,
+        47,
+        1907,
+        77
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1691,
+        51,
+        1877,
+        72
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Laporan",
+      "rect": [
+        6,
+        90,
+        110,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Cetak",
+      "rect": [
+        114,
+        90,
+        218,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "T&ambah",
+      "rect": [
+        1457,
+        90,
+        1565,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Koreksi",
+      "rect": [
+        1572,
+        90,
+        1680,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Hapus",
+      "rect": [
+        1686,
+        90,
+        1794,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Tutup",
+      "rect": [
+        1799,
+        90,
+        1907,
+        149
+      ]
+    },
+    {
+      "class": "SysTabControl32",
+      "text": "",
+      "rect": [
+        6,
+        156,
+        1914,
+        968
+      ]
+    },
+    {
+      "class": "msctls_statusbar32",
+      "text": "",
+      "rect": [
+        0,
+        975,
+        1920,
+        1008
+      ]
+    }
+  ]
+}

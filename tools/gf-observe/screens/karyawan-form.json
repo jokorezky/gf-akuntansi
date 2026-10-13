@@ -1,0 +1,303 @@
+{
+  "slug": "karyawan-form",
+  "window_class": "#32770",
+  "title": "Karyawan",
+  "rect": [
+    533,
+    204,
+    1388,
+    804
+  ],
+  "controls": [
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        551,
+        282,
+        1069,
+        551
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        551,
+        546,
+        1069,
+        690
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        1073,
+        282,
+        1357,
+        689
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "ID :",
+      "rect": [
+        576,
+        312,
+        656,
+        342
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Nama :",
+      "rect": [
+        576,
+        341,
+        656,
+        371
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Alamat :",
+      "rect": [
+        576,
+        371,
+        656,
+        403
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Telepon :",
+      "rect": [
+        576,
+        438,
+        660,
+        468
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Komisi :",
+      "rect": [
+        576,
+        468,
+        660,
+        498
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Catatan :",
+      "rect": [
+        576,
+        497,
+        656,
+        527
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Non-Aktif :",
+      "rect": [
+        576,
+        575,
+        656,
+        605
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Jenis Penj :",
+      "rect": [
+        576,
+        605,
+        660,
+        637
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Divisi :",
+      "rect": [
+        576,
+        636,
+        660,
+        666
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        659,
+        312,
+        767,
+        342
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        659,
+        341,
+        1045,
+        371
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        659,
+        371,
+        1045,
+        440
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        659,
+        438,
+        1045,
+        468
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        659,
+        468,
+        745,
+        498
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        659,
+        497,
+        1045,
+        527
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        659,
+        575,
+        803,
+        605
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        659,
+        605,
+        1045,
+        635
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        659,
+        636,
+        1045,
+        666
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Sales",
+      "rect": [
+        1098,
+        324,
+        1200,
+        354
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Supir",
+      "rect": [
+        1098,
+        360,
+        1200,
+        390
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Helper",
+      "rect": [
+        1098,
+        395,
+        1200,
+        427
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Collector",
+      "rect": [
+        1098,
+        431,
+        1200,
+        461
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Admin",
+      "rect": [
+        1098,
+        468,
+        1200,
+        498
+      ]
+    },
+    {
+      "class": "SysTabControl32",
+      "text": "",
+      "rect": [
+        542,
+        248,
+        1378,
+        746
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Simpan",
+      "rect": [
+        542,
+        753,
+        956,
+        795
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Tutup",
+      "rect": [
+        956,
+        753,
+        1378,
+        795
+      ]
+    }
+  ]
+}

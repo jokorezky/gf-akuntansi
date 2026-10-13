@@ -1,0 +1,392 @@
+{
+  "slug": "item-form",
+  "title": "Item [Record Baru]",
+  "rect": [
+    381,
+    75,
+    1541,
+    933
+  ],
+  "controls": [
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        390,
+        114,
+        1532,
+        209
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Nama :",
+      "rect": [
+        416,
+        137,
+        478,
+        169
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Jenis :",
+      "rect": [
+        1316,
+        137,
+        1514,
+        169
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        476,
+        137,
+        1046,
+        169
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1046,
+        137,
+        1226,
+        169
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1226,
+        137,
+        1298,
+        169
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        476,
+        168,
+        1298,
+        198
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        1316,
+        168,
+        1514,
+        200
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        395,
+        243,
+        1519,
+        831
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Group :",
+      "rect": [
+        417,
+        266,
+        497,
+        298
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Vendor :",
+      "rect": [
+        417,
+        297,
+        497,
+        327
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Kode :",
+      "rect": [
+        417,
+        326,
+        497,
+        356
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Satuan :",
+      "rect": [
+        417,
+        399,
+        507,
+        429
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Laporan :",
+      "rect": [
+        417,
+        429,
+        507,
+        459
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Dec :",
+      "rect": [
+        875,
+        429,
+        923,
+        459
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Min Stock :",
+      "rect": [
+        417,
+        458,
+        507,
+        488
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Sat/Eceran :",
+      "rect": [
+        417,
+        548,
+        507,
+        578
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        515,
+        266,
+        847,
+        296
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        845,
+        266,
+        1174,
+        296
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        1173,
+        266,
+        1497,
+        296
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        515,
+        297,
+        1175,
+        327
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        515,
+        326,
+        779,
+        356
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        515,
+        399,
+        689,
+        431
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        515,
+        429,
+        689,
+        459
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        687,
+        429,
+        863,
+        459
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        921,
+        429,
+        983,
+        459
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        515,
+        458,
+        641,
+        488
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        641,
+        458,
+        815,
+        488
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        515,
+        548,
+        689,
+        578
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Input Expired",
+      "rect": [
+        1037,
+        404,
+        1181,
+        434
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        911,
+        548,
+        1181,
+        578
+      ]
+    },
+    {
+      "class": "SysTabControl32",
+      "text": "",
+      "rect": [
+        390,
+        209,
+        1536,
+        845
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Non Aktif",
+      "rect": [
+        390,
+        851,
+        552,
+        895
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<>",
+      "rect": [
+        552,
+        851,
+        620,
+        895
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Group HJL",
+      "rect": [
+        620,
+        851,
+        751,
+        895
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Simpan (F12)",
+      "rect": [
+        750,
+        851,
+        1142,
+        895
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Tutup",
+      "rect": [
+        1142,
+        851,
+        1532,
+        895
+      ]
+    },
+    {
+      "class": "msctls_statusbar32",
+      "text": "",
+      "rect": [
+        386,
+        896,
+        1537,
+        929
+      ]
+    }
+  ]
+}

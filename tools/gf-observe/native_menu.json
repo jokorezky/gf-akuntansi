@@ -1,0 +1,410 @@
+{
+  "groups": [
+    {
+      "group": "Aplikasi",
+      "items": [
+        {
+          "id": 24486,
+          "label": "User Profile"
+        },
+        {
+          "id": 24489,
+          "label": "Create Indexes (Membuat file index baru)"
+        },
+        {
+          "id": 24490,
+          "label": "Repair Databases (Memperbaiki database yang rusak)"
+        },
+        {
+          "id": 24491,
+          "label": "Check Databases (Mengecek hubungan data antar table)"
+        },
+        {
+          "id": 24492,
+          "label": "Hapus Data Sementara Proses Laporan (Cache Laporan)"
+        },
+        {
+          "id": 24493,
+          "label": "Hapus File Data Sementara (*.old *.bak *.b01 *.b02 dsbnya)"
+        },
+        {
+          "id": 24495,
+          "label": "Hapus Seluruh Data"
+        },
+        {
+          "id": 24497,
+          "label": "Backup or Restore Data"
+        },
+        {
+          "id": 24500,
+          "label": "Add New Background"
+        },
+        {
+          "id": 24501,
+          "label": "Show Next Background"
+        },
+        {
+          "id": 24502,
+          "label": "Delete Current Background"
+        },
+        {
+          "id": 24504,
+          "label": "Export Data"
+        },
+        {
+          "id": 24505,
+          "label": "Import Data"
+        },
+        {
+          "id": 24514,
+          "label": "Tampil Kotak Menu"
+        },
+        {
+          "id": 24517,
+          "label": "Log Off\tAlt+F10"
+        },
+        {
+          "id": 24518,
+          "label": "Exit\tAlt+F4"
+        },
+        {
+          "id": 32769,
+          "label": "1 Menu Utama"
+        }
+      ]
+    },
+    {
+      "group": "Sistem Setup",
+      "items": [
+        {
+          "id": 24520,
+          "label": "List (List Mata Uang, Kurs, Negara, Daerah, dsbnya)"
+        },
+        {
+          "id": 24521,
+          "label": "Kode Perkiraan"
+        },
+        {
+          "id": 24524,
+          "label": "Tipe Pembayaran (Penj Eceran)"
+        },
+        {
+          "id": 24525,
+          "label": "Eceran List"
+        },
+        {
+          "id": 24529,
+          "label": "POS Export Data Ke Lokasi Folder"
+        },
+        {
+          "id": 24530,
+          "label": "POS Import Data Dari Lokasi Folder"
+        },
+        {
+          "id": 24532,
+          "label": "Sistem Konfigurasi"
+        },
+        {
+          "id": 24533,
+          "label": "PC Konfigurasi"
+        },
+        {
+          "id": 24537,
+          "label": "Buat Jurnal Khusus (Jurnal Transaksi)"
+        },
+        {
+          "id": 24540,
+          "label": "Set Proteksi Data"
+        },
+        {
+          "id": 24542,
+          "label": "HPP Testing"
+        },
+        {
+          "id": 24543,
+          "label": "Tutup Hari (Tutup Data)"
+        },
+        {
+          "id": 24544,
+          "label": "Reset Tutup Hari"
+        },
+        {
+          "id": 24548,
+          "label": "Proses Hitung Point"
+        },
+        {
+          "id": 24550,
+          "label": "Tutup Tahun Pembukuan"
+        },
+        {
+          "id": 24551,
+          "label": "Hapus Data s/d Tanggal"
+        }
+      ]
+    },
+    {
+      "group": "Master File",
+      "items": [
+        {
+          "id": 24553,
+          "label": "Karyawan"
+        },
+        {
+          "id": 24554,
+          "label": "Vendor"
+        },
+        {
+          "id": 24556,
+          "label": "Pelanggan\tF2"
+        },
+        {
+          "id": 24558,
+          "label": "Item\tF4"
+        },
+        {
+          "id": 24559,
+          "label": "Sisa Stock"
+        }
+      ]
+    },
+    {
+      "group": "Pembelian",
+      "items": [
+        {
+          "id": 24562,
+          "label": "Purchase Order"
+        },
+        {
+          "id": 24566,
+          "label": "Pembelian\tF5"
+        },
+        {
+          "id": 24567,
+          "label": "Retur Pembelian"
+        },
+        {
+          "id": 24572,
+          "label": "Deposit"
+        },
+        {
+          "id": 24573,
+          "label": "Pembayaran Hutang\tCtrl+H"
+        },
+        {
+          "id": 24575,
+          "label": "Daftar Hutang\tCtrl+F5"
+        }
+      ]
+    },
+    {
+      "group": "Penjualan",
+      "items": [
+        {
+          "id": 24593,
+          "label": "Sales Order\tCtrl+F7"
+        },
+        {
+          "id": 24598,
+          "label": "Penjualan Eceran\tF7"
+        },
+        {
+          "id": 24600,
+          "label": "Penjualan\tF8"
+        },
+        {
+          "id": 24602,
+          "label": "Retur Penjualan"
+        },
+        {
+          "id": 24603,
+          "label": "Export Penjualan ke Web"
+        },
+        {
+          "id": 24610,
+          "label": "Penerimaan Piutang\tCtrl+P"
+        },
+        {
+          "id": 24612,
+          "label": "Daftar Piutang\tCtrl+F8"
+        }
+      ]
+    },
+    {
+      "group": "Kas",
+      "items": [
+        {
+          "id": 24620,
+          "label": "Kas Masuk\tCtrl+M"
+        },
+        {
+          "id": 24621,
+          "label": "Kas Keluar\tCtrl+K"
+        },
+        {
+          "id": 24622,
+          "label": "Transfer Kas"
+        },
+        {
+          "id": 24624,
+          "label": "Cari CH/BG/Sub-Catatan Kas Masuk"
+        },
+        {
+          "id": 24625,
+          "label": "Cari CH/BG/Sub-Catatan Kas Keluar"
+        },
+        {
+          "id": 24627,
+          "label": "Pencairan CH/BG Kas Masuk (Modul pencairan CH/BG)"
+        },
+        {
+          "id": 24628,
+          "label": "Pencairan CH/BG Kas Keluar (Modul pencairan CH/BG)"
+        }
+      ]
+    },
+    {
+      "group": "Antar Cabang",
+      "items": [
+        {
+          "id": 24632,
+          "label": "Pembelian Antar Cabang"
+        },
+        {
+          "id": 24633,
+          "label": "Penjualan Antar Cabang"
+        }
+      ]
+    },
+    {
+      "group": "GL",
+      "items": [
+        {
+          "id": 24635,
+          "label": "Aktiva Tetap"
+        },
+        {
+          "id": 24637,
+          "label": "Jurnal Pembukuan"
+        },
+        {
+          "id": 24639,
+          "label": "Cek Kurs Jurnal"
+        },
+        {
+          "id": 24640,
+          "label": "Cek Perkiraan Perantara"
+        },
+        {
+          "id": 24641,
+          "label": "Saldo Akhir Perkiraan"
+        },
+        {
+          "id": 24642,
+          "label": "Buku Besar"
+        },
+        {
+          "id": 24644,
+          "label": "Laporan Keuangan"
+        }
+      ]
+    },
+    {
+      "group": "Lainnya",
+      "items": [
+        {
+          "id": 24646,
+          "label": "Promosi"
+        },
+        {
+          "id": 24647,
+          "label": "Barang Promosi"
+        },
+        {
+          "id": 24648,
+          "label": "Barang Promosi (Item Group)"
+        },
+        {
+          "id": 24650,
+          "label": "Barang Transfer"
+        },
+        {
+          "id": 24651,
+          "label": "Barang Untransfer"
+        },
+        {
+          "id": 24652,
+          "label": "Barang Pindah Gudang"
+        },
+        {
+          "id": 24654,
+          "label": "Barang Produksi"
+        },
+        {
+          "id": 24656,
+          "label": "Barang Expired"
+        },
+        {
+          "id": 24658,
+          "label": "Barang Masuk (Penyesuaian Stock)"
+        },
+        {
+          "id": 24659,
+          "label": "Barang Keluar (Rusak/Hilang/Free/...)"
+        },
+        {
+          "id": 24661,
+          "label": "Kartu Stock\tCtrl+S"
+        },
+        {
+          "id": 24662,
+          "label": "Kartu Hutang\tCtrl+E"
+        },
+        {
+          "id": 24663,
+          "label": "Kartu Piutang\tCtrl+U"
+        },
+        {
+          "id": 24665,
+          "label": "Validasi Barang Keluar"
+        },
+        {
+          "id": 24667,
+          "label": "Proses Laporan Total Transaksi"
+        },
+        {
+          "id": 24668,
+          "label": "Fast Reports"
+        }
+      ]
+    },
+    {
+      "group": "Help",
+      "items": [
+        {
+          "id": 24670,
+          "label": "Help atau Bantuan\tF1"
+        },
+        {
+          "id": 24671,
+          "label": "Check Versi Update"
+        },
+        {
+          "id": 24672,
+          "label": "Download Update Aplikasi"
+        },
+        {
+          "id": 24673,
+          "label": "Website GFSoft Indonesia"
+        },
+        {
+          "id": 24675,
+          "label": "DB Info"
+        },
+        {
+          "id": 24676,
+          "label": "About GF-Akuntansi\tCtrl+H"
+        }
+      ]
+    }
+  ]
+}

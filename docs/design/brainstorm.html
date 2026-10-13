@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<title>GF Akuntansi Clone — Brainstorming &amp; Desain Awal</title>
+<style>
+  :root{
+    --gf-bg:#ABACAB; --gf-panel:#FBFBFB; --gf-titlebar:#AFD8F7; --gf-border:#808080;
+    --gf-text:#111111; --gf-muted:#4A4A4A; --gf-accent:#520009; --gf-accent-soft:#7B1113;
+    --gf-menubar:#F3F3F3; --info-a:#EAF7D6; --info-b:#D6EFB0;
+    --font-ui:Tahoma,"Segoe UI",system-ui,sans-serif; --font-mono:Consolas,"Cascadia Mono",monospace;
+  }
+  *{box-sizing:border-box}
+  body{font-family:var(--font-ui);color:var(--gf-text);margin:0;font-size:12px;line-height:1.55}
+  .page{padding:26px 30px}
+  h1{font-size:24px;margin:0 0 4px;color:var(--gf-accent)}
+  h2{font-size:16px;margin:22px 0 8px;border-bottom:2px solid var(--gf-border);padding-bottom:4px}
+  h3{font-size:13px;margin:14px 0 6px}
+  .sub{color:var(--gf-muted)}
+  table{border-collapse:collapse;width:100%;margin:8px 0}
+  th,td{border:1px solid var(--gf-border);padding:4px 6px;text-align:left;vertical-align:top}
+  th{background:var(--gf-menubar)}
+  code,.mono{font-family:var(--font-mono)}
+  .badge{display:inline-block;border:1px solid var(--gf-border);background:var(--gf-panel);padding:1px 6px;border-radius:3px;font-size:11px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .card{border:1px solid var(--gf-border);background:var(--gf-panel);padding:10px}
+  figure{margin:10px 0}
+  figure img{max-width:100%;border:1px solid var(--gf-border)}
+  figcaption{color:var(--gf-muted);font-size:11px;margin-top:4px}
+  .note{background:var(--info-a);border:1px solid var(--gf-border);border-left:4px solid var(--gf-accent);padding:8px 10px}
+  ul{margin:6px 0 6px 18px}
+  .menu ul{list-style:none;margin:2px 0 2px 0;padding-left:0}
+  .menu li{margin:1px 0}
+  .menu .g{font-weight:bold;color:var(--gf-accent)}
+  footer{margin-top:24px;border-top:1px solid var(--gf-border);padding-top:6px;color:var(--gf-muted);font-size:11px}
+  @page{size:A4;margin:12mm}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <h1>GF Akuntansi Clone — Brainstorming &amp; Desain Awal</h1>
+  <p class="sub">
+    Rebuild <b>GF Akuntansi</b> (GFsoft, CA-Visual Objects 2.8.3, build 951.1823 / 2026.06.28)
+    menjadi aplikasi web <b>TypeScript</b>. Visual &amp; alur <b>meniru GF</b>; logika mengikuti spesifikasi
+    (rule ID <code>CALC-/JRNL-/VALID-</code>), bukan menyalin bug. Backend NestJS + GraphQL + PostgreSQL menyusul.
+  </p>
+  <p class="sub">
+    Tanggal: 12 Oktober 2026 &nbsp;·&nbsp; Repo: <code>D:\Projects\gf-akuntansi-clone</code>
+    &nbsp;·&nbsp; Status: draf untuk konfirmasi
+  </p>
+
+  <h2>1. Tujuan &amp; ruang lingkup</h2>
+  <table>
+    <tr><th>Tujuan</th><td>Menggantikan GF Akuntansi desktop dengan web: <b>alur, menu, urutan isian, dan tampilan mirip GF</b>, tapi cepat, multi-user, laporan tanpa lag, dan ada jejak audit.</td></tr>
+    <tr><th>Termasuk</th><td>Semua fitur ritel GF: Master File, Pembelian &amp; hutang, Penjualan &amp; piutang, Kas/bank, Kasir eceran, GL, Stok/HPP/tutup hari, Laporan. UI dulu (FE), lalu backend.</td></tr>
+    <tr><th>Ditunda</th><td>Modul non-ritel (hotel/KTV/spa/billiard/rental), payroll. Migrasi data produksi (fase lanjut).</td></tr>
+    <tr><th>Kriteria sukses</th><td>Setiap layar GF punya padanan web mirip (visual + urutan field + hotkey) dan <b>functional spec</b>; angka cocok dengan sumber (rule replay) saat backend dibangun.</td></tr>
+  </table>
+
+  <h2>2. Keputusan (dari sesi ini)</h2>
+  <table>
+    <tr><th>#</th><th>Keputusan</th><th>Dampak</th></tr>
+    <tr><td>1</td><td>Repo <b>baru dari nol</b> (TypeScript), bukan menyambung repo lama</td><td>Struktur bersih; acuan tetap INDUSIA/GAW</td></tr>
+    <tr><td>2</td><td>Visual <b>meniru GF</b> (override "tampilan baru" pada catatan owner)</td><td>DESIGN.md mengambil token dari GF</td></tr>
+    <tr><td>3</td><td>Backend nanti: <b>NestJS + GraphQL + PostgreSQL</b></td><td>FE dibangun dulu, kontrak menyusul</td></tr>
+    <tr><td>4</td><td>Urutan kerja ikut roadmap <b>GAW-1..12</b></td><td>Master File → Pembelian → Penjualan → Kas → GL → Lainnya → Laporan</td></tr>
+    <tr><td>5</td><td>Tiap layar FE <b>wajib punya functional spec</b></td><td>docs/specs/&lt;modul&gt;/&lt;layar&gt;.md</td></tr>
+    <tr><td>6</td><td>MCP: <b>windows-mcp</b> (+ FlaUI bila perlu)</td><td>Baca app GF dari opencode</td></tr>
+  </table>
+
+  <h2>3. Arsitektur</h2>
+  <figure>
+    <svg viewBox="0 0 900 320" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="Tahoma" font-size="12">
+      <rect x="8" y="8" width="884" height="304" fill="#FBFBFB" stroke="#808080"/>
+      <!-- sources -->
+      <rect x="24" y="40" width="180" height="70" fill="#F3F3F3" stroke="#808080"/>
+      <text x="34" y="62" font-weight="bold">GF Akuntansi (VO)</text>
+      <text x="34" y="80">app berjalan · .G8A/CDX</text>
+      <text x="34" y="96">native menu + Win32</text>
+      <rect x="24" y="130" width="180" height="70" fill="#F3F3F3" stroke="#808080"/>
+      <text x="34" y="152" font-weight="bold">INDUSIA-Akunting</text>
+      <text x="34" y="170">551 rule YAML</text>
+      <text x="34" y="186">+ evidence SQL (PG)</text>
+      <!-- harness -->
+      <rect x="250" y="70" width="190" height="120" fill="#EAF7D6" stroke="#808080"/>
+      <text x="262" y="92" font-weight="bold">Observe harness</text>
+      <text x="262" y="112">windows-mcp (klik/shot)</text>
+      <text x="262" y="130">FlaUI/UIA (bila terbaca)</text>
+      <text x="262" y="148">Win32 wintree + WM_COMMAND</text>
+      <text x="262" y="166">→ screens/*.json + *.png</text>
+      <!-- clone -->
+      <rect x="486" y="20" width="380" height="90" fill="#AFD8F7" stroke="#808080"/>
+      <text x="498" y="42" font-weight="bold">gf-akuntansi-clone (repo baru)</text>
+      <text x="498" y="62">apps/web — Next.js + React + Tailwind + shadcn/ui (meniru GF)</text>
+      <text x="498" y="80">apps/api — NestJS + GraphQL + PostgreSQL (menyusul)</text>
+      <text x="498" y="98">docs/specs/ — functional spec per layar</text>
+      <rect x="486" y="150" width="380" height="80" fill="#F3F3F3" stroke="#808080"/>
+      <text x="498" y="172" font-weight="bold">Acuan bersama</text>
+      <text x="498" y="190">gf-akunting-web (spec GAW, sweep GAW-2)</text>
+      <text x="498" y="208">DESIGN.md (token GF) · data perusahaan (PG)</text>
+      <!-- arrows -->
+      <line x1="204" y1="75" x2="250" y2="110" stroke="#520009" stroke-width="1.6" marker-end="url(#a)"/>
+      <line x1="204" y1="165" x2="250" y2="140" stroke="#520009" stroke-width="1.6" marker-end="url(#a)"/>
+      <line x1="440" y1="120" x2="486" y2="80" stroke="#520009" stroke-width="1.6" marker-end="url(#a)"/>
+      <line x1="440" y1="140" x2="486" y2="180" stroke="#520009" stroke-width="1.6" marker-end="url(#a)"/>
+      <defs><marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#520009"/></marker></defs>
+    </svg>
+    <figcaption>Alur: aplikasi GF &amp; rule INDUSIA → harness Observe → repo clone (FE dulu, BE menyusul).</figcaption>
+  </figure>
+
+  <h2>4. Metode kerja (per layar)</h2>
+  <figure>
+    <svg viewBox="0 0 880 130" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="Tahoma" font-size="12">
+      <rect x="10" y="35" width="190" height="56" fill="#EAF7D6" stroke="#808080"/>
+      <text x="30" y="58" font-weight="bold">1. OBSERVE</text><text x="30" y="76">screenshot + dump kontrol GF</text>
+      <rect x="230" y="35" width="190" height="56" fill="#FBFBFB" stroke="#808080"/>
+      <text x="250" y="58" font-weight="bold">2. SPEC</text><text x="250" y="76">docs/specs/&lt;layar&gt;.md (+rule ID)</text>
+      <rect x="450" y="35" width="190" height="56" fill="#F3F3F3" stroke="#808080"/>
+      <text x="470" y="58" font-weight="bold">3. CODE</text><text x="470" y="76">komponen FE (meniru GF)</text>
+      <rect x="670" y="35" width="190" height="56" fill="#AFD8F7" stroke="#808080"/>
+      <text x="690" y="58" font-weight="bold">4. PROOF</text><text x="690" y="76">bandingkan vs GF / data</text>
+      <line x1="200" y1="63" x2="230" y2="63" stroke="#520009" stroke-width="1.6" marker-end="url(#b)"/>
+      <line x1="420" y1="63" x2="450" y2="63" stroke="#520009" stroke-width="1.6" marker-end="url(#b)"/>
+      <line x1="640" y1="63" x2="670" y2="63" stroke="#520009" stroke-width="1.6" marker-end="url(#b)"/>
+      <defs><marker id="b" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#520009"/></marker></defs>
+    </svg>
+    <figcaption>Loop tiap layar; hasil OBSERVE tetap tersimpan sebagai dokumentasi (report + clone sekaligus).</figcaption>
+  </figure>
+
+  <h2>5. Tampilan GF (sumber tiruan)</h2>
+  <figure>
+    <img src="file:///D:/Projects/gf-akuntansi-clone/tools/gf-observe/gf-menuutama.png" alt="Menu Utama GF" />
+    <figcaption>Menu Utama GF: menu bar atas, toolbar, jendela MDI “Menu Utama” dengan grid tombol ikon 3 kolom, dan kotak info (Nama/User/Date/Proteksi) gradien hijau. Token warna diambil dari sini → DESIGN.md.</figcaption>
+  </figure>
+
+  <h2>6. Peta menu GF (dari native menu + ID + hotkey)</h2>
+  <div class="grid2 menu" style="font-size:11px">
+    <div class="card">
+      <p><span class="g">Aplikasi</span>: User Profile · Data Maintain (Create Indexes, Repair, Check, Hapus Cache, Hapus .old) · Lainnya (Background) · Export/Import Data · Tampil Kotak Menu · Log Off <code>Alt+F10</code> · Exit <code>Alt+F4</code></p>
+      <p><span class="g">Sistem Setup</span>: List · Kode Perkiraan · Setup Penjualan Eceran (Tipe Pembayaran, Eceran List, POS Export/Import) · Sistem Konfigurasi · PC Konfigurasi · Buat Jurnal Khusus · Set Proteksi Data · HPP Testing · Tutup Hari · Reset Tutup Hari · Proses Hitung Point · Tutup Tahun Pembukuan · Hapus Data s/d Tanggal</p>
+      <p><span class="g">Master File</span>: Karyawan · Vendor · Pelanggan <code>F2</code> · Item <code>F4</code> · Sisa Stock</p>
+      <p><span class="g">Pembelian</span>: Purchase Order · Pembelian <code>F5</code> · Retur Pembelian · Deposit · Pembayaran Hutang <code>Ctrl+H</code> · Daftar Hutang <code>Ctrl+F5</code></p>
+    </div>
+    <div class="card">
+      <p><span class="g">Penjualan</span>: Sales Order <code>Ctrl+F7</code> · Penjualan Eceran <code>F7</code> · Penjualan <code>F8</code> · Retur Penjualan · Export Penjualan ke Web · Penerimaan Piutang <code>Ctrl+P</code> · Daftar Piutang <code>Ctrl+F8</code></p>
+      <p><span class="g">Kas</span>: Kas Masuk <code>Ctrl+M</code> · Kas Keluar <code>Ctrl+K</code> · Transfer Kas · Cari CH/BG (Masuk/Keluar) · Pencairan CH/BG (Masuk/Keluar)</p>
+      <p><span class="g">Antar Cabang</span>: Pembelian · Penjualan</p>
+      <p><span class="g">GL</span>: Aktiva Tetap · Jurnal Pembukuan · Cek Kurs Jurnal · Cek Perkiraan Perantara · Saldo Akhir Perkiraan · Buku Besar · Laporan Keuangan</p>
+      <p><span class="g">Lainnya</span>: Promosi · Barang Promosi (Item Group) · Transfer/UnTransfer · Pindah Gudang · Barang Produksi · Barang Expired · Barang Masuk/Keluar · Kartu Stock <code>Ctrl+S</code> · Kartu Hutang <code>Ctrl+E</code> · Kartu Piutang <code>Ctrl+U</code> · Validasi Barang Keluar · Proses Laporan Total · Fast Reports</p>
+      <p><span class="g">Help</span>: Help <code>F1</code> · Check/Download Update · Website · DB Info · About <code>Ctrl+H</code></p>
+    </div>
+  </div>
+
+  <h2>7. Rencana fase</h2>
+  <table>
+    <tr><th>Fase</th><th>Isi</th><th>Keluaran</th></tr>
+    <tr><td>P0</td><td>Repo + tooling, windows-mcp, token visual GF, PDF ini</td><td>Repo jalan, DESIGN.md, PDF, TODOLIST</td></tr>
+    <tr><td>P1</td><td>Shell: menu bar, toolbar, Menu Utama grid ikon, info box, status bar, keyboard-first</td><td>Halaman Menu Utama + spec</td></tr>
+    <tr><td>P2–P8</td><td>Per modul (urut GAW): Master File → Pembelian → Penjualan → Kas → GL → Lainnya → Laporan</td><td>FE per layar + functional spec + proof visual</td></tr>
+    <tr><td>P9</td><td>Backend NestJS + GraphQL + PostgreSQL; uang decimal; 1 transaksi per simpan</td><td>API + bukti angka = sumber</td></tr>
+  </table>
+
+  <h2>8. Yang sudah disiapkan sesi ini</h2>
+  <ul>
+    <li>Repo <code>D:\Projects\gf-akuntansi-clone</code>: pnpm workspace, <code>apps/web</code> (Next.js 15 + Tailwind v4), typecheck 0 error.</li>
+    <li><code>windows-mcp</code> terpasang &amp; ditambahkan ke <code>opencode.jsonc</code> (perlu restart opencode).</li>
+    <li>Data observasi: <code>tools/gf-observe/</code> — <code>native_menu.json</code> (semua ID+hotkey), 59 screenshot, baseline Menu Utama.</li>
+    <li><code>DESIGN.md</code> (token dari GF), <code>docs/WORKFLOW.md</code>, TODOLIST.</li>
+  </ul>
+
+  <h2>9. Risiko &amp; asumsi</h2>
+  <table>
+    <tr><th>Risiko</th><th>Mitigasi</th></tr>
+    <tr><td>FlaUI/UIA minim untuk jendela kustom VO</td><td>Utamakan Win32 (<code>wintree</code>) + <code>WM_COMMAND</code> + gambar; FlaUI untuk kontrol standar saja</td></tr>
+    <tr><td>Data besar (9,47 jt baris) saat membaca laporan</td><td>FE dulu tanpa query berat; BE pakai pagination server-side</td></tr>
+    <tr><td>Cakupan besar (200+ laporan, banyak form)</td><td>Kerjakan per layar; spec wajib; jangan borong</td></tr>
+    <tr><td>GF hanya mengizinkan 1 form terbuka</td><td>Harness tutup + verifikasi sebelum buka berikutnya; blocklist aksi destruktif</td></tr>
+  </table>
+
+  <div class="note">
+    Langkah berikutnya (P1): bangun <b>shell</b> (menu bar + Menu Utama grid ikon + info box + status bar) di <code>apps/web</code>
+    dengan meniru GF, lalu <b>functional spec</b> halaman Menu Utama.
+  </div>
+
+  <footer>GF Akuntansi Clone — dokumen brainstorming &amp; desain awal. Dibuat otomatis dari sesi opencode.</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<style>body{margin:0;background:#fff;font-family:Tahoma} .mermaid{padding:10px}</style>
+<script src="file:///C:/Users/ZofiA/Documents/_PDF/KemBot/diagrams/mermaid.min.js"></script>
+</head><body>
+<pre class="mermaid">
+flowchart LR
+  O["1. OBSERVE<br/>screenshot + dump kontrol GF"] --> S["2. SPEC<br/>docs/specs/layar.md (+rule ID)"]
+  S --> C["3. CODE<br/>komponen FE meniru GF"]
+  C --> P["4. PROOF<br/>bandingkan vs GF / data perusahaan"]
+  P -.perbaiki.-> C
+</pre>
+<script>mermaid.initialize({startOnLoad:true,theme:"neutral"});</script>
+</body></html>

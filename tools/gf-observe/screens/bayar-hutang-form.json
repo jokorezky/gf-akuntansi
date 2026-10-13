@@ -1,0 +1,322 @@
+{
+  "slug": "bayar-hutang-form",
+  "title": "Pembayaran Hutang",
+  "rect": [
+    366,
+    150,
+    1556,
+    860
+  ],
+  "controls": [
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        383,
+        239,
+        955,
+        466
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "...",
+      "rect": [
+        383,
+        201,
+        1535,
+        243
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "ID :",
+      "rect": [
+        408,
+        267,
+        488,
+        297
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Divisi :",
+      "rect": [
+        408,
+        297,
+        492,
+        329
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "No :",
+      "rect": [
+        408,
+        329,
+        488,
+        359
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Tanggal :",
+      "rect": [
+        408,
+        357,
+        488,
+        387
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Vendor :",
+      "rect": [
+        408,
+        387,
+        488,
+        419
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Catatan :",
+      "rect": [
+        408,
+        419,
+        488,
+        449
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        491,
+        267,
+        643,
+        297
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        491,
+        297,
+        751,
+        327
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        495,
+        302,
+        720,
+        323
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        491,
+        329,
+        931,
+        359
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        491,
+        357,
+        625,
+        387
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        624,
+        357,
+        930,
+        387
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        491,
+        387,
+        931,
+        419
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        491,
+        419,
+        931,
+        449
+      ]
+    },
+    {
+      "class": "SysListView32",
+      "text": "",
+      "rect": [
+        383,
+        465,
+        1279,
+        723
+      ]
+    },
+    {
+      "class": "ListBox",
+      "text": "0",
+      "rect": [
+        1278,
+        465,
+        1535,
+        765
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Tambah dari &List",
+      "rect": [
+        383,
+        723,
+        571,
+        765
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Tambah dari Daftar Tagi&han",
+      "rect": [
+        570,
+        723,
+        830,
+        765
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "T&ambah",
+      "rect": [
+        828,
+        723,
+        954,
+        765
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Koreksi",
+      "rect": [
+        954,
+        723,
+        1080,
+        765
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Hapus",
+      "rect": [
+        1080,
+        723,
+        1206,
+        765
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Disc",
+      "rect": [
+        1206,
+        723,
+        1278,
+        765
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<<",
+      "rect": [
+        383,
+        773,
+        419,
+        815
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<",
+      "rect": [
+        419,
+        773,
+        455,
+        815
+      ]
+    },
+    {
+      "class": "Button",
+      "text": ">",
+      "rect": [
+        455,
+        773,
+        491,
+        815
+      ]
+    },
+    {
+      "class": "Button",
+      "text": ">>",
+      "rect": [
+        491,
+        773,
+        527,
+        815
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Simpan",
+      "rect": [
+        540,
+        773,
+        1038,
+        815
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Tutup",
+      "rect": [
+        1038,
+        773,
+        1536,
+        815
+      ]
+    },
+    {
+      "class": "msctls_statusbar32",
+      "text": "",
+      "rect": [
+        378,
+        815,
+        1544,
+        848
+      ]
+    }
+  ]
+}

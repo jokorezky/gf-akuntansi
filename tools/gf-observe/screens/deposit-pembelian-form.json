@@ -1,0 +1,402 @@
+{
+  "slug": "deposit-pembelian-form",
+  "title": "Deposit Pembelian",
+  "rect": [
+    587,
+    134,
+    1334,
+    875
+  ],
+  "controls": [
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        596,
+        173,
+        1324,
+        671
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        596,
+        683,
+        1324,
+        791
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Divisi :",
+      "rect": [
+        621,
+        203,
+        711,
+        233
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "P/O :",
+      "rect": [
+        621,
+        231,
+        711,
+        261
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Pembelian :",
+      "rect": [
+        621,
+        261,
+        711,
+        293
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Vendor :",
+      "rect": [
+        621,
+        293,
+        711,
+        323
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Nomor :",
+      "rect": [
+        621,
+        449,
+        711,
+        479
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Tanggal :",
+      "rect": [
+        621,
+        477,
+        711,
+        507
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "MU / Kurs :",
+      "rect": [
+        621,
+        507,
+        711,
+        539
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Deposit :",
+      "rect": [
+        621,
+        539,
+        711,
+        569
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Catatan :",
+      "rect": [
+        621,
+        573,
+        711,
+        605
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Deposit Ke Perkiraan : (dikosongkan apabila mengikuti setting konfigurasi)",
+      "rect": [
+        621,
+        707,
+        1299,
+        737
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Refund",
+      "rect": [
+        1154,
+        239,
+        1298,
+        286
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        717,
+        203,
+        974,
+        233
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        722,
+        207,
+        944,
+        228
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        717,
+        231,
+        1131,
+        261
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        717,
+        261,
+        1131,
+        293
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        717,
+        293,
+        1298,
+        323
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        717,
+        449,
+        1131,
+        479
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        717,
+        477,
+        855,
+        507
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        855,
+        477,
+        1299,
+        507
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        717,
+        507,
+        807,
+        539
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        807,
+        507,
+        915,
+        539
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        915,
+        507,
+        1023,
+        539
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1023,
+        507,
+        1131,
+        539
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        717,
+        539,
+        866,
+        569
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        717,
+        573,
+        1298,
+        605
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        717,
+        605,
+        1298,
+        635
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        717,
+        633,
+        1298,
+        663
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        621,
+        741,
+        741,
+        773
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        740,
+        741,
+        812,
+        773
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        812,
+        741,
+        1298,
+        773
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<<",
+      "rect": [
+        596,
+        797,
+        632,
+        839
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<",
+      "rect": [
+        632,
+        797,
+        668,
+        839
+      ]
+    },
+    {
+      "class": "Button",
+      "text": ">",
+      "rect": [
+        668,
+        797,
+        704,
+        839
+      ]
+    },
+    {
+      "class": "Button",
+      "text": ">>",
+      "rect": [
+        704,
+        797,
+        740,
+        839
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Simpan",
+      "rect": [
+        747,
+        797,
+        1035,
+        839
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Tutup",
+      "rect": [
+        1035,
+        797,
+        1323,
+        839
+      ]
+    },
+    {
+      "class": "msctls_statusbar32",
+      "text": "",
+      "rect": [
+        591,
+        837,
+        1329,
+        870
+      ]
+    }
+  ]
+}

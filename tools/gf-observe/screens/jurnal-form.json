@@ -1,0 +1,462 @@
+{
+  "slug": "jurnal-form",
+  "title": "Jurnal",
+  "rect": [
+    384,
+    111,
+    1536,
+    899
+  ],
+  "controls": [
+    {
+      "class": "Static",
+      "text": "",
+      "rect": [
+        401,
+        360,
+        1517,
+        480
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        401,
+        192,
+        1517,
+        360
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "J U R N A L",
+      "rect": [
+        401,
+        158,
+        1517,
+        200
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Divisi :",
+      "rect": [
+        1008,
+        252,
+        1092,
+        282
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "ID :",
+      "rect": [
+        426,
+        224,
+        506,
+        254
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "No :",
+      "rect": [
+        426,
+        252,
+        506,
+        282
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Tanggal :",
+      "rect": [
+        426,
+        282,
+        506,
+        314
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Catatan :",
+      "rect": [
+        426,
+        314,
+        506,
+        344
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "#Acc :",
+      "rect": [
+        426,
+        380,
+        506,
+        410
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Catatan :",
+      "rect": [
+        426,
+        408,
+        506,
+        438
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Nilai :",
+      "rect": [
+        426,
+        438,
+        506,
+        470
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "DEBET",
+      "rect": [
+        401,
+        696,
+        959,
+        732
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "KREDIT",
+      "rect": [
+        959,
+        696,
+        1517,
+        732
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "",
+      "rect": [
+        401,
+        762,
+        1517,
+        804
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        1098,
+        252,
+        1362,
+        282
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1103,
+        257,
+        1333,
+        278
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        504,
+        224,
+        678,
+        254
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        504,
+        252,
+        648,
+        282
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        648,
+        252,
+        990,
+        282
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        504,
+        282,
+        648,
+        314
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        648,
+        282,
+        1362,
+        314
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        504,
+        314,
+        1362,
+        344
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        504,
+        380,
+        594,
+        410
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        594,
+        380,
+        714,
+        410
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        714,
+        380,
+        786,
+        410
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        786,
+        380,
+        1488,
+        410
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        504,
+        408,
+        743,
+        438
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        743,
+        408,
+        869,
+        438
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        504,
+        438,
+        594,
+        470
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        594,
+        438,
+        743,
+        470
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        743,
+        438,
+        901,
+        470
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        900,
+        438,
+        1049,
+        470
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Masuk List",
+      "rect": [
+        1067,
+        426,
+        1489,
+        470
+      ]
+    },
+    {
+      "class": "SysListView32",
+      "text": "",
+      "rect": [
+        401,
+        480,
+        1517,
+        698
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        401,
+        734,
+        679,
+        764
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        678,
+        734,
+        960,
+        764
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        959,
+        734,
+        1237,
+        764
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1236,
+        734,
+        1518,
+        764
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<<",
+      "rect": [
+        401,
+        812,
+        437,
+        854
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<",
+      "rect": [
+        437,
+        812,
+        473,
+        854
+      ]
+    },
+    {
+      "class": "Button",
+      "text": ">",
+      "rect": [
+        473,
+        812,
+        509,
+        854
+      ]
+    },
+    {
+      "class": "Button",
+      "text": ">>",
+      "rect": [
+        509,
+        812,
+        545,
+        854
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Simpan",
+      "rect": [
+        552,
+        812,
+        1032,
+        854
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Tutup",
+      "rect": [
+        1031,
+        812,
+        1517,
+        854
+      ]
+    },
+    {
+      "class": "msctls_statusbar32",
+      "text": "",
+      "rect": [
+        396,
+        854,
+        1524,
+        887
+      ]
+    }
+  ]
+}

@@ -1,0 +1,352 @@
+{
+  "slug": "pindah-gudang-form",
+  "title": "Barang Pindah Gudang",
+  "rect": [
+    117,
+    27,
+    1058,
+    791
+  ],
+  "controls": [
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        134,
+        108,
+        1042,
+        314
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        134,
+        620,
+        1042,
+        698
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "ID :",
+      "rect": [
+        872,
+        140,
+        908,
+        170
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Divisi :",
+      "rect": [
+        159,
+        140,
+        249,
+        170
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "No :",
+      "rect": [
+        159,
+        168,
+        257,
+        198
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Tanggal :",
+      "rect": [
+        159,
+        198,
+        257,
+        230
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Dr Gudang :",
+      "rect": [
+        159,
+        230,
+        257,
+        260
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Ke Gudang :",
+      "rect": [
+        159,
+        260,
+        257,
+        290
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Catatan :",
+      "rect": [
+        159,
+        650,
+        257,
+        680
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<<",
+      "rect": [
+        134,
+        74,
+        364,
+        116
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<",
+      "rect": [
+        363,
+        74,
+        591,
+        116
+      ]
+    },
+    {
+      "class": "Button",
+      "text": ">",
+      "rect": [
+        591,
+        74,
+        819,
+        116
+      ]
+    },
+    {
+      "class": "Button",
+      "text": ">>",
+      "rect": [
+        818,
+        74,
+        1042,
+        116
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        908,
+        140,
+        1016,
+        170
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        255,
+        140,
+        512,
+        170
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        260,
+        144,
+        482,
+        165
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        255,
+        168,
+        393,
+        198
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        255,
+        198,
+        393,
+        230
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        393,
+        198,
+        693,
+        230
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        255,
+        230,
+        548,
+        262
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        255,
+        260,
+        548,
+        290
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Kirim Ke",
+      "rect": [
+        921,
+        246,
+        1016,
+        296
+      ]
+    },
+    {
+      "class": "SysListView32",
+      "text": "",
+      "rect": [
+        134,
+        312,
+        1042,
+        582
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Scan",
+      "rect": [
+        134,
+        584,
+        206,
+        626
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "T&ambah",
+      "rect": [
+        206,
+        584,
+        332,
+        626
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Koreksi",
+      "rect": [
+        332,
+        584,
+        458,
+        626
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Hapus",
+      "rect": [
+        458,
+        584,
+        584,
+        626
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Copy Item ke Clipboard",
+      "rect": [
+        584,
+        584,
+        814,
+        626
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Paste Item dari Clipboard",
+      "rect": [
+        813,
+        584,
+        1041,
+        626
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        255,
+        650,
+        1016,
+        680
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<>",
+      "rect": [
+        134,
+        702,
+        202,
+        744
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Simpan",
+      "rect": [
+        201,
+        702,
+        620,
+        744
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Tutup",
+      "rect": [
+        620,
+        702,
+        1042,
+        744
+      ]
+    },
+    {
+      "class": "msctls_statusbar32",
+      "text": "",
+      "rect": [
+        129,
+        746,
+        1046,
+        779
+      ]
+    }
+  ]
+}

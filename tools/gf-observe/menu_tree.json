@@ -1,0 +1,14 @@
+{
+  "clicked": 0,
+  "menus": [
+    {
+      "depth": 0,
+      "title": "Menu Aplikasi",
+      "buttons": [],
+      "shot": "menu_0_Menu_Aplikasi.png"
+    }
+  ],
+  "forms": [],
+  "errors": [],
+  "budget": 300
+}

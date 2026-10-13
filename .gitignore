@@ -1,0 +1,15 @@
+node_modules/
+.next/
+dist/
+build/
+out/
+coverage/
+*.log
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+.turbo/
+tools/mcp-venv/
+tools/gf-observe/_*.png

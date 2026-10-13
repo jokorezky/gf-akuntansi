@@ -1,0 +1,342 @@
+{
+  "slug": "penerimaan-piutang-form",
+  "title": "Penerimaan Piutang",
+  "rect": [
+    360,
+    105,
+    1562,
+    903
+  ],
+  "controls": [
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        377,
+        194,
+        949,
+        421
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "...",
+      "rect": [
+        377,
+        156,
+        1543,
+        198
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Divisi :",
+      "rect": [
+        402,
+        222,
+        486,
+        252
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "No :",
+      "rect": [
+        402,
+        252,
+        492,
+        284
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Tanggal :",
+      "rect": [
+        402,
+        284,
+        492,
+        314
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Pelanggan :",
+      "rect": [
+        402,
+        312,
+        492,
+        342
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Collector :",
+      "rect": [
+        402,
+        342,
+        500,
+        374
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Catatan :",
+      "rect": [
+        402,
+        374,
+        492,
+        404
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        498,
+        222,
+        755,
+        252
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        503,
+        227,
+        725,
+        248
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        498,
+        252,
+        582,
+        284
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        498,
+        284,
+        636,
+        314
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        636,
+        284,
+        924,
+        314
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        498,
+        312,
+        924,
+        342
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        498,
+        342,
+        924,
+        374
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        503,
+        347,
+        895,
+        370
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        498,
+        374,
+        924,
+        404
+      ]
+    },
+    {
+      "class": "SysListView32",
+      "text": "",
+      "rect": [
+        377,
+        420,
+        1285,
+        764
+      ]
+    },
+    {
+      "class": "ListBox",
+      "text": "0",
+      "rect": [
+        1284,
+        420,
+        1544,
+        810
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Scan",
+      "rect": [
+        377,
+        768,
+        445,
+        810
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Tambah dari &List",
+      "rect": [
+        444,
+        768,
+        624,
+        810
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Tambah dari Daftar Tagi&han",
+      "rect": [
+        624,
+        768,
+        870,
+        810
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "T&ambah",
+      "rect": [
+        870,
+        768,
+        986,
+        810
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Koreksi",
+      "rect": [
+        984,
+        768,
+        1097,
+        810
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Hapus",
+      "rect": [
+        1097,
+        768,
+        1213,
+        810
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Disc",
+      "rect": [
+        1212,
+        768,
+        1284,
+        810
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<<",
+      "rect": [
+        377,
+        818,
+        413,
+        860
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<",
+      "rect": [
+        413,
+        818,
+        449,
+        860
+      ]
+    },
+    {
+      "class": "Button",
+      "text": ">",
+      "rect": [
+        449,
+        818,
+        485,
+        860
+      ]
+    },
+    {
+      "class": "Button",
+      "text": ">>",
+      "rect": [
+        485,
+        818,
+        521,
+        860
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Simpan",
+      "rect": [
+        528,
+        818,
+        1032,
+        860
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Tutup",
+      "rect": [
+        1032,
+        818,
+        1544,
+        860
+      ]
+    },
+    {
+      "class": "msctls_statusbar32",
+      "text": "",
+      "rect": [
+        372,
+        858,
+        1550,
+        891
+      ]
+    }
+  ]
+}

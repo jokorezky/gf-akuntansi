@@ -1,0 +1,412 @@
+{
+  "slug": "kas-masuk-list",
+  "title": "Kas Masuk - GF-Akuntansi Release : 951.1823 Build 2026.06.28",
+  "rect": [
+    -12,
+    -12,
+    1932,
+    1020
+  ],
+  "controls": [
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        6,
+        711,
+        780,
+        968
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "K A S   -   K A S   M A S U K",
+      "rect": [
+        254,
+        41,
+        1456,
+        83
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "",
+      "rect": [
+        330,
+        90,
+        1455,
+        149
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "ID :",
+      "rect": [
+        32,
+        740,
+        134,
+        770
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Tanggal :",
+      "rect": [
+        32,
+        770,
+        134,
+        800
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "No :",
+      "rect": [
+        32,
+        801,
+        134,
+        831
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Vendor :",
+      "rect": [
+        32,
+        831,
+        134,
+        861
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Pelanggan :",
+      "rect": [
+        32,
+        860,
+        134,
+        890
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Terima Dari :",
+      "rect": [
+        32,
+        890,
+        134,
+        920
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Catatan :",
+      "rect": [
+        32,
+        921,
+        134,
+        948
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "-",
+      "rect": [
+        272,
+        770,
+        290,
+        802
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Menu Utama",
+      "rect": [
+        6,
+        41,
+        56,
+        83
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Z..A",
+      "rect": [
+        56,
+        41,
+        104,
+        83
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "CheckBox",
+      "rect": [
+        104,
+        41,
+        152,
+        83
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Menu",
+      "rect": [
+        150,
+        41,
+        248,
+        83
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        1460,
+        47,
+        1684,
+        77
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1464,
+        51,
+        1653,
+        72
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        1689,
+        47,
+        1910,
+        77
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Laporan",
+      "rect": [
+        6,
+        90,
+        110,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Cetak Set&up",
+      "rect": [
+        114,
+        90,
+        218,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Cetak",
+      "rect": [
+        222,
+        90,
+        326,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "T&ambah",
+      "rect": [
+        1460,
+        90,
+        1568,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Koreksi",
+      "rect": [
+        1575,
+        90,
+        1683,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Hapus",
+      "rect": [
+        1689,
+        90,
+        1797,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Tutup",
+      "rect": [
+        1802,
+        90,
+        1910,
+        149
+      ]
+    },
+    {
+      "class": "SysListView32",
+      "text": "",
+      "rect": [
+        6,
+        156,
+        1910,
+        717
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<>",
+      "rect": [
+        632,
+        740,
+        752,
+        823
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        132,
+        740,
+        272,
+        770
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        132,
+        770,
+        272,
+        802
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        290,
+        770,
+        428,
+        802
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<>",
+      "rect": [
+        434,
+        770,
+        475,
+        802
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        132,
+        801,
+        290,
+        831
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        132,
+        831,
+        752,
+        861
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        132,
+        860,
+        752,
+        890
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        132,
+        890,
+        752,
+        922
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        132,
+        921,
+        752,
+        951
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Semua Data",
+      "rect": [
+        290,
+        740,
+        428,
+        767
+      ]
+    },
+    {
+      "class": "Button",
+      "text": " Ctrl+F7",
+      "rect": [
+        788,
+        716,
+        1912,
+        841
+      ]
+    },
+    {
+      "class": "Button",
+      "text": " Ctrl+F6",
+      "rect": [
+        788,
+        843,
+        1912,
+        965
+      ]
+    },
+    {
+      "class": "msctls_statusbar32",
+      "text": "",
+      "rect": [
+        0,
+        975,
+        1920,
+        1008
+      ]
+    }
+  ]
+}

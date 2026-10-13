@@ -1,0 +1,562 @@
+{
+  "slug": "item-list",
+  "title": "Item - GF-Akuntansi Release : 951.1823 Build 2026.06.28",
+  "rect": [
+    -12,
+    -12,
+    1932,
+    1020
+  ],
+  "controls": [
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        6,
+        662,
+        1650,
+        967
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        1655,
+        860,
+        1915,
+        968
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "M A S T E R   F I L E   -   I T E M",
+      "rect": [
+        254,
+        41,
+        1681,
+        83
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "",
+      "rect": [
+        618,
+        90,
+        1475,
+        149
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "ID :",
+      "rect": [
+        32,
+        687,
+        104,
+        714
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Kode :",
+      "rect": [
+        32,
+        716,
+        116,
+        746
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Kode (2) :",
+      "rect": [
+        32,
+        746,
+        116,
+        776
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Group :",
+      "rect": [
+        32,
+        777,
+        116,
+        804
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Group II :",
+      "rect": [
+        32,
+        806,
+        116,
+        836
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Vendor :",
+      "rect": [
+        32,
+        836,
+        116,
+        866
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Nama :",
+      "rect": [
+        32,
+        867,
+        116,
+        897
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Catatan :",
+      "rect": [
+        32,
+        896,
+        116,
+        926
+      ]
+    },
+    {
+      "class": "Static",
+      "text": " ",
+      "rect": [
+        32,
+        926,
+        116,
+        958
+      ]
+    },
+    {
+      "class": "Static",
+      "text": " ",
+      "rect": [
+        552,
+        926,
+        650,
+        958
+      ]
+    },
+    {
+      "class": "Static",
+      "text": " ",
+      "rect": [
+        1091,
+        926,
+        1189,
+        958
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Menu Utama",
+      "rect": [
+        6,
+        41,
+        56,
+        83
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Z..A",
+      "rect": [
+        56,
+        41,
+        104,
+        83
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "CheckBox",
+      "rect": [
+        104,
+        41,
+        152,
+        83
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Menu",
+      "rect": [
+        150,
+        41,
+        248,
+        83
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        1686,
+        47,
+        1907,
+        77
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Laporan",
+      "rect": [
+        6,
+        90,
+        104,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Sat&uan",
+      "rect": [
+        110,
+        90,
+        205,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Kel&ompok",
+      "rect": [
+        212,
+        90,
+        310,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Sisa Stock",
+      "rect": [
+        312,
+        90,
+        410,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Gabungan",
+      "rect": [
+        416,
+        90,
+        511,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Cetak",
+      "rect": [
+        518,
+        90,
+        616,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "T&ambah",
+      "rect": [
+        1482,
+        90,
+        1584,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Koreksi",
+      "rect": [
+        1590,
+        90,
+        1692,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Hapus",
+      "rect": [
+        1698,
+        90,
+        1800,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Tutup",
+      "rect": [
+        1806,
+        90,
+        1908,
+        149
+      ]
+    },
+    {
+      "class": "SysListView32",
+      "text": "",
+      "rect": [
+        6,
+        156,
+        1914,
+        668
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        122,
+        687,
+        374,
+        717
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        122,
+        716,
+        374,
+        746
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        122,
+        746,
+        374,
+        778
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        122,
+        777,
+        632,
+        807
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        632,
+        777,
+        1130,
+        807
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1130,
+        777,
+        1631,
+        807
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        122,
+        806,
+        1634,
+        836
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        122,
+        836,
+        1634,
+        868
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        122,
+        867,
+        1058,
+        897
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1058,
+        867,
+        1450,
+        897
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1449,
+        867,
+        1631,
+        897
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        122,
+        896,
+        1634,
+        926
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Semua Data",
+      "rect": [
+        384,
+        716,
+        518,
+        743
+      ]
+    },
+    {
+      "class": "Button",
+      "text": " Ctrl+F9",
+      "rect": [
+        528,
+        687,
+        650,
+        729
+      ]
+    },
+    {
+      "class": "Button",
+      "text": " Ctrl+F",
+      "rect": [
+        528,
+        728,
+        650,
+        770
+      ]
+    },
+    {
+      "class": "Button",
+      "text": " Ctrl+F7",
+      "rect": [
+        650,
+        687,
+        758,
+        770
+      ]
+    },
+    {
+      "class": "Button",
+      "text": " Ctrl+F6",
+      "rect": [
+        758,
+        687,
+        866,
+        770
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Mengisi Stock Awal (F8)",
+      "rect": [
+        1655,
+        675,
+        1915,
+        722
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Mengisi Stock Awal *2 (F9)",
+      "rect": [
+        1655,
+        723,
+        1915,
+        770
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Aktif",
+      "rect": [
+        1655,
+        770,
+        1781,
+        817
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "---",
+      "rect": [
+        1781,
+        770,
+        1915,
+        817
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Mouse klik 2x > Koreksi",
+      "rect": [
+        1655,
+        818,
+        1915,
+        868
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        1680,
+        884,
+        1890,
+        914
+      ]
+    },
+    {
+      "class": "msctls_statusbar32",
+      "text": "",
+      "rect": [
+        0,
+        975,
+        1920,
+        1008
+      ]
+    }
+  ]
+}

@@ -1,0 +1,532 @@
+{
+  "slug": "penjualan-list",
+  "title": "Penjualan - GF-Akuntansi Release : 951.1823 Build 2026.06.28",
+  "rect": [
+    -12,
+    -12,
+    1932,
+    1020
+  ],
+  "controls": [
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        6,
+        623,
+        794,
+        965
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        798,
+        623,
+        1907,
+        841
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "P E N J U A L A N",
+      "rect": [
+        254,
+        41,
+        1501,
+        83
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "",
+      "rect": [
+        438,
+        90,
+        1452,
+        149
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "ID :",
+      "rect": [
+        32,
+        647,
+        127,
+        677
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Tanggal :",
+      "rect": [
+        32,
+        677,
+        127,
+        707
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "No :",
+      "rect": [
+        32,
+        708,
+        127,
+        735
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "S/O :",
+      "rect": [
+        32,
+        737,
+        127,
+        767
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "P/O :",
+      "rect": [
+        32,
+        767,
+        127,
+        799
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Pelanggan :",
+      "rect": [
+        32,
+        798,
+        127,
+        825
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Kelompok :",
+      "rect": [
+        32,
+        828,
+        127,
+        858
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Daerah :",
+      "rect": [
+        32,
+        857,
+        127,
+        887
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Sales :",
+      "rect": [
+        32,
+        887,
+        127,
+        917
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Catatan :",
+      "rect": [
+        32,
+        918,
+        127,
+        945
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "-",
+      "rect": [
+        266,
+        677,
+        284,
+        709
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        1709,
+        47,
+        1907,
+        77
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Menu Utama",
+      "rect": [
+        6,
+        41,
+        56,
+        83
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Z..A",
+      "rect": [
+        56,
+        41,
+        104,
+        83
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "CheckBox",
+      "rect": [
+        104,
+        41,
+        152,
+        83
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Menu",
+      "rect": [
+        150,
+        41,
+        248,
+        83
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        1506,
+        47,
+        1704,
+        77
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1511,
+        51,
+        1675,
+        72
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Laporan",
+      "rect": [
+        6,
+        90,
+        110,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Rincian Per Item",
+      "rect": [
+        114,
+        90,
+        218,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Cetak Set&up",
+      "rect": [
+        222,
+        90,
+        326,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Cetak",
+      "rect": [
+        330,
+        90,
+        434,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "T&ambah",
+      "rect": [
+        1457,
+        90,
+        1565,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Koreksi",
+      "rect": [
+        1572,
+        90,
+        1680,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Hapus",
+      "rect": [
+        1686,
+        90,
+        1794,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Tutup",
+      "rect": [
+        1799,
+        90,
+        1907,
+        149
+      ]
+    },
+    {
+      "class": "SysListView32",
+      "text": "",
+      "rect": [
+        6,
+        156,
+        1907,
+        630
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        524,
+        647,
+        763,
+        677
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        128,
+        647,
+        266,
+        677
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        128,
+        677,
+        266,
+        709
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        284,
+        677,
+        422,
+        709
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<>",
+      "rect": [
+        428,
+        677,
+        472,
+        709
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        128,
+        708,
+        421,
+        738
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        128,
+        737,
+        763,
+        767
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        128,
+        767,
+        763,
+        799
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        128,
+        798,
+        763,
+        828
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        128,
+        828,
+        446,
+        858
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        446,
+        828,
+        764,
+        858
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        128,
+        857,
+        446,
+        887
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        446,
+        857,
+        764,
+        887
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        128,
+        887,
+        763,
+        919
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        128,
+        918,
+        763,
+        948
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Semua Data",
+      "rect": [
+        284,
+        647,
+        422,
+        674
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Yang Belum Ada Pelunasan",
+      "rect": [
+        816,
+        647,
+        1122,
+        677
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Yang Sudah Ada Pelunasan",
+      "rect": [
+        816,
+        677,
+        1122,
+        709
+      ]
+    },
+    {
+      "class": "Button",
+      "text": " Ctrl+F7",
+      "rect": [
+        798,
+        845,
+        974,
+        965
+      ]
+    },
+    {
+      "class": "Button",
+      "text": " Ctrl+F6",
+      "rect": [
+        974,
+        845,
+        1907,
+        965
+      ]
+    },
+    {
+      "class": "msctls_statusbar32",
+      "text": "",
+      "rect": [
+        0,
+        975,
+        1920,
+        1008
+      ]
+    }
+  ]
+}

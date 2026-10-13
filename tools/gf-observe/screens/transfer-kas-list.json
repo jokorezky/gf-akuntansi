@@ -1,0 +1,332 @@
+{
+  "slug": "transfer-kas-list",
+  "title": "Transfer Kas - GF-Akuntansi Release : 951.1823 Build 2026.06.28",
+  "rect": [
+    -12,
+    -12,
+    1932,
+    1020
+  ],
+  "controls": [
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        6,
+        801,
+        780,
+        968
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "K A S   -   T R A N S F E R   K A S",
+      "rect": [
+        254,
+        41,
+        1681,
+        83
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "",
+      "rect": [
+        330,
+        90,
+        1452,
+        149
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "ID :",
+      "rect": [
+        32,
+        831,
+        112,
+        861
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Tanggal :",
+      "rect": [
+        32,
+        860,
+        112,
+        890
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "No :",
+      "rect": [
+        32,
+        890,
+        112,
+        922
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Catatan :",
+      "rect": [
+        32,
+        921,
+        112,
+        948
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "-",
+      "rect": [
+        254,
+        860,
+        272,
+        890
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Menu Utama",
+      "rect": [
+        6,
+        41,
+        56,
+        83
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Z..A",
+      "rect": [
+        56,
+        41,
+        104,
+        83
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "CheckBox",
+      "rect": [
+        104,
+        41,
+        152,
+        83
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Menu",
+      "rect": [
+        150,
+        41,
+        248,
+        83
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        1686,
+        47,
+        1907,
+        77
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1691,
+        51,
+        1877,
+        72
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Laporan",
+      "rect": [
+        6,
+        90,
+        110,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Cetak Set&up",
+      "rect": [
+        114,
+        90,
+        218,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Cetak",
+      "rect": [
+        222,
+        90,
+        326,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "T&ambah",
+      "rect": [
+        1457,
+        90,
+        1565,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Koreksi",
+      "rect": [
+        1572,
+        90,
+        1680,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Hapus",
+      "rect": [
+        1686,
+        90,
+        1794,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Tutup",
+      "rect": [
+        1799,
+        90,
+        1907,
+        149
+      ]
+    },
+    {
+      "class": "SysListView32",
+      "text": "",
+      "rect": [
+        6,
+        156,
+        1907,
+        807
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        114,
+        831,
+        254,
+        861
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        114,
+        860,
+        254,
+        890
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        272,
+        860,
+        410,
+        890
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<>",
+      "rect": [
+        416,
+        860,
+        457,
+        890
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        114,
+        890,
+        272,
+        922
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        114,
+        921,
+        752,
+        951
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Semua Data",
+      "rect": [
+        272,
+        831,
+        410,
+        858
+      ]
+    },
+    {
+      "class": "Button",
+      "text": " Ctrl+F7",
+      "rect": [
+        788,
+        812,
+        1909,
+        887
+      ]
+    },
+    {
+      "class": "Button",
+      "text": " Ctrl+F6",
+      "rect": [
+        788,
+        890,
+        1909,
+        968
+      ]
+    },
+    {
+      "class": "msctls_statusbar32",
+      "text": "",
+      "rect": [
+        0,
+        975,
+        1920,
+        1008
+      ]
+    }
+  ]
+}

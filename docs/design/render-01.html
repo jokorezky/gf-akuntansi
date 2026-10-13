@@ -1,0 +1,13 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<style>body{margin:0;background:#fff;font-family:Tahoma} .mermaid{padding:10px}</style>
+<script src="file:///C:/Users/ZofiA/Documents/_PDF/KemBot/diagrams/mermaid.min.js"></script>
+</head><body>
+<pre class="mermaid">
+flowchart LR
+  GF["GF Akuntansi (CA-Visual Objects)<br/>app berjalan · .G8A/CDX"] --> H["Observe harness<br/>windows-mcp · FlaUI/UIA · Win32 wintree + WM_COMMAND"]
+  IDN["INDUSIA-Akunting<br/>551 rule YAML + evidence SQL (PostgreSQL)"] --> H
+  H --> REPO["gf-akuntansi-clone (repo baru)<br/>apps/web Next.js (meniru GF)<br/>apps/api NestJS+GraphQL+PG (menyusul)<br/>docs/specs per layar"]
+  REF["gf-akunting-web (spec GAW, sweep GAW-2) + DESIGN.md token GF"] -.acuan.-> REPO
+</pre>
+<script>mermaid.initialize({startOnLoad:true,theme:"neutral"});</script>
+</body></html>

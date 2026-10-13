@@ -1,0 +1,232 @@
+{
+  "slug": "promosi-list",
+  "title": "Promosi - GF-Akuntansi Release : 951.1823 Build 2026.06.28",
+  "rect": [
+    0,
+    0,
+    1178,
+    812
+  ],
+  "controls": [
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        18,
+        672,
+        648,
+        761
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "L A I N N Y A   -   P R O M O S I",
+      "rect": [
+        266,
+        53,
+        1153,
+        95
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "",
+      "rect": [
+        126,
+        102,
+        698,
+        161
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Tanggal :",
+      "rect": [
+        44,
+        707,
+        116,
+        737
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "-",
+      "rect": [
+        260,
+        707,
+        278,
+        739
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Menu Utama",
+      "rect": [
+        18,
+        53,
+        68,
+        95
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Z..A",
+      "rect": [
+        68,
+        53,
+        116,
+        95
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "CheckBox",
+      "rect": [
+        116,
+        53,
+        164,
+        95
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Menu",
+      "rect": [
+        162,
+        53,
+        260,
+        95
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Laporan",
+      "rect": [
+        18,
+        102,
+        122,
+        161
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "T&ambah",
+      "rect": [
+        702,
+        102,
+        810,
+        161
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Koreksi",
+      "rect": [
+        818,
+        102,
+        926,
+        161
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Hapus",
+      "rect": [
+        932,
+        102,
+        1040,
+        161
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Tutup",
+      "rect": [
+        1044,
+        102,
+        1152,
+        161
+      ]
+    },
+    {
+      "class": "SysListView32",
+      "text": "",
+      "rect": [
+        18,
+        168,
+        1152,
+        678
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        122,
+        707,
+        260,
+        739
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        278,
+        707,
+        416,
+        739
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<>",
+      "rect": [
+        422,
+        707,
+        466,
+        739
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Semua Data",
+      "rect": [
+        500,
+        707,
+        638,
+        739
+      ]
+    },
+    {
+      "class": "Button",
+      "text": " Ctrl+F7",
+      "rect": [
+        656,
+        683,
+        902,
+        761
+      ]
+    },
+    {
+      "class": "Button",
+      "text": " Ctrl+F6",
+      "rect": [
+        908,
+        683,
+        1154,
+        761
+      ]
+    },
+    {
+      "class": "msctls_statusbar32",
+      "text": "",
+      "rect": [
+        12,
+        767,
+        1166,
+        800
+      ]
+    }
+  ]
+}

@@ -1,0 +1,452 @@
+{
+  "slug": "retur-penjualan-list",
+  "title": "Retur Penjualan - GF-Akuntansi Release : 951.1823 Build 2026.06.28",
+  "rect": [
+    -12,
+    -12,
+    1932,
+    1020
+  ],
+  "controls": [
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        6,
+        737,
+        704,
+        964
+      ]
+    },
+    {
+      "class": "Button",
+      "text": " Tampilkan : ",
+      "rect": [
+        708,
+        755,
+        1004,
+        965
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "P E N J U A L A N   -   R E T U R   P E N J U A L A N",
+      "rect": [
+        254,
+        41,
+        1681,
+        83
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "",
+      "rect": [
+        438,
+        90,
+        1452,
+        149
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "ID :",
+      "rect": [
+        32,
+        767,
+        130,
+        797
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Tanggal :",
+      "rect": [
+        32,
+        798,
+        130,
+        825
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "No :",
+      "rect": [
+        32,
+        828,
+        130,
+        858
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Pelanggan :",
+      "rect": [
+        32,
+        857,
+        130,
+        887
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Sales :",
+      "rect": [
+        32,
+        887,
+        130,
+        917
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Catatan :",
+      "rect": [
+        32,
+        918,
+        130,
+        945
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "-",
+      "rect": [
+        266,
+        798,
+        284,
+        828
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Menu Utama",
+      "rect": [
+        6,
+        41,
+        56,
+        83
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Z..A",
+      "rect": [
+        56,
+        41,
+        104,
+        83
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "CheckBox",
+      "rect": [
+        104,
+        41,
+        152,
+        83
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Menu",
+      "rect": [
+        150,
+        41,
+        248,
+        83
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        1686,
+        47,
+        1907,
+        77
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1691,
+        51,
+        1877,
+        72
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Laporan",
+      "rect": [
+        6,
+        90,
+        110,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Rincian Per Item",
+      "rect": [
+        114,
+        90,
+        218,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Cetak Set&up",
+      "rect": [
+        222,
+        90,
+        326,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Cetak",
+      "rect": [
+        330,
+        90,
+        434,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "T&ambah",
+      "rect": [
+        1457,
+        90,
+        1565,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Koreksi",
+      "rect": [
+        1572,
+        90,
+        1680,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Hapus",
+      "rect": [
+        1686,
+        90,
+        1794,
+        149
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Tutup",
+      "rect": [
+        1799,
+        90,
+        1907,
+        149
+      ]
+    },
+    {
+      "class": "SysListView32",
+      "text": "",
+      "rect": [
+        6,
+        156,
+        1907,
+        743
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        482,
+        762,
+        680,
+        792
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        128,
+        767,
+        266,
+        799
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        128,
+        798,
+        266,
+        828
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        284,
+        798,
+        422,
+        828
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<>",
+      "rect": [
+        428,
+        798,
+        472,
+        828
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        128,
+        828,
+        421,
+        858
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        128,
+        857,
+        680,
+        887
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        128,
+        887,
+        680,
+        919
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        128,
+        918,
+        680,
+        948
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Semua Data",
+      "rect": [
+        284,
+        767,
+        422,
+        794
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Tanpa Asal dan Potong Faktur",
+      "rect": [
+        726,
+        791,
+        986,
+        821
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Asal Faktur",
+      "rect": [
+        726,
+        821,
+        986,
+        853
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Potong Faktur",
+      "rect": [
+        726,
+        852,
+        986,
+        882
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Yang Belum Ada Pelunasan",
+      "rect": [
+        726,
+        893,
+        992,
+        923
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Yang Sudah Ada Pelunasan",
+      "rect": [
+        726,
+        923,
+        992,
+        955
+      ]
+    },
+    {
+      "class": "Button",
+      "text": " Ctrl+F7",
+      "rect": [
+        1010,
+        750,
+        1907,
+        855
+      ]
+    },
+    {
+      "class": "Button",
+      "text": " Ctrl+F6",
+      "rect": [
+        1010,
+        857,
+        1907,
+        965
+      ]
+    },
+    {
+      "class": "msctls_statusbar32",
+      "text": "",
+      "rect": [
+        0,
+        975,
+        1920,
+        1008
+      ]
+    }
+  ]
+}

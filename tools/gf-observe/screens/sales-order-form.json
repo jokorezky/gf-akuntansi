@@ -1,0 +1,572 @@
+{
+  "slug": "sales-order-form",
+  "title": "Sales Order",
+  "rect": [
+    387,
+    93,
+    1532,
+    917
+  ],
+  "controls": [
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        404,
+        140,
+        1516,
+        362
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        404,
+        624,
+        1174,
+        822
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        1173,
+        624,
+        1515,
+        822
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Pelanggan :",
+      "rect": [
+        422,
+        170,
+        512,
+        200
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Sales :",
+      "rect": [
+        422,
+        300,
+        512,
+        330
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "No :",
+      "rect": [
+        1023,
+        198,
+        1103,
+        228
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "No P/O :",
+      "rect": [
+        1023,
+        228,
+        1103,
+        260
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Tanggal :",
+      "rect": [
+        1023,
+        260,
+        1103,
+        290
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "M.U. :",
+      "rect": [
+        1023,
+        288,
+        1103,
+        318
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Kirim :",
+      "rect": [
+        1268,
+        288,
+        1330,
+        318
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Tutup :",
+      "rect": [
+        1268,
+        318,
+        1330,
+        350
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Discount :",
+      "rect": [
+        422,
+        654,
+        508,
+        686
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Catatan :",
+      "rect": [
+        422,
+        686,
+        508,
+        716
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Total Harga :",
+      "rect": [
+        1173,
+        654,
+        1304,
+        690
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Total Disc :",
+      "rect": [
+        1173,
+        686,
+        1304,
+        716
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "...",
+      "rect": [
+        1173,
+        716,
+        1304,
+        746
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "...",
+      "rect": [
+        1173,
+        744,
+        1304,
+        774
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "TOTAL :",
+      "rect": [
+        1173,
+        774,
+        1304,
+        806
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        525,
+        170,
+        998,
+        200
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        525,
+        300,
+        818,
+        330
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        530,
+        305,
+        788,
+        326
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        1023,
+        162,
+        1283,
+        192
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1028,
+        167,
+        1253,
+        188
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        1281,
+        162,
+        1497,
+        192
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1101,
+        198,
+        1196,
+        228
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1101,
+        228,
+        1466,
+        260
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1101,
+        260,
+        1232,
+        290
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        1101,
+        288,
+        1196,
+        320
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1329,
+        288,
+        1467,
+        318
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1329,
+        318,
+        1467,
+        350
+      ]
+    },
+    {
+      "class": "SysListView32",
+      "text": "",
+      "rect": [
+        404,
+        362,
+        1516,
+        589
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "T&ambah",
+      "rect": [
+        404,
+        588,
+        602,
+        630
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Koreksi",
+      "rect": [
+        602,
+        588,
+        800,
+        630
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Hapus",
+      "rect": [
+        800,
+        588,
+        998,
+        630
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Copy Item ke Clipboard",
+      "rect": [
+        998,
+        588,
+        1258,
+        630
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Paste Item dari Clipboard",
+      "rect": [
+        1257,
+        588,
+        1517,
+        630
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        519,
+        654,
+        671,
+        686
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        669,
+        654,
+        753,
+        686
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        759,
+        654,
+        854,
+        684
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        854,
+        654,
+        994,
+        686
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        993,
+        654,
+        1070,
+        686
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1070,
+        654,
+        1150,
+        686
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        519,
+        686,
+        1149,
+        752
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        519,
+        752,
+        1149,
+        818
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1311,
+        654,
+        1481,
+        686
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1311,
+        686,
+        1481,
+        716
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1311,
+        716,
+        1481,
+        746
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1311,
+        744,
+        1481,
+        774
+      ]
+    },
+    {
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1311,
+        774,
+        1481,
+        806
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<<",
+      "rect": [
+        404,
+        830,
+        440,
+        872
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<",
+      "rect": [
+        440,
+        830,
+        476,
+        872
+      ]
+    },
+    {
+      "class": "Button",
+      "text": ">",
+      "rect": [
+        476,
+        830,
+        512,
+        872
+      ]
+    },
+    {
+      "class": "Button",
+      "text": ">>",
+      "rect": [
+        512,
+        830,
+        548,
+        872
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Simpan",
+      "rect": [
+        548,
+        830,
+        1030,
+        872
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Tutup",
+      "rect": [
+        1029,
+        830,
+        1515,
+        872
+      ]
+    },
+    {
+      "class": "msctls_statusbar32",
+      "text": "",
+      "rect": [
+        399,
+        872,
+        1520,
+        905
+      ]
+    }
+  ]
+}
