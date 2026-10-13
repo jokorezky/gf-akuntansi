@@ -7,6 +7,7 @@ export class LaporanItem {
   @Field() file!: string;
   @Field() kategori!: string;
   @Field({ nullable: true }) implemented?: boolean;
+  @Field({ nullable: true }) na?: boolean;
 }
 
 @ObjectType()

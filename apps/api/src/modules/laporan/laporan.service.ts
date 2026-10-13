@@ -2,7 +2,7 @@ import { Inject, Injectable } from "@nestjs/common";
 import { Pool } from "pg";
 import { PG_POOL } from "../../db/pg.provider";
 import { LAPORAN_CATALOG, LaporanCatalogItem } from "./laporan.catalog";
-import { buildSpec, isImplemented, LapSpec } from "./laporan.engine";
+import { buildSpec, isImplemented, isNA, LapSpec } from "./laporan.engine";
 import { LaporanCatalog, LaporanHasil } from "./laporan.types";
 
 function s(v: unknown): string {
@@ -19,7 +19,7 @@ export class LaporanService {
     const total = LAPORAN_CATALOG.reduce((n, g) => n + g.items.length, 0);
     const groups = LAPORAN_CATALOG.map((g) => ({
       label: g.label,
-      items: g.items.map((it) => ({ ...it, implemented: this.implemented(it) })),
+      items: g.items.map((it) => ({ ...it, implemented: this.implemented(it), na: isNA(it.file) })),
     }));
     return { total, groups };
   }
@@ -41,6 +41,16 @@ export class LaporanService {
     const it = this.find(kode);
     if (!it) {
       return { kode, judul: kode, kolom: ["Info"], baris: [["Laporan tidak ditemukan di katalog clone."]], total: 1 };
+    }
+    if (isNA(it.file)) {
+      return {
+        kode: it.kode,
+        judul: it.nama,
+        kolom: ["Status"],
+        baris: [[`N/A — modul ${it.file.startsWith("204 ") ? "forecasting" : "hotel"} tidak ada di data minimarket (fokus data yang ada di DB).`]],
+        total: 1,
+        catatan: "N/A",
+      };
     }
     if (it.file.startsWith("011 ")) return this.daftarItem(it, q, limit, offset);
     if (it.file.startsWith("012 ") && /sisa stock/i.test(it.file)) return this.sisaStock(it, q, limit, offset);

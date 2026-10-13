@@ -4,11 +4,11 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { gql } from "@/lib/graphql";
 
-type CatalogItem = { kode: string; nama: string; file: string; kategori: string; implemented?: boolean | null };
+type CatalogItem = { kode: string; nama: string; file: string; kategori: string; implemented?: boolean | null; na?: boolean | null };
 type CatalogGroup = { label: string; items: CatalogItem[] };
 type Hasil = { kode: string; judul: string; kolom: string[]; baris: string[][]; total: number; catatan?: string | null };
 
-const CATALOG = `query { laporanCatalog { total groups { label items { kode nama file kategori implemented } } } }`;
+const CATALOG = `query { laporanCatalog { total groups { label items { kode nama file kategori implemented na } } } }`;
 const HASIL = `query($kode:String!,$q:String,$limit:Int){ laporanHasil(kode:$kode,q:$q,limit:$limit){ judul kolom baris total catatan } }`;
 
 type Periode = "tanggal" | "bulan" | "tahun" | "custom";
@@ -128,7 +128,7 @@ export default function LaporanPage() {
                         onClick={() => { setKode(it.kode); setHasil(null); }}
                         className={`cursor-pointer ${kode === it.kode ? "bg-[#e8eef7]" : "hover:bg-[#f3f6fb]"}`}
                       >
-                        <td className="border border-gf-border px-2 py-[2px]"><span title={it.implemented ? "terimplementasi" : "belum"} className={`mr-1 inline-block h-[8px] w-[8px] rounded-full ${it.implemented ? "bg-green-600" : "bg-[#d9a400]"}`} />{it.nama}</td>
+                        <td className="border border-gf-border px-2 py-[2px]"><span title={it.na ? "N/A (modul hotel/forecasting)" : it.implemented ? "terimplementasi" : "belum"} className={`mr-1 inline-block h-[8px] w-[8px] rounded-full ${it.na ? "bg-gray-400" : it.implemented ? "bg-green-600" : "bg-[#d9a400]"}`} />{it.nama}</td>
                         <td className="border border-gf-border px-2 py-[2px] text-gf-muted">{it.file}</td>
                       </tr>
                     ))}
