@@ -2,11 +2,14 @@ import { Inject, Injectable } from "@nestjs/common";
 import { Pool } from "pg";
 import { PG_POOL } from "../../db/pg.provider";
 import { LAPORAN_CATALOG, LaporanCatalogItem } from "./laporan.catalog";
+import { buildSpec, isImplemented, LapSpec } from "./laporan.engine";
 import { LaporanCatalog, LaporanHasil } from "./laporan.types";
 
 function s(v: unknown): string {
   return v === null || v === undefined ? "" : String(v);
 }
+
+const NATIVE_PREFIX = ["011 ", "012 ", "005 ", "021 ", "031 ", "131 ", "241 ", "801 ", "821 "];
 
 @Injectable()
 export class LaporanService {
@@ -14,7 +17,16 @@ export class LaporanService {
 
   catalog(): LaporanCatalog {
     const total = LAPORAN_CATALOG.reduce((n, g) => n + g.items.length, 0);
-    return { total, groups: LAPORAN_CATALOG };
+    const groups = LAPORAN_CATALOG.map((g) => ({
+      label: g.label,
+      items: g.items.map((it) => ({ ...it, implemented: this.implemented(it) })),
+    }));
+    return { total, groups };
+  }
+
+  private implemented(it: LaporanCatalogItem): boolean {
+    if (NATIVE_PREFIX.some((p) => it.file.startsWith(p))) return true;
+    return isImplemented(it.file, it.nama);
   }
 
   private find(kode: string): LaporanCatalogItem | undefined {
@@ -39,6 +51,8 @@ export class LaporanService {
     if (it.file.startsWith("241 ")) return this.penjualan(it, q, limit, offset);
     if (it.file.startsWith("801 ") && /buku besar/i.test(it.file)) return this.bukuBesar(it, q, limit, offset);
     if (it.file.startsWith("821 ")) return this.kasRincian(it, q, limit, offset);
+    const eng = await this.runEngine(it, q, limit, offset);
+    if (eng) return eng;
     return {
       kode: it.kode,
       judul: it.nama,
@@ -46,6 +60,36 @@ export class LaporanService {
       baris: [[`Laporan "${it.nama}" belum diimplementasikan di clone (file GF: ${it.file}).`]],
       total: 1,
       catatan: "belum diimplementasikan",
+    };
+  }
+
+  /** Runner engine generik: SELECT c0..cn FROM base WHERE ... [GROUP BY] ORDER BY. */
+  private async runEngine(it: LaporanCatalogItem, q: string | undefined, limit: number, offset: number): Promise<LaporanHasil | null> {
+    const spec: LapSpec | null = buildSpec(it.file, it.nama);
+    if (!spec) return null;
+    const sel = spec.cols.map((c, i) => `${c.sql} AS c${i}`).join(", ");
+    const params: unknown[] = [];
+    let where = spec.where ? `WHERE ${spec.where}` : "WHERE true";
+    if (q && q.trim()) {
+      params.push(`%${q.trim()}%`);
+      where += ` AND (${spec.cols[0].sql})::text ILIKE $${params.length}`;
+    }
+    const totalSql = spec.groupBy
+      ? `SELECT count(*)::int AS n FROM (SELECT 1 ${spec.base} ${where} ${spec.groupBy}) z`
+      : `SELECT count(*)::int AS n ${spec.base} ${where}`;
+    const total = await this.pool.query(totalSql, params);
+    params.push(limit, offset);
+    const rows = await this.pool.query(
+      `SELECT ${sel} ${spec.base} ${where} ${spec.groupBy ?? ""} ORDER BY ${spec.orderBy ?? "1"} LIMIT $${params.length - 1} OFFSET $${params.length}`,
+      params,
+    );
+    return {
+      kode: it.kode,
+      judul: it.nama,
+      kolom: spec.cols.map((c) => c.label),
+      baris: (rows.rows as Record<string, unknown>[]).map((r) => spec.cols.map((_, i) => s(r[`c${i}`]))),
+      total: total.rows[0].n as number,
+      catatan: (spec.catatan ?? `File GF: ${it.file}`) + ` — file GF: ${it.file}`,
     };
   }
 

@@ -4,11 +4,11 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { gql } from "@/lib/graphql";
 
-type CatalogItem = { kode: string; nama: string; file: string; kategori: string };
+type CatalogItem = { kode: string; nama: string; file: string; kategori: string; implemented?: boolean | null };
 type CatalogGroup = { label: string; items: CatalogItem[] };
 type Hasil = { kode: string; judul: string; kolom: string[]; baris: string[][]; total: number; catatan?: string | null };
 
-const CATALOG = `query { laporanCatalog { total groups { label items { kode nama file kategori } } } }`;
+const CATALOG = `query { laporanCatalog { total groups { label items { kode nama file kategori implemented } } } }`;
 const HASIL = `query($kode:String!,$q:String,$limit:Int){ laporanHasil(kode:$kode,q:$q,limit:$limit){ judul kolom baris total catatan } }`;
 
 type Periode = "tanggal" | "bulan" | "tahun" | "custom";
@@ -97,7 +97,7 @@ export default function LaporanPage() {
                     onClick={() => { setGIdx(i); setKode(""); setHasil(null); }}
                     className={`block w-full px-2 py-[3px] text-left text-[12px] ${i === gIdx ? "bg-[#316ac5] text-white" : "hover:bg-[#e8eef7]"}`}
                   >
-                    {i + 1}. {g.label} <span className={i === gIdx ? "text-white/80" : "text-gf-muted"}>({g.items.length})</span>
+                    {i + 1}. {g.label} <span className={i === gIdx ? "text-white/80" : "text-gf-muted"}>({g.items.filter((x) => x.implemented).length}/{g.items.length})</span>
                   </button>
                 ))}
               </div>
@@ -128,7 +128,7 @@ export default function LaporanPage() {
                         onClick={() => { setKode(it.kode); setHasil(null); }}
                         className={`cursor-pointer ${kode === it.kode ? "bg-[#e8eef7]" : "hover:bg-[#f3f6fb]"}`}
                       >
-                        <td className="border border-gf-border px-2 py-[2px]">{it.nama}</td>
+                        <td className="border border-gf-border px-2 py-[2px]"><span title={it.implemented ? "terimplementasi" : "belum"} className={`mr-1 inline-block h-[8px] w-[8px] rounded-full ${it.implemented ? "bg-green-600" : "bg-[#d9a400]"}`} />{it.nama}</td>
                         <td className="border border-gf-border px-2 py-[2px] text-gf-muted">{it.file}</td>
                       </tr>
                     ))}
@@ -204,6 +204,7 @@ export default function LaporanPage() {
             <button onClick={exportCsv} disabled={!hasil} className="gf-3d flex-1 bg-gf-menubar px-2 py-[3px] text-[12px] disabled:opacity-50">
               &amp;Export &gt;&gt;&gt; Text File
             </button>
+            <button onClick={() => { if (!hasil) return; const txt = [hasil.kolom.join(" | "), ...hasil.baris.map((r) => r.join(" | "))].join("\r\n"); const blob = new Blob([txt], { type: "text/plain;charset=utf-8" }); const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `${hasil.judul.replace(/[^\w-]+/g, "_")}.txt`; a.click(); }} disabled={!hasil} className="gf-3d bg-gf-menubar px-4 py-[3px] text-[12px] disabled:opacity-50">Unduh TXT</button>
             <button onClick={() => setSetup(true)} className="gf-3d bg-gf-menubar px-6 py-[3px] text-[12px]">Setup</button>
             <button onClick={() => window.print()} disabled={!hasil} className="gf-3d bg-gf-menubar px-6 py-[3px] text-[12px] disabled:opacity-50">&amp;Cetak</button>
             <button onClick={() => router.push("/")} className="gf-3d bg-gf-menubar px-6 py-[3px] text-[12px]">&amp;Tutup</button>
