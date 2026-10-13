@@ -1,140 +1,232 @@
 "use client";
 
+import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { gql } from "@/lib/graphql";
 
-type Row = { id: number; no?: string | null; tanggal?: string | null; vendorId?: number | null; vendorNama?: string | null; divisiId?: number | null; purcorId?: number | null; pembelId?: number | null; deposit?: string | null; catatan?: string | null };
 type Ref = { id: number; nama: string };
+type Row = {
+  id: number; no?: string | null; tanggal?: string | null; vendorId?: number | null; vendorNama?: string | null;
+  divisiId?: number | null; purcorId?: number | null; pembelId?: number | null;
+  perkirId?: number | null; perkirNama?: string | null; mauang?: number | null; kurs?: string | null;
+  deposit?: string | null; catatan?: string | null; catatan2?: string | null; catatan3?: string | null;
+};
 
-const FIELDS = `id no tanggal vendorId vendorNama divisiId purcorId pembelId deposit catatan`;
+const FIELDS = `id no tanggal vendorId vendorNama divisiId purcorId pembelId perkirId perkirNama mauang kurs deposit catatan catatan2 catatan3`;
 const LIST = `query($q:String){ depositPembelianList(q:$q){ total rows { ${FIELDS} } } }`;
+const REFS = `{ vendorRefList { id nama } divisiRefList { id nama } perkiraanRefList { id nama } }`;
 const BYID = `query($id:Int!){ depositPembelianById(id:$id){ ${FIELDS} } }`;
 const CREATE = `mutation($input:DepositPembelianInput!){ createDepositPembelian(input:$input){ id } }`;
 const UPDATE = `mutation($id:Int!,$input:DepositPembelianInput!){ updateDepositPembelian(id:$id, input:$input){ id } }`;
 const DELETE = `mutation($id:Int!){ deleteDepositPembelian(id:$id) }`;
-const REFS = `{ vendorRefList { id nama } divisiRefList { id nama } }`;
+const ICON = "/gf-icons/screens/pembelian";
 
-const empty = (): Row => ({ id: 0, no: "", tanggal: new Date().toISOString().slice(0, 10), vendorId: null, divisiId: null, purcorId: null, pembelId: null, deposit: "", catatan: "" });
+const empty = (): Row => ({
+  id: 0, no: "", tanggal: new Date().toISOString().slice(0, 10), vendorId: null,
+  divisiId: null, purcorId: null, pembelId: null, perkirId: null, mauang: 1, kurs: "1.0000",
+  deposit: "0", catatan: "", catatan2: "", catatan3: "",
+});
 
 export default function DepositPembelianPage() {
   const [rows, setRows] = useState<Row[]>([]);
   const [total, setTotal] = useState(0);
   const [q, setQ] = useState("");
   const [sel, setSel] = useState<number | null>(null);
-  const [vendor, setVendor] = useState<Ref[]>([]);
+  const [vendors, setVendors] = useState<Ref[]>([]);
   const [divisi, setDivisi] = useState<Ref[]>([]);
+  const [perkir, setPerkir] = useState<Ref[]>([]);
   const [form, setForm] = useState<Row | null>(null);
   const [mode, setMode] = useState<"create" | "edit">("create");
+  const [refund, setRefund] = useState(false);
   const [err, setErr] = useState("");
   const [msg, setMsg] = useState("");
 
   const load = useCallback(async () => {
     const d = await gql<{ depositPembelianList: { total: number; rows: Row[] } }>(LIST, { q });
-    setRows(d.depositPembelianList.rows); setTotal(d.depositPembelianList.total);
+    setRows(d.depositPembelianList.rows);
+    setTotal(d.depositPembelianList.total);
   }, [q]);
 
   useEffect(() => {
     load().catch((e) => setErr(String(e.message ?? e)));
-    gql<{ vendorRefList: Ref[]; divisiRefList: Ref[] }>(REFS)
-      .then((d) => { setVendor(d.vendorRefList); setDivisi(d.divisiRefList); }).catch(() => {});
+    gql<{ vendorRefList: Ref[]; divisiRefList: Ref[]; perkiraanRefList: Ref[] }>(REFS)
+      .then((d) => { setVendors(d.vendorRefList); setDivisi(d.divisiRefList); setPerkir(d.perkiraanRefList); })
+      .catch(() => undefined);
   }, [load]);
 
-  async function onTambah() { setErr(""); setMode("create"); setForm(empty()); }
+  const set = (patch: Partial<Row>) => setForm((f) => (f ? { ...f, ...patch } : f));
+
+  async function onTambah() { setErr(""); setMsg(""); setMode("create"); setRefund(false); setForm(empty()); }
   async function onKoreksi() {
     if (sel == null) return setMsg("Pilih baris dulu (Koreksi).");
-    setErr(""); setMode("edit");
     const d = await gql<{ depositPembelianById: Row }>(BYID, { id: sel });
-    setForm({ ...empty(), ...d.depositPembelianById });
+    setMode("edit"); setForm(d.depositPembelianById);
   }
   async function onHapus() {
     if (sel == null) return setMsg("Pilih baris dulu (Hapus).");
     if (!confirm(`Hapus deposit id ${sel}? (soft delete)`)) return;
-    await gql(DELETE, { id: sel }); setSel(null); setMsg("Terhapus."); await load();
+    await gql(DELETE, { id: sel });
+    setSel(null); setMsg("Terhapus."); await load();
   }
   async function onSimpan() {
     if (!form) return;
-    if (!form.vendorId) return setErr("Vendor wajib dipilih.");
-    if (!form.deposit || Number(form.deposit) <= 0) return setErr("Deposit wajib > 0.");
     setErr("");
-    const input = { no: form.no || null, tanggal: form.tanggal || null, vendorId: form.vendorId, divisiId: form.divisiId ?? null, purcorId: form.purcorId ?? null, pembelId: form.pembelId ?? null, deposit: form.deposit || "0", catatan: form.catatan || null };
-    if (mode === "create") await gql(CREATE, { input }); else await gql(UPDATE, { id: form.id, input });
-    setForm(null); setMsg(mode === "create" ? "Tersimpan." : "Diperbarui."); await load();
+    try {
+      const { id: _id, vendorNama: _vn, perkirNama: _pn, ...rest } = form;
+      if (mode === "create") await gql(CREATE, { input: rest });
+      else await gql(UPDATE, { id: form.id, input: rest });
+      setForm(null); setMsg(refund ? "Tersimpan. (Refund: menyusul)" : "Tersimpan."); await load();
+    } catch (e) { setErr(String((e as Error).message ?? e)); }
   }
 
-  const set = (patch: Partial<Row>) => setForm((f) => (f ? { ...f, ...patch } : f));
+  const td = "border border-gf-border px-2 py-[2px]";
 
   return (
     <div className="min-h-screen bg-gf-bg p-3 text-gf-text">
       <div className="mx-auto max-w-[1250px] border border-gf-border bg-gf-panel">
         <div className="border-b border-gf-border bg-gf-titlebar px-2 py-1 text-[13px] font-bold">Deposit Pembelian</div>
         <div className="p-2">
-          <div className="mb-1 text-center text-[12px] font-bold tracking-widest text-gf-accent">D E P O S I T&nbsp;&nbsp;P E M B E L I A N</div>
-          <div className="mb-2 flex items-center gap-2">
-            <input className="gf-3d flex-1 bg-white px-2 py-[3px] text-[12px]" placeholder="Cari no / vendor..." value={q} onChange={(e) => setQ(e.target.value)} />
-            <button className="gf-3d bg-gf-panel px-3 py-[3px] text-[12px] hover:bg-gf-hl hover:text-white" onClick={onTambah}>Tambah</button>
-            <button className="gf-3d bg-gf-panel px-3 py-[3px] text-[12px] hover:bg-gf-hl hover:text-white" onClick={onKoreksi}>Koreksi</button>
-            <button className="gf-3d bg-gf-panel px-3 py-[3px] text-[12px] hover:bg-gf-hl hover:text-white" onClick={onHapus}>Hapus</button>
+          <div className="mb-1 flex items-center gap-1">
+            <button onClick={() => setMsg("Urut Z..A")} className="gf-3d bg-gf-menubar p-[1px]"><Image src={`${ICON}/a-z.png`} alt="Z..A" width={38} height={27} unoptimized /></button>
+            <button onClick={() => setMsg("Menu")} className="gf-3d bg-gf-menubar p-[1px]"><Image src={`${ICON}/menu.png`} alt="Menu" width={74} height={27} unoptimized /></button>
+            <span className="mx-auto text-[12px] font-bold tracking-widest text-gf-accent">P E M B E L I A N&nbsp;&nbsp;-&nbsp;&nbsp;D E P O S I T</span>
+            <select className="gf-3d bg-white px-1 py-[2px] text-[11px]"><option>(-Semua Divisi-)</option></select>
           </div>
-          <div className="overflow-auto border border-gf-border">
-            <table className="w-full border-collapse text-[12px]">
-              <thead><tr className="bg-gf-menubar">{["ID", "No", "Tanggal", "Vendor", "Deposit"].map((h) => <th key={h} className="border border-gf-border px-2 py-1 text-left font-normal">{h}</th>)}</tr></thead>
+          <div className="mb-2 flex items-center gap-1">
+            <button onClick={() => { window.location.href = "/laporan"; }} className="gf-3d bg-gf-menubar p-[1px]"><Image src={`${ICON}/laporan.png`} alt="Laporan" width={58} height={44} unoptimized /></button>
+            <button onClick={() => setMsg("Cetak Setup — gunakan layar Laporan")} className="gf-3d bg-gf-menubar p-[1px]"><Image src={`${ICON}/cetak-setup.png`} alt="Cetak Setup" width={52} height={44} unoptimized /></button>
+            <button onClick={() => setMsg("Cetak — gunakan layar Laporan")} className="gf-3d bg-gf-menubar p-[1px]"><Image src={`${ICON}/cetak.png`} alt="Cetak" width={52} height={44} unoptimized /></button>
+            <input className="gf-3d flex-1 bg-white px-2 py-[3px] text-[12px]" placeholder="Cari no / vendor..." value={q} onChange={(e) => setQ(e.target.value)} />
+            <button onClick={onTambah} className="gf-3d bg-gf-menubar p-[1px]"><Image src={`${ICON}/tambah.png`} alt="Tambah" width={56} height={44} unoptimized /></button>
+            <button onClick={onKoreksi} className={`gf-3d bg-gf-menubar p-[1px] ${sel == null ? "opacity-40" : ""}`}><Image src={`${ICON}/koreksi.png`} alt="Koreksi" width={56} height={44} unoptimized /></button>
+            <button onClick={onHapus} className={`gf-3d bg-gf-menubar p-[1px] ${sel == null ? "opacity-40" : ""}`}><Image src={`${ICON}/hapus.png`} alt="Hapus" width={56} height={44} unoptimized /></button>
+            <button onClick={() => { window.location.href = "/"; }} className="gf-3d bg-gf-menubar p-[1px]"><Image src={`${ICON}/tutup.png`} alt="Tutup" width={62} height={44} unoptimized /></button>
+          </div>
+          {err && <div className="mb-2 text-[12px] text-red-700">{err}</div>}
+          {msg && <div className="mb-1 text-[11px] text-gf-muted">{msg}</div>}
+          <div className="max-h-[360px] overflow-auto border border-gf-border bg-white">
+            <table className="w-full border-collapse text-[11px]">
+              <thead className="sticky top-0"><tr className="bg-gf-menubar">
+                {["ID", "PO", "Pembelian", "No", "Tanggal", "Vendor", "MU", "Deposit", "Kurs", "Divisi", "Catatan", "Catatan *2", "Catatan *3"].map((h) => (
+                  <th key={h} className="whitespace-nowrap border border-gf-border px-1 py-[1px] text-left font-normal">{h}</th>
+                ))}
+              </tr></thead>
               <tbody>
                 {rows.map((r) => (
-                  <tr key={r.id} onClick={() => setSel(r.id)} className={`cursor-pointer ${sel === r.id ? "bg-gf-hl text-white" : "hover:bg-[#e8eef7]"}`}>
-                    <td className="border border-gf-border px-2 py-[2px]">{r.id}</td>
-                    <td className="border border-gf-border px-2 py-[2px]">{r.no}</td>
-                    <td className="border border-gf-border px-2 py-[2px]">{r.tanggal}</td>
-                    <td className="border border-gf-border px-2 py-[2px]">{r.vendorNama}</td>
-                    <td className="border border-gf-border px-2 py-[2px] text-right font-mono">{r.deposit}</td>
+                  <tr key={r.id} onClick={() => setSel(r.id)} className={`cursor-pointer ${sel === r.id ? "bg-[#316ac5] text-white" : "hover:bg-[#e8eef7]"}`}>
+                    <td className={td}>{r.id}</td>
+                    <td className={td}>{r.purcorId}</td>
+                    <td className={td}>{r.pembelId}</td>
+                    <td className={td}>{r.no}</td>
+                    <td className={td}>{r.tanggal}</td>
+                    <td className={td}>{r.vendorNama}</td>
+                    <td className={td}>IDR</td>
+                    <td className={`${td} text-right font-mono`}>{r.deposit}</td>
+                    <td className={`${td} text-right`}>{r.kurs}</td>
+                    <td className={td}>{divisi.find((d) => d.id === r.divisiId)?.nama ?? ""}</td>
+                    <td className={td}>{r.catatan}</td>
+                    <td className={td}>{r.catatan2}</td>
+                    <td className={td}>{r.catatan3}</td>
                   </tr>
                 ))}
-                {rows.length === 0 && <tr><td colSpan={5} className="px-2 py-3 text-center text-gf-muted">Belum ada data.</td></tr>}
+                {rows.length === 0 && <tr><td colSpan={13} className="px-2 py-3 text-center text-gf-muted">Belum ada data.</td></tr>}
               </tbody>
             </table>
+          </div>
+
+          <div className="mt-2 grid grid-cols-[1fr_320px] gap-2">
+            <div className="grid grid-cols-[70px_1fr_70px_1fr] items-center gap-x-2 gap-y-[3px] border border-gf-border bg-[#f4f4f4] p-2 text-[11px]">
+              <span>ID :</span><input className="gf-3d bg-white px-2 py-[1px]" readOnly value={sel ?? ""} />
+              <label className="flex items-center gap-1"><input type="checkbox" defaultChecked /> Semua Data</label>
+              <span>Tanggal :</span><input type="date" className="gf-3d bg-white px-2 py-[1px]" onChange={() => undefined} />
+              <span>No :</span><input className="gf-3d bg-white px-2 py-[1px]" value={q} onChange={(e) => setQ(e.target.value)} />
+              <span>PO :</span><input className="gf-3d bg-white px-2 py-[1px]" placeholder="cari PO..." onChange={(e) => setQ(e.target.value)} />
+              <span>Vendor :</span><input className="gf-3d col-span-3 bg-white px-2 py-[1px]" readOnly value={rows.find((x) => x.id === sel)?.vendorNama ?? ""} />
+              <span>Catatan :</span><input className="gf-3d col-span-3 bg-white px-2 py-[1px]" readOnly value={rows.find((x) => x.id === sel)?.catatan ?? ""} />
+            </div>
+            <div className="border border-gf-border bg-[#f4f4f4] p-2 text-[11px]">
+              <div className="flex gap-1">
+                <button className="gf-3d flex-1 bg-gf-menubar px-1 py-[2px] text-[10px] text-green-700">Ctrl+F7</button>
+                <button className="gf-3d flex-1 bg-gf-menubar px-1 py-[2px] text-[10px] text-gf-muted">Ctrl+F6</button>
+              </div>
+            </div>
           </div>
           <div className="mt-1 text-[11px] text-gf-muted">Total: {total}</div>
         </div>
       </div>
 
-      {msg && <div className="mx-auto mt-2 max-w-[1250px] text-[12px] text-gf-accent">{msg}</div>}
-
       {form && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center overflow-auto bg-black/30 p-6">
-          <div className="w-[820px] border border-gf-border bg-gf-panel shadow-lg">
+        <div className="fixed inset-0 z-50 flex items-start justify-center overflow-auto bg-black/30 p-4">
+          <div className="w-[760px] border border-gf-border bg-gf-panel shadow-lg">
             <div className="flex items-center justify-between border-b border-gf-border bg-gf-titlebar px-2 py-1">
-              <span className="text-[13px] font-bold">Deposit Pembelian — {mode === "create" ? "Tambah" : "Koreksi"}</span>
+              <span className="text-[13px] font-bold">Deposit {mode === "edit" ? `#${form.id}` : "[Baru]"}</span>
               <button className="gf-3d bg-gf-panel px-2 text-[11px]" onClick={() => setForm(null)}>✕</button>
             </div>
-            <div className="space-y-1 p-3 text-[12px]">
-              <F label="ID :"><input className="gf-3d w-[110px] bg-[#eef7d6] px-2 py-[2px]" value={mode === "create" ? "(auto)" : form.id} readOnly /></F>
-              <F label="Vendor :">
-                <select className="gf-3d w-full bg-white px-2 py-[2px]" value={form.vendorId ?? ""} onChange={(e) => set({ vendorId: e.target.value ? Number(e.target.value) : null })}>
-                  <option value="">-- pilih vendor --</option>{vendor.map((v) => <option key={v.id} value={v.id}>{v.nama}</option>)}
-                </select>
-              </F>
-              <F label="Divisi :">
-                <select className="gf-3d w-full bg-white px-2 py-[2px]" value={form.divisiId ?? ""} onChange={(e) => set({ divisiId: e.target.value ? Number(e.target.value) : null })}>
+            <div className="p-2">
+              <div className="grid grid-cols-[80px_1fr] gap-x-2 gap-y-1 text-[12px]">
+                <span>Divisi :</span>
+                <select className="gf-3d w-[400px] bg-white px-1 py-[2px]" value={form.divisiId ?? ""} onChange={(e) => set({ divisiId: e.target.value ? Number(e.target.value) : null })}>
                   <option value="">--</option>{divisi.map((d) => <option key={d.id} value={d.id}>{d.nama}</option>)}
                 </select>
-              </F>
-              <F label="Nomor :"><input className="gf-3d w-full bg-white px-2 py-[2px]" value={form.no ?? ""} onChange={(e) => set({ no: e.target.value })} /></F>
-              <F label="Tanggal :"><input type="date" className="gf-3d w-[180px] bg-white px-2 py-[2px]" value={form.tanggal ?? ""} onChange={(e) => set({ tanggal: e.target.value })} /></F>
-              <F label="Pembelian :"><input type="number" className="gf-3d w-[160px] bg-white px-2 py-[2px]" placeholder="id pembelian" value={form.pembelId ?? ""} onChange={(e) => set({ pembelId: e.target.value ? Number(e.target.value) : null })} /></F>
-              <F label="Deposit :"><input className="gf-3d w-[200px] bg-white px-2 py-[2px] text-right font-mono" value={form.deposit ?? ""} onChange={(e) => set({ deposit: e.target.value })} /></F>
-              <F label="Catatan :"><input className="gf-3d w-full bg-white px-2 py-[2px]" value={form.catatan ?? ""} onChange={(e) => set({ catatan: e.target.value })} /></F>
-            </div>
-            {err && <div className="px-3 pb-1 text-[12px] text-red-700">{err}</div>}
-            <div className="flex gap-2 border-t border-gf-border p-2">
-              <button className="gf-3d bg-gf-panel px-4 py-[3px] text-[12px] hover:bg-gf-hl hover:text-white" onClick={onSimpan}>Simpan</button>
-              <button className="gf-3d bg-gf-panel px-4 py-[3px] text-[12px] hover:bg-gf-hl hover:text-white" onClick={() => setForm(null)}>Tutup</button>
+                <span>P/O :</span>
+                <div className="flex items-center gap-2">
+                  <input className="gf-3d w-[400px] bg-white px-2 py-[2px] text-right" value={form.purcorId ?? ""} onChange={(e) => set({ purcorId: e.target.value ? Number(e.target.value) : null })} />
+                  <label className="flex items-center gap-1 text-[11px]"><input type="checkbox" checked={refund} onChange={(e) => setRefund(e.target.checked)} /> Refund</label>
+                </div>
+                <span>Pembelian :</span>
+                <input className="gf-3d w-[400px] bg-white px-2 py-[2px] text-right" value={form.pembelId ?? ""} onChange={(e) => set({ pembelId: e.target.value ? Number(e.target.value) : null })} />
+                <span>Vendor :</span>
+                <select className="gf-3d w-[400px] bg-white px-1 py-[2px]" value={form.vendorId ?? ""} onChange={(e) => set({ vendorId: e.target.value ? Number(e.target.value) : null })}>
+                  <option value="">*** BELUM DIPILIH ***</option>{vendors.map((v) => <option key={v.id} value={v.id}>{v.nama}</option>)}
+                </select>
+                <span />
+                <div className="gf-3d flex h-[70px] w-[400px] items-center justify-center text-[12px] font-bold">*** {vendors.find((v) => v.id === form.vendorId)?.nama ?? "BELUM DIPILIH"} ***</div>
+                <span>Nomor :</span>
+                <input className="gf-3d w-[400px] bg-white px-2 py-[2px]" value={form.no ?? ""} onChange={(e) => set({ no: e.target.value })} />
+                <span>Tanggal :</span>
+                <div className="flex items-center gap-1">
+                  <input type="date" className="gf-3d w-[150px] bg-white px-1 py-[2px]" value={form.tanggal ?? ""} onChange={(e) => set({ tanggal: e.target.value })} />
+                  <span className="gf-3d flex-1 bg-[#c8c8f0] px-2 py-[2px] text-center text-[11px]">Selasa, 13 Oktober 2026</span>
+                </div>
+                <span>MU / Kurs :</span>
+                <div className="flex items-center gap-1">
+                  <select className="gf-3d w-[70px] bg-white px-1 py-[2px]" value={form.mauang ?? 1} onChange={(e) => set({ mauang: Number(e.target.value) })}><option value={1}>IDR</option></select>
+                  <input className="gf-3d w-[80px] bg-white px-2 py-[2px] text-right" value={form.kurs ?? "1.0000"} onChange={(e) => set({ kurs: e.target.value })} />
+                  <span className="text-[11px]">1.0000</span><span className="text-[11px]">1.0000</span>
+                </div>
+                <span>Deposit :</span>
+                <input className="gf-3d w-[200px] bg-white px-2 py-[2px] text-right font-mono" value={form.deposit ?? "0"} onChange={(e) => set({ deposit: e.target.value })} />
+                <span>Catatan :</span>
+                <input className="gf-3d w-[560px] bg-white px-2 py-[2px]" value={form.catatan ?? ""} onChange={(e) => set({ catatan: e.target.value })} />
+                <span />
+                <input className="gf-3d w-[560px] bg-white px-2 py-[2px]" value={form.catatan2 ?? ""} onChange={(e) => set({ catatan2: e.target.value })} />
+              </div>
+
+              <div className="mt-2 border border-gf-border bg-[#f4f4f4] p-2 text-[11px]">
+                <div className="mb-1">Deposit Ke Perkiraan : (dikosongkan apabila mengikuti setting konfigurasi)</div>
+                <div className="flex items-center gap-1">
+                  <select className="gf-3d w-[180px] bg-white px-1 py-[2px]" value={form.perkirId ?? ""} onChange={(e) => set({ perkirId: e.target.value ? Number(e.target.value) : null })}>
+                    <option value="">.</option>
+                    {perkir.map((p) => <option key={p.id} value={p.id}>{p.nama}</option>)}
+                  </select>
+                  <span className="gf-3d flex-1 bg-[#a0a0f0] px-2 py-[2px]">{perkir.find((p) => p.id === form.perkirId)?.nama ?? ""}</span>
+                </div>
+              </div>
+
+              <div className="mt-2 flex items-center gap-2 border-t border-gf-border pt-2">
+                <button onClick={() => setMsg("Credit — menyusul")} className="gf-3d bg-gf-menubar px-2 py-[2px] text-[11px]">🟨</button>
+                <button onClick={() => setMsg("Credit — menyusul")} className="gf-3d bg-gf-menubar px-2 py-[2px] text-[11px]">🟨</button>
+                <button onClick={() => setMsg("Credit — menyusul")} className="gf-3d bg-gf-menubar px-2 py-[2px] text-[11px]">🟨</button>
+                <button onClick={() => setMsg("Credit — menyusul")} className="gf-3d bg-gf-menubar px-2 py-[2px] text-[11px]">🟨</button>
+                <button onClick={onSimpan} className="gf-3d ml-auto w-[240px] bg-gf-menubar py-[3px] text-[13px] font-bold">Simpan</button>
+                <button onClick={() => setForm(null)} className="gf-3d w-[240px] bg-gf-menubar py-[3px] text-[13px]">Tutup</button>
+              </div>
+              <div className="mt-1 text-[11px] text-gf-muted">{form.no ? "" : "No belum diisi !"}</div>
+              {err && <div className="mt-1 text-[12px] text-red-700">{err}</div>}
             </div>
           </div>
         </div>
       )}
     </div>
   );
-}
-
-function F({ label, children }: { label: string; children: React.ReactNode }) {
-  return <div className="flex items-center gap-2"><span className="w-[100px] shrink-0">{label}</span>{children}</div>;
 }

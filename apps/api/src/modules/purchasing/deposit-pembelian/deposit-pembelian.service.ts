@@ -14,7 +14,9 @@ function num(v: unknown): number {
 const COLS = `
   p.id::int AS id, p.no, to_char(p.tanggal,'YYYY-MM-DD') AS tanggal, p.vendor AS "vendorId", v.nama AS "vendorNama",
   p.divisi_id AS "divisiId", p.purcor_id::int AS "purcorId", p.pembel_id::int AS "pembelId",
-  p.deposit::text AS deposit, p.catatan`;
+  p.perkir_id::int AS "perkirId", (SELECT nama FROM gf.s_perkir WHERE id=p.perkir_id) AS "perkirNama",
+  p.mauang, p.kurs::text AS kurs,
+  p.deposit::text AS deposit, p.catatan, p.catatan_2 AS "catatan2", p.catatan_3 AS "catatan3"`;
 
 @Injectable()
 export class DepositPembelianService {
@@ -49,10 +51,14 @@ export class DepositPembelianService {
 
   async create(input: DepositPembelianInput, userId = 1): Promise<DepositPembelian> {
     const r = await this.pool.query(
-      `INSERT INTO gf.s_deppem (id, no, tanggal, vendor, divisi_id, purcor_id, pembel_id, deposit, catatan, input_oleh, tgl_input, jam_input)
-       VALUES ((SELECT COALESCE(MAX(id),0)+1 FROM gf.s_deppem), $1, COALESCE($2, now()::date), $3, $4, $5, $6, $7, $8, $9, now()::date, to_char(now(),'HH24:MI:SS'))
+      `INSERT INTO gf.s_deppem (id, no, tanggal, vendor, divisi_id, purcor_id, pembel_id, perkir_id,
+          mauang, kurs, deposit, catatan, catatan_2, catatan_3, input_oleh, tgl_input, jam_input)
+       VALUES ((SELECT COALESCE(MAX(id),0)+1 FROM gf.s_deppem), $1, COALESCE($2, now()::date), $3, $4, $5, $6, $7,
+          $8, $9, $10, $11, $12, $13, $14, now()::date, to_char(now(),'HH24:MI:SS'))
        RETURNING id`,
-      [nn(input.no), nn(input.tanggal), input.vendorId, nn(input.divisiId), nn(input.purcorId), nn(input.pembelId), num(input.deposit), nn(input.catatan), userId],
+      [nn(input.no), nn(input.tanggal), input.vendorId, nn(input.divisiId), nn(input.purcorId), nn(input.pembelId),
+       nn(input.perkirId), nn(input.mauang), nn(input.kurs), num(input.deposit), nn(input.catatan),
+       nn(input.catatan2), nn(input.catatan3), userId],
     );
     return (await this.byId(r.rows[0].id as number))!;
   }
@@ -60,9 +66,12 @@ export class DepositPembelianService {
   async update(id: number, input: DepositPembelianInput, userId = 1): Promise<DepositPembelian | null> {
     await this.pool.query(
       `UPDATE gf.s_deppem SET no=$2, tanggal=COALESCE($3, tanggal), vendor=$4, divisi_id=$5, purcor_id=$6, pembel_id=$7,
-         deposit=$8, catatan=$9, ubah_oleh=$10, tgl_ubah=now()::date, jam_ubah=to_char(now(),'HH24:MI:SS')
+         perkir_id=$8, mauang=$9, kurs=$10, deposit=$11, catatan=$12, catatan_2=$13, catatan_3=$14,
+         ubah_oleh=$15, tgl_ubah=now()::date, jam_ubah=to_char(now(),'HH24:MI:SS')
        WHERE id=$1 AND hapus_oleh IS NULL`,
-      [id, nn(input.no), nn(input.tanggal), input.vendorId, nn(input.divisiId), nn(input.purcorId), nn(input.pembelId), num(input.deposit), nn(input.catatan), userId],
+      [id, nn(input.no), nn(input.tanggal), input.vendorId, nn(input.divisiId), nn(input.purcorId), nn(input.pembelId),
+       nn(input.perkirId), nn(input.mauang), nn(input.kurs), num(input.deposit), nn(input.catatan),
+       nn(input.catatan2), nn(input.catatan3), userId],
     );
     return this.byId(id);
   }
