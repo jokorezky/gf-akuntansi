@@ -46,7 +46,7 @@ export default function BarangPindahGudangPage() {
 
   useEffect(() => { setPage(1); }, [q]);
   const load = useCallback(async () => {
-    const d = await gql<{ barangPindahGudangList: { total: number; rows: Hdr[] } }>(LIST, { q, limit: 15, offset: (page - 1) * 15 });
+    const d = await gql<{ barangPindahGudangList: { total: number; rows: Hdr[] } }>(LIST, { q, limit: 10, offset: (page - 1) * 10 });
     setRows(d.barangPindahGudangList.rows); setTotal(d.barangPindahGudangList.total);
   }, [q, page]);
 

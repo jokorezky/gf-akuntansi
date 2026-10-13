@@ -46,7 +46,7 @@ export default function KodePerkiraanPage() {
 
   useEffect(() => { setPage(1); }, [q]);
   const load = useCallback(async () => {
-    const d = await gql<{ perkiraanList: { total: number; rows: Row[] } }>(LIST, { q, golongan: golF || null, limit: 15, offset: (page - 1) * 15 });
+    const d = await gql<{ perkiraanList: { total: number; rows: Row[] } }>(LIST, { q, golongan: golF || null, limit: 10, offset: (page - 1) * 10 });
     setRows(d.perkiraanList.rows); setTotal(d.perkiraanList.total);
   }, [q, golF, page]);
 

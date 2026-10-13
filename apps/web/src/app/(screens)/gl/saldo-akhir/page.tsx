@@ -39,7 +39,7 @@ export default function SaldoAkhirPage() {
     setBusy(true);
     setErr("");
     try {
-      const d = await gql<{ glSaldoAkhir: { total: number; rows: Row[] } }>(LIST, { kelas, golongan, sampai: sampai || null, limit: 15, offset: (page - 1) * 15 });
+      const d = await gql<{ glSaldoAkhir: { total: number; rows: Row[] } }>(LIST, { kelas, golongan, sampai: sampai || null, limit: 10, offset: (page - 1) * 10 });
       setRows(d.glSaldoAkhir.rows);
       setTotal(d.glSaldoAkhir.total);
     } catch (e) {

@@ -58,7 +58,7 @@ export default function ItemPage() {
 
   useEffect(() => { setPage(1); }, [q]);
   const load = useCallback(async () => {
-    const d = await gql<{ itemList: { total: number; rows: Row[] } }>(LIST, { q, limit: 15, offset: (page - 1) * 15 });
+    const d = await gql<{ itemList: { total: number; rows: Row[] } }>(LIST, { q, limit: 10, offset: (page - 1) * 10 });
     setRows(d.itemList.rows);
     setTotal(d.itemList.total);
   }, [q, page]);

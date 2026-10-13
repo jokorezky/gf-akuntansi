@@ -18,7 +18,7 @@ export default function BarangExpiredPage() {
 
   useEffect(() => { setPage(1); }, [q]);
   const load = useCallback(async () => {
-    const d = await gql<{ barangExpiredList: { total: number; rows: Row[] } }>(LIST, { q, limit: 15, offset: (page - 1) * 15 });
+    const d = await gql<{ barangExpiredList: { total: number; rows: Row[] } }>(LIST, { q, limit: 10, offset: (page - 1) * 10 });
     setRows(d.barangExpiredList.rows); setTotal(d.barangExpiredList.total);
   }, [q, page]);
 

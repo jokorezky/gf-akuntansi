@@ -44,7 +44,7 @@ export default function EceranListPage() {
 
   useEffect(() => { setPage(1); }, [q]);
   const load = useCallback(async () => {
-    const d = await gql<{ eceranListList: { total: number; rows: Row[] } }>(LIST, { q, limit: 15, offset: (page - 1) * 15 });
+    const d = await gql<{ eceranListList: { total: number; rows: Row[] } }>(LIST, { q, limit: 10, offset: (page - 1) * 10 });
     setRows(d.eceranListList.rows); setTotal(d.eceranListList.total);
   }, [q, page]);
 

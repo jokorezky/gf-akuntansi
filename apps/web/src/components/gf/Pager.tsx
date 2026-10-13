@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 export function Pager({
   page,
   total,
-  perPage = 15,
+  perPage = 10,
   onPage,
   className,
 }: {

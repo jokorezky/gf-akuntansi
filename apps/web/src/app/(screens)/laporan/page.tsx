@@ -36,7 +36,7 @@ export default function LaporanPage() {
     setBusy(true);
     setErr("");
     try {
-      const d = await gql<{ laporanHasil: Hasil }>(HASIL, { kode: k, q: qq, limit: 15, offset: (pnum - 1) * 15 });
+      const d = await gql<{ laporanHasil: Hasil }>(HASIL, { kode: k, q: qq, limit: 10, offset: (pnum - 1) * 10 });
       setHasil(d.laporanHasil);
       setLastProses(new Date().toLocaleString("id-ID"));
     } catch (e) {

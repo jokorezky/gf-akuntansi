@@ -44,7 +44,7 @@ export default function TipePembayaranPage() {
 
   useEffect(() => { setPage(1); }, [q]);
   const load = useCallback(async () => {
-    const d = await gql<{ tipePembayaranList: { total: number; rows: Row[] } }>(LIST, { q, limit: 15, offset: (page - 1) * 15 });
+    const d = await gql<{ tipePembayaranList: { total: number; rows: Row[] } }>(LIST, { q, limit: 10, offset: (page - 1) * 10 });
     setRows(d.tipePembayaranList.rows); setTotal(d.tipePembayaranList.total);
   }, [q, page]);
 

@@ -32,7 +32,7 @@ export default function KartuHutangPage() {
   const proses = useCallback(async () => {
     setErr(""); setMsg(""); setLoading(true);
     try {
-      const d = await gql<{ kartuHutangList: { total: number; rows: Row[] } }>(LIST, { vendorId: vendorId ?? null, dari: dari || null, sampai: sampai || null, limit: 15, offset: (page - 1) * 15 });
+      const d = await gql<{ kartuHutangList: { total: number; rows: Row[] } }>(LIST, { vendorId: vendorId ?? null, dari: dari || null, sampai: sampai || null, limit: 10, offset: (page - 1) * 10 });
       setRows(d.kartuHutangList.rows); setTotal(d.kartuHutangList.total);
       setMsg(`${d.kartuHutangList.total} mutasi${vendorId ? ` — ${vendors.find((v) => v.id === vendorId)?.nama ?? `vendor #${vendorId}`}` : " (semua vendor)"}.`);
     } catch (e) { setErr(String((e as Error).message ?? e)); }

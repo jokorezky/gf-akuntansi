@@ -27,7 +27,7 @@ export default function CekKursJurnalPage() {
     setBusy(true);
     setErr("");
     try {
-      const d = await gql<{ glCekKurs: { total: number; rows: Row[] } }>(LIST, { mu, dari: dari || null, sampai: sampai || null, limit: 15, offset: (page - 1) * 15 });
+      const d = await gql<{ glCekKurs: { total: number; rows: Row[] } }>(LIST, { mu, dari: dari || null, sampai: sampai || null, limit: 10, offset: (page - 1) * 10 });
       setRows(d.glCekKurs.rows);
       setTotal(d.glCekKurs.total);
     } catch (e) {

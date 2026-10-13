@@ -59,7 +59,7 @@ export default function BarangTransferPage() {
 
   useEffect(() => { setPage(1); }, [q]);
   const load = useCallback(async () => {
-    const d = await gql<{ barangTransferList: { total: number; rows: Hdr[] } }>(LIST, { q, limit: 15, offset: (page - 1) * 15 });
+    const d = await gql<{ barangTransferList: { total: number; rows: Hdr[] } }>(LIST, { q, limit: 10, offset: (page - 1) * 10 });
     setRows(d.barangTransferList.rows); setTotal(d.barangTransferList.total);
   }, [q, page]);
 

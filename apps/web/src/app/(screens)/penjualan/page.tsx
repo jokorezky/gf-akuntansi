@@ -77,7 +77,7 @@ export default function PenjualanPage() {
 
   useEffect(() => { setPage(1); }, [q]);
   const load = useCallback(async () => {
-    const d = await gql<{ saleList: { total: number; rows: Hdr[] } }>(LIST, { q, limit: 15, offset: (page - 1) * 15 });
+    const d = await gql<{ saleList: { total: number; rows: Hdr[] } }>(LIST, { q, limit: 10, offset: (page - 1) * 10 });
     setRows(d.saleList.rows);
     setTotal(d.saleList.total);
   }, [q, page]);

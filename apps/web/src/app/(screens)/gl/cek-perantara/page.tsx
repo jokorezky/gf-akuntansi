@@ -24,7 +24,7 @@ export default function CekPerantaraPage() {
     setBusy(true);
     setErr("");
     try {
-      const d = await gql<{ glCekPerantara: { total: number; rows: Row[] } }>(LIST, { dari: dari || null, sampai: sampai || null, limit: 15, offset: (page - 1) * 15 });
+      const d = await gql<{ glCekPerantara: { total: number; rows: Row[] } }>(LIST, { dari: dari || null, sampai: sampai || null, limit: 10, offset: (page - 1) * 10 });
       setRows(d.glCekPerantara.rows);
       setTotal(d.glCekPerantara.total);
     } catch (e) {

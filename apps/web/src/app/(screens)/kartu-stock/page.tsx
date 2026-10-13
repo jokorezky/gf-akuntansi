@@ -39,7 +39,7 @@ export default function KartuStockPage() {
   const proses = useCallback(async () => {
     setErr(""); setMsg(""); setLoading(true);
     try {
-      const d = await gql<{ kartuStockList: { total: number; rows: Row[] } }>(LIST, { q: null, stockId: stockId ?? null, tampilBatal, limit: 15, offset: (page - 1) * 15 });
+      const d = await gql<{ kartuStockList: { total: number; rows: Row[] } }>(LIST, { q: null, stockId: stockId ?? null, tampilBatal, limit: 10, offset: (page - 1) * 10 });
       setRows(d.kartuStockList.rows); setTotal(d.kartuStockList.total);
       setMsg(`${d.kartuStockList.total} mutasi${stockId ? ` — item #${stockId}` : " (semua item)"}.`);
       if (stockId) {

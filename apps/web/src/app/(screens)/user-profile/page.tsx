@@ -50,8 +50,8 @@ export default function UserProfilePage() {
 
   const load = useCallback(async () => {
     const [u, g] = await Promise.all([
-      gql<{ secUserList: { total: number; rows: User[] } }>(U_LIST, { q, limit: 15, offset: (page - 1) * 15 }),
-      gql<{ secGrupList: { total: number; rows: Grup[] } }>(G_LIST, { q, limit: 15, offset: (page - 1) * 15 }),
+      gql<{ secUserList: { total: number; rows: User[] } }>(U_LIST, { q, limit: 10, offset: (page - 1) * 10 }),
+      gql<{ secGrupList: { total: number; rows: Grup[] } }>(G_LIST, { q, limit: 10, offset: (page - 1) * 10 }),
     ]);
     setUsers(u.secUserList.rows); setGrups(g.secGrupList.rows); setUTotal(u.secUserList.total); setGTotal(g.secGrupList.total);
   }, [q, page]);
