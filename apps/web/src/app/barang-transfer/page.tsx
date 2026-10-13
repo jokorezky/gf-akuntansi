@@ -4,17 +4,18 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { gql } from "@/lib/graphql";
 
 type Ref = { id: number; nama: string };
-type Line = { stockId: number; stockNama?: string | null; jumlah?: string | null; harga?: string | null; catatan?: string | null };
+type Line = { stockId: number; stockNama?: string | null; stockGdg?: number | null; jumlah?: string | null; hpp?: string | null; catatan?: string | null };
 type Hdr = {
   id: number; no?: string | null; tanggal?: string | null; pukul?: number | null; divisiId?: number | null;
-  gudang?: number | null; mauang?: number | null; nilai1?: string | null; nilai2?: string | null; nilai3?: string | null;
+  stockId?: number | null; stockNama?: string | null; gudang?: number | null; jumlah?: string | null; hpp?: string | null;
+  nilai1?: string | null; nilai2?: string | null; nilai3?: string | null;
   perkir1?: number | null; perkir2?: number | null; perkir3?: number | null;
   catatan?: string | null; catatan2?: string | null; catatan3?: string | null; catatan4?: string | null;
   totHarga?: string | null; totJumlah?: string | null; lines?: Line[];
 };
 
-const LF = `stockId stockNama jumlah harga catatan`;
-const HF = `id no tanggal pukul divisiId gudang mauang nilai1 nilai2 nilai3 perkir1 perkir2 perkir3 catatan catatan2 catatan3 catatan4 totHarga totJumlah`;
+const LF = `stockId stockNama stockGdg jumlah hpp catatan`;
+const HF = `id no tanggal divisiId stockId stockNama gudang jumlah hpp nilai1 nilai2 nilai3 perkir1 perkir2 perkir3 catatan catatan2 catatan3 catatan4 totHarga totJumlah`;
 const LIST = `query($q:String){ barangTransferList(q:$q){ total rows { ${HF} } } }`;
 const BYID = `query($id:Int!){ barangTransferById(id:$id){ ${HF} lines { ${LF} } } }`;
 const CREATE = `mutation($input:BarangTransferInput!){ createBarangTransfer(input:$input){ id } }`;
@@ -26,9 +27,9 @@ const ICON = "/gf-icons/screens/pembelian";
 
 const num = (v: unknown): number => { const n = Number(v ?? 0); return Number.isFinite(n) ? n : 0; };
 const r2 = (n: number): string => (Math.round(n * 100) / 100).toFixed(2);
-const emptyLine = (): Line => ({ stockId: 0, jumlah: "1", harga: "0", catatan: "" });
+const emptyLine = (): Line => ({ stockId: 0, jumlah: "1", hpp: "0", catatan: "" });
 const empty = (): Hdr => ({
-  id: 0, no: "", tanggal: new Date().toISOString().slice(0, 10), divisiId: null, gudang: 1, mauang: 1,
+  id: 0, no: "", tanggal: new Date().toISOString().slice(0, 10), divisiId: null, stockId: null, gudang: 1, jumlah: "0", hpp: "0",
   nilai1: "0", nilai2: "0", nilai3: "0", perkir1: null, perkir2: null, perkir3: null,
   catatan: "", catatan2: "", catatan3: "", catatan4: "", lines: [emptyLine()],
 });
@@ -89,11 +90,12 @@ export default function BarangTransferPage() {
     if ((form.lines ?? []).length === 0 || num(form.lines?.[0]?.jumlah) === 0) return setErr("Jumlah belum diisi !");
     try {
       const input = {
-        no: form.no || null, tanggal: form.tanggal || null, pukul: form.pukul ?? null, divisiId: form.divisiId ?? null,
-        gudang: form.gudang ?? 1, mauang: form.mauang ?? 1,
+        no: form.no || null, tanggal: form.tanggal || null, divisiId: form.divisiId ?? null,
+        stockId: form.stockId ?? null, gudang: form.gudang ?? 1, jumlah: form.jumlah || "0", hpp: form.hpp || "0",
         nilai1: form.nilai1 || "0", nilai2: form.nilai2 || "0", nilai3: form.nilai3 || "0",
+        perkir1: form.perkir1 ?? null, perkir2: form.perkir2 ?? null, perkir3: form.perkir3 ?? null,
         catatan: form.catatan || null, catatan2: form.catatan2 || null, catatan3: form.catatan3 || null, catatan4: form.catatan4 || null,
-        lines: (form.lines ?? []).map((l) => ({ stockId: l.stockId, jumlah: l.jumlah || "0", harga: l.harga || "0", catatan: l.catatan || null })),
+        lines: (form.lines ?? []).map((l) => ({ stockId: l.stockId, stockGdg: l.stockGdg ?? null, jumlah: l.jumlah || "0", hpp: l.hpp || "0", catatan: l.catatan || null })),
       };
       if (mode === "create") await gql(CREATE, { input }); else await gql(UPDATE, { id: form.id, input });
       setForm(null); setMsg(mode === "create" ? "Tersimpan." : "Diperbarui."); await load();
@@ -115,7 +117,7 @@ export default function BarangTransferPage() {
   const totals = useMemo(() => {
     const lines = form?.lines ?? [];
     const qty = lines.reduce((s, l) => s + num(l.jumlah), 0);
-    const nilai = lines.reduce((s, l) => s + num(l.jumlah) * num(l.harga), 0);
+    const nilai = lines.reduce((s, l) => s + num(l.jumlah) * num(l.hpp), 0);
     return { qty: String(qty), nilai: r2(nilai) };
   }, [form]);
 
@@ -213,11 +215,17 @@ export default function BarangTransferPage() {
                   <span className="text-right">ID :</span>
                   <input className="gf-3d w-[100px] bg-[#c8f0c8] px-2 py-[2px]" readOnly value={mode === "edit" ? form.id : "777"} />
                   <span>Item :</span>
-                  <input className="gf-3d col-span-3 bg-[#2a2a2a] px-2 py-[2px] text-white" value={items.find((x) => x.id === topItem)?.nama ?? ""} readOnly placeholder="(F3 / pilih item)" />
+                  <div className="col-span-3 flex items-center gap-1">
+                    <select className="gf-3d w-[330px] bg-white px-1 py-[2px]" value={form.stockId ?? ""} onChange={(e) => { const id = e.target.value ? Number(e.target.value) : null; set({ stockId: id }); void pickTopItem(id); }}>
+                      <option value="">(pilih item)</option>
+                      {items.map((x) => <option key={x.id} value={x.id}>{x.nama}</option>)}
+                    </select>
+                    <input className="gf-3d flex-1 bg-[#2a2a2a] px-2 py-[2px] text-white" value={form.stockId ? (items.find((x) => x.id === form.stockId)?.nama ?? "") : ""} readOnly placeholder="(F3 / pilih item)" />
+                  </div>
                   <span>Jumlah :</span>
-                  <input className="gf-3d w-[110px] bg-white px-2 py-[2px] text-right" value={form.lines?.[0]?.jumlah ?? "0"} onChange={(e) => setLine(0, { jumlah: e.target.value })} />
+                  <input className="gf-3d w-[110px] bg-white px-2 py-[2px] text-right" value={form.jumlah ?? "0"} onChange={(e) => set({ jumlah: e.target.value })} />
                   <span className="text-right">Sisa Stock :</span>
-                  <input className="gf-3d bg-[#c8f0c8] px-2 py-[2px]" readOnly value={topItem ? (sisa ?? "TIDAK DIHITUNG") : "TIDAK DIHITUNG"} />
+                  <input className="gf-3d bg-[#c8f0c8] px-2 py-[2px]" readOnly value={form.stockId ? (sisa ?? "TIDAK DIHITUNG") : "TIDAK DIHITUNG"} />
                   <span>Catatan :</span>
                   <input className="gf-3d col-span-3 bg-white px-2 py-[1px]" value={jev(form.catatan)} onChange={(e) => set({ catatan: e.target.value })} />
                   <span />

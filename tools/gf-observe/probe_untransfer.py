@@ -28,14 +28,16 @@ def dump_lvs(h):
 
 
 def main():
-    lst = find("Barang UnTransfer")
+    prefix = sys.argv[1] if len(sys.argv) > 1 else "Barang UnTransfer"
+    slug = sys.argv[2] if len(sys.argv) > 2 else "barang-untransfer"
+    lst = find(prefix)
     print("list:", lst, de.win32gui.GetWindowText(lst) if lst else "", flush=True)
     if not lst:
         print("list tidak ada", flush=True)
         return
     print("LIST BUTTONS:", [(b["text"].replace("&", ""), b["rect"]) for b in de.buttons(lst)], flush=True)
     dump_lvs(lst)
-    c.print_window(lst).save(r"D:\Projects\gf-akuntansi-clone\tools\gf-observe\screens\barang-untransfer-list-live.png")
+    c.print_window(lst).save(rf"D:\Projects\gf-akuntansi-clone\tools\gf-observe\screens\{slug}-list-live.png")
     tb = next((b for b in de.buttons(lst) if b["text"].replace("&", "").strip().lower() == "tambah"), None)
     if tb:
         win32gui.ShowWindow(lst, 9)
@@ -60,7 +62,7 @@ def main():
             print("FORM STATICS:", sorted(set(statics))[:26], flush=True)
             dump_lvs(form)
             try:
-                c.print_window(form).save(r"D:\Projects\gf-akuntansi-clone\tools\gf-observe\screens\barang-untransfer-form-live.png")
+                c.print_window(form).save(rf"D:\Projects\gf-akuntansi-clone\tools\gf-observe\screens\{slug}-form-live.png")
                 print("shot ok", flush=True)
             except Exception as e:
                 print("shot err", e, flush=True)

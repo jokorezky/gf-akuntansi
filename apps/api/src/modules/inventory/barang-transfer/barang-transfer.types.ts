@@ -4,17 +4,19 @@ import { Field, InputType, Int, ObjectType } from "@nestjs/graphql";
 export class TrfLine {
   @Field(() => Int) stockId: number;
   @Field({ nullable: true }) stockNama?: string;
+  @Field({ nullable: true }) stockGdg?: number;
   @Field({ nullable: true }) satuanC?: string;
   @Field({ nullable: true }) jumlah?: string;
-  @Field({ nullable: true }) harga?: string;
+  @Field({ nullable: true }) hpp?: string;
   @Field({ nullable: true }) catatan?: string;
 }
 
 @InputType()
 export class TrfLineInput {
   @Field(() => Int) stockId: number;
+  @Field(() => Int, { nullable: true }) stockGdg?: number;
   @Field({ nullable: true }) jumlah?: string;
-  @Field({ nullable: true }) harga?: string;
+  @Field({ nullable: true }) hpp?: string;
   @Field({ nullable: true }) catatan?: string;
 }
 
@@ -23,10 +25,12 @@ export class BarangTransfer {
   @Field(() => Int) id: number;
   @Field({ nullable: true }) no?: string;
   @Field({ nullable: true }) tanggal?: string;
-  @Field(() => Int, { nullable: true }) pukul?: number;
   @Field(() => Int, { nullable: true }) divisiId?: number;
+  @Field(() => Int, { nullable: true }) stockId?: number;
+  @Field({ nullable: true }) stockNama?: string;
   @Field(() => Int, { nullable: true }) gudang?: number;
-  @Field(() => Int, { nullable: true }) mauang?: number;
+  @Field({ nullable: true }) jumlah?: string;
+  @Field({ nullable: true }) hpp?: string;
   @Field({ nullable: true }) nilai1?: string;
   @Field({ nullable: true }) nilai2?: string;
   @Field({ nullable: true }) nilai3?: string;
@@ -46,10 +50,11 @@ export class BarangTransfer {
 export class BarangTransferInput {
   @Field({ nullable: true }) no?: string;
   @Field({ nullable: true }) tanggal?: string;
-  @Field(() => Int, { nullable: true }) pukul?: number;
   @Field(() => Int, { nullable: true }) divisiId?: number;
+  @Field(() => Int, { nullable: true }) stockId?: number;
   @Field(() => Int, { nullable: true }) gudang?: number;
-  @Field(() => Int, { nullable: true }) mauang?: number;
+  @Field({ nullable: true }) jumlah?: string;
+  @Field({ nullable: true }) hpp?: string;
   @Field({ nullable: true }) nilai1?: string;
   @Field({ nullable: true }) nilai2?: string;
   @Field({ nullable: true }) nilai3?: string;
