@@ -41,6 +41,31 @@ def close_error():
     return t
 
 
+def clear_process_mode():
+    """Pemulih mode 'proses khusus' tanpa restart: Aplikasi > Hapus Cache Laporan (24492) + OK."""
+    sh = de.shell()
+    if not sh:
+        return False
+    de.force_focus(sh)
+    res = ctypes.c_size_t(0)
+    ctypes.windll.user32.SendMessageTimeoutW(sh, 0x0111, 24492, 0, 2, 15000, ctypes.byref(res))
+    time.sleep(2.5)
+    for _ in range(4):
+        acted = False
+        for h, t in list(de.all_named_windows().items()):
+            if t.strip() in ("Info", "Konfirmasi", "Hapus", "GF-Akuntansi"):
+                for b in de.buttons(h):
+                    if b["text"].replace("&", "").strip().lower() in ("ok", "ya", "yes"):
+                        win32gui.PostMessage(b["hwnd"], 0x00F5, 0, 0)
+                        acted = True
+                        break
+        if not acted:
+            break
+        time.sleep(1.2)
+    close_error()
+    return True
+
+
 def restart_gf():
     import subprocess
     import capture_sisa_stock as css
@@ -123,8 +148,12 @@ def main():
         if isinstance(r, tuple) and r[0] == "error":
             print("tambah error:", r[1][:100])
             if "proses" in r[1]:
-                print(">> mode proses terdeteksi: restart GF + launcher flow")
-                lst = restart_gf() and open_list(mid, list_prefix)
+                print(">> mode proses: coba pemulih 24492 (tanpa restart)")
+                clear_process_mode()
+                lst = open_list(mid, list_prefix)
+                if not lst:
+                    print(">> masih gagal: restart GF")
+                    lst = restart_gf() and open_list(mid, list_prefix)
                 if not lst:
                     return 1
             else:
