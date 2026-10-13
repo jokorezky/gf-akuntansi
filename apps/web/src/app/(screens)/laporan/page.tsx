@@ -102,7 +102,7 @@ export default function LaporanPage() {
                     onClick={() => { setGIdx(i); setKode(""); setHasil(null); }}
                     className={`block w-full px-2 py-[3px] text-left text-[12px] ${i === gIdx ? "bg-gf-accent/[0.07]" : "hover:bg-slate-50"}`}
                   >
-                    {i + 1}. {g.label} <span className={i === gIdx ? "text-white/80" : "text-gf-muted"}>({g.items.filter((x) => x.implemented).length}/{g.items.length})</span>
+                    {i + 1}. {g.label} <span className={i === gIdx ? "text-white/80" : "text-gf-muted"}>({g.items.filter((x) => x.implemented || x.na).length}/{g.items.length})</span>
                   </button>
                 ))}
               </div>
