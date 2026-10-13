@@ -33,6 +33,7 @@ export class Item {
   @Field(() => Int, { nullable: true }) satJ03?: number;
   @Field(() => Int, { nullable: true }) satJ04?: number;
   @Field(() => Int, { nullable: true }) satJ05?: number;
+  @Field(() => String, { nullable: true }) extrasJson?: string;
 }
 
 @InputType()
@@ -66,6 +67,7 @@ export class ItemInput {
   @Field(() => Int, { nullable: true }) satJ03?: number;
   @Field(() => Int, { nullable: true }) satJ04?: number;
   @Field(() => Int, { nullable: true }) satJ05?: number;
+  @Field(() => String, { nullable: true }) extrasJson?: string;
 }
 
 @ObjectType()

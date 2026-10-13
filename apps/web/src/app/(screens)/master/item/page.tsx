@@ -14,14 +14,14 @@ import { gql } from "@/lib/graphql";
 type Row = Record<string, string | number | boolean | null | undefined> & { id: number; nama: string };
 type Ref = { id: number; nama: string };
 
-const FIELDS = "id nama barcode nama2 vendorId groupStkId jenis hargaBeli hargaJual1 hargaJual2 hargaJual3 hargaJual4 hargaJual5 minStock tipeSatu satDef nonPajak expired catatan kode satEcr kursJual satBeli satMin minJual minJlSt satJ01 satJ02 satJ03 satJ04 satJ05";
+const FIELDS = "id nama barcode nama2 vendorId groupStkId jenis hargaBeli hargaJual1 hargaJual2 hargaJual3 hargaJual4 hargaJual5 minStock tipeSatu satDef nonPajak expired catatan kode satEcr kursJual satBeli satMin minJual minJlSt satJ01 satJ02 satJ03 satJ04 satJ05 extrasJson";
 const LIST = `query($q:String, $limit:Int, $offset:Int){ itemList(q:$q, limit:$limit, offset:$offset){ total rows { ${FIELDS} } } }`;
-const REFS = `{ grpstkRefList { id nama } vendorRefList { id nama } }`;
+const REFS = `{ grpstkRefList { id nama } grpst2RefList { id nama } grpst3RefList { id nama } vendorRefList { id nama } divisiRefList { id nama } }`;
 const BYID = `query($id:Int!){ itemById(id:$id){ ${FIELDS} } }`;
 const CREATE = `mutation($input:ItemInput!){ createItem(input:$input){ id } }`;
 const UPDATE = `mutation($id:Int!, $input:ItemInput!){ updateItem(id:$id, input:$input){ id } }`;
 const DELETE = `mutation($id:Int!){ deleteItem(id:$id) }`;
-const empty = (): Row => ({ id: 0, nama: "", barcode: "", nama2: "", vendorId: null, groupStkId: null, jenis: 0, hargaBeli: "0.00", hargaJual1: "0.00", hargaJual2: "0.00", hargaJual3: "0.00", hargaJual4: "0.00", hargaJual5: "0.00", minStock: "0", tipeSatu: 0, satDef: 0, satEcr: 0, kursJual: 1, satBeli: 0, satMin: 0, minJual: "0.00", minJlSt: 0, satJ01: 0, satJ02: 0, satJ03: 0, satJ04: 0, satJ05: 0, expired: false, nonPajak: false, catatan: "" });
+const empty = (): Row => ({ id: 0, nama: "", barcode: "", nama2: "", vendorId: null, groupStkId: null, jenis: 0, hargaBeli: "0.00", hargaJual1: "0.00", hargaJual2: "0.00", hargaJual3: "0.00", hargaJual4: "0.00", hargaJual5: "0.00", minStock: "0", tipeSatu: 0, satDef: 0, satEcr: 0, kursJual: 1, satBeli: 0, satMin: 0, minJual: "0.00", minJlSt: 0, satJ01: 0, satJ02: 0, satJ03: 0, satJ04: 0, satJ05: 0, expired: false, nonPajak: false, catatan: "", extrasJson: "{}" });
 
 const TABS = [
   { icon: "tab-data-utama", label: "Data Utama" },
@@ -50,6 +50,9 @@ export default function ItemPage() {
   const [sel, setSel] = useState<number | null>(null);
   const [grpstk, setGrpstk] = useState<Ref[]>([]);
   const [vendors, setVendors] = useState<Ref[]>([]);
+  const [grpst2, setGrpst2] = useState<Ref[]>([]);
+  const [grpst3, setGrpst3] = useState<Ref[]>([]);
+  const [divisi, setDivisi] = useState<Ref[]>([]);
   const [form, setForm] = useState<Row | null>(null);
   const [mode, setMode] = useState<"create" | "edit">("create");
   const [tab, setTab] = useState(0);
@@ -65,12 +68,20 @@ export default function ItemPage() {
 
   useEffect(() => {
     load().catch((e) => setErr(String(e.message ?? e)));
-    gql<{ grpstkRefList: Ref[]; vendorRefList: Ref[] }>(REFS)
-      .then((d) => { setGrpstk(d.grpstkRefList); setVendors(d.vendorRefList); })
+    gql<{ grpstkRefList: Ref[]; grpst2RefList: Ref[]; grpst3RefList: Ref[]; vendorRefList: Ref[]; divisiRefList: Ref[] }>(REFS)
+      .then((d) => { setGrpstk(d.grpstkRefList); setGrpst2(d.grpst2RefList); setGrpst3(d.grpst3RefList); setVendors(d.vendorRefList); setDivisi(d.divisiRefList); })
       .catch(() => undefined);
   }, [load]);
 
   const set = (patch: Partial<Row>) => setForm((f) => (f ? { ...f, ...patch } : f));
+  const ex = ((): Record<string, unknown> => {
+    try {
+      return JSON.parse(String(form?.extrasJson ?? "{}")) as Record<string, unknown>;
+    } catch {
+      return {};
+    }
+  })();
+  const setEx = (k: string, v: unknown) => set({ extrasJson: JSON.stringify({ ...ex, [k]: v }) });
 
   async function onTambah() { setErr(""); setMsg(""); setMode("create"); setTab(0); setForm(empty()); }
   async function onKoreksi() {
@@ -188,9 +199,17 @@ export default function ItemPage() {
                 <div className="border border-gf-border bg-[#f4f4f4] p-3 text-[12px]">
                   <div className="grid grid-cols-[70px_1fr_70px_1fr_70px_1fr] items-center gap-x-2 gap-y-1">
                     <span className={lbl}>Group :</span>
-                    <select className={inp} value={Number(form.groupStkId ?? 0)} onChange={(e) => set({ groupStkId: Number(e.target.value) || null })}>
-                      <option value={0}>--belum dipilih--</option>{grpstk.map((g) => <option key={g.id} value={g.id}>{g.nama}</option>)}
-                    </select>
+                    <span className="flex gap-1">
+                      <select className={inp} value={Number(form.groupStkId ?? 0)} onChange={(e) => set({ groupStkId: Number(e.target.value) || null })}>
+                        <option value={0}>--belum dipilih--</option>{grpstk.map((g) => <option key={g.id} value={g.id}>{g.nama}</option>)}
+                      </select>
+                      <select className={inp} value={Number(ex.groupSt2Id ?? 0)} onChange={(e) => setEx("groupSt2Id", Number(e.target.value) || null)} title="Group *2">
+                        <option value={0}>--belum dipilih--</option>{grpst2.map((g) => <option key={g.id} value={g.id}>{g.nama}</option>)}
+                      </select>
+                      <select className={inp} value={Number(ex.groupSt3Id ?? 0)} onChange={(e) => setEx("groupSt3Id", Number(e.target.value) || null)} title="Group *3">
+                        <option value={0}>--belum dipilih--</option>{grpst3.map((g) => <option key={g.id} value={g.id}>{g.nama}</option>)}
+                      </select>
+                    </span>
                     <span className={lbl}>Kode :</span>
                     <input className={inp} value={String(form.kode ?? "")} onChange={(e) => set({ kode: e.target.value })} />
                     <span className={lbl}>Barcode :</span>
@@ -266,18 +285,125 @@ export default function ItemPage() {
                 </div>
               )}
 
-              {tab === 1 && (
+                            {tab === 1 && (
+                <div className="grid grid-cols-[220px_240px_1fr] gap-2 border border-gf-border bg-[#f4f4f4] p-3 text-[12px]">
+                  <div className="max-h-[330px] overflow-auto rounded-md border border-gf-border bg-white p-2">
+                        <label className="flex items-center gap-1"><input type="checkbox" className="accent-gf-accent" checked={Boolean(ex.itmPurcor)} onChange={(e) => setEx("itmPurcor", e.target.checked)} /> Purchase Order</label>
+                        <label className="flex items-center gap-1"><input type="checkbox" className="accent-gf-accent" checked={Boolean(ex.itmPembel)} onChange={(e) => setEx("itmPembel", e.target.checked)} /> Pembelian / Input Stock Awal</label>
+                        <label className="flex items-center gap-1"><input type="checkbox" className="accent-gf-accent" checked={Boolean(ex.itmRetpem)} onChange={(e) => setEx("itmRetpem", e.target.checked)} /> Retur Pembelian</label>
+                        <label className="flex items-center gap-1"><input type="checkbox" className="accent-gf-accent" checked={Boolean(ex.itmSalord)} onChange={(e) => setEx("itmSalord", e.target.checked)} /> Sales Order</label>
+                        <label className="flex items-center gap-1"><input type="checkbox" className="accent-gf-accent" checked={Boolean(ex.itmPenjec)} onChange={(e) => setEx("itmPenjec", e.target.checked)} /> Penjualan Eceran</label>
+                        <label className="flex items-center gap-1"><input type="checkbox" className="accent-gf-accent" checked={Boolean(ex.itmPenjua)} onChange={(e) => setEx("itmPenjua", e.target.checked)} /> Penjualan</label>
+                        <label className="flex items-center gap-1"><input type="checkbox" className="accent-gf-accent" checked={Boolean(ex.itmRetpen)} onChange={(e) => setEx("itmRetpen", e.target.checked)} /> Retur Penjualan</label>
+                        <label className="flex items-center gap-1"><input type="checkbox" className="accent-gf-accent" checked={Boolean(ex.itmQuotat)} onChange={(e) => setEx("itmQuotat", e.target.checked)} /> Quotation</label>
+                        <label className="flex items-center gap-1"><input type="checkbox" className="accent-gf-accent" checked={Boolean(ex.itmStkpin)} onChange={(e) => setEx("itmStkpin", e.target.checked)} /> Pindah Gudang</label>
+                        <label className="flex items-center gap-1"><input type="checkbox" className="accent-gf-accent" checked={Boolean(ex.itmStktra)} onChange={(e) => setEx("itmStktra", e.target.checked)} /> Transfer</label>
+                        <label className="flex items-center gap-1"><input type="checkbox" className="accent-gf-accent" checked={Boolean(ex.itmStkrep)} onChange={(e) => setEx("itmStkrep", e.target.checked)} /> Repair</label>
+                        <label className="flex items-center gap-1"><input type="checkbox" className="accent-gf-accent" checked={Boolean(ex.itmStkmas)} onChange={(e) => setEx("itmStkmas", e.target.checked)} /> Barang Masuk</label>
+                        <label className="flex items-center gap-1"><input type="checkbox" className="accent-gf-accent" checked={Boolean(ex.itmStkklr)} onChange={(e) => setEx("itmStkklr", e.target.checked)} /> Barang Keluar</label>
+                        <label className="flex items-center gap-1"><input type="checkbox" className="accent-gf-accent" checked={Boolean(ex.itmTrmstk)} onChange={(e) => setEx("itmTrmstk", e.target.checked)} /> Terima Stock</label>
+                        <label className="flex items-center gap-1"><input type="checkbox" className="accent-gf-accent" checked={Boolean(ex.itmBonpen)} onChange={(e) => setEx("itmBonpen", e.target.checked)} /> Bonus Penjualan</label>
+                        <label className="flex items-center gap-1"><input type="checkbox" className="accent-gf-accent" checked={Boolean(ex.itmKlrstk)} onChange={(e) => setEx("itmKlrstk", e.target.checked)} /> Barang Keluar Kasir</label>
+                        <label className="flex items-center gap-1"><input type="checkbox" className="accent-gf-accent" checked={Boolean(ex.itmGfso)} onChange={(e) => setEx("itmGfso", e.target.checked)} /> Web Order</label>
+                  </div>
+                  <div className="max-h-[330px] overflow-auto rounded-md border border-gf-border bg-white p-2">
+                    <div className="mb-1 bg-slate-50 px-1 text-[11px] font-medium text-slate-500">Gudang</div>
+                      {["GUDANG MASTER", ...divisi.map((d) => d.nama)].slice(0, 30).map((nm, i) => {
+                        const k = "gudang" + String(i + 1).padStart(2, "0");
+                        return (
+                          <label key={k} className="flex items-center gap-1">
+                            <input type="checkbox" className="accent-gf-accent" checked={Boolean(ex[k])} onChange={(e) => setEx(k, e.target.checked)} /> {nm}
+                          </label>
+                        );
+                      })}
+                  </div>
+                  <div className="space-y-2">
+                    <div className="rounded-md border border-gf-border bg-white p-2">
+                      <label className="flex items-center gap-1"><input type="checkbox" className="accent-gf-accent" checked={Boolean(form.nonPajak)} onChange={(e) => set({ nonPajak: e.target.checked })} /> Non-Taxable / Tanpa Pajak</label>
+                      <label className="flex items-center gap-1"><input type="checkbox" className="accent-gf-accent" checked={Boolean(ex.tnpDisglb)} onChange={(e) => setEx("tnpDisglb", e.target.checked)} /> Tidak hitung dalam %Disc Global</label>
+                      <label className="flex items-center gap-1"><input type="checkbox" className="accent-gf-accent" checked={Boolean(ex.flxHarga)} onChange={(e) => setEx("flxHarga", e.target.checked)} /> POS: Harga jual boleh diisi manual</label>
+                      <label className="flex items-center gap-1"><input type="checkbox" className="accent-gf-accent" checked={Boolean(ex.tnpCharge)} onChange={(e) => setEx("tnpCharge", e.target.checked)} /> POS: Tidak hitung dalam %Charges Pembayaran</label>
+                    </div>
+                    <div className="flex items-center gap-2 rounded-md border border-gf-border bg-white p-2">
+                      <span className={lbl}>Dimensi :</span>
+                      <input className="gf-3d w-[90px] bg-white px-2 py-[2px] text-right text-[11px]" value={String(ex.volMeter ?? "")} onChange={(e) => setEx("volMeter", e.target.value)} />
+                      <input className="gf-3d w-[46px] bg-white px-2 py-[2px] text-center text-[11px]" value={String(ex.volMtrSat ?? "")} onChange={(e) => setEx("volMtrSat", e.target.value)} placeholder="M3" />
+                      <input className="gf-3d w-[90px] bg-white px-2 py-[2px] text-right text-[11px]" value={String(ex.volLiter ?? "")} onChange={(e) => setEx("volLiter", e.target.value)} />
+                      <input className="gf-3d w-[46px] bg-white px-2 py-[2px] text-center text-[11px]" value={String(ex.volLtrSat ?? "")} onChange={(e) => setEx("volLtrSat", e.target.value)} placeholder="Ltr" />
+                    </div>
+                    <div className="grid grid-cols-[130px_1fr] items-center gap-1 rounded-md border border-gf-border bg-white p-2">
+                      <span className={lbl}>Quantity (Picture) :</span>
+                      <select className={inp} value={String(ex.quanPict ?? 0)} onChange={(e) => setEx("quanPict", Number(e.target.value) || 0)}>
+                        {[0, 1000, 9999, 99999, 999999].map((v) => <option key={v} value={v}>{v.toLocaleString("id-ID")}</option>)}
+                      </select>
+                      <span className={lbl}>Default Satuan :</span>
+                      <input className="gf-3d w-[80px] bg-white px-2 py-[2px] text-right text-[11px]" value={String(form.satDef ?? 0)} onChange={(e) => set({ satDef: Number(e.target.value) || 0 })} />
+                      <span className={lbl}>Catatan :</span>
+                      <input className={inp} value={String(form.catatan ?? "")} onChange={(e) => set({ catatan: e.target.value })} />
+                      <span />
+                      <label className="flex items-center gap-1"><input type="checkbox" disabled title="Belum dipetakan ke kolom DB" /> Tampil saat pilih item</label>
+                    </div>
+                    <div className="rounded-md border border-gf-border bg-white p-2">
+                      <div className="mb-1 flex items-center gap-2">
+                        <span className="font-semibold tracking-wider text-sky-700">O T H E R   L I N K   -   I T E M S</span>
+                        <select className="gf-3d w-[220px] bg-white px-1 py-[1px] text-[11px]"><option>--</option></select>
+                      </div>
+                      <table className="w-full border-collapse text-[11px]">
+                        <thead><tr className="bg-slate-50">
+                          {["", "Kode", "Nama", "Link Jml", "Link %"].map((h) => <th key={h} className="border border-gf-border px-1 text-left font-normal">{h}</th>)}
+                        </tr></thead>
+                        <tbody>
+                          {[1, 2, 3].map((n) => (
+                            <tr key={n}><td className="border border-gf-border px-1 w-[26px]">{n}.</td><td className="border border-gf-border px-1" /><td className="border border-gf-border px-1" /><td className="border border-gf-border px-1" /><td className="border border-gf-border px-1" /></tr>
+                          ))}
+                        </tbody>
+                      </table>
+                      <div className="mt-1 text-[10px] text-slate-400">Tabel link-items menyusul (junction DB belum terpetakan).</div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+                            {tab === 2 && (
                 <div className="grid grid-cols-[120px_1fr] items-center gap-x-2 gap-y-1 border border-gf-border bg-[#f4f4f4] p-3 text-[12px]">
                   <span className={lbl}>EQUIVALEN ITEM :</span>
                   <input className={inp} placeholder="(belum dipetakan ke kolom DB — pass berikutnya)" readOnly />
                   <span className={lbl}>KELOMPOK II :</span>
-                  <input className={inp} placeholder="(Group II — pass berikutnya)" readOnly />
+                  <select className={inp} value={Number(ex.groupSt2Id ?? 0)} onChange={(e) => setEx("groupSt2Id", Number(e.target.value) || null)}>
+                    <option value={0}>--</option>{grpst2.map((g) => <option key={g.id} value={g.id}>{g.nama}</option>)}
+                  </select>
                   <span className={lbl}>NAMA ALIAS :</span>
                   <input className={inp} value={String(form.nama2 ?? "")} onChange={(e) => set({ nama2: e.target.value })} />
                 </div>
               )}
 
-              {tab === 2 && (
+                            {tab === 3 && (
+                <div className="grid grid-cols-[1fr_360px] gap-2 border border-gf-border bg-[#f4f4f4] p-3 text-[12px]">
+                  <div className="flex flex-col">
+                    <table className="w-full flex-1 border-collapse bg-white text-[11px]">
+                      <thead><tr className="bg-slate-50">
+                        {["", "Catatan", "File"].map((h) => <th key={h} className="border border-gf-border px-1 text-left font-normal">{h}</th>)}
+                      </tr></thead>
+                      <tbody>
+                        {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+                          <tr key={n}><td className="w-[30px] border border-gf-border px-1">{n}.</td><td className="border border-gf-border px-1" /><td className="border border-gf-border px-1" /></tr>
+                        ))}
+                      </tbody>
+                    </table>
+                    <div className="mt-1 rounded bg-teal-700 px-2 py-[3px] text-[11px] text-white">D:\Photos</div>
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <div className="flex h-[260px] items-center justify-center border border-gf-border bg-white text-[12px] text-slate-300">260 x 260</div>
+                    <div className="grid grid-cols-2 gap-1">
+                      <Button variant="default" onClick={() => setMsg("Masuk List — upload file menyusul")}>Masuk List</Button>
+                      <Button variant="default" onClick={() => setMsg("Batal")}>Batal</Button>
+                    </div>
+                    <div className="flex items-center gap-2"><span className={lbl}>Catatan :</span><input className={inp} value={String(ex.catatanPict ?? "")} onChange={(e) => setEx("catatanPict", e.target.value)} /></div>
+                  </div>
+                </div>
+              )}
+
+              {tab === 4 && (
                 <div className="border border-gf-border bg-[#f4f4f4] p-3">
                   {[1, 2, 3, 4].map((n) => (
                     <div key={n} className="mb-1">
@@ -285,20 +411,6 @@ export default function ItemPage() {
                       <textarea className="gf-3d h-[52px] w-full bg-white px-2 py-[2px] text-[12px]" placeholder={`(memo ${n} — kolom DB belum dipetakan, pass berikutnya)`} readOnly />
                     </div>
                   ))}
-                </div>
-              )}
-
-              {tab === 3 && (
-                <div className="border border-gf-border bg-[#f4f4f4] p-3 text-[12px]">
-                  <div className="mb-2 border border-gf-border bg-white px-2 py-[3px] text-[11px]">Diisi apabila anda ingin link perkiraan yang berbeda dengan Default Link Perkiraan yang telah diset perusahaan.</div>
-                  <div className="flex items-center gap-2"><span className={lbl}>Persediaan :</span><select className="gf-3d w-[300px] bg-white px-1 py-[2px] text-[11px]"><option>--</option></select></div>
-                  <div className="mt-2 text-[11px] text-gf-muted">(Gambar produk — upload gambar pada pass berikutnya)</div>
-                </div>
-              )}
-
-              {tab === 4 && (
-                <div className="border border-gf-border bg-[#f4f4f4] p-3 text-[12px]">
-                  <div className="border border-gf-border bg-white px-2 py-[3px] text-[11px]">Sub info item (pass berikutnya — bukti scan item-form-sub-info.png tersimpan).</div>
                 </div>
               )}
 
@@ -327,7 +439,7 @@ export default function ItemPage() {
 
               {err && <div className="mt-1 text-[12px] text-red-700">{err}</div>}
               <div className="mt-2 flex items-center gap-2">
-                <label className="flex items-center gap-1 text-[11px]"><input type="checkbox" checked={Boolean(form.nonPajak)} onChange={(e) => set({ nonPajak: e.target.checked })} /> Non Pajak</label>
+                <label className="flex items-center gap-1 text-[11px]"><input type="checkbox" className="accent-gf-accent" checked={Boolean(ex.hide)} onChange={(e) => setEx("hide", e.target.checked)} /> Non Aktif</label>
                 <button onClick={() => setMsg("Cari")} className="gf-3d bg-gf-menubar px-2 py-[2px] text-[11px]">🔍</button>
                 <input className="gf-3d w-[140px] bg-white px-2 py-[2px] text-[12px]" placeholder="Group H.JL" readOnly />
                 <Button variant="primary" onClick={onSimpan} className="gf-3d ml-auto flex w-[40%] items-center justify-center gap-2 bg-gf-menubar py-[4px] text-[13px]"><Save className="h-[15px] w-[15px]" />Simpan (F12)</Button>

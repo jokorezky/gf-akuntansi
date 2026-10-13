@@ -1,9 +1,52 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { Pool } from "pg";
+
+const EXTRA_COLS: [string, string][] = [
+  ["groupSt2Id", "group_st2"], ["groupSt3Id", "group_st3"], ["hide", "hide"],
+  ["quanPict", "quan_pict"], ["tnpDisglb", "tnp_disglb"], ["flxHarga", "flx_harga"], ["tnpCharge", "tnp_charge"],
+  ["volMeter", "vol_meter"], ["volMtrSat", "vol_mtrsat"], ["volLiter", "vol_liter"], ["volLtrSat", "vol_ltrsat"],
+  ["catatan", "catatan"],
+  ["itmPurcor", "itm_purcor"], ["itmTrmstk", "itm_trmstk"], ["itmPembel", "itm_pembel"], ["itmRetpem", "itm_retpem"],
+  ["itmQuotat", "itm_quotat"], ["itmSalord", "itm_salord"], ["itmKlrstk", "itm_klrstk"], ["itmPenjec", "itm_penjec"],
+  ["itmPenjua", "itm_penjua"], ["itmBonpen", "itm_bonpen"], ["itmRetpen", "itm_retpen"], ["itmStkpin", "itm_stkpin"],
+  ["itmStktra", "itm_stktra"], ["itmStkrep", "itm_stkrep"], ["itmStkmas", "itm_stkmas"], ["itmStkklr", "itm_stkklr"],
+  ["itmGfso", "itm_gfso"],
+  ...Array.from({ length: 30 }, (_, i) => [`gudang${String(i + 1).padStart(2, "0")}`, `gudang_${String(i + 1).padStart(2, "0")}`] as [string, string]),
+];
+
+const EXTRA_SELECT = EXTRA_COLS.map(([alias, col]) => `${col} AS "${alias}"`).join(", ");
+
+function pickExtras(row: Record<string, unknown>): string {
+  const o: Record<string, unknown> = {};
+  for (const [alias] of EXTRA_COLS) if (row[alias] !== undefined) o[alias] = row[alias];
+  return JSON.stringify(o);
+}
+
+async function applyExtras(pool: import("pg").Pool, id: number, extrasJson?: string | null): Promise<void> {
+  if (!extrasJson) return;
+  let obj: Record<string, unknown>;
+  try {
+    obj = JSON.parse(extrasJson) as Record<string, unknown>;
+  } catch {
+    return;
+  }
+  const cols: string[] = [];
+  const vals: unknown[] = [];
+  for (const [alias, col] of EXTRA_COLS) {
+    if (!(alias in obj)) continue;
+    const v = obj[alias];
+    cols.push(`${col}=$${cols.length + 2}`);
+    vals.push(v === "" || v === undefined ? null : v);
+  }
+  if (!cols.length) return;
+  await pool.query(`UPDATE gf.s_stock SET ${cols.join(", ")} WHERE id=$1`, [id, ...vals]);
+}
+
 import { PG_POOL } from "../../../db/pg.provider";
 import { Item, ItemInput, ItemPage, SisaStockPage } from "./item.types";
 
-const COLS = `
+const COLS = `${EXTRA_SELECT},
+
   id, nama, barcode, nama_2 AS "nama2", vendor AS "vendorId", group_stk AS "groupStkId", jenis,
   harga_beli::text AS "hargaBeli",
   harga_j_01::text AS "hargaJual1", harga_j_02::text AS "hargaJual2", harga_j_03::text AS "hargaJual3",
@@ -36,12 +79,14 @@ export class ItemService {
       `SELECT ${COLS} FROM gf.s_stock ${where} ORDER BY id LIMIT $${params.length - 1} OFFSET $${params.length}`,
       params,
     );
-    return { rows: rows.rows as Item[], total: total.rows[0].n as number };
+    const mapped = (rows.rows as Record<string, unknown>[]).map((r) => ({ ...r, extrasJson: pickExtras(r) }));
+    return { rows: mapped as unknown as Item[], total: total.rows[0].n as number };
   }
 
   async byId(id: number): Promise<Item | null> {
     const r = await this.pool.query(`SELECT ${COLS} FROM gf.s_stock WHERE id=$1 AND hapus_oleh IS NULL`, [id]);
-    return (r.rows[0] as Item) ?? null;
+    const row = r.rows[0] as Record<string, unknown> | undefined;
+    return row ? ({ ...row, extrasJson: pickExtras(row) } as unknown as Item) : null;
   }
 
   async create(input: ItemInput, userId = 1): Promise<Item> {
@@ -70,6 +115,7 @@ export class ItemService {
       [r.rows[0].id, nn(input.satEcr), nn(input.kursJual), nn(input.satBeli), nn(input.satMin), nn(input.minJual),
        nn(input.minJlSt), nn(input.satJ01), nn(input.satJ02), nn(input.satJ03), nn(input.satJ04), nn(input.satJ05)],
     );
+    await applyExtras(this.pool, r.rows[0].id as number, input.extrasJson);
     return (await this.byId(r.rows[0].id as number))!;
   }
 
@@ -94,6 +140,7 @@ export class ItemService {
       [id, nn(input.satEcr), nn(input.kursJual), nn(input.satBeli), nn(input.satMin), nn(input.minJual),
        nn(input.minJlSt), nn(input.satJ01), nn(input.satJ02), nn(input.satJ03), nn(input.satJ04), nn(input.satJ05)],
     );
+    await applyExtras(this.pool, id, input.extrasJson);
     return this.byId(id);
   }
 
