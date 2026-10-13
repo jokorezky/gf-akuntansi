@@ -9,7 +9,11 @@ const COLS = `
   harga_j_01::text AS "hargaJual1", harga_j_02::text AS "hargaJual2", harga_j_03::text AS "hargaJual3",
   harga_j_04::text AS "hargaJual4", harga_j_05::text AS "hargaJual5",
   min_stock::text AS "minStock", tipe_satu AS "tipeSatu", sat_def AS "satDef",
-  non_pajak AS "nonPajak", expired, catatan`;
+  non_pajak AS "nonPajak", expired, catatan,
+  sat_ecr AS "satEcr", kurs_jual AS "kursJual", sat_beli AS "satBeli", sat_min AS "satMin",
+  min_jual::text AS "minJual", min_jl_st AS "minJlSt",
+  sat_j_01 AS "satJ01", sat_j_02 AS "satJ02", sat_j_03 AS "satJ03", sat_j_04 AS "satJ04", sat_j_05 AS "satJ05",
+  kode_c AS kode`;
 
 function nn(v: unknown): unknown {
   return v === undefined || v === "" ? null : v;
@@ -60,6 +64,12 @@ export class ItemService {
       userId,
     ];
     const r = await this.pool.query(sql, v);
+    await this.pool.query(
+      `UPDATE gf.s_stock SET sat_ecr=$2, kurs_jual=$3, sat_beli=$4, sat_min=$5, min_jual=$6, min_jl_st=$7,
+         sat_j_01=$8, sat_j_02=$9, sat_j_03=$10, sat_j_04=$11, sat_j_05=$12 WHERE id=$1`,
+      [r.rows[0].id, nn(input.satEcr), nn(input.kursJual), nn(input.satBeli), nn(input.satMin), nn(input.minJual),
+       nn(input.minJlSt), nn(input.satJ01), nn(input.satJ02), nn(input.satJ03), nn(input.satJ04), nn(input.satJ05)],
+    );
     return (await this.byId(r.rows[0].id as number))!;
   }
 
@@ -78,6 +88,12 @@ export class ItemService {
       userId,
     ];
     await this.pool.query(sql, v);
+    await this.pool.query(
+      `UPDATE gf.s_stock SET sat_ecr=$2, kurs_jual=$3, sat_beli=$4, sat_min=$5, min_jual=$6, min_jl_st=$7,
+         sat_j_01=$8, sat_j_02=$9, sat_j_03=$10, sat_j_04=$11, sat_j_05=$12 WHERE id=$1`,
+      [id, nn(input.satEcr), nn(input.kursJual), nn(input.satBeli), nn(input.satMin), nn(input.minJual),
+       nn(input.minJlSt), nn(input.satJ01), nn(input.satJ02), nn(input.satJ03), nn(input.satJ04), nn(input.satJ05)],
+    );
     return this.byId(id);
   }
 
