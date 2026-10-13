@@ -21,7 +21,7 @@ Legenda: ✅ selesai 1:1 · 🔄 jalan (belum V2-pass penuh) · ⏳ belum mulai
 | Kas | 7 | 7 | **100%** | + Cari/Pencairan CH-BG (4 layar, V2-deep) |
 | Antar Cabang | 2 | 2 | **100%** | Pembelian/Penjualan [ANTAR CABANG] + combo Cabang/Jenis/Tanpa Item/Gudang per divisi |
 | GL | 7 | 7 | ~90% | Semua jalan; Jurnal/BB/LK belum V2-pass |
-| Lainnya | 10 | 14 | ~70% | + Barang Promosi (V2-deep); sisa: Transfer, Untransfer, Pindah Gudang, Validasi |
+| Lainnya | 11 | 14 | ~78% | + Barang Promosi, Barang Transfer, UnTransfer; sisa: Pindah Gudang, Validasi |
 | Laporan | viewer ✅ | — | ~60% | 557 `.rpt` + viewer; isi data laporan per modul (A4) sebagian |
 | Sistem Setup + User Profile | 0 | 6 | 0% | Fase F & G |
 | Offline | ✅ | — | 100% | windows-mcp lokal, dev.ps1, restore-db.ps1 |
@@ -232,6 +232,10 @@ Deep scan GF menemukan: layar antar cabang = **form induk dengan mode** — judu
     - mode **disc/discnil** → baris `s_prome1` (**relasi `promos_id`** ke s_promos + FK `mauang_id`→s_mauang=IDR); teruji 2 baris + cleanup.
   - **Relasi**: `s_promos.id ↔ s_prome1.promos_id`, `s_prome1.mauang_id → s_mauang`, master item `s_stock` (harga_j_01..05/disc1..3_j_01..05).
   - Catatan: checkbox SO/AC/Retur pada Tipe Entry tidak punya kolom di `s_promos` (hanya penj_ecr/penj_csh/penj_crd yang dipersist) — dicatat sebagai keterbatasan skema GF. Hari/Divisi/Group disimpan comma-list ("tanpa pilihan = semua").
+- **Barang Transfer (24650)** ✅ V2-deep: form GF — Divisi/Tanggal/**ID hijau**/Gudang/Item(F3)/**Jumlah**/**Sisa Stock [TIDAK DIHITUNG]**/Catatan ×4 + panel navigasi (▲▼+⭐ HP Pukul Rata) + seksi biru **"Item/Stock yang berkurang"** (grid G.. /Kode/Nama/Jumlah/Catatan + Tambah/Koreksi/Hapus + tombol oranye **HP Pukul Rata**) + **"Tambahan Cost/Biaya" #Acc *1..*3 + Nilai *1..*3** + status "Jumlah belum diisi !"; LIST + tombol **Template** (khas layar ini).
+  - **DB**: `s_trmstk` (header: divisi_id/gudang/tanggal/pukul/tot_harga/tot_harex1/tot_harex2/catatan×3) + `s_trmsex` (**relasi `trmstk_id`**, stock_id/jumlah/harga/catatan). `nilai1/2/3` dipetakan ke `tot_harga/tot_harex1/tot_harex2`; #Acc perkiraan = UI (tidak ada kolom — kemungkinan posting jurnal; dicatat).
+  - **Uji PASS**: tot=189000/jml 3, relasi 2 baris, sisa stock, update, delete bersih. **HP Pukul Rata** = harga/unit = (Nilai1+2+3)/Σjumlah.
+- **Barang UnTransfer (24651)** ✅ V2-deep: **mirror** Transfer dengan judul GF asli "Barang **UnTransfer**" — seksi **"Item/Stock yang bertambah"** (+ kolom **HPP%**), panel **<< < > >> + Template**, grup **"Tambahan Cost/Biaya dari :"**. **DB sama** (`s_trmstk/s_trmsex` — tidak ada tabel terpisah; tidak ada kolom diskriminator). Uji memakai jalur API yang sama (PASS + cleanup).
 - ⏳ **Belum**: Barang Promosi ×2, Barang Transfer, Barang Untransfer, Pindah Gudang, Validasi Barang Keluar (Fase E).
 
 ---
