@@ -3,10 +3,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { gql } from "@/lib/graphql";
 
-type Row = { id: number; nama: string; tglBeli?: string | null; hargaBeli?: string | null; tglSusut?: string | null; mtdSusut?: number | null; nilSusut?: string | null; usiaSusut?: number | null; divisiId?: number | null; perkirId1?: number | null; perkirId2?: number | null; tglJual?: string | null; tglOut?: string | null; catatan?: string | null };
+type Row = { id: number; nama: string; kode?: string | null; beliDari?: string | null; jualKpd?: string | null; outKet?: string | null; tglBeli?: string | null; hargaBeli?: string | null; tglSusut?: string | null; mtdSusut?: number | null; nilSusut?: string | null; usiaSusut?: number | null; divisiId?: number | null; perkirId1?: number | null; perkirId2?: number | null; tglJual?: string | null; tglOut?: string | null; catatan?: string | null };
 type Ref = { id: number; nama: string };
 
-const FIELDS = `id nama tglBeli hargaBeli tglSusut mtdSusut nilSusut usiaSusut divisiId perkirId1 perkirId2 tglJual tglOut catatan`;
+const FIELDS = `id nama kode beliDari jualKpd outKet tglBeli hargaBeli tglSusut mtdSusut nilSusut usiaSusut divisiId perkirId1 perkirId2 tglJual tglOut catatan`;
 const LIST = `query($q:String){ aktivaTetapList(q:$q){ total rows { ${FIELDS} } } }`;
 const BYID = `query($id:Int!){ aktivaTetapById(id:$id){ ${FIELDS} } }`;
 const CREATE = `mutation($input:AktivaTetapInput!){ createAktivaTetap(input:$input){ id } }`;
@@ -14,7 +14,7 @@ const UPDATE = `mutation($id:Int!,$input:AktivaTetapInput!){ updateAktivaTetap(i
 const DELETE = `mutation($id:Int!){ deleteAktivaTetap(id:$id) }`;
 const REFS = `{ perkiraanRefList { id nama } divisiRefList { id nama } }`;
 
-const empty = (): Row => ({ id: 0, nama: "", tglBeli: new Date().toISOString().slice(0, 10), hargaBeli: "", tglSusut: "", mtdSusut: 1, nilSusut: "", usiaSusut: 5, divisiId: null, perkirId1: null, perkirId2: null, tglJual: "", tglOut: "", catatan: "" });
+const empty = (): Row => ({ id: 0, nama: "", kode: "", beliDari: "", jualKpd: "", outKet: "", tglBeli: new Date().toISOString().slice(0, 10), hargaBeli: "", tglSusut: "", mtdSusut: 1, nilSusut: "", usiaSusut: 5, divisiId: null, perkirId1: null, perkirId2: null, tglJual: "", tglOut: "", catatan: "" });
 const METODE = ["Garis Lurus", "Saldo Menurun", "Jumlah Angka Tahun"];
 
 export default function AktivaTetapPage() {
@@ -57,7 +57,7 @@ export default function AktivaTetapPage() {
     if (!form.nama.trim()) return setErr("Nama A/T wajib diisi.");
     setErr("");
     const input: Record<string, unknown> = { nama: form.nama.trim() };
-    for (const k of ["tglBeli", "hargaBeli", "tglSusut", "nilSusut", "tglJual", "tglOut", "catatan"] as const) input[k] = (form as Record<string, unknown>)[k] || null;
+    for (const k of ["kode", "beliDari", "jualKpd", "outKet", "tglBeli", "hargaBeli", "tglSusut", "nilSusut", "tglJual", "tglOut", "catatan"] as const) input[k] = (form as Record<string, unknown>)[k] || null;
     for (const k of ["mtdSusut", "usiaSusut", "divisiId", "perkirId1", "perkirId2"] as const) input[k] = (form as Record<string, unknown>)[k] ?? null;
     if (mode === "create") await gql(CREATE, { input }); else await gql(UPDATE, { id: form.id, input });
     setForm(null); setMsg(mode === "create" ? "Tersimpan." : "Diperbarui."); await load();
@@ -79,12 +79,14 @@ export default function AktivaTetapPage() {
           </div>
           <div className="overflow-auto border border-gf-border">
             <table className="w-full border-collapse text-[12px]">
-              <thead><tr className="bg-gf-menubar">{["ID", "Nama A/T", "Tgl Beli", "Harga Beli", "Mulai Susut", "% Susut", "Usia (thn)"].map((h) => <th key={h} className="border border-gf-border px-2 py-1 text-left font-normal">{h}</th>)}</tr></thead>
+              <thead><tr className="bg-gf-menubar">{["ID", "Kode", "Nama A/T", "Beli Dari", "Tgl Beli", "Harga Beli", "Mulai Susut", "% Susut", "Usia (thn)"].map((h) => <th key={h} className="border border-gf-border px-2 py-1 text-left font-normal">{h}</th>)}</tr></thead>
               <tbody>
                 {rows.map((r) => (
                   <tr key={r.id} onClick={() => setSel(r.id)} className={`cursor-pointer ${sel === r.id ? "bg-gf-hl text-white" : "hover:bg-[#e8eef7]"}`}>
                     <td className="border border-gf-border px-2 py-[2px]">{r.id}</td>
+                    <td className="border border-gf-border px-2 py-[2px]">{r.kode}</td>
                     <td className="border border-gf-border px-2 py-[2px]">{r.nama}</td>
+                    <td className="border border-gf-border px-2 py-[2px]">{r.beliDari}</td>
                     <td className="border border-gf-border px-2 py-[2px]">{r.tglBeli}</td>
                     <td className="border border-gf-border px-2 py-[2px] text-right font-mono">{r.hargaBeli}</td>
                     <td className="border border-gf-border px-2 py-[2px]">{r.tglSusut}</td>
@@ -92,7 +94,7 @@ export default function AktivaTetapPage() {
                     <td className="border border-gf-border px-2 py-[2px] text-right font-mono">{r.usiaSusut}</td>
                   </tr>
                 ))}
-                {rows.length === 0 && <tr><td colSpan={7} className="px-2 py-3 text-center text-gf-muted">Belum ada data.</td></tr>}
+                {rows.length === 0 && <tr><td colSpan={9} className="px-2 py-3 text-center text-gf-muted">Belum ada data.</td></tr>}
               </tbody>
             </table>
           </div>
@@ -112,7 +114,9 @@ export default function AktivaTetapPage() {
             <div className="grid grid-cols-2 gap-x-6 gap-y-1 p-3 text-[12px]">
               <div className="space-y-1">
                 <F label="ID :"><input className="gf-3d w-[110px] bg-[#eef7d6] px-2 py-[2px]" value={mode === "create" ? "(auto)" : form.id} readOnly /></F>
+                <F label="Kode A/T :"><input className="gf-3d w-[140px] bg-white px-2 py-[2px]" value={form.kode ?? ""} onChange={(e) => set({ kode: e.target.value })} /></F>
                 <F label="Nama A/T :"><input className="gf-3d w-full bg-white px-2 py-[2px]" value={form.nama} onChange={(e) => set({ nama: e.target.value })} /></F>
+                <F label="Beli Dari :"><input className="gf-3d w-full bg-white px-2 py-[2px]" value={form.beliDari ?? ""} onChange={(e) => set({ beliDari: e.target.value })} /></F>
                 <F label="Tgl Beli :"><input type="date" className="gf-3d w-[180px] bg-white px-2 py-[2px]" value={form.tglBeli ?? ""} onChange={(e) => set({ tglBeli: e.target.value })} /></F>
                 <F label="Harga Beli :"><input className="gf-3d w-[180px] bg-white px-2 py-[2px] text-right font-mono" value={form.hargaBeli ?? ""} onChange={(e) => set({ hargaBeli: e.target.value })} /></F>
                 <F label="Mulai Susut :"><input type="date" className="gf-3d w-[180px] bg-white px-2 py-[2px]" value={form.tglSusut ?? ""} onChange={(e) => set({ tglSusut: e.target.value })} /></F>
@@ -140,6 +144,8 @@ export default function AktivaTetapPage() {
                     <option value="">--</option>{akun.map((a) => <option key={a.id} value={a.id}>{a.nama}</option>)}
                   </select>
                 </F>
+                <F label="Jual Kepada :"><input className="gf-3d w-full bg-white px-2 py-[2px]" value={form.jualKpd ?? ""} onChange={(e) => set({ jualKpd: e.target.value })} /></F>
+                <F label="Alasan Out :"><input className="gf-3d w-full bg-white px-2 py-[2px]" value={form.outKet ?? ""} onChange={(e) => set({ outKet: e.target.value })} /></F>
                 <F label="Tgl Jual :"><input type="date" className="gf-3d w-[180px] bg-white px-2 py-[2px]" value={form.tglJual ?? ""} onChange={(e) => set({ tglJual: e.target.value })} /></F>
                 <F label="Tgl Out :"><input type="date" className="gf-3d w-[180px] bg-white px-2 py-[2px]" value={form.tglOut ?? ""} onChange={(e) => set({ tglOut: e.target.value })} /></F>
                 <F label="Catatan :"><input className="gf-3d w-full bg-white px-2 py-[2px]" value={form.catatan ?? ""} onChange={(e) => set({ catatan: e.target.value })} /></F>

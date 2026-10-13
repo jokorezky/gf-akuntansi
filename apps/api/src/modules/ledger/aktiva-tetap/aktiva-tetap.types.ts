@@ -4,6 +4,10 @@ import { Field, InputType, Int, ObjectType } from "@nestjs/graphql";
 export class AktivaTetap {
   @Field(() => Int) id: number;
   @Field() nama: string;
+  @Field({ nullable: true }) kode?: string;
+  @Field({ nullable: true }) beliDari?: string;
+  @Field({ nullable: true }) jualKpd?: string;
+  @Field({ nullable: true }) outKet?: string;
   @Field({ nullable: true }) tglBeli?: string;
   @Field({ nullable: true }) hargaBeli?: string;
   @Field({ nullable: true }) tglSusut?: string;
@@ -21,6 +25,10 @@ export class AktivaTetap {
 @InputType()
 export class AktivaTetapInput {
   @Field() nama: string;
+  @Field({ nullable: true }) kode?: string;
+  @Field({ nullable: true }) beliDari?: string;
+  @Field({ nullable: true }) jualKpd?: string;
+  @Field({ nullable: true }) outKet?: string;
   @Field({ nullable: true }) tglBeli?: string;
   @Field({ nullable: true }) hargaBeli?: string;
   @Field({ nullable: true }) tglSusut?: string;

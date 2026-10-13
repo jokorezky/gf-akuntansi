@@ -12,7 +12,7 @@ function num(v: unknown): number {
 }
 
 const COLS = `
-  a.id::int AS id, a.nama, to_char(a.tgl_beli,'YYYY-MM-DD') AS "tglBeli", a.harga_beli::text AS "hargaBeli",
+  a.id::int AS id, a.nama, a.kode, a.beli_dari AS "beliDari", a.jual_kpd AS "jualKpd", a.out_ket AS "outKet", to_char(a.tgl_beli,'YYYY-MM-DD') AS "tglBeli", a.harga_beli::text AS "hargaBeli",
   to_char(a.tgl_susut,'YYYY-MM-DD') AS "tglSusut", a.mtd_susut AS "mtdSusut", a.nil_susut::text AS "nilSusut",
   a.usia_susut AS "usiaSusut", a.divisi_id AS "divisiId", a.perkir_1 AS "perkirId1", a.perkir_2 AS "perkirId2",
   to_char(a.tgl_jual,'YYYY-MM-DD') AS "tglJual", to_char(a.tgl_out,'YYYY-MM-DD') AS "tglOut", a.catatan`;
@@ -45,11 +45,11 @@ export class AktivaTetapService {
   async create(input: AktivaTetapInput, userId = 1): Promise<AktivaTetap> {
     const r = await this.pool.query(
       `INSERT INTO gf.s_aktttp
-         (id, nama, tgl_beli, harga_beli, tgl_susut, mtd_susut, nil_susut, usia_susut, divisi_id, perkir_1, perkir_2, tgl_jual, tgl_out, catatan, input_oleh, tgl_input, jam_input)
+         (id, nama, kode, beli_dari, jual_kpd, out_ket, tgl_beli, harga_beli, tgl_susut, mtd_susut, nil_susut, usia_susut, divisi_id, perkir_1, perkir_2, tgl_jual, tgl_out, catatan, input_oleh, tgl_input, jam_input)
        VALUES
-         ((SELECT COALESCE(MAX(id),0)+1 FROM gf.s_aktttp), $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, now()::date, to_char(now(),'HH24:MI:SS'))
+         ((SELECT COALESCE(MAX(id),0)+1 FROM gf.s_aktttp), $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, now()::date, to_char(now(),'HH24:MI:SS'))
        RETURNING id`,
-      [input.nama, nn(input.tglBeli), num(input.hargaBeli), nn(input.tglSusut), nn(input.mtdSusut), num(input.nilSusut),
+      [input.nama, nn(input.kode), nn(input.beliDari), nn(input.jualKpd), nn(input.outKet), nn(input.tglBeli), num(input.hargaBeli), nn(input.tglSusut), nn(input.mtdSusut), num(input.nilSusut),
        nn(input.usiaSusut), nn(input.divisiId), nn(input.perkirId1), nn(input.perkirId2), nn(input.tglJual), nn(input.tglOut), nn(input.catatan), userId],
     );
     return (await this.byId(r.rows[0].id as number))!;
@@ -57,12 +57,14 @@ export class AktivaTetapService {
 
   async update(id: number, input: AktivaTetapInput, userId = 1): Promise<AktivaTetap | null> {
     await this.pool.query(
-      `UPDATE gf.s_aktttp SET nama=$2, tgl_beli=$3, harga_beli=$4, tgl_susut=$5, mtd_susut=$6, nil_susut=$7,
-         usia_susut=$8, divisi_id=$9, perkir_1=$10, perkir_2=$11, tgl_jual=$12, tgl_out=$13, catatan=$14,
-         ubah_oleh=$15, tgl_ubah=now()::date, jam_ubah=to_char(now(),'HH24:MI:SS')
+      `UPDATE gf.s_aktttp SET nama=$2, kode=$3, beli_dari=$4, jual_kpd=$5, out_ket=$6, tgl_beli=$7, harga_beli=$8,
+         tgl_susut=$9, mtd_susut=$10, nil_susut=$11, usia_susut=$12, divisi_id=$13, perkir_1=$14, perkir_2=$15,
+         tgl_jual=$16, tgl_out=$17, catatan=$18,
+         ubah_oleh=$19, tgl_ubah=now()::date, jam_ubah=to_char(now(),'HH24:MI:SS')
        WHERE id=$1 AND hapus_oleh IS NULL`,
-      [id, input.nama, nn(input.tglBeli), num(input.hargaBeli), nn(input.tglSusut), nn(input.mtdSusut), num(input.nilSusut),
-       nn(input.usiaSusut), nn(input.divisiId), nn(input.perkirId1), nn(input.perkirId2), nn(input.tglJual), nn(input.tglOut), nn(input.catatan), userId],
+      [id, input.nama, nn(input.kode), nn(input.beliDari), nn(input.jualKpd), nn(input.outKet), nn(input.tglBeli), num(input.hargaBeli),
+       nn(input.tglSusut), nn(input.mtdSusut), num(input.nilSusut), nn(input.usiaSusut), nn(input.divisiId), nn(input.perkirId1), nn(input.perkirId2),
+       nn(input.tglJual), nn(input.tglOut), nn(input.catatan), userId],
     );
     return this.byId(id);
   }
