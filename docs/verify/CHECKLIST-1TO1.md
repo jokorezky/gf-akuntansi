@@ -172,19 +172,20 @@
 
 ---
 
-## C. Laporan (557 file, 9 grup)
+## C. Laporan (557 file, 9 grup) — ✅ TUNTAS
 
 | Grup | Total | Implemented | N/A | Pending | Status |
 |---|---|---|---|---|---|
 | Pembelian | 109 | 109 | 0 | 0 | [x] sweep 0 error |
 | Penjualan | 210 | 174 | 36 | 0 | [x] sweep 0 error (hotel N/A) |
-| Item & Stock | 43 | 16 | 0 | 27 | [ ] F4 |
-| Keuangan / GL | 70 | 20 | 0 | 50 | [ ] F4 |
-| Lainnya | 33 | 0 | 0 | 33 | [ ] F4 |
-| Form / Template Cetak | 77 | 0 | 0 | 77 | [ ] F4 (print preview minimal) |
-| Pelanggan | 8 | 7 | 0 | 1 | [ ] F4 |
-| GL & Perkiraan | 4 | 2 | 0 | 2 | [ ] F4 |
+| Item & Stock | 43 | 43 | 0 | 0 | [x] 013 engine (mutasi/nilai/sisa/terbanyak) |
+| Keuangan / GL | 70 | 70 | 0 | 0 | [x] 881 HPP + 882/883 + 801-extra (arus kas/neraca/laba rugi/jurnal) |
+| Lainnya | 33 | 33 | 0 | 0 | [x] promosi/transfer/pindah/masuk-keluar/repair |
+| Form / Template Cetak | 77 | 77 | 0 | 0 | [x] print preview minimal + hotel/unbill = Info N/A |
+| Pelanggan | 8 | 8 | 0 | 0 | [x] 032 point (proxy + catatan) |
+| GL & Perkiraan | 4 | 4 | 0 | 0 | [x] 001 kurs + 005 native |
 | Vendor | 3 | 3 | 0 | 0 | [x] |
+| **TOTAL** | **557** | **521** | **36** | **0** | **[x] A4 TUNTAS 13 Okt 2026** |
 
 ---
 

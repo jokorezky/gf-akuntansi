@@ -194,6 +194,64 @@ function salesPerBarang(ctx: RuleCtx, doc: string, lineJoin: string, fk: string,
   };
 }
 
+// ---------- MODUL (Lainnya/881) helpers ----------
+const KODE = "COALESCE(s.kode_c, s.kode_c_2, d.stock_id::text)";
+
+function modWithLines(doc: string, lineJoin: string, fk: string, noExpr: string): LapSpec {
+  return {
+    base: `FROM ${doc} h ${DIV} JOIN ${lineJoin} d ON d.${fk}=h.id LEFT JOIN gf.s_stock s ON s.id=d.stock_id`,
+    cols: [
+      { sql: noExpr, label: "No" }, { sql: tgl(), label: "Tanggal" }, { sql: "COALESCE(dv.divisi,'')", label: "Divisi" },
+      { sql: KODE, label: "Kode" }, { sql: "COALESCE(s.nama,'')", label: "Nama" },
+      { sql: "COALESCE(d.jumlah,0)::text", label: "Jumlah", align: "r" },
+      { sql: "COALESCE(d.hpp,0)::text", label: "HPP", align: "r" },
+      { sql: "round(COALESCE(d.jumlah,0)*COALESCE(d.hpp,0),2)::text", label: "Nilai HPP", align: "r" },
+      { sql: "COALESCE(d.catatan,'')", label: "Catatan" },
+    ],
+    where: `COALESCE(h.als_batal,'')='' AND d.tgl_hapus IS NULL`,
+    orderBy: "h.id DESC, d.sys_id",
+    catatan: `Sumber: ${doc} + ${lineJoin} (relasi ${fk})`,
+  };
+}
+
+function modPerBarang(ctx: RuleCtx, doc: string, lineJoin: string, fk: string, byGroup: boolean): LapSpec {
+  const gExp = byGroup ? "COALESCE(gs.nama,'(tanpa kelompok)')" : "COALESCE(s.nama,'')";
+  const kodeExp = "COALESCE(s.kode_c, s.kode_c_2, d.stock_id::text)";
+  const gJoin = byGroup ? "LEFT JOIN gf.s_grpstk gs ON gs.id=s.group_stk" : "";
+  const cols: LapCol[] = byGroup
+    ? [
+        { sql: gExp, label: "Kelompok Barang" },
+        { sql: "COALESCE(SUM(d.jumlah),0)::text", label: "Jumlah", align: "r" },
+        { sql: "round(COALESCE(SUM(d.jumlah*COALESCE(d.hpp,0)),0),2)::text", label: "Nilai HPP", align: "r" },
+      ]
+    : [
+        { sql: kodeExp, label: "Kode" }, { sql: gExp, label: "Nama" },
+        { sql: "COALESCE(SUM(d.jumlah),0)::text", label: "Jumlah", align: "r" },
+        { sql: "round(COALESCE(SUM(d.jumlah*COALESCE(d.hpp,0)),0),2)::text", label: "Nilai HPP", align: "r" },
+      ];
+  return {
+    base: `FROM ${doc} h ${DIV} JOIN ${lineJoin} d ON d.${fk}=h.id LEFT JOIN gf.s_stock s ON s.id=d.stock_id ${gJoin}`,
+    cols, where: `COALESCE(h.als_batal,'')='' AND d.tgl_hapus IS NULL`,
+    groupBy: `GROUP BY ${byGroup ? gExp : `${kodeExp}, ${gExp}`}`,
+    orderBy: "1",
+    catatan: `Agregasi ${byGroup ? "kelompok barang" : "per barang"} — ${doc} + ${lineJoin} (nilai = jumlah × hpp)`,
+  };
+}
+
+function modList(doc: string, noExpr: string, where: string, extra?: LapCol[]): LapSpec {
+  return {
+    base: `FROM ${doc} h ${DIV}`,
+    cols: [
+      { sql: noExpr, label: "No" }, { sql: tgl(), label: "Tanggal" }, { sql: "COALESCE(dv.divisi,'')", label: "Divisi" },
+      ...(extra ?? []),
+      { sql: "COALESCE(h.catatan,'')", label: "Catatan" }, { sql: alasan, label: "Alasan Batal" },
+    ],
+    where,
+    orderBy: "h.id DESC",
+    catatan: `Sumber: ${doc}`,
+  };
+}
+
 // ---------- REGISTRY ----------
 export const ENGINE_RULES: EngineRule[] = [
   {
@@ -539,7 +597,7 @@ export const ENGINE_RULES: EngineRule[] = [
           { sql: "count(*)::text", label: "Jml Nota", align: "r" },
           { sql: "round(COALESCE(SUM(h.sales_kom),0),2)::text", label: "Komisi", align: "r" },
         ],
-        where: aktif, groupBy: "COALESCE(k.nama, h.sales::text)", orderBy: "3 DESC",
+        where: aktif, groupBy: "GROUP BY COALESCE(k.nama, h.sales::text)", orderBy: "3 DESC",
         catatan: "Komisi sales = Σ s_penjua.sales_kom",
       };
       if (pick(c, "effective")) {
@@ -561,8 +619,8 @@ export const ENGINE_RULES: EngineRule[] = [
               ],
           where: byKel ? `d.tgl_hapus IS NULL AND ${aktif}` : aktif,
           groupBy: byKel
-            ? "COALESCE(k.nama, h.sales::text), " + tgl() + ", COALESCE(gs.nama,'(tanpa kelompok)')"
-            : "COALESCE(k.nama, h.sales::text), " + tgl(),
+            ? "GROUP BY COALESCE(k.nama, h.sales::text), " + tgl() + ", COALESCE(gs.nama,'(tanpa kelompok)')"
+            : "GROUP BY COALESCE(k.nama, h.sales::text), " + tgl(),
           orderBy: "1, 2",
           catatan: "Analisa effective call per sales (rekap nota per sales/tanggal)",
         };
@@ -575,7 +633,7 @@ export const ENGINE_RULES: EngineRule[] = [
           { sql: "round(COALESCE(SUM(d.jumlah*d.harga),0),2)::text", label: "Nilai", align: "r" },
         ],
         where: `d.tgl_hapus IS NULL AND ${aktif}`,
-        groupBy: "COALESCE(s.kode_c, s.kode_c_2, d.stock_id::text), COALESCE(s.nama,'')",
+        groupBy: "GROUP BY COALESCE(s.kode_c, s.kode_c_2, d.stock_id::text), COALESCE(s.nama,'')",
         orderBy: "3 DESC", catatan: "Bonus penjualan per barang (mengikuti baris penjualan)",
       };
       if (pick(c, "discount")) return {
@@ -586,7 +644,7 @@ export const ENGINE_RULES: EngineRule[] = [
           { sql: "round(COALESCE(SUM(d.jumlah*d.harga*(COALESCE(d.disc_pers,0)/100)),0),2)::text", label: "Discount", align: "r" },
         ],
         where: `d.tgl_hapus IS NULL AND ${aktif} AND COALESCE(d.disc_pers,0)+COALESCE(d.disc_pers2,0)+COALESCE(d.disc_pers3,0)<>0`,
-        groupBy: "COALESCE(s.kode_c, s.kode_c_2, d.stock_id::text), COALESCE(s.nama,'')",
+        groupBy: "GROUP BY COALESCE(s.kode_c, s.kode_c_2, d.stock_id::text), COALESCE(s.nama,'')",
         orderBy: "4 DESC", catatan: "Discount penjualan per barang (Σ disc% baris)",
       };
       if (pick(c, "min harga")) return {
@@ -607,7 +665,7 @@ export const ENGINE_RULES: EngineRule[] = [
           { sql: "COALESCE(SUM(d.jumlah),0)::text", label: "Jumlah", align: "r" },
         ],
         where: `d.tgl_hapus IS NULL AND ${aktif}`,
-        groupBy: "COALESCE(s.kode_c, s.kode_c_2, d.stock_id::text), COALESCE(s.nama,'')",
+        groupBy: "GROUP BY COALESCE(s.kode_c, s.kode_c_2, d.stock_id::text), COALESCE(s.nama,'')",
         orderBy: "3 DESC", catatan: "Total penjualan per barang (kuantiti saja)",
       };
       if (pick(c, "serial")) return {
@@ -618,7 +676,7 @@ export const ENGINE_RULES: EngineRule[] = [
           { sql: "COALESCE(SUM(d.jumlah),0)::text", label: "Jumlah", align: "r" },
         ],
         where: `d.tgl_hapus IS NULL AND ${aktif} AND COALESCE(d.stkser_id,0)<>0`,
-        groupBy: "COALESCE(s.kode_c, s.kode_c_2, d.stock_id::text), COALESCE(s.nama,''), COALESCE(d.stkser_1,'')",
+        groupBy: "GROUP BY COALESCE(s.kode_c, s.kode_c_2, d.stock_id::text), COALESCE(s.nama,''), COALESCE(d.stkser_1,'')",
         orderBy: "1, 3", catatan: "Penjualan per barang dengan Serial ID (stkser)",
       };
       if (pick(c, "record")) return {
@@ -628,7 +686,7 @@ export const ENGINE_RULES: EngineRule[] = [
           { sql: "count(*)::text", label: "Jml Record", align: "r" },
         ],
         where: `d.tgl_hapus IS NULL AND ${aktif}`,
-        groupBy: "COALESCE(s.kode_c, s.kode_c_2, d.stock_id::text), COALESCE(s.nama,'')",
+        groupBy: "GROUP BY COALESCE(s.kode_c, s.kode_c_2, d.stock_id::text), COALESCE(s.nama,'')",
         orderBy: "3 DESC", catatan: "Jumlah record/baris penjualan per barang",
       };
       if (pick(c, "rata2")) return {
@@ -639,7 +697,7 @@ export const ENGINE_RULES: EngineRule[] = [
           { sql: "round(COALESCE(SUM(d.jumlah*d.harga)/NULLIF(SUM(d.jumlah),0),0),2)::text", label: "Rata2 Harga", align: "r" },
         ],
         where: `d.tgl_hapus IS NULL AND ${aktif}`,
-        groupBy: "COALESCE(s.kode_c, s.kode_c_2, d.stock_id::text), COALESCE(s.nama,'')",
+        groupBy: "GROUP BY COALESCE(s.kode_c, s.kode_c_2, d.stock_id::text), COALESCE(s.nama,'')",
         orderBy: "1", catatan: "Rata-rata harga jual per barang",
       };
       if (pick(c, "ranking")) return {
@@ -650,7 +708,7 @@ export const ENGINE_RULES: EngineRule[] = [
           { sql: "round(COALESCE(SUM(d.jumlah*d.harga*(1-COALESCE(d.disc_pers,0)/100)),0),2)::text", label: "Nilai", align: "r" },
         ],
         where: `d.tgl_hapus IS NULL AND ${aktif}`,
-        groupBy: "COALESCE(s.kode_c, s.kode_c_2, d.stock_id::text), COALESCE(s.nama,'')",
+        groupBy: "GROUP BY COALESCE(s.kode_c, s.kode_c_2, d.stock_id::text), COALESCE(s.nama,'')",
         orderBy: "4 DESC", catatan: "Ranking penjualan per barang (nilai desc)",
       };
       if (pick(c, "jml hari")) return {
@@ -659,7 +717,7 @@ export const ENGINE_RULES: EngineRule[] = [
           { sql: tgl(), label: "Tanggal" }, { sql: "count(*)::text", label: "Jml Faktur", align: "r" },
           { sql: "round(COALESCE(SUM(h.tot_harga - h.tot_disc),0),2)::text", label: "Nilai", align: "r" },
         ],
-        where: aktif, groupBy: tgl(), orderBy: "1",
+        where: aktif, groupBy: `GROUP BY ${tgl()}`, orderBy: "1",
         catatan: "Total penjualan per tanggal (jml faktur & hari)",
       };
       if (pick(c, "jml item")) return {
@@ -681,7 +739,7 @@ export const ENGINE_RULES: EngineRule[] = [
           { sql: "count(DISTINCT h.pelang)::text", label: "Jml Pelanggan", align: "r" },
         ],
         where: `d.tgl_hapus IS NULL AND ${aktif}`,
-        groupBy: "COALESCE(gs.nama,'(tanpa kelompok)')", orderBy: "1",
+        groupBy: "GROUP BY COALESCE(gs.nama,'(tanpa kelompok)')", orderBy: "1",
         catatan: "Per kelompok barang: jml faktur + jml pelanggan",
       };
       if (pick(c, "jml faktur") && pick(c, "per barang")) return {
@@ -692,7 +750,7 @@ export const ENGINE_RULES: EngineRule[] = [
           { sql: "count(DISTINCT h.pelang)::text", label: "Jml Pelanggan", align: "r" },
         ],
         where: `d.tgl_hapus IS NULL AND ${aktif}`,
-        groupBy: "COALESCE(s.kode_c, s.kode_c_2, d.stock_id::text), COALESCE(s.nama,'')", orderBy: "1",
+        groupBy: "GROUP BY COALESCE(s.kode_c, s.kode_c_2, d.stock_id::text), COALESCE(s.nama,'')", orderBy: "1",
         catatan: "Per barang: jml faktur + jml pelanggan",
       };
       if (pick(c, "jumlah item")) return {
@@ -709,13 +767,13 @@ export const ENGINE_RULES: EngineRule[] = [
           { sql: tgl(), label: "Tanggal" }, { sql: "count(*)::text", label: "Jml Nota", align: "r" },
           { sql: "round(COALESCE(SUM(h.tot_harga - h.tot_disc),0),2)::text", label: "Nilai", align: "r" },
         ],
-        where: aktif, groupBy: tgl(), orderBy: "1",
+        where: aktif, groupBy: `GROUP BY ${tgl()}`, orderBy: "1",
         catatan: "Jumlah penjualan per tanggal",
       };
       if (pick(c, "dan retur")) return {
         base: `FROM gf.s_stock s
-          LEFT JOIN LATERAL (SELECT COALESCE(SUM(d.jumlah),0) j FROM gf.s_penjud d JOIN gf.s_penjua h ON h.id=d.penjua_id AND COALESCE(h.als_batal,'')='' WHERE d.stock_id=s.id AND d.tgl_hapus IS NULL) j ON true
-          LEFT JOIN LATERAL (SELECT COALESCE(SUM(d.jumlah),0) j FROM gf.s_retpjd d JOIN gf.s_retpen h ON h.id=d.retpen_id AND COALESCE(h.als_batal,'')='' WHERE d.stock_id=s.id AND d.tgl_hapus IS NULL) r ON true`,
+          LEFT JOIN (SELECT d.stock_id sid, COALESCE(SUM(d.jumlah),0) j FROM gf.s_penjud d JOIN gf.s_penjua h ON h.id=d.penjua_id AND COALESCE(h.als_batal,'')='' WHERE d.tgl_hapus IS NULL GROUP BY d.stock_id) j ON j.sid=s.id
+          LEFT JOIN (SELECT d.stock_id sid, COALESCE(SUM(d.jumlah),0) j FROM gf.s_retpjd d JOIN gf.s_retpen h ON h.id=d.retpen_id AND COALESCE(h.als_batal,'')='' WHERE d.tgl_hapus IS NULL GROUP BY d.stock_id) r ON r.sid=s.id`,
         cols: [
           { sql: "COALESCE(s.kode_c, s.kode_c_2, s.id::text)", label: "Kode" }, { sql: "COALESCE(s.nama,'')", label: "Nama" },
           { sql: "j.j::text", label: "Jumlah Jual", align: "r" },
@@ -764,7 +822,7 @@ export const ENGINE_RULES: EngineRule[] = [
           { sql: "round(COALESCE(SUM(d.ppn_nilai),0),2)::text", label: "PPN", align: "r" },
         ],
         where: `d.tgl_hapus IS NULL AND ${aktif}`,
-        groupBy: "COALESCE(s.kode_c, s.kode_c_2, d.stock_id::text), COALESCE(s.nama,'')",
+        groupBy: "GROUP BY COALESCE(s.kode_c, s.kode_c_2, d.stock_id::text), COALESCE(s.nama,'')",
         orderBy: "1", catatan: "Penjualan per barang + PPN (Tax)" + (pick(c, "global") ? " + Global Disc header" : ""),
       };
       if (pick(c, "kelompok")) return salesPerBarang(c, "gf.s_penjua", "gf.s_penjud", "penjua_id", true);
@@ -996,6 +1054,820 @@ export const ENGINE_RULES: EngineRule[] = [
         orderBy: "h.tanggal DESC, h.id DESC",
         catatan: "Penjualan eceran (nota s_ecrlst + baris s_penecr)",
       };
+    },
+  },
+  // ===== ITEM & STOCK (013) =====
+  {
+    id: "itemstock-013",
+    test: (c) => c.file.startsWith("013 "),
+    build: (c): LapSpec | null => {
+      if (pick(c, "terbanyak")) return {
+        base: "FROM gf.s_penjud d JOIN gf.s_penjua h ON h.id=d.penjua_id AND COALESCE(h.als_batal,'')='' LEFT JOIN gf.s_stock s ON s.id=d.stock_id",
+        cols: [
+          { sql: KODE, label: "Kode" }, { sql: "COALESCE(s.nama,'')", label: "Nama" },
+          { sql: "COALESCE(SUM(d.jumlah),0)::text", label: "Jumlah", align: "r" },
+        ],
+        where: "d.tgl_hapus IS NULL", groupBy: `GROUP BY ${KODE}, COALESCE(s.nama,'')`, orderBy: "3 DESC",
+        catatan: "Barang jual terbanyak (agregasi s_penjud)",
+      };
+      if (pick(c, "tidak terjual")) return {
+        base: `FROM gf.s_stock s LEFT JOIN (SELECT d.stock_id sid, COALESCE(SUM(d.jumlah),0) j FROM gf.s_penjud d JOIN gf.s_penjua h ON h.id=d.penjua_id AND COALESCE(h.als_batal,'')='' WHERE d.tgl_hapus IS NULL GROUP BY d.stock_id) j ON j.sid=s.id`,
+        cols: [
+          { sql: "COALESCE(s.kode_c, s.kode_c_2, s.id::text)", label: "Kode" }, { sql: "COALESCE(s.nama,'')", label: "Nama" },
+          { sql: "COALESCE(j.j,0)::text", label: "Jumlah Jual", align: "r" },
+        ],
+        where: "COALESCE(j.j,0)=0", orderBy: "1",
+        catatan: "Barang tidak terjual (stock tanpa penjualan aktif)",
+      };
+      const nilai = pick(c, "nilai");
+      const mut = pick(c, "mutasi");
+      return {
+        base: `FROM gf.s_stock s
+          LEFT JOIN (SELECT stock_id sid, SUM(jumlah) j, SUM(jumlah*COALESCE(hpp,0)) n FROM gf.s_stkmex WHERE tgl_hapus IS NULL GROUP BY stock_id) m ON m.sid=s.id
+          LEFT JOIN (SELECT stock_id sid, SUM(jumlah) j, SUM(jumlah*COALESCE(hpp,0)) n FROM gf.s_stkkex WHERE tgl_hapus IS NULL GROUP BY stock_id) k ON k.sid=s.id`,
+        cols: [
+          { sql: "COALESCE(s.kode_c, s.kode_c_2, s.id::text)", label: "Kode" }, { sql: "COALESCE(s.nama,'')", label: "Nama" },
+          { sql: "COALESCE(m.j,0)::text", label: "Masuk", align: "r" },
+          { sql: "COALESCE(k.j,0)::text", label: "Keluar", align: "r" },
+          { sql: "(COALESCE(m.j,0)-COALESCE(k.j,0))::text", label: "Saldo", align: "r" },
+          ...(nilai
+            ? ([
+                { sql: "round(COALESCE(m.n,0)-COALESCE(k.n,0),2)::text", label: "Nilai Beli", align: "r" },
+                { sql: "COALESCE(s.harga_j_01,0)::text", label: "Harga Jual", align: "r" },
+              ] as LapCol[])
+            : []),
+        ],
+        where: "(COALESCE(m.j,0)+COALESCE(k.j,0))<>0",
+        orderBy: "1",
+        catatan: mut
+          ? "Mutasi stock dari s_stkmex/s_stkkex (masuk/keluar/saldo) — rekap total"
+          : "Nilai/sisa stock dari s_stkmex/s_stkkex (saldo qty & nilai beli) — rekap total",
+      };
+    },
+  },
+  // ===== KEUANGAN / GL =====
+  {
+    id: "gl-001-kurs",
+    test: (c) => c.file.startsWith("001 "),
+    build: (c) => ({
+      base: "FROM gf.s_kursma h LEFT JOIN gf.s_mauang m ON m.id=h.mauang_id",
+      cols: pick(c, "chart")
+        ? [
+            { sql: tgl(), label: "Tanggal" },
+            { sql: "round(COALESCE(AVG(h.kurs_beli),0),4)::text", label: "Kurs Beli (rata)", align: "r" },
+          ]
+        : [
+            { sql: tgl(), label: "Tanggal" },
+            { sql: "COALESCE(m.mata_uang, m.kode, '')", label: "Mata Uang" },
+            { sql: "COALESCE(h.kurs_beli,0)::text", label: "Kurs Beli", align: "r" },
+            { sql: "COALESCE(h.kurs_jual,0)::text", label: "Kurs Jual", align: "r" },
+            { sql: "COALESCE(h.kurs_pajak,0)::text", label: "Kurs Pajak", align: "r" },
+            { sql: "COALESCE(h.kurs_buku,0)::text", label: "Kurs Buku", align: "r" },
+          ],
+      where: "COALESCE(h.hapus_oleh,0)=0",
+      groupBy: pick(c, "chart") ? `GROUP BY ${tgl()}` : undefined,
+      orderBy: pick(c, "chart") ? "1" : "h.tanggal DESC",
+      catatan: pick(c, "chart") ? "Perubahan kurs (chart disajikan tabel rata-rata per tanggal)" : "Riwayat kurs (s_kursma)",
+    }),
+  },
+  {
+    id: "gl-802-aktiva",
+    test: (c) => c.file.startsWith("802 "),
+    build: () => ({
+      base: "FROM gf.s_aktttp h LEFT JOIN (SELECT aktttp_id aid, SUM(biaya) b FROM gf.s_akttex WHERE tgl_hapus IS NULL GROUP BY aktttp_id) t ON t.aid=h.id",
+      cols: [
+        { sql: "COALESCE(h.kode,'')", label: "Kode" }, { sql: "COALESCE(h.nama,'')", label: "Nama" },
+        { sql: tgl("h.tgl_beli"), label: "Tgl Beli" },
+        { sql: num("h.harga_beli"), label: "Harga Beli", align: "r" },
+        { sql: "round(COALESCE(t.b,0),2)::text", label: "Total Biaya", align: "r" },
+        { sql: "round(COALESCE(h.harga_beli,0)-COALESCE(t.b,0),2)::text", label: "Nilai Buku", align: "r" },
+      ],
+      where: "COALESCE(h.hapus_oleh,0)=0",
+      orderBy: "1",
+      catatan: "Aktiva tetap + akumulasi biaya (s_aktttp/s_akttex)",
+    }),
+  },
+  {
+    id: "gl-861-pendapatan-biaya",
+    test: (c) => c.file.startsWith("861 "),
+    build: () => ({
+      base: "FROM gf.s_jurnex x JOIN gf.s_jurnal j ON j.id=x.jurnal_id LEFT JOIN gf.s_perkir p ON p.id=x.perkir_id",
+      cols: [
+        { sql: "COALESCE(p.nama,'(tanpa perkiraan)')", label: "Perkiraan" },
+        { sql: "round(COALESCE(SUM(CASE WHEN COALESCE(x.debet,false) THEN x.nilai ELSE 0 END),0),2)::text", label: "Debet", align: "r" },
+        { sql: "round(COALESCE(SUM(CASE WHEN NOT COALESCE(x.debet,false) THEN x.nilai ELSE 0 END),0),2)::text", label: "Kredit", align: "r" },
+      ],
+      where: "COALESCE(j.hapus_oleh,0)=0 AND x.tgl_hapus IS NULL",
+      groupBy: "GROUP BY COALESCE(p.nama,'(tanpa perkiraan)')",
+      orderBy: "1",
+      catatan: "Pendapatan & Biaya per perkiraan (s_jurnex; debet=kredit balance)",
+    }),
+  },
+  {
+    id: "gl-881-hpp",
+    test: (c) => c.file.startsWith("881 "),
+    build: (c) => {
+      const aktif = "COALESCE(h.als_batal,'')=''";
+      const agg = (doc: string, lineJoin: string, fk: string, hppExpr: string, label: string): LapSpec => ({
+        base: `FROM ${doc} h JOIN ${lineJoin} d ON d.${fk}=h.id LEFT JOIN gf.s_stock s ON s.id=d.stock_id`,
+        cols: [
+          { sql: KODE, label: "Kode" }, { sql: "COALESCE(s.nama,'')", label: "Nama" },
+          { sql: "COALESCE(SUM(d.jumlah),0)::text", label: "Jumlah", align: "r" },
+          { sql: `round(COALESCE(SUM(${hppExpr}),0),2)::text`, label: "Nilai HPP", align: "r" },
+        ],
+        where: `${aktif} AND d.tgl_hapus IS NULL`,
+        groupBy: `GROUP BY ${KODE}, COALESCE(s.nama,'')`,
+        orderBy: "1",
+        catatan: `HP ${label} per barang (${lineJoin})`,
+      });
+      if (pick(c, "masuk lainnya")) return agg("gf.s_stkmas", "gf.s_stkmex", "stkmas_id", "d.jumlah*COALESCE(d.hpp,0)", "Barang Masuk Lainnya");
+      if (pick(c, "keluar lainnya")) return agg("gf.s_stkklr", "gf.s_stkkex", "stkklr_id", "d.jumlah*COALESCE(d.hpp,0)", "Barang Keluar Lainnya");
+      if (pick(c, "pindah gudang")) return agg("gf.s_stkpin", "gf.s_stkpex", "stkpin_id", "d.jumlah*COALESCE(d.hpp,0)", "Barang Pindah Gudang");
+      if (pick(c, "rusak")) return agg("gf.s_retpen", "gf.s_retpjd", "retpen_id", "COALESCE(d.jml_rusak,0)*COALESCE(d.hpp_rusak,0)", "Barang Rusak Retur Penjualan");
+      if (pick(c, "untransfer")) return agg("gf.s_stktra", "gf.s_stktex", "stktra_id", "d.jumlah*COALESCE(d.hpp,0)", "Barang UnTransfer");
+      if (pick(c, "transfer")) return agg("gf.s_stktra", "gf.s_stktex", "stktra_id", "d.jumlah*COALESCE(d.hpp,0)", "Barang Transfer");
+      if (pick(c, "produksi")) return {
+        base: "FROM gf.s_prodsi h LEFT JOIN gf.s_prditm p ON p.id=h.prditm_id LEFT JOIN gf.s_stock s ON s.id=p.stock_id",
+        cols: [
+          { sql: "COALESCE(s.kode_c, s.kode_c_2, p.stock_id::text)", label: "Kode" }, { sql: "COALESCE(s.nama,'')", label: "Nama" },
+          { sql: "COALESCE(SUM(h.jumlah),0)::text", label: "Jumlah", align: "r" },
+          { sql: "round(COALESCE(SUM(COALESCE(h.per1_nil,0)+COALESCE(h.per2_nil,0)+COALESCE(h.per3_nil,0)),0),2)::text", label: "Nilai HPP", align: "r" },
+        ],
+        where: aktif,
+        groupBy: "GROUP BY COALESCE(s.kode_c, s.kode_c_2, p.stock_id::text), COALESCE(s.nama,'')",
+        orderBy: "1",
+        catatan: "HP Barang Produksi (s_prodsi; nilai = per1+per2+per3)",
+      };
+      if (pick(c, "transaksi")) {
+        const net = "round(COALESCE(SUM(h.tot_harga - COALESCE(h.tot_disc,0)),0),2)::text";
+        if (pick(c, "divisi")) return {
+          base: `FROM gf.s_penjua h ${DIV}`,
+          cols: [
+            { sql: "COALESCE(dv.divisi,'(tanpa divisi)')", label: "Divisi" },
+            { sql: "count(*)::text", label: "Jml Nota", align: "r" }, { sql: net, label: "Nilai", align: "r" },
+          ],
+          where: aktif, groupBy: "GROUP BY COALESCE(dv.divisi,'(tanpa divisi)')", orderBy: "1",
+          catatan: "Total transaksi per divisi (s_penjua)",
+        };
+        if (pick(c, "gudang")) return {
+          base: "FROM gf.s_penjua h",
+          cols: [
+            { sql: "COALESCE(h.gudang::text,'')", label: "Gudang" },
+            { sql: "count(*)::text", label: "Jml Nota", align: "r" }, { sql: net, label: "Nilai", align: "r" },
+          ],
+          where: aktif, groupBy: "GROUP BY COALESCE(h.gudang::text,'')", orderBy: "1",
+          catatan: "Total transaksi per gudang (s_penjua.gudang)",
+        };
+        if (pick(c, "kelompok")) return {
+          base: "FROM gf.s_penjud d JOIN gf.s_penjua h ON h.id=d.penjua_id LEFT JOIN gf.s_stock s ON s.id=d.stock_id LEFT JOIN gf.s_grpstk gs ON gs.id=s.group_stk",
+          cols: [
+            { sql: "COALESCE(gs.nama,'(tanpa kelompok)')", label: "Kelompok Barang" },
+            { sql: "count(DISTINCT h.id)::text", label: "Jml Nota", align: "r" },
+            { sql: "round(COALESCE(SUM(d.jumlah*d.harga*(1-COALESCE(d.disc_pers,0)/100)),0),2)::text", label: "Nilai", align: "r" },
+          ],
+          where: `d.tgl_hapus IS NULL AND ${aktif}`, groupBy: "GROUP BY COALESCE(gs.nama,'(tanpa kelompok)')", orderBy: "1",
+          catatan: "Total transaksi per kelompok barang (s_penjud)",
+        };
+        if (pick(c, "tunai")) return {
+          base: "FROM gf.s_penjua h",
+          cols: [
+            { sql: tgl(), label: "Tanggal" }, { sql: "count(*)::text", label: "Jml Nota", align: "r" }, { sql: net, label: "Nilai", align: "r" },
+          ],
+          where: `${aktif} AND COALESCE(h.lun_tipe_1,0)=1`, groupBy: `GROUP BY ${tgl()}`, orderBy: "1",
+          catatan: "Total transaksi tunai (lun_tipe_1=1) per tanggal",
+        };
+        return {
+          base: "FROM gf.s_penjua h",
+          cols: [
+            { sql: tgl(), label: "Tanggal" }, { sql: "count(*)::text", label: "Jml Nota", align: "r" }, { sql: net, label: "Nilai", align: "r" },
+          ],
+          where: aktif, groupBy: `GROUP BY ${tgl()}`, orderBy: "1",
+          catatan: "Total transaksi per tanggal (s_penjua)",
+        };
+      }
+      const lunas = pick(c, "lunas");
+      return {
+        base: "FROM gf.s_penjud d JOIN gf.s_penjua h ON h.id=d.penjua_id LEFT JOIN gf.s_stock s ON s.id=d.stock_id",
+        cols: [
+          { sql: KODE, label: "Kode" }, { sql: "COALESCE(s.nama,'')", label: "Nama" },
+          { sql: "COALESCE(SUM(d.jumlah),0)::text", label: "Jumlah", align: "r" },
+          { sql: "round(COALESCE(SUM(d.jumlah*COALESCE(d.hpp,0)),0),2)::text", label: "Nilai HPP", align: "r" },
+        ],
+        where: `d.tgl_hapus IS NULL AND ${aktif}${lunas ? " AND h.clear_ar IS NOT NULL" : ""}`,
+        groupBy: `GROUP BY ${KODE}, COALESCE(s.nama,'')`,
+        orderBy: "1",
+        catatan: `HPP penjualan per barang (s_penjud.hpp)${lunas ? " — hanya nota LUNAS (clear_ar)" : ""}`,
+      };
+    },
+  },
+  {
+    id: "gl-882-penjualan-piutang",
+    test: (c) => c.file.startsWith("882 "),
+    build: () => ({
+      base: `FROM gf.s_pelang p
+        LEFT JOIN (SELECT j.pelang pid, SUM(j.tot_harga - COALESCE(j.tot_disc,0) + COALESCE(j.ppn_nilai,0)) jual FROM gf.s_penjua j WHERE COALESCE(j.als_batal,'')='' GROUP BY j.pelang) jj ON jj.pid=p.id
+        LEFT JOIN (SELECT p2.pelang pid, SUM(COALESCE(p2.tot_harga,0)-COALESCE(p2.tot_disc,0)+COALESCE(p2.ppn_nilai,0)-COALESCE(b.bayar,0)-COALESCE(r.retur,0)) sisa
+          FROM gf.s_penjua p2
+          LEFT JOIN (SELECT l.penjua_id pid, SUM(l.lunas - COALESCE(l.discount,0) + COALESCE(l.denda,0)) bayar FROM gf.s_lunpen l JOIN gf.s_lpenma m ON m.id=l.lpenma_id AND COALESCE(m.hapus_oleh,0)=0 GROUP BY l.penjua_id) b ON b.pid=p2.id
+          LEFT JOIN (SELECT rp.penjua_id pid, SUM(rp.tot_harga) retur FROM gf.s_retpen rp WHERE COALESCE(rp.hapus_oleh,0)=0 GROUP BY rp.penjua_id) r ON r.pid=p2.id
+          WHERE COALESCE(p2.als_batal,'')='' GROUP BY p2.pelang) rr ON rr.pid=p.id`,
+      cols: [
+        { sql: "COALESCE(p.nama,'')", label: "Pelanggan" },
+        { sql: "round(COALESCE(jj.jual,0),2)::text", label: "Penjualan", align: "r" },
+        { sql: "round(GREATEST(COALESCE(rr.sisa,0),0),2)::text", label: "Sisa Piutang", align: "r" },
+      ],
+      where: "COALESCE(p.hapus_oleh,0)=0 AND (COALESCE(jj.jual,0)<>0 OR COALESCE(rr.sisa,0)<>0)",
+      orderBy: "1",
+      catatan: "Rekap Penjualan & Sisa Piutang per pelanggan (s_penjua/s_lunpen/s_retpen)",
+    }),
+  },
+  {
+    id: "gl-883-pembelian-hutang",
+    test: (c) => c.file.startsWith("883 "),
+    build: () => ({
+      base: `FROM gf.s_vendor v
+        LEFT JOIN (SELECT p.vendor vid, SUM(p.tot_harga - COALESCE(p.tot_disc,0) + COALESCE(p.ppn_nilai,0)) beli FROM gf.s_pembel p WHERE COALESCE(p.als_batal,'')='' GROUP BY p.vendor) bb ON bb.vid=v.id
+        LEFT JOIN (SELECT p2.vendor vid, SUM(COALESCE(p2.tot_harga,0)-COALESCE(p2.tot_disc,0)+COALESCE(p2.ppn_nilai,0)-COALESCE(b.bayar,0)-COALESCE(r.retur,0)) sisa
+          FROM gf.s_pembel p2
+          LEFT JOIN (SELECT l.pembel_id pid, SUM(l.lunas - COALESCE(l.discount,0) + COALESCE(l.denda,0)) bayar FROM gf.s_lunpem l JOIN gf.s_lpemma m ON m.id=l.lpemma_id AND COALESCE(m.hapus_oleh,0)=0 GROUP BY l.pembel_id) b ON b.pid=p2.id
+          LEFT JOIN (SELECT rp.pembel_id pid, SUM(rp.tot_harga) retur FROM gf.s_retpem rp WHERE COALESCE(rp.hapus_oleh,0)=0 GROUP BY rp.pembel_id) r ON r.pid=p2.id
+          WHERE COALESCE(p2.als_batal,'')='' GROUP BY p2.vendor) rr ON rr.vid=v.id`,
+      cols: [
+        { sql: "COALESCE(v.nama,'')", label: "Vendor" },
+        { sql: "round(COALESCE(bb.beli,0),2)::text", label: "Pembelian", align: "r" },
+        { sql: "round(GREATEST(COALESCE(rr.sisa,0),0),2)::text", label: "Sisa Hutang", align: "r" },
+      ],
+      where: "COALESCE(v.hapus_oleh,0)=0 AND (COALESCE(bb.beli,0)<>0 OR COALESCE(rr.sisa,0)<>0)",
+      orderBy: "1",
+      catatan: "Rekap Pembelian & Sisa Hutang per vendor (s_pembel/s_lunpem/s_retpem)",
+    }),
+  },
+  // ===== LAINNYA (701/711/721/731/741/751/761/781) =====
+  {
+    id: "lain-701-promosi",
+    test: (c) => c.file.startsWith("701 "),
+    build: () => ({
+      base: "FROM gf.s_promos h",
+      cols: [
+        { sql: "h.id::text", label: "ID" },
+        { sql: tgl("h.tanggal_1"), label: "Tgl Awal" }, { sql: tgl("h.tanggal_2"), label: "Tgl Akhir" },
+        { sql: "COALESCE(h.hari,'')", label: "Hari" }, { sql: "COALESCE(h.catatan,'')", label: "Catatan" },
+      ],
+      where: "COALESCE(h.hapus_oleh,0)=0",
+      orderBy: "h.id DESC",
+      catatan: "Promosi (s_promos)",
+    }),
+  },
+  {
+    id: "lain-711-promo-detail",
+    test: (c) => c.file.startsWith("711 "),
+    build: () => ({
+      base: "FROM gf.s_prome1 x JOIN gf.s_promos h ON h.id=x.promos_id",
+      cols: [
+        { sql: "h.id::text", label: "Promo" },
+        { sql: tgl("h.tanggal_1"), label: "Tgl Awal" }, { sql: tgl("h.tanggal_2"), label: "Tgl Akhir" },
+        { sql: num("x.harga_dari"), label: "Harga Dari", align: "r" }, { sql: num("x.harga_sd"), label: "Harga Sd", align: "r" },
+        { sql: "COALESCE(x.disc_pers,0)::text", label: "Disc%", align: "r" }, { sql: num("x.disc_nilai"), label: "Disc Nilai", align: "r" },
+      ],
+      where: "x.tgl_hapus IS NULL",
+      orderBy: "h.id DESC",
+      catatan: "Barang promosi detail (s_prome1: rentang harga + disc)",
+    }),
+  },
+  {
+    id: "lain-721-transfer",
+    test: (c) => c.file.startsWith("721 ") || c.file.startsWith("731 "),
+    build: (c) => {
+      const un = c.file.startsWith("731 ");
+      if (pick(c, "detail")) return modWithLines("gf.s_stktra", "gf.s_stktex", "stktra_id", "h.id::text");
+      if (pick(c, "kelompok")) return modPerBarang(c, "gf.s_stktra", "gf.s_stktex", "stktra_id", true);
+      if (any(c, "per barang", "total")) return modPerBarang(c, "gf.s_stktra", "gf.s_stktex", "stktra_id", false);
+      return modList("gf.s_stktra", "h.id::text", whereBatal(c));
+    },
+  },
+  {
+    id: "lain-741-pindah",
+    test: (c) => c.file.startsWith("741 "),
+    build: (c) => {
+      if (pick(c, "detail")) return modWithLines("gf.s_stkpin", "gf.s_stkpex", "stkpin_id", "h.no::text");
+      if (any(c, "per barang", "total")) return modPerBarang(c, "gf.s_stkpin", "gf.s_stkpex", "stkpin_id", false);
+      return modList("gf.s_stkpin", "h.no::text", whereBatal(c));
+    },
+  },
+  {
+    id: "lain-751-masuk",
+    test: (c) => c.file.startsWith("751 "),
+    build: (c) => {
+      if (pick(c, "detail")) return modWithLines("gf.s_stkmas", "gf.s_stkmex", "stkmas_id", "h.no::text");
+      if (pick(c, "kelompok")) return modPerBarang(c, "gf.s_stkmas", "gf.s_stkmex", "stkmas_id", true);
+      if (any(c, "per barang", "total")) return modPerBarang(c, "gf.s_stkmas", "gf.s_stkmex", "stkmas_id", false);
+      return modList("gf.s_stkmas", "h.no::text", whereBatal(c));
+    },
+  },
+  {
+    id: "lain-761-keluar",
+    test: (c) => c.file.startsWith("761 "),
+    build: (c) => {
+      if (pick(c, "detail")) return modWithLines("gf.s_stkklr", "gf.s_stkkex", "stkklr_id", "h.no::text");
+      if (pick(c, "kelompok")) return modPerBarang(c, "gf.s_stkklr", "gf.s_stkkex", "stkklr_id", true);
+      if (any(c, "per barang", "total")) return modPerBarang(c, "gf.s_stkklr", "gf.s_stkkex", "stkklr_id", false);
+      return modList("gf.s_stkklr", "h.no::text", whereBatal(c));
+    },
+  },
+  {
+    id: "lain-781-repair",
+    test: (c) => c.file.startsWith("781 "),
+    build: (c) => {
+      if (pick(c, "detail")) return {
+        base: "FROM gf.s_stkrep h LEFT JOIN gf.s_stock s ON s.id=h.stock_id",
+        cols: [
+          { sql: "h.no::text", label: "No" }, { sql: tgl(), label: "Tanggal" }, { sql: "COALESCE(h.pel_nama,'')", label: "Pelanggan" },
+          { sql: "COALESCE(s.kode_c, s.kode_c_2, h.stock_id::text)", label: "Kode" }, { sql: "COALESCE(s.nama,'')", label: "Nama" },
+          { sql: tgl("h.tgl_sls"), label: "Tgl SLS" }, { sql: tgl("h.tgl_kemb"), label: "Tgl Kembali" },
+          { sql: "COALESCE(h.catatan,'')", label: "Catatan" }, { sql: alasan, label: "Alasan Batal" },
+        ],
+        where: whereBatal(c),
+        orderBy: "h.id DESC",
+        catatan: "Barang repair detail (s_stkrep)",
+      };
+      if (any(c, "per barang", "total", "kelompok")) return {
+        base: "FROM gf.s_stkrep h LEFT JOIN gf.s_stock s ON s.id=h.stock_id",
+        cols: [
+          { sql: "COALESCE(s.kode_c, s.kode_c_2, h.stock_id::text)", label: "Kode" }, { sql: "COALESCE(s.nama,'')", label: "Nama" },
+          { sql: "count(*)::text", label: "Jml Repair", align: "r" },
+        ],
+        where: whereBatal(c),
+        groupBy: "GROUP BY COALESCE(s.kode_c, s.kode_c_2, h.stock_id::text), COALESCE(s.nama,'')",
+        orderBy: "3 DESC",
+        catatan: "Barang repair per barang (count dari s_stkrep)",
+      };
+      return modList("gf.s_stkrep", "h.no::text", whereBatal(c));
+    },
+  },
+  // ===== PELANGGAN (032) =====
+  {
+    id: "pelanggan-032-point",
+    test: (c) => c.file.startsWith("032 "),
+    build: () => ({
+      base: `FROM gf.s_pelang p
+        LEFT JOIN (SELECT j.pelang pid, SUM(j.tot_harga - COALESCE(j.tot_disc,0)) belanja FROM gf.s_penjua j WHERE COALESCE(j.als_batal,'')='' GROUP BY j.pelang) jj ON jj.pid=p.id`,
+      cols: [
+        { sql: "COALESCE(p.nama,'')", label: "Pelanggan" },
+        { sql: "round(COALESCE(jj.belanja,0),2)::text", label: "Nilai Belanja", align: "r" },
+      ],
+      where: "COALESCE(p.hapus_oleh,0)=0 AND COALESCE(jj.belanja,0)<>0",
+      orderBy: "2 DESC",
+      catatan: "Point pelanggan: tabel poin tidak ada di subset DB minimarket — ditampilkan nilai belanja sebagai referensi",
+    }),
+  },
+  // ===== FORM / TEMPLATE CETAK (77) — print preview minimal =====
+  {
+    id: "form-template",
+    test: (c) => c.file.startsWith("Form "),
+    build: (c): LapSpec | null => {
+      const nota = (tbl: string, extra: LapCol[] = []): LapSpec => ({
+        base: `FROM gf.${tbl} h ${DIV}`,
+        cols: [
+          { sql: "COALESCE(h.no_c, h.no::text)", label: "No" }, { sql: tgl(), label: "Tanggal" },
+          ...extra,
+          { sql: "COALESCE(h.catatan,'')", label: "Catatan" },
+        ],
+        where: "COALESCE(h.hapus_oleh,0)=0",
+        orderBy: "h.id DESC",
+        catatan: `Template cetak — preview data ${tbl} (print preview minimal)`,
+      });
+      const stockList = (doc: string, lineJoin: string, fk: string, noExpr: string, label: string): LapSpec => ({
+        base: `FROM ${doc} h JOIN ${lineJoin} d ON d.${fk}=h.id LEFT JOIN gf.s_stock s ON s.id=d.stock_id`,
+        cols: [
+          { sql: noExpr, label: "No" }, { sql: tgl(), label: "Tanggal" },
+          { sql: "COALESCE(s.kode_c, s.kode_c_2, d.stock_id::text)", label: "Kode" }, { sql: "COALESCE(s.nama,'')", label: "Nama" },
+          { sql: "COALESCE(d.jumlah,0)::text", label: "Jumlah", align: "r" },
+        ],
+        where: `COALESCE(h.als_batal,'')='' AND d.tgl_hapus IS NULL`,
+        orderBy: "h.id DESC, d.sys_id",
+        catatan: `Template cetak — preview ${label} (print preview minimal)`,
+      });
+      if (pick(c, "barcode") || (pick(c, "label") && !pick(c, "harga") && !pick(c, "pembelian"))) return {
+        base: "FROM gf.s_stock s",
+        cols: [
+          { sql: "COALESCE(s.kode_c, s.kode_c_2, s.id::text)", label: "Kode" }, { sql: "COALESCE(s.nama,'')", label: "Nama" },
+          { sql: "COALESCE(s.harga_j_01,0)::text", label: "Harga Jual", align: "r" },
+        ],
+        where: "COALESCE(s.hapus_oleh,0)=0", orderBy: "1",
+        catatan: "Template cetak Barcode/Label — preview item (print preview minimal)",
+      };
+      if (pick(c, "amplop pelanggan")) return {
+        base: "FROM gf.s_pelang h",
+        cols: [{ sql: "COALESCE(h.nama,'')", label: "Pelanggan" }, { sql: "COALESCE(h.alamat,'')", label: "Alamat" }],
+        where: "COALESCE(h.hapus_oleh,0)=0", orderBy: "1", catatan: "Template amplop pelanggan (print preview minimal)",
+      };
+      if (pick(c, "amplop vendor")) return {
+        base: "FROM gf.s_vendor h",
+        cols: [{ sql: "COALESCE(h.nama,'')", label: "Vendor" }, { sql: "COALESCE(h.alamat,'')", label: "Alamat" }],
+        where: "COALESCE(h.hapus_oleh,0)=0", orderBy: "1", catatan: "Template amplop vendor (print preview minimal)",
+      };
+      if (pick(c, "user code")) return {
+        base: 'FROM gf.s_secusr h',
+        cols: [{ sql: 'COALESCE(h."user",\'\')', label: "User" }, { sql: "h.id::text", label: "ID" }],
+        where: "COALESCE(h.hapus_oleh,0)=0", orderBy: "1", catatan: "Template user code (print preview minimal)",
+      };
+      if (pick(c, "bayar hutang")) return {
+        base: "FROM gf.s_lpemma h",
+        cols: [
+          { sql: "h.no::text", label: "No" }, { sql: tgl(), label: "Tanggal" },
+          { sql: "round(COALESCE((SELECT SUM(l.lunas - COALESCE(l.discount,0) + COALESCE(l.denda,0)) FROM gf.s_lunpem l WHERE l.lpemma_id=h.id),0),2)::text", label: "Nilai Bayar", align: "r" },
+        ],
+        where: "COALESCE(h.hapus_oleh,0)=0", orderBy: "h.id DESC", catatan: "Template Bayar Hutang (print preview minimal)",
+      };
+      if (pick(c, "bayar piutang") || pick(c, "daftar penerimaan piutang")) return {
+        base: "FROM gf.s_lpenma h",
+        cols: [
+          { sql: "COALESCE(h.no_c, h.no::text)", label: "No" }, { sql: tgl(), label: "Tanggal" },
+          { sql: "round(COALESCE((SELECT SUM(l.lunas - COALESCE(l.discount,0) + COALESCE(l.denda,0)) FROM gf.s_lunpen l WHERE l.lpenma_id=h.id),0),2)::text", label: "Nilai Terima", align: "r" },
+        ],
+        where: "COALESCE(h.hapus_oleh,0)=0", orderBy: "h.id DESC", catatan: "Template Bayar/Penerimaan Piutang (print preview minimal)",
+      };
+      if (pick(c, "tagihan hutang") || pick(c, "sisa hutang") || pick(c, "kartu hutang")) return {
+        base: "FROM gf.s_pembel h LEFT JOIN gf.s_vendor v ON v.id=h.vendor",
+        cols: [
+          { sql: "COALESCE(h.no::text,'')", label: "No" }, { sql: tgl(), label: "Tanggal" }, { sql: "COALESCE(v.nama,'')", label: "Vendor" },
+          { sql: "round(COALESCE(h.tot_harga,0)+COALESCE(h.ppn_nilai,0),2)::text", label: "Total", align: "r" },
+        ],
+        where: "COALESCE(h.hapus_oleh,0)=0", orderBy: "h.id DESC", catatan: "Template Tagihan/Sisa Hutang (print preview minimal)",
+      };
+      if (pick(c, "tagihan piutang") || pick(c, "sisa piutang") || pick(c, "kartu piutang")) return {
+        base: "FROM gf.s_penjua h",
+        cols: [
+          { sql: "COALESCE(h.no_c, h.no::text)", label: "No" }, { sql: tgl(), label: "Tanggal" }, { sql: PEL, label: "Pelanggan" },
+          { sql: "round(COALESCE(h.tot_harga,0)-COALESCE(h.tot_disc,0)+COALESCE(h.ppn_nilai,0),2)::text", label: "Total", align: "r" },
+        ],
+        where: "COALESCE(h.hapus_oleh,0)=0", orderBy: "h.id DESC", catatan: "Template Tagihan/Sisa Piutang (print preview minimal)",
+      };
+      if (pick(c, "buku besar") || pick(c, "jurnal")) return {
+        base: "FROM gf.s_jurnal h",
+        cols: [
+          { sql: "COALESCE(h.no::text,'')", label: "No" }, { sql: tgl(), label: "Tanggal" },
+          { sql: "CASE h.jenis WHEN 1 THEN 'Umum' WHEN 2 THEN 'Penerimaan' WHEN 3 THEN 'Pengeluaran' WHEN 4 THEN 'Penutup' ELSE h.jenis::text END", label: "Jenis" },
+          { sql: "COALESCE(h.catatan,'')", label: "Catatan" },
+        ],
+        where: "COALESCE(h.hapus_oleh,0)=0", orderBy: "h.id DESC", catatan: "Template Buku Besar/Jurnal (print preview minimal)",
+      };
+      if (pick(c, "buku kas") || pick(c, "biaya keluar") || pick(c, "kas keluar")) return nota("s_kasklr");
+      if (pick(c, "kas masuk")) return nota("s_kasmsk");
+      if (pick(c, "kas transfer")) return nota("s_kasmsk");
+      if (pick(c, "ch bg")) return {
+        base: "FROM gf.s_kasmex h",
+        cols: [
+          { sql: "h.no::text", label: "No" }, { sql: tgl(), label: "Tanggal" },
+          { sql: num("h.nilai"), label: "Nilai", align: "r" },
+        ],
+        where: "h.lunas_cair IS NULL", orderBy: "h.sys_id DESC",
+        catatan: "Template CH/BG Gantung — CH/BG belum cair (print preview minimal)",
+      };
+      if (pick(c, "credit note pembelian")) return {
+        base: "FROM gf.s_dcnhut h LEFT JOIN gf.s_vendor v ON v.id=h.vendor",
+        cols: [
+          { sql: "COALESCE(h.no::text,'')", label: "No" }, { sql: tgl(), label: "Tanggal" }, { sql: "COALESCE(v.nama,'')", label: "Vendor" },
+          { sql: num("h.tot_harga"), label: "Nilai", align: "r" },
+        ],
+        where: "COALESCE(h.hapus_oleh,0)=0 AND COALESCE(h.credit,false)=true", orderBy: "h.id DESC",
+        catatan: "Template Credit Note Pembelian (print preview minimal)",
+      };
+      if (pick(c, "debit note pembelian")) return {
+        base: "FROM gf.s_dcnhut h LEFT JOIN gf.s_vendor v ON v.id=h.vendor",
+        cols: [
+          { sql: "COALESCE(h.no::text,'')", label: "No" }, { sql: tgl(), label: "Tanggal" }, { sql: "COALESCE(v.nama,'')", label: "Vendor" },
+          { sql: num("h.tot_harga"), label: "Nilai", align: "r" },
+        ],
+        where: "COALESCE(h.hapus_oleh,0)=0 AND COALESCE(h.credit,false)=false", orderBy: "h.id DESC",
+        catatan: "Template Debit Note Pembelian (print preview minimal)",
+      };
+      if (pick(c, "credit note penjualan")) return {
+        base: "FROM gf.s_dcnpiu h",
+        cols: [
+          { sql: NAC, label: "No" }, { sql: tgl(), label: "Tanggal" }, { sql: PEL, label: "Pelanggan" },
+          { sql: num("h.tot_harga"), label: "Nilai", align: "r" },
+        ],
+        where: "COALESCE(h.hapus_oleh,0)=0 AND COALESCE(h.credit,false)=true", orderBy: "h.id DESC",
+        catatan: "Template Credit Note Penjualan (print preview minimal)",
+      };
+      if (pick(c, "debit note penjualan")) return {
+        base: "FROM gf.s_dcnpiu h",
+        cols: [
+          { sql: NAC, label: "No" }, { sql: tgl(), label: "Tanggal" }, { sql: PEL, label: "Pelanggan" },
+          { sql: num("h.tot_harga"), label: "Nilai", align: "r" },
+        ],
+        where: "COALESCE(h.hapus_oleh,0)=0 AND COALESCE(h.credit,false)=false", orderBy: "h.id DESC",
+        catatan: "Template Debit Note Penjualan (print preview minimal)",
+      };
+      if (pick(c, "aktiva")) return {
+        base: "FROM gf.s_aktttp h",
+        cols: [
+          { sql: "COALESCE(h.kode,'')", label: "Kode" }, { sql: "COALESCE(h.nama,'')", label: "Nama" },
+          { sql: tgl("h.tgl_beli"), label: "Tgl Beli" }, { sql: num("h.harga_beli"), label: "Harga Beli", align: "r" },
+        ],
+        where: "COALESCE(h.hapus_oleh,0)=0", orderBy: "1", catatan: "Template Daftar Aktiva Tetap (print preview minimal)",
+      };
+      if (pick(c, "deposit pembelian")) return {
+        base: "FROM gf.s_deppem h LEFT JOIN gf.s_vendor v ON v.id=h.vendor",
+        cols: [
+          { sql: "COALESCE(h.no::text,'')", label: "No" }, { sql: tgl(), label: "Tanggal" }, { sql: "COALESCE(v.nama,'')", label: "Vendor" },
+          { sql: num("h.deposit"), label: "Deposit", align: "r" },
+        ],
+        where: "COALESCE(h.hapus_oleh,0)=0", orderBy: "h.id DESC", catatan: "Template Deposit Pembelian (print preview minimal)",
+      };
+      if (pick(c, "deposit penjualan")) return {
+        base: "FROM gf.s_deppen h",
+        cols: [
+          { sql: NAC, label: "No" }, { sql: tgl(), label: "Tanggal" }, { sql: PEL, label: "Pelanggan" },
+          { sql: num("h.deposit"), label: "Deposit", align: "r" },
+        ],
+        where: "COALESCE(h.hapus_oleh,0)=0", orderBy: "h.id DESC", catatan: "Template Deposit Penjualan (print preview minimal)",
+      };
+      if (pick(c, "faktur pajak retur pembelian")) return {
+        base: "FROM gf.s_retpem h LEFT JOIN gf.s_vendor v ON v.id=h.vendor",
+        cols: [
+          { sql: "COALESCE(h.no::text,'')", label: "No" }, { sql: tgl(), label: "Tanggal" }, { sql: "COALESCE(v.nama,'')", label: "Vendor" },
+          { sql: num("h.ppn_nilai"), label: "PPN", align: "r" },
+        ],
+        where: "COALESCE(h.hapus_oleh,0)=0", orderBy: "h.id DESC", catatan: "Template Faktur Pajak Retur Pembelian (print preview minimal)",
+      };
+      if (pick(c, "faktur pajak retur penjualan")) return {
+        base: "FROM gf.s_retpen h",
+        cols: [
+          { sql: NAC, label: "No" }, { sql: tgl(), label: "Tanggal" }, { sql: PEL, label: "Pelanggan" },
+          { sql: num("h.ppn_nilai"), label: "PPN", align: "r" },
+        ],
+        where: "COALESCE(h.hapus_oleh,0)=0", orderBy: "h.id DESC", catatan: "Template Faktur Pajak Retur Penjualan (print preview minimal)",
+      };
+      if (pick(c, "faktur pajak")) return {
+        base: `FROM gf.s_pembel h ${V}`,
+        cols: [
+          { sql: "COALESCE(h.no_fakpjk,'')", label: "No Faktur Pajak" }, { sql: tgl("h.tgl_fakpjk"), label: "Tgl Faktur" },
+          { sql: "COALESCE(h.no::text,'')", label: "No Pembelian" }, { sql: "COALESCE(v.nama,'')", label: "Vendor" },
+          { sql: num("h.tot_harga"), label: "DPP", align: "r" }, { sql: num("h.ppn_nilai"), label: "PPN", align: "r" },
+        ],
+        where: "COALESCE(h.hapus_oleh,0)=0 AND COALESCE(h.no_fakpjk,'')<>''", orderBy: "h.id DESC",
+        catatan: "Template Faktur Pajak Standard (print preview minimal)",
+      };
+      if (pick(c, "graphic show") || pick(c, "terima pesanan")) return {
+        base: "FROM gf.s_penjua h",
+        cols: [{ sql: "''", label: "Info" }],
+        where: "1=0", orderBy: "1",
+        catatan: `Template ${pick(c, "graphic show") ? "Graphic Show (modul hotel/KTV/billiard/rental)" : "Terima Pesanan (unbill)"} — modul tidak ada di data minimarket (N/A)`,
+      };
+      if (pick(c, "hpp error")) return {
+        base: "FROM gf.s_penjud d JOIN gf.s_penjua h ON h.id=d.penjua_id LEFT JOIN gf.s_stock s ON s.id=d.stock_id",
+        cols: [
+          { sql: NAC, label: "No" }, { sql: tgl(), label: "Tanggal" },
+          { sql: KODE, label: "Kode" }, { sql: "COALESCE(s.nama,'')", label: "Nama" },
+          { sql: "COALESCE(d.jumlah,0)::text", label: "Jumlah", align: "r" },
+        ],
+        where: "d.tgl_hapus IS NULL AND COALESCE(h.als_batal,'')='' AND COALESCE(d.jumlah,0)>0 AND COALESCE(d.hpp,0)=0",
+        orderBy: "h.id DESC", catatan: "Template HPP Error — baris jual tanpa HPP (print preview minimal)",
+      };
+      if (pick(c, "penjualan eceran")) return {
+        base: "FROM gf.s_ecrlst h JOIN gf.s_penecr d ON d.ecrlst_id=h.id LEFT JOIN gf.s_stock s ON s.id=d.stock_id",
+        cols: [
+          { sql: "h.id::text", label: "Nota" }, { sql: tgl("h.tanggal"), label: "Tanggal" },
+          { sql: "COALESCE(s.kode_c, s.kode_c_2, d.stock_id::text)", label: "Kode" }, { sql: "COALESCE(s.nama,'')", label: "Nama" },
+          { sql: "COALESCE(d.jumlah,0)::text", label: "Jumlah", align: "r" },
+        ],
+        where: "h.sts_ecr IS NOT NULL AND d.tgl_hapus IS NULL", orderBy: "h.tanggal DESC, h.id DESC",
+        catatan: "Template Penjualan Eceran (print preview minimal)",
+      };
+      if (pick(c, "invoice penjualan") || pick(c, "penjualan")) return {
+        base: `FROM gf.s_penjua h ${DIV}`,
+        cols: [
+          { sql: NAC, label: "No" }, { sql: tgl(), label: "Tanggal" }, { sql: PEL, label: "Pelanggan" },
+          { sql: "round(COALESCE(h.tot_harga,0)-COALESCE(h.tot_disc,0)+COALESCE(h.ppn_nilai,0),2)::text", label: "Total", align: "r" },
+        ],
+        where: "COALESCE(h.hapus_oleh,0)=0", orderBy: "h.id DESC", catatan: "Template Invoice/Penjualan (print preview minimal)",
+      };
+      if (pick(c, "item produksi")) return {
+        base: "FROM gf.s_prditm h LEFT JOIN gf.s_stock s ON s.id=h.stock_id",
+        cols: [
+          { sql: "COALESCE(s.kode_c, s.kode_c_2, h.stock_id::text)", label: "Kode" }, { sql: "COALESCE(s.nama,'')", label: "Nama" },
+          { sql: "COALESCE(h.jumlah,0)::text", label: "Jumlah", align: "r" },
+        ],
+        where: "COALESCE(h.hapus_oleh,0)=0", orderBy: "1", catatan: "Template Item Produksi (print preview minimal)",
+      };
+      if (pick(c, "pembelian")) return {
+        base: `FROM gf.s_pembel h ${V}`,
+        cols: [
+          { sql: "COALESCE(h.no::text,'')", label: "No" }, { sql: tgl(), label: "Tanggal" }, { sql: "COALESCE(v.nama,'')", label: "Vendor" },
+          { sql: "round(COALESCE(h.tot_harga,0)+COALESCE(h.ppn_nilai,0),2)::text", label: "Total", align: "r" },
+        ],
+        where: "COALESCE(h.hapus_oleh,0)=0", orderBy: "h.id DESC", catatan: "Template Pembelian (print preview minimal)",
+      };
+      if (pick(c, "purchase order")) return {
+        base: "FROM gf.s_purcor h LEFT JOIN gf.s_vendor v ON v.id=h.vendor",
+        cols: [
+          { sql: "COALESCE(h.po::text,'')", label: "PO No" }, { sql: tgl(), label: "Tanggal" }, { sql: "COALESCE(v.nama,'')", label: "Vendor" },
+          { sql: num("h.tot_harga"), label: "Total", align: "r" },
+        ],
+        where: "COALESCE(h.hapus_oleh,0)=0", orderBy: "h.id DESC", catatan: "Template Purchase Order (print preview minimal)",
+      };
+      if (pick(c, "purchase request")) return {
+        base: "FROM gf.s_purreq h",
+        cols: [
+          { sql: "COALESCE(h.no::text,'')", label: "No" }, { sql: tgl(), label: "Tanggal" },
+          { sql: "COALESCE(h.diminta,'')", label: "Diminta" }, { sql: num("h.tot_harga"), label: "Nilai", align: "r" },
+        ],
+        where: "COALESCE(h.hapus_oleh,0)=0", orderBy: "h.id DESC", catatan: "Template Purchase Request (print preview minimal)",
+      };
+      if (pick(c, "quotation")) return {
+        base: "FROM gf.s_quotat h",
+        cols: [
+          { sql: "COALESCE(h.no::text,'')", label: "No" }, { sql: tgl(), label: "Tanggal" }, { sql: PEL, label: "Pelanggan" },
+          { sql: num("h.tot_harga"), label: "Nilai", align: "r" },
+        ],
+        where: "COALESCE(h.hapus_oleh,0)=0", orderBy: "h.id DESC", catatan: "Template Quotation (print preview minimal)",
+      };
+      if (pick(c, "sales order")) return {
+        base: "FROM gf.s_salord h",
+        cols: [
+          { sql: NAC, label: "No" }, { sql: tgl(), label: "Tanggal" }, { sql: PEL, label: "Pelanggan" },
+          { sql: num("h.tot_harga"), label: "Nilai", align: "r" },
+        ],
+        where: "COALESCE(h.hapus_oleh,0)=0", orderBy: "h.id DESC", catatan: "Template Sales Order (print preview minimal)",
+      };
+      if (pick(c, "retur pembelian")) return {
+        base: "FROM gf.s_retpem h LEFT JOIN gf.s_vendor v ON v.id=h.vendor",
+        cols: [
+          { sql: "COALESCE(h.no::text,'')", label: "No" }, { sql: tgl(), label: "Tanggal" }, { sql: "COALESCE(v.nama,'')", label: "Vendor" },
+          { sql: num("h.tot_harga"), label: "Nilai", align: "r" },
+        ],
+        where: "COALESCE(h.hapus_oleh,0)=0", orderBy: "h.id DESC", catatan: "Template Retur Pembelian (print preview minimal)",
+      };
+      if (pick(c, "retur penjualan")) return {
+        base: "FROM gf.s_retpen h",
+        cols: [
+          { sql: NAC, label: "No" }, { sql: tgl(), label: "Tanggal" }, { sql: PEL, label: "Pelanggan" },
+          { sql: num("h.tot_harga"), label: "Nilai", align: "r" },
+        ],
+        where: "COALESCE(h.hapus_oleh,0)=0", orderBy: "h.id DESC", catatan: "Template Retur Penjualan (print preview minimal)",
+      };
+            if (pick(c, "stock awal")) return stockList("gf.s_stkmas", "gf.s_stkmex", "stkmas_id", "h.no::text", "Stock Awal (masuk)");
+      if (pick(c, "stock masuk")) return stockList("gf.s_stkmas", "gf.s_stkmex", "stkmas_id", "h.no::text", "Stock Masuk");
+      if (pick(c, "stock keluar")) return stockList("gf.s_stkklr", "gf.s_stkkex", "stkklr_id", "h.no::text", "Stock Keluar");
+      if (pick(c, "stock pindah")) return stockList("gf.s_stkpin", "gf.s_stkpex", "stkpin_id", "h.no::text", "Stock Pindah Gudang");
+      if (pick(c, "stock produksi")) return {
+        base: "FROM gf.s_prodsi h JOIN gf.s_prditm p ON p.id=h.prditm_id LEFT JOIN gf.s_stock s ON s.id=p.stock_id",
+        cols: [
+          { sql: "h.id::text", label: "No" }, { sql: tgl(), label: "Tanggal" },
+          { sql: "COALESCE(s.kode_c, s.kode_c_2, p.stock_id::text)", label: "Kode" }, { sql: "COALESCE(s.nama,'')", label: "Nama" },
+          { sql: "COALESCE(h.jumlah,0)::text", label: "Jumlah", align: "r" },
+        ],
+        where: "COALESCE(h.als_batal,'')=''", orderBy: "h.id DESC",
+        catatan: "Template Stock Produksi (print preview minimal)",
+      };
+      if (pick(c, "stock transfer")) return stockList("gf.s_stktra", "gf.s_stktex", "stktra_id", "h.id::text", "Stock Transfer");
+      if (pick(c, "stock untransfer")) return stockList("gf.s_stktra", "gf.s_stktex", "stktra_id", "h.id::text", "Stock UnTransfer");
+      if (pick(c, "opname") || pick(c, "expired") || pick(c, "belum opname")) return {
+        base: "FROM gf.s_stock s",
+        cols: [
+          { sql: "COALESCE(s.kode_c, s.kode_c_2, s.id::text)", label: "Kode" }, { sql: "COALESCE(s.nama,'')", label: "Nama" },
+          { sql: "COALESCE(s.harga_j_01,0)::text", label: "Harga Jual", align: "r" },
+        ],
+        where: "COALESCE(s.hapus_oleh,0)=0", orderBy: "1",
+        catatan: "Template Stock Opname/Expired — preview item (print preview minimal)",
+      };
+      if (pick(c, "kartu stock")) return stockList("gf.s_stkmas", "gf.s_stkmex", "stkmas_id", "h.no::text", "Kartu Stock (mutasi masuk)");
+      return {
+        base: "FROM gf.s_penjua h",
+        cols: [{ sql: "''", label: "Info" }],
+        where: "1=0",
+        orderBy: "1",
+        catatan: `${c.nama} — template cetak (print preview minimal). Gunakan tombol Cetak pada layar terkait.`,
+      };
+    },
+  },
+  // ===== KEUANGAN / GL 801 (file non-Buku-Besar) =====
+  {
+    id: "keuangan-801-extra",
+    test: (c) => c.file.startsWith("801 "),
+    build: (c): LapSpec | null => {
+      if (pick(c, "cek masalah")) return {
+        base: `FROM (
+          SELECT 'Jurnal tanpa rincian' masalah, COUNT(*)::int n FROM gf.s_jurnal j WHERE COALESCE(j.hapus_oleh,0)=0 AND NOT EXISTS (SELECT 1 FROM gf.s_jurnex x WHERE x.jurnal_id=j.id AND x.tgl_hapus IS NULL)
+          UNION ALL
+          SELECT 'Jurnal tidak balance', COUNT(*)::int FROM (SELECT x.jurnal_id FROM gf.s_jurnex x WHERE x.tgl_hapus IS NULL GROUP BY x.jurnal_id HAVING SUM(CASE WHEN x.debet THEN x.nilai ELSE 0 END) <> SUM(CASE WHEN NOT x.debet THEN x.nilai ELSE 0 END)) z
+          UNION ALL
+          SELECT 'Penjualan tanpa item', COUNT(*)::int FROM gf.s_penjua h WHERE COALESCE(h.hapus_oleh,0)=0 AND NOT EXISTS (SELECT 1 FROM gf.s_penjud d WHERE d.penjua_id=h.id AND d.tgl_hapus IS NULL)
+        ) q`,
+        cols: [
+          { sql: "q.masalah", label: "Masalah" },
+          { sql: "q.n::text", label: "Jumlah", align: "r" },
+        ],
+        where: "1=1", orderBy: "2 DESC",
+        catatan: "Cek masalah laporan (jurnal tanpa rincian / tidak balance / penjualan tanpa item)",
+      };
+      if (pick(c, "arus kas")) return {
+        base: `FROM (
+          SELECT d.tanggal, COALESCE(d.nilai,0) v, 'MASUK' jenis FROM gf.s_kasmex d JOIN gf.s_kasmsk k ON k.id=d.kasmsk_id AND COALESCE(k.hapus_oleh,0)=0 WHERE d.tgl_hapus IS NULL
+          UNION ALL
+          SELECT d.tanggal, COALESCE(d.nilai,0), 'KELUAR' FROM gf.s_kaskex d JOIN gf.s_kasklr k ON k.id=d.kasklr_id AND COALESCE(k.hapus_oleh,0)=0 WHERE d.tgl_hapus IS NULL
+        ) x`,
+        cols: [
+          { sql: "to_char(x.tanggal,'YYYY-MM-DD')", label: "Tanggal" },
+          { sql: "x.jenis", label: "Jenis" },
+          { sql: "round(COALESCE(SUM(x.v),0),2)::text", label: "Nilai", align: "r" },
+        ],
+        where: "1=1",
+        groupBy: "GROUP BY x.tanggal, x.jenis",
+        orderBy: "1 DESC, 2",
+        catatan: "Arus kas dari rincian kas masuk/keluar (s_kasmex/s_kaskex)",
+      };
+      if (pick(c, "neraca")) return {
+        base: "FROM gf.s_perkir p LEFT JOIN (SELECT perkir_id pid, SUM(CASE WHEN debet THEN nilai ELSE 0 END) d, SUM(CASE WHEN NOT debet THEN nilai ELSE 0 END) k FROM gf.s_jurnex WHERE tgl_hapus IS NULL GROUP BY perkir_id) x ON x.pid=p.id",
+        cols: [
+          { sql: "COALESCE(p.nama,'')", label: "Perkiraan" },
+          { sql: "round(COALESCE(x.d,0),2)::text", label: "Debet", align: "r" },
+          { sql: "round(COALESCE(x.k,0),2)::text", label: "Kredit", align: "r" },
+          { sql: "round(COALESCE(x.d,0)-COALESCE(x.k,0),2)::text", label: "Saldo", align: "r" },
+        ],
+        where: "COALESCE(p.hapus_oleh,0)=0 AND (COALESCE(x.d,0)+COALESCE(x.k,0))<>0",
+        orderBy: "1",
+        catatan: "Neraca per perkiraan (s_jurnex; saldo = debet − kredit)",
+      };
+      if (pick(c, "laba rugi")) {
+        if (pick(c, "divisi")) return {
+          base: "FROM gf.s_jurnex x JOIN gf.s_jurnal j ON j.id=x.jurnal_id LEFT JOIN gf.s_divisi dv ON dv.id=j.divisi_id",
+          cols: [
+            { sql: "COALESCE(dv.divisi,'(tanpa divisi)')", label: "Divisi" },
+            { sql: "round(COALESCE(SUM(CASE WHEN x.debet THEN x.nilai ELSE 0 END),0),2)::text", label: "Debet", align: "r" },
+            { sql: "round(COALESCE(SUM(CASE WHEN NOT x.debet THEN x.nilai ELSE 0 END),0),2)::text", label: "Kredit", align: "r" },
+          ],
+          where: "COALESCE(j.hapus_oleh,0)=0 AND x.tgl_hapus IS NULL",
+          groupBy: "GROUP BY COALESCE(dv.divisi,'(tanpa divisi)')",
+          orderBy: "1",
+          catatan: "Laba rugi per divisi (agregat debet/kredit s_jurnex)",
+        };
+        return {
+          base: "FROM gf.s_perkir p LEFT JOIN (SELECT perkir_id pid, SUM(CASE WHEN debet THEN nilai ELSE 0 END) d, SUM(CASE WHEN NOT debet THEN nilai ELSE 0 END) k FROM gf.s_jurnex WHERE tgl_hapus IS NULL GROUP BY perkir_id) x ON x.pid=p.id",
+          cols: [
+            { sql: "COALESCE(p.nama,'')", label: "Perkiraan" },
+            { sql: "round(COALESCE(x.d,0),2)::text", label: "Debet", align: "r" },
+            { sql: "round(COALESCE(x.k,0),2)::text", label: "Kredit", align: "r" },
+            { sql: "round(COALESCE(x.k,0)-COALESCE(x.d,0),2)::text", label: "Saldo", align: "r" },
+          ],
+          where: "COALESCE(p.hapus_oleh,0)=0 AND (COALESCE(x.d,0)+COALESCE(x.k,0))<>0",
+          orderBy: "1",
+          catatan: "Laba rugi per perkiraan (saldo = kredit − debet)",
+        };
+      }
+      if (pick(c, "mutasi perkiraan")) {
+        const perBulan = pick(c, "bulan");
+        return {
+          base: "FROM gf.s_jurnex x JOIN gf.s_jurnal j ON j.id=x.jurnal_id",
+          cols: [
+            { sql: perBulan ? "to_char(x.tanggal,'YYYY-MM')" : "to_char(x.tanggal,'YYYY-MM-DD')", label: perBulan ? "Bulan" : "Tanggal" },
+            { sql: "count(*)::text", label: "Jml Mutasi", align: "r" },
+            { sql: "round(COALESCE(SUM(x.nilai),0),2)::text", label: "Nilai", align: "r" },
+          ],
+          where: "COALESCE(j.hapus_oleh,0)=0 AND x.tgl_hapus IS NULL",
+          groupBy: perBulan ? "GROUP BY to_char(x.tanggal,'YYYY-MM')" : "GROUP BY to_char(x.tanggal,'YYYY-MM-DD')",
+          orderBy: "1 DESC",
+          catatan: `Mutasi perkiraan per ${perBulan ? "bulan" : "tanggal"} (s_jurnex)`,
+        };
+      }
+      if (pick(c, "selisih kurs") || pick(c, "kurs pembukuan")) {
+        const selisihOnly = pick(c, "selisih kurs");
+        return {
+          base: "FROM gf.s_jurnex x JOIN gf.s_jurnal j ON j.id=x.jurnal_id LEFT JOIN gf.s_mauang m ON m.id=x.mauang",
+          cols: [
+            { sql: "COALESCE(x.no::text,'')", label: "No" }, { sql: "to_char(x.tanggal,'YYYY-MM-DD')", label: "Tanggal" },
+            { sql: "COALESCE(m.mata_uang, m.kode, '')", label: "MU" },
+            { sql: "round(COALESCE(x.nilai,0),2)::text", label: "Nilai", align: "r" },
+            { sql: "round(COALESCE(x.nilai_3,0),2)::text", label: "Nilai Pembukuan", align: "r" },
+            { sql: "round(COALESCE(x.nilai,0)-COALESCE(x.nilai_3,0),2)::text", label: "Selisih", align: "r" },
+          ],
+          where: `COALESCE(j.hapus_oleh,0)=0 AND x.tgl_hapus IS NULL${selisihOnly ? " AND COALESCE(x.nilai,0)<>COALESCE(x.nilai_3,0)" : ""}`,
+          orderBy: "x.tanggal DESC, x.sys_id DESC",
+          catatan: `Kurs pembukuan/selisih kurs (s_jurnex ${selisihOnly ? "— hanya selisih ≠ 0" : ""})`,
+        };
+      }
+      if (pick(c, "jurnal")) {
+        const bermasalah = pick(c, "bermasalah") || pick(c, "tidak balance");
+        const cols: LapCol[] = [
+          { sql: "COALESCE(h.no::text,'')", label: "No" }, { sql: tgl(), label: "Tanggal" },
+          { sql: "CASE h.jenis WHEN 1 THEN 'Umum' WHEN 2 THEN 'Penerimaan' WHEN 3 THEN 'Pengeluaran' WHEN 4 THEN 'Penutup' ELSE h.jenis::text END", label: "Jenis" },
+          { sql: "round(COALESCE((SELECT SUM(CASE WHEN x.debet THEN x.nilai ELSE 0 END) FROM gf.s_jurnex x WHERE x.jurnal_id=h.id AND x.tgl_hapus IS NULL),0),2)::text", label: "Debet", align: "r" },
+          { sql: "round(COALESCE((SELECT SUM(CASE WHEN NOT x.debet THEN x.nilai ELSE 0 END) FROM gf.s_jurnex x WHERE x.jurnal_id=h.id AND x.tgl_hapus IS NULL),0),2)::text", label: "Kredit", align: "r" },
+          { sql: "COALESCE(h.catatan,'')", label: "Catatan" },
+        ];
+        return {
+          base: "FROM gf.s_jurnal h",
+          cols,
+          where: bermasalah
+            ? `COALESCE(h.hapus_oleh,0)=0 AND COALESCE((SELECT SUM(CASE WHEN x.debet THEN x.nilai ELSE 0 END) FROM gf.s_jurnex x WHERE x.jurnal_id=h.id AND x.tgl_hapus IS NULL),0) <> COALESCE((SELECT SUM(CASE WHEN NOT x.debet THEN x.nilai ELSE 0 END) FROM gf.s_jurnex x WHERE x.jurnal_id=h.id AND x.tgl_hapus IS NULL),0)`
+            : "COALESCE(h.hapus_oleh,0)=0",
+          orderBy: bermasalah ? "h.id DESC" : "h.tanggal DESC, h.id DESC",
+          catatan: bermasalah ? "Jurnal bermasalah/tidak balance (debet ≠ kredit)" : "Daftar jurnal (s_jurnal + total s_jurnex)",
+        };
+      }
+      return null;
     },
   },
 ];

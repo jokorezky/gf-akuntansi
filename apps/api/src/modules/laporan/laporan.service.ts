@@ -57,8 +57,6 @@ export class LaporanService {
     if (it.file.startsWith("005 ")) return this.daftarPerkiraan(it, q, limit, offset);
     if (it.file.startsWith("021 ")) return this.daftarVendor(it, q, limit, offset);
     if (it.file.startsWith("031 ")) return this.daftarPelanggan(it, q, limit, offset);
-    if (it.file.startsWith("131 ")) return this.pembelian(it, q, limit, offset);
-    if (it.file.startsWith("241 ")) return this.penjualan(it, q, limit, offset);
     if (it.file.startsWith("801 ") && /buku besar/i.test(it.file)) return this.bukuBesar(it, q, limit, offset);
     if (it.file.startsWith("821 ")) return this.kasRincian(it, q, limit, offset);
     const eng = await this.runEngine(it, q, limit, offset);
