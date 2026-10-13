@@ -1,0 +1,246 @@
+{
+  "slug": "laporan-export-textfile",
+  "window": {
+    "title": "Export >>> Text File",
+    "rect": [
+      334,
+      66,
+      946,
+      607
+    ],
+    "note": "direkonstruksi dari observasi 2026-10-13"
+  },
+  "controls": [
+    {
+      "class": "Static",
+      "text": "E X P O R T   >>>   T E X T   F I L E",
+      "rect": [
+        340,
+        95,
+        940,
+        128
+      ]
+    },
+    {
+      "class": "SysListView32",
+      "columns": [
+        "Keterangan",
+        "Field",
+        "Value",
+        "",
+        ""
+      ],
+      "rows": 486,
+      "rect": [
+        340,
+        128,
+        622,
+        476
+      ],
+      "row_pattern": "per field 5 baris: [Keterangan (mis. Nomor, Manual *1, Item ID, Kode Item, Kode 2, Kelompok Item), nama field DBF (NO, MANUAL1, ID, KODE, BARCODE, GETGRPSTK), Value(0), 0, 0]"
+    },
+    {
+      "class": "Button",
+      "text": "arrow up",
+      "rect": [
+        625,
+        164,
+        657,
+        192
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "arrow down",
+      "rect": [
+        625,
+        196,
+        657,
+        224
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "arrow up 2",
+      "rect": [
+        625,
+        276,
+        657,
+        304
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "arrow down 2",
+      "rect": [
+        625,
+        307,
+        657,
+        336
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "arrow up 3",
+      "rect": [
+        625,
+        391,
+        657,
+        419
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "arrow down 3",
+      "rect": [
+        625,
+        424,
+        657,
+        452
+      ]
+    },
+    {
+      "class": "SysListView32",
+      "columns": [
+        "Keterangan",
+        "Field",
+        "Value",
+        "",
+        ""
+      ],
+      "rows": 1,
+      "rect": [
+        661,
+        128,
+        940,
+        476
+      ],
+      "note": "field terpilih (kosong)"
+    },
+    {
+      "class": "ComboBox",
+      "rect": [
+        357,
+        492,
+        549,
+        512
+      ]
+    },
+    {
+      "class": "ComboBox",
+      "rect": [
+        357,
+        515,
+        549,
+        535
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Left Trim Data STRING",
+      "rect": [
+        568,
+        492,
+        712,
+        512
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Clear Zero Decimal",
+      "rect": [
+        568,
+        511,
+        712,
+        531
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Right Trim Data STRING",
+      "rect": [
+        568,
+        531,
+        712,
+        552
+      ]
+    },
+    {
+      "class": "Edit",
+      "rect": [
+        736,
+        492,
+        925,
+        512
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "SubStr :",
+      "rect": [
+        736,
+        515,
+        784,
+        536
+      ]
+    },
+    {
+      "class": "Edit",
+      "rect": [
+        784,
+        515,
+        825,
+        536
+      ]
+    },
+    {
+      "class": "Edit",
+      "rect": [
+        825,
+        515,
+        866,
+        536
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Export",
+      "rect": [
+        340,
+        571,
+        640,
+        599
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Tutup",
+      "rect": [
+        640,
+        571,
+        940,
+        599
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "(besar kiri, fungsi belum teridentifikasi)",
+      "rect": [
+        340,
+        471,
+        721,
+        567
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "(besar kanan, fungsi belum teridentifikasi)",
+      "rect": [
+        724,
+        471,
+        940,
+        567
+      ]
+    }
+  ]
+}

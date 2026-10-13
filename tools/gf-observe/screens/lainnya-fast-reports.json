@@ -1,0 +1,112 @@
+{
+  "slug": "lainnya-fast-reports",
+  "menu_id": 24668,
+  "window": {
+    "title": "Fast Reports",
+    "rect": [
+      698,
+      245,
+      1223,
+      764
+    ]
+  },
+  "columns": [],
+  "rows_total": 5,
+  "rows": [
+    "",
+    "Laporan Pembelian",
+    "899 Laporan Pembelian",
+    "Laporan Penjualan",
+    "899 Laporan Penjualan"
+  ],
+  "controls": [
+    {
+      "class": "Button",
+      "text": "",
+      "rect": [
+        707,
+        638,
+        1211,
+        704
+      ],
+      "visible": true
+    },
+    {
+      "class": "ListView",
+      "text": "",
+      "rect": [
+        707,
+        288,
+        1211,
+        642
+      ],
+      "visible": true
+    },
+    {
+      "class": "Header",
+      "text": "",
+      "rect": [
+        710,
+        291,
+        1208,
+        317
+      ],
+      "visible": true
+    },
+    {
+      "class": "Button",
+      "text": "CheckBox",
+      "rect": [
+        732,
+        662,
+        966,
+        689
+      ],
+      "visible": false
+    },
+    {
+      "class": "Button",
+      "text": "Kas Awal",
+      "rect": [
+        707,
+        708,
+        923,
+        752
+      ],
+      "visible": false
+    },
+    {
+      "class": "Button",
+      "text": "&Setup",
+      "rect": [
+        707,
+        708,
+        793,
+        752
+      ],
+      "visible": true
+    },
+    {
+      "class": "Button",
+      "text": "&Cetak",
+      "rect": [
+        792,
+        708,
+        1002,
+        752
+      ],
+      "visible": true
+    },
+    {
+      "class": "Button",
+      "text": "&Tutup",
+      "rect": [
+        1002,
+        708,
+        1212,
+        752
+      ],
+      "visible": true
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "slug": "laporan-preview-fastreport",
+  "window": {
+    "title": "Preview - D:\\GF Akuntansi\\ST_Rep2\\011 Daftar Item (Gambar 3 Kolom).rp3",
+    "rect": [
+      50,
+      50,
+      1230,
+      670
+    ],
+    "note": "ternyata FastReport DESIGNER (editor template), bukan preview cetak. Data dari cache DBF R_*.DBF"
+  },
+  "controls": [
+    {
+      "class": "ToolbarWindow32",
+      "text": "toolbar FastReport designer",
+      "rect": [
+        58,
+        81,
+        1222,
+        109
+      ]
+    },
+    {
+      "class": "cm_CustomControl",
+      "text": "kanvas desain template",
+      "rect": [
+        58,
+        81,
+        1222,
+        662
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Hitung total halaman...",
+      "rect": [
+        359,
+        83,
+        1222,
+        105
+      ]
+    }
+  ]
+}

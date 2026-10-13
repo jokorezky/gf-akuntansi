@@ -47,3 +47,14 @@ docs/design/         DESIGN.md, mockup, brainstorming
 apps/web/            frontend Next.js
 apps/api/            backend NestJS + GraphQL (menyusul)
 ```
+
+## Catatan harness GF (temuan 2026-10-13)
+- GF (VO 32-bit) **mengabaikan `WM_COMMAND` saat window tidak aktif** — fokuskan dulu
+  (`ShowWindow` + `SetForegroundWindow`) sebelum kirim perintah menu.
+- `SendMessageW` **memblokir** bila handler membuka dialog modal → pakai `PostMessage`
+  untuk klik (`BM_CLICK`) dan `SendMessageTimeout(…, SMTO_ABORTIFHUNG, 8s)` untuk WM_COMMAND
+  (utility: `tools/gf-observe/gf_nav.py` — perintah `open/windows/click/close/dump`).
+- Static bergaya tombol (item menu list GF) tidak merespons `BM_CLICK` — klik via koordinat.
+- Popup pengingat "tutup hari" dapat muncul kapan saja (hanya Edit teks, tutup via X/WM_CLOSE).
+- UIA (windows-mcp) tidak melihat dialog custom VO; dump kontrol via Win32
+  (`EnumChildWindows`) + pywinauto untuk teks tree/list/combobox lintas proses.

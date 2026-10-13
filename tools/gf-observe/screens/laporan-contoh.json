@@ -1,0 +1,105 @@
+{
+  "slug": "laporan-contoh",
+  "window": {
+    "title": "Contoh Laporan",
+    "rect": [
+      -12,
+      -12,
+      1932,
+      1020
+    ],
+    "note": "preview contoh laporan (kanvas 1273x568 kosong saat diamati)"
+  },
+  "controls": [
+    {
+      "class": "Static",
+      "text": "... (nama laporan)",
+      "rect": [
+        5,
+        39,
+        1799,
+        113
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<> (zoom -)",
+      "rect": [
+        5,
+        113,
+        95,
+        155
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<> (zoom +)",
+      "rect": [
+        95,
+        113,
+        185,
+        155
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Ukuran Asli",
+      "rect": [
+        185,
+        113,
+        355,
+        155
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Sesuai Ukuran",
+      "rect": [
+        354,
+        113,
+        524,
+        155
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "<  (halaman sebelum)",
+      "rect": [
+        1802,
+        113,
+        1856,
+        155
+      ]
+    },
+    {
+      "class": "Button",
+      "text": ">  (halaman berikut)",
+      "rect": [
+        1856,
+        113,
+        1910,
+        155
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Tutup",
+      "rect": [
+        1802,
+        39,
+        1910,
+        108
+      ]
+    },
+    {
+      "class": "_VOCustomControl",
+      "text": "",
+      "rect": [
+        0,
+        155,
+        1910,
+        1007
+      ]
+    }
+  ]
+}

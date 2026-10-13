@@ -1,0 +1,147 @@
+{
+  "slug": "user-profile",
+  "window": {
+    "hwnd": 526796,
+    "title": "User Profile",
+    "rect": [
+      -5,
+      -5,
+      1924,
+      1084
+    ]
+  },
+  "controls": [
+    {
+      "hwnd": 918648,
+      "class": "Static",
+      "text": "U S E R   P R O F I L E",
+      "rect": [
+        5,
+        39,
+        775,
+        81
+      ]
+    },
+    {
+      "hwnd": 459956,
+      "class": "#32770",
+      "text": "Dialog Caption",
+      "rect": [
+        9,
+        123,
+        767,
+        537
+      ]
+    },
+    {
+      "hwnd": 591022,
+      "class": "msctls_progress32",
+      "text": "",
+      "rect": [
+        14,
+        506,
+        752,
+        523
+      ]
+    },
+    {
+      "hwnd": 591118,
+      "class": "Static",
+      "text": "U S E R   G R O U P",
+      "rect": [
+        14,
+        128,
+        292,
+        190
+      ]
+    },
+    {
+      "hwnd": 394512,
+      "class": "Button",
+      "text": "&Duplicate",
+      "rect": [
+        297,
+        128,
+        410,
+        190
+      ]
+    },
+    {
+      "hwnd": 459932,
+      "class": "Button",
+      "text": "T&ambah",
+      "rect": [
+        410,
+        128,
+        526,
+        190
+      ]
+    },
+    {
+      "hwnd": 525502,
+      "class": "Button",
+      "text": "&Koreksi",
+      "rect": [
+        525,
+        128,
+        641,
+        190
+      ]
+    },
+    {
+      "hwnd": 786566,
+      "class": "Button",
+      "text": "&Hapus",
+      "rect": [
+        639,
+        128,
+        752,
+        190
+      ]
+    },
+    {
+      "hwnd": 460012,
+      "class": "SysListView32",
+      "text": "",
+      "rect": [
+        14,
+        194,
+        752,
+        506
+      ]
+    },
+    {
+      "hwnd": 655520,
+      "class": "SysHeader32",
+      "text": "",
+      "rect": [
+        17,
+        197,
+        749,
+        223
+      ]
+    },
+    {
+      "hwnd": 1116388,
+      "class": "SysTabControl32",
+      "text": "",
+      "rect": [
+        5,
+        89,
+        775,
+        545
+      ]
+    },
+    {
+      "hwnd": 459898,
+      "class": "Button",
+      "text": "&Tutup",
+      "rect": [
+        5,
+        549,
+        775,
+        591
+      ]
+    }
+  ]
+}

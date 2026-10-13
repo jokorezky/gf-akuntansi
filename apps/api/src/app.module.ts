@@ -24,6 +24,7 @@ import { AktivaTetapModule } from "./modules/ledger/aktiva-tetap/aktiva-tetap.mo
 import { BarangModule } from "./modules/inventory/barang/barang.module";
 import { PromosiModule } from "./modules/inventory/promosi/promosi.module";
 import { ProduksiModule } from "./modules/inventory/produksi/produksi.module";
+import { LaporanModule } from "./modules/laporan/laporan.module";
 
 @Module({
   imports: [
@@ -55,6 +56,7 @@ import { ProduksiModule } from "./modules/inventory/produksi/produksi.module";
     BarangModule,
     PromosiModule,
     ProduksiModule,
+    LaporanModule,
   ],
 })
 export class AppModule {}

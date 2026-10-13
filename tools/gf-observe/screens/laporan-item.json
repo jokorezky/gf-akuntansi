@@ -1,0 +1,412 @@
+{
+  "slug": "laporan-item",
+  "window": {
+    "hwnd": 2228962,
+    "class": "#32770",
+    "title": "Proses Laporan",
+    "rect": [
+      528,
+      81,
+      1391,
+      929
+    ]
+  },
+  "controls": [
+    {
+      "hwnd": 1706516,
+      "class": "Button",
+      "text": "",
+      "rect": [
+        537,
+        120,
+        1383,
+        209
+      ]
+    },
+    {
+      "hwnd": 657938,
+      "class": "Button",
+      "text": " Periode Laporan : ",
+      "rect": [
+        537,
+        215,
+        1118,
+        421
+      ]
+    },
+    {
+      "hwnd": 592398,
+      "class": "Button",
+      "text": "",
+      "rect": [
+        1121,
+        215,
+        1387,
+        421
+      ]
+    },
+    {
+      "hwnd": 854514,
+      "class": "Static",
+      "text": "Kelompok Laporan :",
+      "rect": [
+        563,
+        155,
+        743,
+        187
+      ]
+    },
+    {
+      "hwnd": 461068,
+      "class": "Static",
+      "text": "Terakhir Proses :",
+      "rect": [
+        1139,
+        245,
+        1367,
+        281
+      ]
+    },
+    {
+      "hwnd": 657626,
+      "class": "Static",
+      "text": "06 Okt 2026  12:53:28",
+      "rect": [
+        1139,
+        281,
+        1367,
+        317
+      ]
+    },
+    {
+      "hwnd": 723472,
+      "class": "Static",
+      "text": "-",
+      "rect": [
+        803,
+        371,
+        821,
+        401
+      ]
+    },
+    {
+      "hwnd": 591980,
+      "class": "Static",
+      "text": "...",
+      "rect": [
+        537,
+        689,
+        1383,
+        725
+      ]
+    },
+    {
+      "hwnd": 657592,
+      "class": "Static",
+      "text": "...",
+      "rect": [
+        537,
+        744,
+        1383,
+        779
+      ]
+    },
+    {
+      "hwnd": 788650,
+      "class": "msctls_progress32",
+      "text": "",
+      "rect": [
+        537,
+        725,
+        1383,
+        745
+      ]
+    },
+    {
+      "hwnd": 592034,
+      "class": "msctls_progress32",
+      "text": "",
+      "rect": [
+        537,
+        779,
+        1383,
+        799
+      ]
+    },
+    {
+      "hwnd": 592038,
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        743,
+        155,
+        1363,
+        187
+      ]
+    },
+    {
+      "hwnd": 657584,
+      "class": "Button",
+      "text": "Tahun :",
+      "rect": [
+        563,
+        252,
+        665,
+        282
+      ]
+    },
+    {
+      "hwnd": 133478,
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        663,
+        252,
+        725,
+        282
+      ]
+    },
+    {
+      "hwnd": 133476,
+      "class": "Button",
+      "text": "Bulan :",
+      "rect": [
+        563,
+        281,
+        665,
+        311
+      ]
+    },
+    {
+      "hwnd": 133474,
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        663,
+        281,
+        821,
+        311
+      ]
+    },
+    {
+      "hwnd": 133470,
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        821,
+        281,
+        880,
+        311
+      ]
+    },
+    {
+      "hwnd": 133444,
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        879,
+        281,
+        1037,
+        311
+      ]
+    },
+    {
+      "hwnd": 133464,
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        1037,
+        281,
+        1096,
+        311
+      ]
+    },
+    {
+      "hwnd": 133462,
+      "class": "Button",
+      "text": "Bulan :",
+      "rect": [
+        563,
+        311,
+        665,
+        343
+      ]
+    },
+    {
+      "hwnd": 133460,
+      "class": "ComboBox",
+      "text": "",
+      "rect": [
+        663,
+        311,
+        821,
+        341
+      ]
+    },
+    {
+      "hwnd": 133456,
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        821,
+        311,
+        880,
+        343
+      ]
+    },
+    {
+      "hwnd": 133454,
+      "class": "Button",
+      "text": "Tanggal :",
+      "rect": [
+        563,
+        342,
+        665,
+        372
+      ]
+    },
+    {
+      "hwnd": 133452,
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        663,
+        342,
+        803,
+        372
+      ]
+    },
+    {
+      "hwnd": 133450,
+      "class": "Button",
+      "text": "Custom :",
+      "rect": [
+        563,
+        371,
+        665,
+        401
+      ]
+    },
+    {
+      "hwnd": 133448,
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        663,
+        371,
+        803,
+        401
+      ]
+    },
+    {
+      "hwnd": 133410,
+      "class": "Edit",
+      "text": "",
+      "rect": [
+        821,
+        371,
+        959,
+        401
+      ]
+    },
+    {
+      "hwnd": 133412,
+      "class": "SysListView32",
+      "text": "",
+      "rect": [
+        537,
+        420,
+        1383,
+        533
+      ]
+    },
+    {
+      "hwnd": 133442,
+      "class": "SysHeader32",
+      "text": "",
+      "rect": [
+        540,
+        423,
+        1380,
+        423
+      ]
+    },
+    {
+      "hwnd": 133438,
+      "class": "SysListView32",
+      "text": "",
+      "rect": [
+        537,
+        533,
+        1383,
+        689
+      ]
+    },
+    {
+      "hwnd": 133436,
+      "class": "SysHeader32",
+      "text": "",
+      "rect": [
+        540,
+        536,
+        1380,
+        562
+      ]
+    },
+    {
+      "hwnd": 133432,
+      "class": "Button",
+      "text": "&Proses",
+      "rect": [
+        537,
+        803,
+        821,
+        845
+      ]
+    },
+    {
+      "hwnd": 133430,
+      "class": "Button",
+      "text": "&Batal",
+      "rect": [
+        821,
+        803,
+        1103,
+        845
+      ]
+    },
+    {
+      "hwnd": 133428,
+      "class": "Button",
+      "text": "&Tutup",
+      "rect": [
+        1103,
+        803,
+        1385,
+        845
+      ]
+    },
+    {
+      "hwnd": 133426,
+      "class": "Button",
+      "text": "&Laporan",
+      "rect": [
+        537,
+        852,
+        1383,
+        894
+      ]
+    },
+    {
+      "hwnd": 133422,
+      "class": "msctls_statusbar32",
+      "text": "",
+      "rect": [
+        533,
+        891,
+        1387,
+        924
+      ]
+    }
+  ]
+}

@@ -1,0 +1,203 @@
+{
+  "slug": "laporan-reports-viewer",
+  "window": {
+    "title": "Reports / Laporan",
+    "rect": [
+      265,
+      96,
+      1015,
+      575
+    ],
+    "note": "direkonstruksi dari observasi 2026-10-13"
+  },
+  "controls": [
+    {
+      "class": "Static",
+      "text": "Daftar Item",
+      "rect": [
+        407,
+        188,
+        1513,
+        238
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "Untuk informasi tentang laporan ini dan contohnya, tekan tombol >>>",
+      "rect": [
+        774,
+        242,
+        1404,
+        284
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "PILIH KELOMPOK LAPORAN",
+      "rect": [
+        414,
+        249,
+        764,
+        350
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "1. Daftar Item",
+      "rect": [
+        414,
+        356,
+        764,
+        406
+      ],
+      "enabled": true
+    },
+    {
+      "class": "Static",
+      "text": "2. Label Item",
+      "rect": [
+        414,
+        405,
+        764,
+        452
+      ],
+      "enabled": true
+    },
+    {
+      "class": "Static",
+      "text": "3. Laporan Sisa Stock",
+      "rect": [
+        414,
+        452,
+        764,
+        502
+      ],
+      "enabled": false
+    },
+    {
+      "class": "Static",
+      "text": "4. Laporan Nilai Stock",
+      "rect": [
+        414,
+        500,
+        764,
+        550
+      ],
+      "enabled": false
+    },
+    {
+      "class": "Static",
+      "text": "Pilih dgn mouse klik / tombol 1-9",
+      "rect": [
+        414,
+        795,
+        764,
+        842
+      ]
+    },
+    {
+      "class": "Static",
+      "text": "NAMA-NAMA LAPORAN",
+      "rect": [
+        774,
+        291,
+        1512,
+        333
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Reporting",
+      "rect": [
+        271,
+        158,
+        514,
+        189
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Info",
+      "rect": [
+        1410,
+        242,
+        1512,
+        284
+      ]
+    },
+    {
+      "class": "SysListView32",
+      "columns": [
+        "Print / Cetak",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "rows": 51,
+      "rect": [
+        774,
+        332,
+        1512,
+        761
+      ],
+      "row_pattern": [
+        "Nama laporan (mis. Daftar Item (Gambar 3 Kolom))",
+        "Nama file .rpt (011 Daftar Item (Gambar 3 Kolom).rp3)",
+        "Folder temp (D:\\Temp_GF\\Rep_011\\)",
+        "Folder sumber (D:\\GF Akuntansi\\ST_Rep2\\)",
+        "Flag .T./.F."
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Export >>> Text File",
+      "rect": [
+        774,
+        764,
+        1512,
+        808
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "?? (glyph)",
+      "rect": [
+        774,
+        812,
+        876,
+        854
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "Setup",
+      "rect": [
+        875,
+        812,
+        983,
+        854
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Cetak",
+      "rect": [
+        983,
+        812,
+        1249,
+        854
+      ]
+    },
+    {
+      "class": "Button",
+      "text": "&Tutup",
+      "rect": [
+        1248,
+        812,
+        1512,
+        854
+      ]
+    }
+  ]
+}
