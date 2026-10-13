@@ -106,3 +106,15 @@ export class BukuBesarMutasi {
   @Field({ nullable: true }) saldoTarikKurs?: string;
   @Field(() => [BukuBesarMutasiRow]) rows: BukuBesarMutasiRow[];
 }
+
+@ObjectType()
+export class LaporanKeuanganRow {
+  @Field(() => Int) id: number;
+  @Field({ nullable: true }) kode?: string;
+  @Field({ nullable: true }) nama?: string;
+  @Field(() => Int, { nullable: true }) golongan?: number;
+  @Field({ nullable: true }) salAwal?: string;
+  @Field({ nullable: true }) debet?: string;
+  @Field({ nullable: true }) kredit?: string;
+  @Field({ nullable: true }) saldo?: string;
+}

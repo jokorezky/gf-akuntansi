@@ -188,4 +188,25 @@ export class JurnalService {
       rows: out,
     };
   }
+
+  /** Laporan Keuangan v2: saldo per akun dalam rentang (sal_awal + mutasi rentang). */
+  async laporanKeuanganList(dari?: string, sampai?: string) {
+    const params: unknown[] = [];
+    let filter = "";
+    if (sampai) { params.push(sampai); filter += ` AND j.tanggal <= $${params.length}::date`; }
+    if (dari) { params.push(dari); filter += ` AND j.tanggal >= $${params.length}::date`; }
+    const rows = await this.pool.query(
+      `SELECT p.id::int AS id, p.kode, p.nama, p.golongan, COALESCE(p.sal_awal,0)::text AS "salAwal",
+              round(COALESCE(SUM(CASE WHEN d.debet THEN d.nilai ELSE 0 END),0),2)::text AS debet,
+              round(COALESCE(SUM(CASE WHEN NOT d.debet THEN d.nilai ELSE 0 END),0),2)::text AS kredit,
+              round(COALESCE(p.sal_awal,0) + COALESCE(SUM(CASE WHEN d.debet THEN d.nilai ELSE -d.nilai END),0),2)::text AS saldo
+       FROM gf.s_perkir p
+       LEFT JOIN gf.s_jurnex d ON d.perkir_id=p.id AND d.tgl_hapus IS NULL
+       LEFT JOIN gf.s_jurnal j ON j.id=d.jurnal_id AND j.hapus_oleh IS NULL ${filter}
+       WHERE p.hapus_oleh IS NULL
+       GROUP BY p.id, p.kode, p.nama, p.golongan, p.sal_awal ORDER BY p.kode LIMIT 2000`,
+      params,
+    );
+    return rows.rows as Record<string, unknown>[];
+  }
 }

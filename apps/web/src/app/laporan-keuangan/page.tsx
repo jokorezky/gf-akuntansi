@@ -3,9 +3,9 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { gql } from "@/lib/graphql";
 
-type Row = { id: number; nama: string; kode?: string | null; debet?: string | null; kredit?: string | null; saldo?: string | null };
+type Row = { id: number; nama: string; kode?: string | null; golongan?: number | null; salAwal?: string | null; debet?: string | null; kredit?: string | null; saldo?: string | null };
 
-const LIST = `query { bukuBesarList(limit:1000) { rows { id nama kode debet kredit saldo } } }`;
+const LIST = `query($dari:String,$sampai:String){ laporanKeuanganList(dari:$dari, sampai:$sampai) { id nama kode golongan salAwal debet kredit saldo } }`;
 
 const CLASSES: { digit: string; label: string; sign: 1 | -1 }[] = [
   { digit: "1", label: "AKTIVA", sign: 1 },
@@ -18,11 +18,13 @@ const CLASSES: { digit: string; label: string; sign: 1 | -1 }[] = [
 export default function LaporanKeuanganPage() {
   const [rows, setRows] = useState<Row[]>([]);
   const [err, setErr] = useState("");
+  const [dari, setDari] = useState("");
+  const [sampai, setSampai] = useState("");
 
   const load = useCallback(async () => {
-    const d = await gql<{ bukuBesarList: { rows: Row[] } }>(LIST);
-    setRows(d.bukuBesarList.rows);
-  }, []);
+    const d = await gql<{ laporanKeuanganList: Row[] }>(LIST, { dari: dari || null, sampai: sampai || null });
+    setRows(d.laporanKeuanganList);
+  }, [dari, sampai]);
 
   useEffect(() => { load().catch((e) => setErr(String(e.message ?? e))); }, [load]);
 
@@ -49,6 +51,15 @@ export default function LaporanKeuanganPage() {
         <div className="border-b border-gf-border bg-gf-titlebar px-2 py-1 text-[13px] font-bold">Laporan Keuangan</div>
         <div className="p-2">
           <div className="mb-1 text-center text-[12px] font-bold tracking-widest text-gf-accent">L A P O R A N&nbsp;&nbsp;K E U A N G A N</div>
+          <div className="mb-2 flex items-center gap-2 text-[12px]">
+            <span>Tanggal :</span>
+            <input type="date" className="gf-3d w-[150px] bg-white px-1 py-[2px]" value={dari} onChange={(e) => setDari(e.target.value)} />
+            <span>-</span>
+            <input type="date" className="gf-3d w-[150px] bg-white px-1 py-[2px]" value={sampai} onChange={(e) => setSampai(e.target.value)} />
+            <button className="gf-3d bg-gf-menubar px-4 py-[2px] text-[12px] font-bold" onClick={() => { void load(); }}>Proses</button>
+            <button className="gf-3d bg-gf-menubar px-3 py-[2px] text-[11px]" onClick={() => { setDari(""); setSampai(""); }}>Reset</button>
+            <span className="text-[10px] text-gf-muted">Rumus: saldo = sal_awal + mutasi dalam rentang (s_perkir.sal_awal + s_jurnex via s_jurnal non-hapus).</span>
+          </div>
           {err && <div className="mb-2 text-[12px] text-red-700">{err}</div>}
           {CLASSES.map((c) => (
             <div key={c.digit} className="mb-3">

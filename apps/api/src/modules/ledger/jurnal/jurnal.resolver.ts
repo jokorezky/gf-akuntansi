@@ -1,6 +1,6 @@
 import { Args, Int, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { JurnalService } from "./jurnal.service";
-import { Jurnal, JurnalInput, JurnalPage, BukuBesarPage, BukuBesarMutasi } from "./jurnal.types";
+import { Jurnal, JurnalInput, JurnalPage, BukuBesarPage, BukuBesarMutasi, LaporanKeuanganRow } from "./jurnal.types";
 
 @Resolver(() => Jurnal)
 export class JurnalResolver {
@@ -37,6 +37,14 @@ export class JurnalResolver {
     @Args("urutTglInput", { nullable: true }) urutTglInput?: boolean,
   ) {
     return this.service.bukuBesarMutasi(perkirId, dari, sampai, urutTglInput ?? false);
+  }
+
+  @Query(() => [LaporanKeuanganRow])
+  laporanKeuanganList(
+    @Args("dari", { nullable: true }) dari?: string,
+    @Args("sampai", { nullable: true }) sampai?: string,
+  ) {
+    return this.service.laporanKeuanganList(dari, sampai);
   }
 
   @Mutation(() => Jurnal)
