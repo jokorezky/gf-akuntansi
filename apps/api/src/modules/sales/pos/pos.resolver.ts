@@ -1,6 +1,6 @@
 import { Args, Int, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { PosService } from "./pos.service";
-import { Pos, PosInput, PosPage } from "./pos.types";
+import { PosDivisiRef, Pos, PosInput, PosKatalogItem, PosPage } from "./pos.types";
 
 @Resolver(() => Pos)
 export class PosResolver {
@@ -18,6 +18,19 @@ export class PosResolver {
   @Query(() => Pos, { nullable: true })
   posById(@Args("id", { type: () => Int }) id: number) {
     return this.service.byId(id);
+  }
+
+  @Query(() => [PosKatalogItem])
+  posKatalog(
+    @Args("q", { nullable: true }) q?: string,
+    @Args("limit", { type: () => Int, nullable: true }) limit?: number,
+  ) {
+    return this.service.katalog(q, limit ?? 300);
+  }
+
+  @Query(() => [PosDivisiRef])
+  posDivisiList() {
+    return this.service.divisiList();
   }
 
   @Mutation(() => Pos)

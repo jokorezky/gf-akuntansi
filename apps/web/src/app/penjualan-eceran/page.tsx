@@ -1,167 +1,309 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { gql } from "@/lib/graphql";
 
-type Line = { stockId: number; jumlah?: string; harga?: string; discPers?: string; catatan?: string };
-type Hdr = { id: number; no?: string | null; tanggal?: string | null; pelangId?: number | null; pelNama?: string | null; gudang?: number | null; total?: string | null; catatan?: string | null; lines?: Line[] };
 type Ref = { id: number; nama: string };
+type Line = {
+  stockId: number; stockNama?: string | null; satuan?: number | null; satuanC?: string | null;
+  jumlah?: string | null; harga?: string | null; discPers?: string | null; discPers2?: string | null;
+  discPers3?: string | null; discNilai?: string | null; ppnPers?: string | null; ppnNilai?: string | null;
+  catatan?: string | null; alsBatal?: string | null;
+};
+type Hdr = {
+  id: number; no?: string | null; tanggal?: string | null; pukulC?: string | null;
+  pelangId?: number | null; pelNama?: string | null; gudang?: number | null; mauang?: number | null; salesId?: number | null;
+  discPers?: string | null; discNilai?: string | null;
+  adj1Pers?: string | null; adj2Pers?: string | null; adj3Pers?: string | null; adj4Pers?: string | null; adj5Pers?: string | null;
+  adj1Nilai?: string | null; adj2Nilai?: string | null; adj3Nilai?: string | null; adj4Nilai?: string | null; adj5Nilai?: string | null;
+  stsEcr?: number | null; catatan?: string | null; catatan2?: string | null; catatan3?: string | null; lines?: Line[];
+};
+type Kat = {
+  id: number; nama?: string | null; grup?: number | null;
+  hargaJ1?: string | null; hargaJ2?: string | null; hargaJ3?: string | null; hargaJ4?: string | null; hargaJ5?: string | null;
+  disc1J1?: string | null; disc2J1?: string | null; disc3J1?: string | null; disc1J2?: string | null; disc2J2?: string | null; disc3J2?: string | null;
+};
 
-const LIST = `query($q:String){ posList(q:$q){ total rows { id no tanggal pelNama total } } }`;
-const BYID = `query($id:Int!){ posById(id:$id){ id no tanggal pelangId pelNama gudang total catatan lines { stockId jumlah harga discPers catatan } } }`;
+const LF = `stockId stockNama satuan satuanC jumlah harga discPers discPers2 discPers3 discNilai ppnPers ppnNilai catatan alsBatal`;
+const HF = `id no tanggal pukulC pelangId pelNama gudang mauang stsEcr discPers discNilai adj1Pers adj2Pers adj3Pers adj4Pers adj5Pers adj1Nilai adj2Nilai adj3Nilai adj4Nilai adj5Nilai catatan subTotal totDisc totalQty total`;
+const LIST = `query{ posList(limit:60){ total rows { id no tanggal pelNama total totalQty } } }`;
+const BYID = `query($id:Int!){ posById(id:$id){ ${HF} lines { ${LF} } } }`;
 const CREATE = `mutation($input:PosInput!){ createPos(input:$input){ id } }`;
 const UPDATE = `mutation($id:Int!,$input:PosInput!){ updatePos(id:$id, input:$input){ id } }`;
 const DELETE = `mutation($id:Int!){ deletePos(id:$id) }`;
-const REFS = `{ pelangganRefList { id nama } itemList(limit:500) { rows { id nama } } }`;
+const KAT = `query($q:String){ posKatalog(q:$q, limit:300){ id nama grup hargaJ1 hargaJ2 hargaJ3 hargaJ4 hargaJ5 disc1J1 disc2J1 disc3J1 disc1J2 disc2J2 disc3J2 } }`;
+const REFS = `{ pelangganRefList { id nama } posDivisiList { id nama } }`;
 
-const emptyHdr = (): Hdr => ({ id: 0, no: "", tanggal: new Date().toISOString().slice(0, 10), pelangId: null, gudang: 1, catatan: "", lines: [] });
+const num = (v: unknown): number => { const n = Number(v ?? 0); return Number.isFinite(n) ? n : 0; };
+const r2 = (n: number): string => (Math.round(n * 100) / 100).toFixed(2);
+function lineNilai(l: Line): number {
+  const g = num(l.jumlah) * num(l.harga);
+  const net = g * (1 - num(l.discPers) / 100) * (1 - num(l.discPers2) / 100) * (1 - num(l.discPers3) / 100);
+  return Math.round((net - num(l.discNilai)) * 100) / 100;
+}
+const emptyLine = (): Line => ({ stockId: 0, jumlah: "1", harga: "0", discPers: "0", discPers2: "0", discPers3: "0", discNilai: "0", ppnPers: "0", catatan: "" });
+const empty = (): Hdr => ({
+  id: 0, no: "", tanggal: new Date().toISOString().slice(0, 10), pelangId: null, gudang: 1, mauang: 1,
+  discPers: "0", discNilai: "0", adj1Pers: "0", adj2Pers: "0", adj3Pers: "0", adj4Pers: "0", adj5Pers: "0",
+  adj1Nilai: "0", adj2Nilai: "0", adj3Nilai: "0", adj4Nilai: "0", adj5Nilai: "0", stsEcr: 0, catatan: "", lines: [],
+});
+const tglPanjang = (iso?: string | null): string => {
+  const d = iso ? new Date(iso + "T00:00:00") : new Date();
+  try {
+    return d.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric", weekday: "long" });
+  } catch { return d.toISOString().slice(0, 10); }
+};
 
 export default function PosPage() {
-  const [rows, setRows] = useState<Hdr[]>([]);
-  const [total, setTotal] = useState(0);
-  const [q, setQ] = useState("");
-  const [sel, setSel] = useState<number | null>(null);
+  const [rows, setRows] = useState<{ id: number; no?: string | null; tanggal?: string | null; pelNama?: string | null; total?: string | null; totalQty?: string | null }[]>([]);
   const [pel, setPel] = useState<Ref[]>([]);
-  const [items, setItems] = useState<Ref[]>([]);
-  const [form, setForm] = useState<Hdr | null>(null);
+  const [divisi, setDivisi] = useState<Ref[]>([]);
+  const [divisiId, setDivisiId] = useState<number | null>(null);
+  const [kat, setKat] = useState<Kat[]>([]);
+  const [kq, setKq] = useState("");
+  const [form, setForm] = useState<Hdr>(empty());
   const [mode, setMode] = useState<"create" | "edit">("create");
-  const [bayar, setBayar] = useState("");
+  const [lsel, setLsel] = useState(0);
+  const [hargaLevel, setHargaLevel] = useState(1);
   const [err, setErr] = useState("");
   const [msg, setMsg] = useState("");
 
   const load = useCallback(async () => {
-    const d = await gql<{ posList: { total: number; rows: Hdr[] } }>(LIST, { q });
-    setRows(d.posList.rows); setTotal(d.posList.total);
-  }, [q]);
+    const d = await gql<{ posList: { rows: typeof rows } }>(LIST);
+    setRows(d.posList.rows);
+  }, []);
+  const loadKat = useCallback(async () => {
+    const d = await gql<{ posKatalog: Kat[] }>(KAT, { q: kq || null });
+    setKat(d.posKatalog);
+  }, [kq]);
 
   useEffect(() => {
     load().catch((e) => setErr(String(e.message ?? e)));
-    gql<{ pelangganRefList: Ref[]; itemList: { rows: Ref[] } }>(REFS)
-      .then((d) => { setPel(d.pelangganRefList); setItems(d.itemList.rows); }).catch(() => {});
+    gql<{ pelangganRefList: Ref[]; posDivisiList: Ref[] }>(REFS)
+      .then((d) => { setPel(d.pelangganRefList); setDivisi(d.posDivisiList); }).catch(() => undefined);
   }, [load]);
+  useEffect(() => { loadKat().catch(() => undefined); }, [loadKat]);
 
-  async function onTambah() { setErr(""); setMode("create"); setForm(emptyHdr()); setBayar(""); }
-  async function onKoreksi() {
-    if (sel == null) return setMsg("Pilih baris dulu (Koreksi).");
-    setErr(""); setMode("edit");
-    const d = await gql<{ posById: Hdr }>(BYID, { id: sel });
-    setForm({ ...emptyHdr(), ...d.posById, lines: d.posById.lines ?? [] }); setBayar("");
+  const set = (patch: Partial<Hdr>) => setForm((f) => ({ ...f, ...patch }));
+  const setLine = (i: number, patch: Partial<Line>) =>
+    setForm((f) => ({ ...f, lines: (f.lines ?? []).map((l, x) => (x === i ? { ...l, ...patch } : l)) }));
+
+  const totals = useMemo(() => {
+    const lines = form.lines ?? [];
+    let sub = 0, qty = 0, ppn = 0;
+    for (const l of lines) { sub += lineNilai(l); qty += num(l.jumlah); ppn += num(l.ppnPers) > 0 ? lineNilai(l) * num(l.ppnPers) / 100 : num(l.ppnNilai); }
+    const discPersAmt = sub * num(form.discPers) / 100;
+    let after = sub - discPersAmt - num(form.discNilai);
+    for (let i = 1; i <= 5; i++) after = after - after * num(form[`adj${i}Pers` as keyof Hdr]) / 100 - num(form[`adj${i}Nilai` as keyof Hdr]);
+    return { sub: r2(sub), qty: String(qty), total: r2(after + ppn) };
+  }, [form]);
+
+  const openRecord = useCallback(async (id: number) => {
+    setErr(""); setMsg("");
+    const d = await gql<{ posById: Hdr }>(BYID, { id });
+    setMode("edit"); setForm({ ...empty(), ...d.posById, lines: d.posById.lines ?? [] }); setLsel(0);
+  }, []);
+
+  async function onBaru() { setErr(""); setMsg("Record Baru"); setMode("create"); setForm(empty()); setLsel(0); }
+  async function onSimpan() {
+    setErr("");
+    if ((form.lines ?? []).length === 0) return setErr("Minimal 1 barang.");
+    if (form.pelangId == null) return setErr("Pelanggan belum dipilih!");
+    try {
+      const input = {
+        no: form.no || null, tanggal: form.tanggal || null, pelangId: form.pelangId, gudang: form.gudang ?? 1, mauang: form.mauang ?? 1,
+        discPers: form.discPers || "0", discNilai: form.discNilai || "0",
+        adj1Pers: form.adj1Pers || "0", adj2Pers: form.adj2Pers || "0", adj3Pers: form.adj3Pers || "0", adj4Pers: form.adj4Pers || "0", adj5Pers: form.adj5Pers || "0",
+        adj1Nilai: form.adj1Nilai || "0", adj2Nilai: form.adj2Nilai || "0", adj3Nilai: form.adj3Nilai || "0", adj4Nilai: form.adj4Nilai || "0", adj5Nilai: form.adj5Nilai || "0",
+        catatan: form.catatan || null,
+        lines: (form.lines ?? []).map((l) => ({
+          stockId: l.stockId, satuan: l.satuan ?? null, satuanC: l.satuanC ?? null, jumlah: l.jumlah || "0", harga: l.harga || "0",
+          discPers: l.discPers || "0", discPers2: l.discPers2 || "0", discPers3: l.discPers3 || "0", discNilai: l.discNilai || "0",
+          ppnPers: l.ppnPers || "0", ppnNilai: l.ppnNilai || "0", catatan: l.catatan || null, alsBatal: l.alsBatal || null,
+        })),
+      };
+      if (mode === "create") await gql(CREATE, { input });
+      else await gql(UPDATE, { id: form.id, input });
+      setMsg("Tersimpan."); await load();
+    } catch (e) { setErr(String((e as Error).message ?? e)); }
   }
   async function onHapus() {
-    if (sel == null) return setMsg("Pilih baris dulu (Hapus).");
-    if (!confirm(`Hapus penjualan eceran id ${sel}? (soft delete)`)) return;
-    await gql(DELETE, { id: sel }); setSel(null); setMsg("Terhapus."); await load();
+    if (mode !== "edit" || !form.id) return setMsg("Tidak ada record.");
+    if (!confirm(`Hapus nota ${form.no ?? form.id}? (soft delete)`)) return;
+    await gql(DELETE, { id: form.id });
+    setMsg("Terhapus."); await onBaru(); await load();
   }
-  async function onSimpan() {
-    if (!form) return;
-    if (!form.lines || form.lines.length === 0) return setErr("Minimal 1 barang.");
-    setErr("");
-    const input = { no: form.no || null, tanggal: form.tanggal || null, pelangId: form.pelangId ?? null, gudang: form.gudang ?? null, catatan: form.catatan || null, lines: form.lines.map((l) => ({ stockId: l.stockId, jumlah: l.jumlah || "0", harga: l.harga || "0", discPers: l.discPers || "0", catatan: l.catatan || null })) };
-    if (mode === "create") await gql(CREATE, { input }); else await gql(UPDATE, { id: form.id, input });
-    setForm(null); setMsg(mode === "create" ? "Transaksi tersimpan." : "Diperbarui."); await load();
+  async function nav(step: "first" | "prev" | "next" | "last") {
+    if (rows.length === 0) return setMsg("Belum ada nota.");
+    if (mode === "create" || !form.id) {
+      const id = step === "prev" || step === "last" ? rows[rows.length - 1].id : rows[0].id;
+      await openRecord(id); return;
+    }
+    const asc = [...rows].sort((a, b) => a.id - b.id);
+    const idx = asc.findIndex((r) => r.id === form.id);
+    let t = idx;
+    if (step === "first") t = 0;
+    else if (step === "prev") t = Math.max(0, idx - 1);
+    else if (step === "next") t = Math.min(asc.length - 1, idx + 1);
+    else t = asc.length - 1;
+    if (t >= 0 && asc[t]) await openRecord(asc[t].id);
   }
 
-  const setH = (patch: Partial<Hdr>) => setForm((f) => (f ? { ...f, ...patch } : f));
-  const setLine = (i: number, patch: Partial<Line>) => setForm((f) => { if (!f) return f; const ls = [...(f.lines ?? [])]; ls[i] = { ...ls[i], ...patch }; return { ...f, lines: ls }; });
-  const addLine = () => setForm((f) => (f ? { ...f, lines: [...(f.lines ?? []), { stockId: items[0]?.id ?? 0, jumlah: "1", harga: "0", discPers: "0" }] } : f));
-  const delLine = (i: number) => setForm((f) => (f ? { ...f, lines: (f.lines ?? []).filter((_, x) => x !== i) } : f));
-  const tot = (form?.lines ?? []).reduce((s, l) => { const g = Number(l.jumlah || 0) * Number(l.harga || 0); return s + g - g * Number(l.discPers || 0) / 100; }, 0);
-  const kembali = Number(bayar || 0) - tot;
+  function addFromKatalog(it: Kat) {
+    const lvl = (n: number) => ({ harga: it[`hargaJ${n}` as keyof Kat] as string | null, d1: it[`disc1J${n}` as keyof Kat] as string | null, d2: it[`disc2J${n}` as keyof Kat] as string | null, d3: it[`disc3J${n}` as keyof Kat] as string | null });
+    const p = lvl(hargaLevel);
+    setForm((f) => ({
+      ...f,
+      lines: [...(f.lines ?? []), { ...emptyLine(), stockId: it.id, stockNama: it.nama ?? "", harga: p.harga ?? "0", discPers: p.d1 ?? "0", discPers2: p.d2 ?? "0", discPers3: p.d3 ?? "0" }],
+    }));
+    setMsg(`+ ${it.nama ?? it.id} (HJ #${hargaLevel})`);
+  }
+
+  useEffect(() => {
+    const kh = (e: KeyboardEvent) => { if (e.key === "F10") { e.preventDefault(); onSimpan(); } };
+    window.addEventListener("keydown", kh);
+    return () => window.removeEventListener("keydown", kh);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  });
+
+  const td = "border border-gf-border px-1 py-[1px]";
+  const tin = "w-full bg-transparent text-right";
+  const jev = (v: string | null | undefined) => v ?? "";
+  const activeLines = form.lines ?? [];
 
   return (
-    <div className="min-h-screen bg-gf-bg p-3 text-gf-text">
-      <div className="mx-auto max-w-[1250px] border border-gf-border bg-gf-panel">
-        <div className="border-b border-gf-border bg-gf-titlebar px-2 py-1 text-[13px] font-bold">Penjualan Eceran (POS)</div>
-        <div className="p-2">
-          <div className="mb-1 text-center text-[12px] font-bold tracking-widest text-gf-accent">P E N J U A L A N&nbsp;&nbsp;E C E R A N</div>
-          <div className="mb-2 flex items-center gap-2">
-            <input className="gf-3d flex-1 bg-white px-2 py-[3px] text-[12px]" placeholder="Cari no / pelanggan..." value={q} onChange={(e) => setQ(e.target.value)} />
-            <button className="gf-3d bg-gf-panel px-3 py-[3px] text-[12px] hover:bg-gf-hl hover:text-white" onClick={onTambah}>Transaksi Baru</button>
-            <button className="gf-3d bg-gf-panel px-3 py-[3px] text-[12px] hover:bg-gf-hl hover:text-white" onClick={onKoreksi}>Koreksi</button>
-            <button className="gf-3d bg-gf-panel px-3 py-[3px] text-[12px] hover:bg-gf-hl hover:text-white" onClick={onHapus}>Hapus</button>
+    <div className="min-h-screen bg-gf-bg p-2 text-gf-text">
+      <div className="mx-auto max-w-[1280px] border border-gf-border bg-gf-panel">
+        <div className="flex items-center gap-1 border-b border-gf-border bg-gf-titlebar px-2 py-[3px]">
+          <span className="text-[12px] font-bold">Penjualan - {tglPanjang(form.tanggal)}</span>
+          <span className="mx-2 flex-1 truncate text-[11px] text-gf-muted">{form.pelNama ?? ""}</span>
+          <button onClick={() => setMsg("Pilih pelanggan dari combo, atau tombol Pelanggan untuk cari.")} className="gf-3d bg-gf-menubar px-2 py-[1px] text-[11px]">Pelanggan</button>
+          <span className="gf-3d bg-white px-2 py-[1px] text-[11px]">🔍</span>
+          {([["?", "Bantuan: F10 = Simpan (F10)"], ["<<", "first"], ["<", "prev"], [">", "next"], [">>", "last"]] as const).map(([t, a]) => (
+            <button key={t} onClick={() => (a.startsWith("Bantuan") ? setMsg(a) : nav(a as "first" | "prev" | "next" | "last"))} className="gf-3d bg-gf-menubar px-2 py-[1px] text-[11px]">{t}</button>
+          ))}
+          <button onClick={onBaru} className="gf-3d bg-gf-menubar px-2 py-[1px] text-[11px]">Baru</button>
+          <button onClick={onHapus} className="gf-3d bg-gf-menubar px-2 py-[1px] text-[11px] text-red-700">Hapus</button>
+        </div>
+
+        <div className="flex items-center gap-2 px-2 py-1 text-[12px]">
+          <span className={`gf-3d px-2 py-[2px] text-[11px] font-bold ${mode === "create" ? "bg-[#ffe9a8] text-green-800" : "bg-[#d8e8d8] text-blue-800"}`}>{mode === "create" ? "** BARU **" : "** KOREKSI **"}</span>
+          <span>No :</span>
+          <input className="gf-3d w-[200px] bg-white px-2 py-[2px]" value={jev(form.no)} onChange={(e) => set({ no: e.target.value })} placeholder="(auto)" />
+          <select className="gf-3d w-[330px] bg-white px-1 py-[2px]" value={form.pelangId ?? ""} onChange={(e) => { const id = e.target.value ? Number(e.target.value) : null; set({ pelangId: id, pelNama: pel.find((p) => p.id === id)?.nama ?? null }); }}>
+            <option value="">*** BELUM DIPILIH ***</option>
+            {pel.map((v) => <option key={v.id} value={v.id}>{v.nama}</option>)}
+          </select>
+          <span className="ml-auto text-[11px]">Divisi/Cabang :</span>
+          <select className="gf-3d w-[180px] bg-white px-1 py-[2px]" value={divisiId ?? ""} onChange={(e) => setDivisiId(e.target.value ? Number(e.target.value) : null)}>
+            <option value="">---</option>
+            {divisi.map((d) => <option key={d.id} value={d.id}>{d.nama}</option>)}
+          </select>
+        </div>
+
+        <div className="grid grid-cols-[1fr_200px] gap-2 px-2">
+          <div className="border border-gf-border bg-[#f4f4f4] px-2 py-1 text-[11px] leading-[18px]">
+            <div className="truncate">Sub Total : <b className="font-mono">{totals.sub}</b> · Disc : <b className="font-mono">{r2(num(totals.sub) * 0 + 0)}</b> · Pajak : <b className="font-mono">-</b></div>
+            <div className="truncate">Set Disc : <input className="gf-3d w-[70px] bg-white px-1 text-right" value={jev(form.discPers)} onChange={(e) => set({ discPers: e.target.value })} /> % <input className="gf-3d w-[80px] bg-white px-1 text-right" value={jev(form.discNilai)} onChange={(e) => set({ discNilai: e.target.value })} /> Rp</div>
+            <div className="truncate" title="Adjustment 1-5">Adj : {[1, 2, 3, 4, 5].map((i) => (
+              <input key={i} className="gf-3d mx-[2px] w-[48px] bg-white px-1 text-right" value={jev(form[`adj${i}Pers` as keyof Hdr] as string | null)} onChange={(e) => set({ [`adj${i}Pers`]: e.target.value } as Partial<Hdr>)} />
+            ))}</div>
           </div>
-          <div className="overflow-auto border border-gf-border">
-            <table className="w-full border-collapse text-[12px]">
-              <thead><tr className="bg-gf-menubar">{["ID", "No", "Tanggal", "Pelanggan", "Total"].map((h) => <th key={h} className="border border-gf-border px-2 py-1 text-left font-normal">{h}</th>)}</tr></thead>
+          <div className="border border-gf-border bg-[#f4f4f4] px-2 py-1 text-right">
+            <div className="text-[18px] font-bold font-mono leading-[22px] text-red-700">{totals.total}</div>
+            <div className="text-[11px]">TOTAL QTY: {totals.qty}</div>
+            <button onClick={onSimpan} className="gf-3d mt-1 w-full bg-[#e8e0c8] py-[2px] text-[12px] font-bold">Simpan (F10)</button>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 px-2 py-1 text-[12px]">
+          <span>Catatan :</span>
+          <input className="gf-3d flex-1 bg-white px-2 py-[2px]" value={jev(form.catatan)} onChange={(e) => set({ catatan: e.target.value })} />
+        </div>
+        {err && <div className="px-2 text-[12px] text-red-700">{err}</div>}
+        {msg && !err && <div className="px-2 text-[11px] text-gf-muted">{msg}</div>}
+
+        <div className="grid grid-cols-[1fr_470px] gap-2 px-2 pb-2">
+          <div className="max-h-[300px] overflow-auto border border-gf-border bg-white">
+            <table className="w-full border-collapse text-[11px]">
+              <thead className="sticky top-0"><tr className="bg-gf-menubar">
+                {["No", "Kode", "Nama", "Jumlah", "@", "Harga Jual", "Disc%", "Disc%2", "Disc%3", "Discount", "%PJK", "Pajak", "Nilai Jual", "Alasan Batal", "Catatan"].map((h) => (
+                  <th key={h} className="whitespace-nowrap border border-gf-border px-1 py-[1px] text-left font-normal">{h}</th>
+                ))}
+              </tr></thead>
               <tbody>
-                {rows.map((r) => (
-                  <tr key={r.id} onClick={() => setSel(r.id)} className={`cursor-pointer ${sel === r.id ? "bg-gf-hl text-white" : "hover:bg-[#e8eef7]"}`}>
-                    <td className="border border-gf-border px-2 py-[2px]">{r.id}</td>
-                    <td className="border border-gf-border px-2 py-[2px]">{r.no}</td>
-                    <td className="border border-gf-border px-2 py-[2px]">{r.tanggal}</td>
-                    <td className="border border-gf-border px-2 py-[2px]">{r.pelNama}</td>
-                    <td className="border border-gf-border px-2 py-[2px] text-right font-mono">{r.total}</td>
+                {activeLines.map((l, i) => (
+                  <tr key={i} onClick={() => setLsel(i)} onDoubleClick={() => setForm((f) => ({ ...f, lines: (f.lines ?? []).filter((_, x) => x !== i) }))} className={`cursor-pointer ${lsel === i ? "bg-[#e8eef7]" : ""}`} title="Double-click: hapus baris">
+                    <td className={td}>{i + 1}</td>
+                    <td className={`${td} w-[56px]`}>{l.stockId}</td>
+                    <td className={`${td} min-w-[150px]`}>{l.stockNama ?? ""}</td>
+                    <td className={td}><input className={`${tin} w-[52px]`} value={jev(l.jumlah)} onChange={(e) => setLine(i, { jumlah: e.target.value })} /></td>
+                    <td className={td}>x</td>
+                    <td className={td}><input className={`${tin} w-[78px] font-mono`} value={jev(l.harga)} onChange={(e) => setLine(i, { harga: e.target.value })} /></td>
+                    <td className={td}><input className={`${tin} w-[42px]`} value={jev(l.discPers)} onChange={(e) => setLine(i, { discPers: e.target.value })} /></td>
+                    <td className={td}><input className={`${tin} w-[42px]`} value={jev(l.discPers2)} onChange={(e) => setLine(i, { discPers2: e.target.value })} /></td>
+                    <td className={td}><input className={`${tin} w-[42px]`} value={jev(l.discPers3)} onChange={(e) => setLine(i, { discPers3: e.target.value })} /></td>
+                    <td className={td}><input className={`${tin} w-[64px] font-mono`} value={jev(l.discNilai)} onChange={(e) => setLine(i, { discNilai: e.target.value })} /></td>
+                    <td className={td}><input className={`${tin} w-[40px]`} value={jev(l.ppnPers)} onChange={(e) => setLine(i, { ppnPers: e.target.value })} /></td>
+                    <td className={`${td} w-[64px] text-right font-mono`}>{num(l.ppnPers) > 0 ? r2(lineNilai(l) * num(l.ppnPers) / 100) : r2(num(l.ppnNilai))}</td>
+                    <td className={`${td} text-right font-mono`}>{r2(lineNilai(l))}</td>
+                    <td className={td}><input className={`${tin} w-[70px] text-left`} value={jev(l.alsBatal)} onChange={(e) => setLine(i, { alsBatal: e.target.value })} /></td>
+                    <td className={td}><input className={`${tin} w-[80px] text-left`} value={jev(l.catatan)} onChange={(e) => setLine(i, { catatan: e.target.value })} /></td>
                   </tr>
                 ))}
-                {rows.length === 0 && <tr><td colSpan={5} className="px-2 py-3 text-center text-gf-muted">Belum ada data.</td></tr>}
+                {activeLines.length === 0 && <tr><td colSpan={15} className="px-2 py-3 text-center text-gf-muted">Double-click item di katalog → masuk ke sini. (F10 Simpan)</td></tr>}
               </tbody>
             </table>
           </div>
-          <div className="mt-1 text-[11px] text-gf-muted">Total: {total}</div>
-        </div>
-      </div>
 
-      {msg && <div className="mx-auto mt-2 max-w-[1250px] text-[12px] text-gf-accent">{msg}</div>}
-
-      {form && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center overflow-auto bg-black/30 p-4">
-          <div className="w-[1100px] border border-gf-border bg-gf-panel shadow-lg">
-            <div className="flex items-center justify-between border-b border-gf-border bg-gf-titlebar px-2 py-1">
-              <span className="text-[13px] font-bold">Penjualan Eceran — {mode === "create" ? "Transaksi Baru" : "Koreksi"}</span>
-              <button className="gf-3d bg-gf-panel px-2 text-[11px]" onClick={() => setForm(null)}>✕</button>
+          <div className="flex h-[300px] flex-col border border-gf-border bg-white">
+            <div className="flex items-center gap-1 border-b border-gf-border bg-gf-menubar px-1 py-[2px] text-[11px]">
+              <span>Katalog :</span>
+              <input className="gf-3d flex-1 bg-white px-2 py-[1px]" value={kq} onChange={(e) => setKq(e.target.value)} placeholder="cari nama / kode..." />
+              <span>HJ {hargaLevel}</span>
             </div>
-            <div className="grid grid-cols-2 gap-x-6 gap-y-1 p-3 text-[12px]">
-              <div className="space-y-1">
-                <F label="ID :"><input className="gf-3d w-[110px] bg-[#eef7d6] px-2 py-[2px]" value={mode === "create" ? "(auto)" : form.id} readOnly /></F>
-                <F label="No :"><input className="gf-3d w-full bg-white px-2 py-[2px]" value={form.no ?? ""} onChange={(e) => setH({ no: e.target.value })} /></F>
-                <F label="Pelanggan :">
-                  <select className="gf-3d w-full bg-white px-2 py-[2px]" value={form.pelangId ?? ""} onChange={(e) => setH({ pelangId: e.target.value ? Number(e.target.value) : null })}>
-                    <option value="">-- umum --</option>{pel.map((v) => <option key={v.id} value={v.id}>{v.nama}</option>)}
-                  </select>
-                </F>
-              </div>
-              <div className="space-y-1">
-                <F label="Tanggal :"><input type="date" className="gf-3d w-[180px] bg-white px-2 py-[2px]" value={form.tanggal ?? ""} onChange={(e) => setH({ tanggal: e.target.value })} /></F>
-                <F label="Gudang :"><input type="number" className="gf-3d w-[100px] bg-white px-2 py-[2px]" value={form.gudang ?? ""} onChange={(e) => setH({ gudang: e.target.value ? Number(e.target.value) : null })} /></F>
-                <F label="Catatan :"><input className="gf-3d w-full bg-white px-2 py-[2px]" value={form.catatan ?? ""} onChange={(e) => setH({ catatan: e.target.value })} /></F>
-              </div>
-            </div>
-            <div className="px-3">
-              <div className="mb-1"><button className="gf-3d bg-gf-panel px-3 py-[2px] text-[12px] hover:bg-gf-hl hover:text-white" onClick={addLine}>Tambah Barang (F4)</button></div>
-              <table className="w-full border-collapse text-[12px]">
-                <thead><tr className="bg-gf-menubar">{["Barang", "Jumlah", "Harga", "Disc %", "Catatan", ""].map((h) => <th key={h} className="border border-gf-border px-2 py-1 text-left font-normal">{h}</th>)}</tr></thead>
-                <tbody>
-                  {(form.lines ?? []).map((l, i) => (
-                    <tr key={i}>
-                      <td className="border border-gf-border px-1 py-[2px]"><select className="w-full bg-white" value={l.stockId} onChange={(e) => setLine(i, { stockId: Number(e.target.value) })}>{items.map((it) => <option key={it.id} value={it.id}>{it.nama}</option>)}</select></td>
-                      <td className="border border-gf-border px-1 py-[2px]"><input className="w-[80px] bg-white text-right font-mono" value={l.jumlah ?? ""} onChange={(e) => setLine(i, { jumlah: e.target.value })} /></td>
-                      <td className="border border-gf-border px-1 py-[2px]"><input className="w-[110px] bg-white text-right font-mono" value={l.harga ?? ""} onChange={(e) => setLine(i, { harga: e.target.value })} /></td>
-                      <td className="border border-gf-border px-1 py-[2px]"><input className="w-[70px] bg-white text-right font-mono" value={l.discPers ?? ""} onChange={(e) => setLine(i, { discPers: e.target.value })} /></td>
-                      <td className="border border-gf-border px-1 py-[2px]"><input className="w-full bg-white" value={l.catatan ?? ""} onChange={(e) => setLine(i, { catatan: e.target.value })} /></td>
-                      <td className="border border-gf-border px-1 py-[2px] text-center"><button className="text-red-700" onClick={() => delLine(i)}>✕</button></td>
-                    </tr>
+            <div className="flex-1 overflow-auto">
+              <table className="w-full border-collapse text-[11px]">
+                <thead className="sticky top-0"><tr className="bg-[#efefef]">
+                  {["Kode", "Nama", `HJ #${hargaLevel}`, "D%", "D2%", "D3%", "Group"].map((h) => (
+                    <th key={h} className="whitespace-nowrap border border-gf-border px-1 py-[1px] text-left font-normal">{h}</th>
                   ))}
-                  {(form.lines ?? []).length === 0 && <tr><td colSpan={6} className="px-2 py-2 text-center text-gf-muted">Belum ada barang.</td></tr>}
+                </tr></thead>
+                <tbody>
+                  {kat.map((it) => {
+                    const hj = it[`hargaJ${hargaLevel}` as keyof Kat] as string | null;
+                    const d1 = it[`disc1J${hargaLevel}` as keyof Kat] as string | null;
+                    const d2 = it[`disc2J${hargaLevel}` as keyof Kat] as string | null;
+                    const d3 = it[`disc3J${hargaLevel}` as keyof Kat] as string | null;
+                    return (
+                      <tr key={it.id} onDoubleClick={() => addFromKatalog(it)} className="cursor-pointer hover:bg-[#e8eef7]" title="Double-click: tambah ke nota">
+                        <td className={td}>{it.id}</td>
+                        <td className={`${td} min-w-[130px]`}><button className="text-left hover:underline" onClick={() => addFromKatalog(it)}>{it.nama}</button></td>
+                        <td className={`${td} text-right font-mono`}>{hj ?? "0.00"}</td>
+                        <td className={td}>{d1 ?? ""}</td>
+                        <td className={td}>{d2 ?? ""}</td>
+                        <td className={td}>{d3 ?? ""}</td>
+                        <td className={td}>{it.grup ?? ""}</td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
-              <div className="mt-2 flex items-center justify-end gap-6 text-[13px]">
-                <span>TOTAL: <b className="font-mono">{tot.toFixed(2)}</b></span>
-                <span>Bayar: <input className="gf-3d w-[140px] bg-white px-2 py-[2px] text-right font-mono" value={bayar} onChange={(e) => setBayar(e.target.value)} /></span>
-                <span className={kembali < 0 ? "text-red-700" : ""}>Kembali: <b className="font-mono">{kembali.toFixed(2)}</b></span>
-              </div>
-            </div>
-            {err && <div className="px-3 pt-2 text-[12px] text-red-700">{err}</div>}
-            <div className="mt-2 flex gap-2 border-t border-gf-border p-2">
-              <button className="gf-3d bg-gf-panel px-4 py-[3px] text-[12px] hover:bg-gf-hl hover:text-white" onClick={onSimpan}>Simpan (F12)</button>
-              <button className="gf-3d bg-gf-panel px-4 py-[3px] text-[12px] hover:bg-gf-hl hover:text-white" onClick={() => setForm(null)}>Tutup</button>
             </div>
           </div>
         </div>
-      )}
+
+        <div className="flex items-center gap-3 border-t border-gf-border px-2 py-[2px] text-[11px] text-gf-muted">
+          <span>Mode Online</span><span>User: Acu&nbsp;&nbsp;PC: INDUSIAAI</span><span className="font-bold text-gf-text">HJ *</span><span>{mode === "create" ? "Record Baru" : `#${form.id}`}</span>
+          <span className="ml-auto">GUDANG MASTER</span><span>IDR</span><span>GF-Akuntansi Release 951.1823</span>
+        </div>
+
+        <div className="border-t border-gf-border bg-[#f4f4f4] px-2 py-[2px] text-[11px]">
+          Daftar nota terakhir: {rows.slice(0, 6).map((r) => (
+            <button key={r.id} onClick={() => openRecord(r.id)} className="mr-2 text-blue-800 hover:underline">{r.no} ({r.tanggal})</button>
+          ))}
+        </div>
+      </div>
     </div>
   );
-}
-
-function F({ label, children }: { label: string; children: React.ReactNode }) {
-  return <div className="flex items-center gap-2"><span className="w-[90px] shrink-0">{label}</span>{children}</div>;
 }
