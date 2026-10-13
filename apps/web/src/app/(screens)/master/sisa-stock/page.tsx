@@ -2,6 +2,8 @@
 
 
 import { Pager } from "@/components/gf/Pager";
+import { ArrowDownAZ, Boxes, FileSpreadsheet, FolderTree, Merge, Menu, Pencil, Plus, Printer, Ruler, Trash2, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { useCallback, useEffect, useState } from "react";
 import { gql } from "@/lib/graphql";
 
@@ -24,8 +26,22 @@ export default function SisaStockPage() {
   const [sel, setSel] = useState<number | null>(null);
   const [err, setErr] = useState("");
   const [msg, setMsg] = useState("");
+  const [fId, setFId] = useState("");
+  const [fKode, setFKode] = useState("");
+  const [fKode2, setFKode2] = useState("");
+  const [fGroupII, setFGroupII] = useState("");
+  const [fVendor, setFVendor] = useState("");
+  const [fNama, setFNama] = useState("");
+  const [fCatatan, setFCatatan] = useState("");
+  const [fSemua, setFSemua] = useState(false);
+  const [fAktif, setFAktif] = useState("Aktif");
+  const [tampil, setTampil] = useState("Tampilan Standard");
 
   useEffect(() => { setPage(1); }, [q]);
+  useEffect(() => {
+    const parts = [fKode, fKode2, fNama].map((s) => s.trim()).filter(Boolean);
+    setQ(parts.join(" "));
+  }, [fKode, fKode2, fNama]);
   const load = useCallback(async () => {
     const d = await gql<{ sisaStockList: { total: number; rows: Row[] } }>(LIST, { q, limit: 10, offset: (page - 1) * 10 });
     setRows(d.sisaStockList.rows);
@@ -43,23 +59,23 @@ export default function SisaStockPage() {
         <div className="border-b border-gf-border bg-white px-3 py-[6px] text-[12.5px] font-semibold text-slate-800">Sisa Stock</div>
         <div className="p-2">
           <div className="mb-1 flex items-center gap-1">
-            <button onClick={() => setMsg("Urut A..Z")} className="gf-3d bg-gf-menubar p-[1px]"></button>
-            <button onClick={() => setMsg("Menu")} className="gf-3d bg-gf-menubar p-[1px]"></button>
+            <Button variant="default" title="Urut A..Z" onClick={() => setMsg("Urut A..Z")}><ArrowDownAZ className="h-[14px] w-[14px] text-slate-600" /></Button>
+            <Button variant="default" title="Menu" onClick={() => setMsg("Menu")}><Menu className="h-[14px] w-[14px] text-slate-600" /></Button>
             <span className="mx-auto text-[12px] font-bold tracking-widest text-gf-accent">M A S T E R&nbsp;&nbsp;F I L E&nbsp;&nbsp;-&nbsp;&nbsp;S I S A&nbsp;&nbsp;S T O C K</span>
             <select className="gf-3d bg-white px-1 py-[2px] text-[11px]"><option>--</option></select>
           </div>
           <div className="mb-2 flex items-center gap-1">
-            <button onClick={() => { window.location.href = "/laporan"; }} className="gf-3d bg-gf-menubar p-[1px]"></button>
-            <button onClick={() => setMsg("Satuan — menyusul")} className="gf-3d bg-gf-menubar p-[1px]"></button>
-            <button onClick={() => setMsg("Kelompok — menyusul")} className="gf-3d bg-gf-menubar p-[1px]"></button>
-            <button onClick={() => { window.location.href = "/master/item"; }} className="gf-3d bg-gf-menubar p-[1px]"></button>
-            <button onClick={() => setMsg("Gabungan — menyusul")} className="gf-3d bg-gf-menubar p-[1px]"></button>
-            <button onClick={() => setMsg("Cetak — gunakan layar Laporan")} className="gf-3d bg-gf-menubar p-[1px]"></button>
+            <Button variant="default" title="Laporan" onClick={() => { window.location.href = "/laporan"; }}><FileSpreadsheet className="h-[14px] w-[14px] text-slate-600" /></Button>
+            <Button variant="default" title="Satuan" onClick={() => setMsg("Satuan — menyusul")}><Ruler className="h-[14px] w-[14px] text-slate-600" /></Button>
+            <Button variant="default" title="Kelompok" onClick={() => setMsg("Kelompok — menyusul")}><FolderTree className="h-[14px] w-[14px] text-slate-600" /></Button>
+            <Button variant="default" title="Sisa Stock" onClick={() => { window.location.href = "/master/item"; }}><Boxes className="h-[14px] w-[14px] text-slate-600" /></Button>
+            <Button variant="default" title="Gabungan" onClick={() => setMsg("Gabungan — menyusul")}><Merge className="h-[14px] w-[14px] text-slate-600" /></Button>
+            <Button variant="default" title="Cetak" onClick={() => setMsg("Cetak — gunakan layar Laporan")}><Printer className="h-[14px] w-[14px] text-slate-600" /></Button>
             <input className="h-[30px] min-w-0 flex-1 rounded-md border border-gf-border bg-white px-3 text-[12px] shadow-inner outline-none focus:border-gf-accent/50 focus:ring-2 focus:ring-gf-accent/15" placeholder="" title="Pencarian (ketik untuk mencari)" value={q} onChange={(e) => setQ(e.target.value)} />
-            <button onClick={() => setMsg("Tambah — Sisa Stock bersifat read-only")} className="gf-3d bg-gf-menubar p-[1px] opacity-60"></button>
-            <button onClick={() => setMsg("Koreksi — Sisa Stock bersifat read-only")} className="gf-3d bg-gf-menubar p-[1px] opacity-60"></button>
-            <button onClick={() => setMsg("Hapus — Sisa Stock bersifat read-only")} className="gf-3d bg-gf-menubar p-[1px] opacity-60"></button>
-            <button onClick={() => { window.location.href = "/"; }} className="gf-3d bg-gf-menubar p-[1px]"></button>
+            <Button variant="default" disabled title="Tambah — read-only"><Plus className="h-[14px] w-[14px] text-emerald-600" /></Button>
+            <Button variant="default" disabled title="Koreksi — read-only"><Pencil className="h-[14px] w-[14px] text-sky-600" /></Button>
+            <Button variant="default" disabled title="Hapus — read-only"><Trash2 className="h-[14px] w-[14px] text-red-600" /></Button>
+            <Button variant="default" title="Tutup" onClick={() => { window.location.href = "/"; }}><X className="h-[14px] w-[14px] text-slate-500" /></Button>
           </div>
           {err && <div className="mb-2 text-[12px] text-red-700">{err}</div>}
           {msg && <div className="mb-1 text-[11px] text-gf-muted">{msg}</div>}
@@ -110,23 +126,46 @@ export default function SisaStockPage() {
             </table>
           </div>
 
-          <div className="mt-2 grid grid-cols-[1fr_320px] gap-2">
-            <div className="grid grid-cols-[70px_1fr_70px_1fr] items-center gap-x-2 gap-y-[3px] border border-gf-border bg-[#f4f4f4] p-2 text-[11px]">
-              <span>ID :</span><input className="gf-3d bg-white px-2 py-[1px]" readOnly value={r?.id ?? ""} />
-              <span>Group :</span><input className="gf-3d bg-white px-2 py-[1px]" readOnly value={r?.groupNama ?? ""} />
-              <span>Kode :</span><input className="gf-3d bg-white px-2 py-[1px]" readOnly value={r?.kode ?? ""} />
-              <span>Jenis :</span><input className="gf-3d bg-white px-2 py-[1px]" readOnly value={r?.jenis ?? ""} />
-              <span>Nama :</span><input className="gf-3d bg-white px-2 py-[1px]" readOnly value={r?.nama ?? ""} />
-              <span>Min Stock :</span><input className="gf-3d bg-white px-2 py-[1px]" readOnly value={r?.minStock ?? ""} />
-              <span>Catatan :</span><input className="gf-3d col-span-3 bg-white px-2 py-[1px]" readOnly value={r?.catatan ?? ""} />
+          <div className="mt-2 grid grid-cols-[1fr_300px] gap-2">
+            <div className="rounded-md border border-gf-border bg-[#f4f4f4] p-2 text-[11px]">
+              <div className="grid grid-cols-[50px_150px_60px_150px_64px_1fr] items-center gap-x-2 gap-y-[3px]">
+                <span>ID :</span><input className="gf-3d bg-white px-2 py-[1px]" value={fId} onChange={(e) => setFId(e.target.value)} />
+                <span>Kode :</span><input className="gf-3d bg-white px-2 py-[1px]" value={fKode} onChange={(e) => setFKode(e.target.value)} />
+                <span>Kode (2) :</span><input className="gf-3d bg-white px-2 py-[1px]" value={fKode2} onChange={(e) => setFKode2(e.target.value)} />
+                <span>Group :</span>
+                <span className="col-span-5 flex gap-1">
+                  <select className="gf-3d w-[220px] bg-white px-1 py-[1px]"><option>--belum dipilih--</option></select>
+                  <select className="gf-3d w-[220px] bg-white px-1 py-[1px]"><option>--belum dipilih--</option></select>
+                  <span>Group II :</span>
+                  <input className="gf-3d flex-1 bg-white px-2 py-[1px]" value={fGroupII} onChange={(e) => setFGroupII(e.target.value)} />
+                </span>
+                <span>Vendor :</span><input className="gf-3d col-span-5 bg-white px-2 py-[1px]" value={fVendor} onChange={(e) => setFVendor(e.target.value)} />
+                <span>Nama :</span><input className="gf-3d col-span-5 bg-white px-2 py-[1px]" value={fNama} onChange={(e) => setFNama(e.target.value)} />
+                <span>Catatan :</span><input className="gf-3d col-span-5 bg-white px-2 py-[1px]" value={fCatatan} onChange={(e) => setFCatatan(e.target.value)} />
+              </div>
+              <div className="mt-1 flex items-center gap-2">
+                <label className="flex items-center gap-1"><input type="checkbox" checked={fSemua} onChange={(e) => { setFSemua(e.target.checked); if (e.target.checked) { setFKode(""); setFKode2(""); setFNama(""); } }} /> Semua Data</label>
+                <button onClick={() => setMsg("Ctrl+F9")} className="gf-3d bg-gf-menubar px-2 py-[1px]">Ctrl+F9</button>
+                <button onClick={() => setMsg("Ctrl+F")} className="gf-3d bg-gf-menubar px-2 py-[1px]">Ctrl+F</button>
+                <button onClick={() => setMsg("Ctrl+F7")} className="gf-3d bg-gf-menubar px-2 py-[1px]">Ctrl+F7</button>
+                <button onClick={() => setMsg("Ctrl+F6")} className="gf-3d bg-gf-menubar px-2 py-[1px]">Ctrl+F6</button>
+              </div>
             </div>
-            <div className="border border-gf-border bg-[#f4f4f4] p-2 text-[11px]">
+            <div className="rounded-md border border-gf-border bg-[#f4f4f4] p-2 text-[11px]">
               <div className="flex gap-1">
-                <button className="gf-3d flex-1 bg-gf-menubar px-1 py-[2px]">Aktif</button>
+                <button onClick={() => setFAktif(fAktif === "Aktif" ? "Non Aktif" : "Aktif")} className="gf-3d flex-1 bg-gf-menubar px-1 py-[2px]">{fAktif}</button>
                 <button className="gf-3d flex-1 bg-gf-menubar px-1 py-[2px]">---</button>
               </div>
               <div className="mt-1 text-gf-muted">Mouse klik 2x &gt; Koreksi</div>
-              <select className="gf-3d mt-1 w-full bg-white px-1 py-[2px]"><option>Tampilan Standard</option><option>Tampil Sisa Stock</option><option>Sisa Stock &lt;&gt; 0</option><option>Sisa Stock &lt; 0</option><option>Sisa Stock = 0</option><option>Tampil &lt;= Minimal Stock</option></select>
+              <select className="gf-3d mt-1 w-full bg-white px-1 py-[2px]" value={tampil} onChange={(e) => setTampil(e.target.value)}>
+                <option>Tampilan Standard</option>
+                <option>Tampil Sisa Stock</option>
+                <option>Sisa Stock &lt;&gt; 0</option>
+                <option>Sisa Stock &lt; 0</option>
+                <option>Sisa Stock = 0</option>
+                <option>Tampil &lt;= Minimal Stock</option>
+              </select>
+              <select className="gf-3d mt-1 w-full bg-white px-1 py-[2px]"><option>---</option></select>
             </div>
           </div>
           <Pager page={page} total={total} onPage={setPage} className="mt-2" />
