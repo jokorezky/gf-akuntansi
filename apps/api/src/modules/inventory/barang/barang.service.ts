@@ -15,8 +15,10 @@ type Cfg = { m: string; d: string; fk: string };
 const MASUK: Cfg = { m: "gf.s_stkmas", d: "gf.s_stkmex", fk: "stkmas_id" };
 const KELUAR: Cfg = { m: "gf.s_stkklr", d: "gf.s_stkkex", fk: "stkklr_id" };
 
-type LineIn = { stockId: number; jumlah?: string; satuan?: number; catatan?: string };
-type DocIn = { no?: string; tanggal?: string; divisiId?: number; gudang?: number; catatan?: string; lines: LineIn[] };
+type LineIn = { stockId: number; jumlah?: string; satuan?: number; hpp?: string; catatan?: string };
+type DocIn = { no?: string; tanggal?: string; divisiId?: number; gudang?: number; perkirId?: number; grpsmkId?: number; catatan?: string; lines: LineIn[] };
+
+const JOIN_AUX = `LEFT JOIN gf.s_grpsmk g ON g.id=k.grpsmk_id LEFT JOIN gf.s_perkir p2 ON p2.id=k.perkir_id`;
 
 @Injectable()
 export class BarangService {
@@ -32,10 +34,11 @@ export class BarangService {
     const total = await this.pool.query(`SELECT count(*)::int AS n FROM ${t.m} k ${where}`, params);
     params.push(limit, offset);
     const hdr = `k.id::int AS id, k.no::text AS no, to_char(k.tanggal,'YYYY-MM-DD') AS tanggal, k.divisi_id AS "divisiId",
-      k.gudang, k.catatan,
-      (SELECT round(COALESCE(SUM(d.jumlah),0),2)::text FROM ${t.d} d WHERE d.${t.fk}=k.id) AS "totalQty"`;
+      k.gudang, k.perkir_id AS "perkirId", p2.nama AS "perkirNama", k.grpsmk_id AS "grpsmkId", g.nama AS "grpsmkNama", k.catatan,
+      (SELECT round(COALESCE(SUM(d.jumlah),0),2)::text FROM ${t.d} d WHERE d.${t.fk}=k.id) AS "totalQty",
+      (SELECT round(COALESCE(SUM(d.jumlah*COALESCE(d.hpp,0)),0),2)::text FROM ${t.d} d WHERE d.${t.fk}=k.id) AS "totalHpp"`;
     const rows = await this.pool.query(
-      `SELECT ${hdr} FROM ${t.m} k ${where} ORDER BY k.id DESC LIMIT $${params.length - 1} OFFSET $${params.length}`,
+      `SELECT ${hdr} FROM ${t.m} k ${JOIN_AUX} ${where} ORDER BY k.id DESC LIMIT $${params.length - 1} OFFSET $${params.length}`,
       params,
     );
     return { rows: rows.rows, total: total.rows[0].n as number };
@@ -43,13 +46,14 @@ export class BarangService {
 
   private async byIdOf(t: Cfg, id: number) {
     const hdr = `k.id::int AS id, k.no::text AS no, to_char(k.tanggal,'YYYY-MM-DD') AS tanggal, k.divisi_id AS "divisiId",
-      k.gudang, k.catatan,
-      (SELECT round(COALESCE(SUM(d.jumlah),0),2)::text FROM ${t.d} d WHERE d.${t.fk}=k.id) AS "totalQty"`;
-    const h = await this.pool.query(`SELECT ${hdr} FROM ${t.m} k WHERE k.id=$1 AND k.hapus_oleh IS NULL`, [id]);
+      k.gudang, k.perkir_id AS "perkirId", p2.nama AS "perkirNama", k.grpsmk_id AS "grpsmkId", g.nama AS "grpsmkNama", k.catatan,
+      (SELECT round(COALESCE(SUM(d.jumlah),0),2)::text FROM ${t.d} d WHERE d.${t.fk}=k.id) AS "totalQty",
+      (SELECT round(COALESCE(SUM(d.jumlah*COALESCE(d.hpp,0)),0),2)::text FROM ${t.d} d WHERE d.${t.fk}=k.id) AS "totalHpp"`;
+    const h = await this.pool.query(`SELECT ${hdr} FROM ${t.m} k ${JOIN_AUX} WHERE k.id=$1 AND k.hapus_oleh IS NULL`, [id]);
     if (!h.rows[0]) return null;
     const d = await this.pool.query(
       `SELECT d.stock_id::int AS "stockId", s.nama AS "stockNama", d.satuan::text AS satuan,
-              d.jumlah::text AS jumlah, d.catatan
+              d.jumlah::text AS jumlah, d.hpp::text AS hpp, d.catatan
        FROM ${t.d} d LEFT JOIN gf.s_stock s ON s.id=d.stock_id WHERE d.${t.fk}=$1 ORDER BY d.sys_id`,
       [id],
     );
@@ -61,17 +65,17 @@ export class BarangService {
     try {
       await client.query("BEGIN");
       const h = await client.query(
-        `INSERT INTO ${t.m} (id, no, tanggal, divisi_id, gudang, catatan, input_oleh, tgl_input, jam_input)
+        `INSERT INTO ${t.m} (id, no, tanggal, divisi_id, gudang, perkir_id, grpsmk_id, catatan, input_oleh, tgl_input, jam_input)
          VALUES ((SELECT COALESCE(MAX(id),0)+1 FROM ${t.m}), (SELECT COALESCE(MAX(no),0)+1 FROM ${t.m}),
-          COALESCE($1, now()::date), $2, $3, $4, $5, now()::date, to_char(now(),'HH24:MI:SS'))
+          COALESCE($1, now()::date), $2, $3, $4, $5, $6, $7, now()::date, to_char(now(),'HH24:MI:SS'))
          RETURNING id`,
-        [nn(input.tanggal), nn(input.divisiId), nn(input.gudang), nn(input.catatan), userId],
+        [nn(input.tanggal), nn(input.divisiId), nn(input.gudang), nn(input.perkirId), nn(input.grpsmkId), nn(input.catatan), userId],
       );
       const pid = h.rows[0].id as number;
       for (const l of input.lines) {
         await client.query(
-          `INSERT INTO ${t.d} (${t.fk}, stock_id, satuan, jumlah, catatan, tanggal) VALUES ($1,$2,$3,$4,$5, COALESCE($6, now()::date))`,
-          [pid, l.stockId, nn(l.satuan), num(l.jumlah), nn(l.catatan), nn(input.tanggal)],
+          `INSERT INTO ${t.d} (${t.fk}, stock_id, satuan, jumlah, hpp, catatan, tanggal) VALUES ($1,$2,$3,$4,$5,$6, COALESCE($7, now()::date))`,
+          [pid, l.stockId, nn(l.satuan), num(l.jumlah), num(l.hpp), nn(l.catatan), nn(input.tanggal)],
         );
       }
       await client.query("COMMIT");
@@ -89,16 +93,16 @@ export class BarangService {
     try {
       await client.query("BEGIN");
       await client.query(
-        `UPDATE ${t.m} SET tanggal=COALESCE($2, tanggal), divisi_id=$3, gudang=$4, catatan=$5,
-           ubah_oleh=$6, tgl_ubah=now()::date, jam_ubah=to_char(now(),'HH24:MI:SS')
+        `UPDATE ${t.m} SET tanggal=COALESCE($2, tanggal), divisi_id=$3, gudang=$4, perkir_id=$5, grpsmk_id=$6, catatan=$7,
+           ubah_oleh=$8, tgl_ubah=now()::date, jam_ubah=to_char(now(),'HH24:MI:SS')
          WHERE id=$1 AND hapus_oleh IS NULL`,
-        [id, nn(input.tanggal), nn(input.divisiId), nn(input.gudang), nn(input.catatan), userId],
+        [id, nn(input.tanggal), nn(input.divisiId), nn(input.gudang), nn(input.perkirId), nn(input.grpsmkId), nn(input.catatan), userId],
       );
       await client.query(`DELETE FROM ${t.d} WHERE ${t.fk}=$1`, [id]);
       for (const l of input.lines) {
         await client.query(
-          `INSERT INTO ${t.d} (${t.fk}, stock_id, satuan, jumlah, catatan, tanggal) VALUES ($1,$2,$3,$4,$5, COALESCE($6, now()::date))`,
-          [id, l.stockId, nn(l.satuan), num(l.jumlah), nn(l.catatan), nn(input.tanggal)],
+          `INSERT INTO ${t.d} (${t.fk}, stock_id, satuan, jumlah, hpp, catatan, tanggal) VALUES ($1,$2,$3,$4,$5,$6, COALESCE($7, now()::date))`,
+          [id, l.stockId, nn(l.satuan), num(l.jumlah), num(l.hpp), nn(l.catatan), nn(input.tanggal)],
         );
       }
       await client.query("COMMIT");
@@ -131,6 +135,14 @@ export class BarangService {
   createKeluar(input: BarangKeluarInput) { return this.createOf(KELUAR, input, 1); }
   updateKeluar(id: number, input: BarangKeluarInput) { return this.updateOf(KELUAR, id, input, 1); }
   deleteKeluar(id: number) { return this.softDel(KELUAR, id, 1); }
+
+  /** Grup Masuk/Keluar (Grouping) — s_grpsmk. */
+  async grpsmkRef() {
+    const r = await this.pool.query(
+      `SELECT id::int AS id, nama, stk_masuk AS "stkMasuk", stk_keluar AS "stkKeluar" FROM gf.s_grpsmk WHERE COALESCE(hapus_oleh,0)=0 ORDER BY id`,
+    );
+    return r.rows;
+  }
 
   /** Kartu Stock (read-only): mutasi stok dari Barang Masuk & Barang Keluar. */
   async kartuStockList(limit = 100, offset = 0, q?: string): Promise<KartuStockPage> {

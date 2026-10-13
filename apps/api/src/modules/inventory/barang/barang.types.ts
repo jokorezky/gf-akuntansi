@@ -6,6 +6,7 @@ export class BarangLine {
   @Field({ nullable: true }) stockNama?: string;
   @Field({ nullable: true }) satuan?: string;
   @Field({ nullable: true }) jumlah?: string;
+  @Field({ nullable: true }) hpp?: string;
   @Field({ nullable: true }) catatan?: string;
 }
 
@@ -14,6 +15,7 @@ export class BarangLineInput {
   @Field(() => Int) stockId: number;
   @Field({ nullable: true }) jumlah?: string;
   @Field(() => Int, { nullable: true }) satuan?: number;
+  @Field({ nullable: true }) hpp?: string;
   @Field({ nullable: true }) catatan?: string;
 }
 
@@ -24,8 +26,13 @@ export class BarangMasuk {
   @Field({ nullable: true }) tanggal?: string;
   @Field(() => Int, { nullable: true }) divisiId?: number;
   @Field(() => Int, { nullable: true }) gudang?: number;
+  @Field(() => Int, { nullable: true }) perkirId?: number;
+  @Field({ nullable: true }) perkirNama?: string;
+  @Field(() => Int, { nullable: true }) grpsmkId?: number;
+  @Field({ nullable: true }) grpsmkNama?: string;
   @Field({ nullable: true }) catatan?: string;
   @Field({ nullable: true }) totalQty?: string;
+  @Field({ nullable: true }) totalHpp?: string;
   @Field(() => [BarangLine], { nullable: true }) lines?: BarangLine[];
 }
 
@@ -35,6 +42,8 @@ export class BarangMasukInput {
   @Field({ nullable: true }) tanggal?: string;
   @Field(() => Int, { nullable: true }) divisiId?: number;
   @Field(() => Int, { nullable: true }) gudang?: number;
+  @Field(() => Int, { nullable: true }) perkirId?: number;
+  @Field(() => Int, { nullable: true }) grpsmkId?: number;
   @Field({ nullable: true }) catatan?: string;
   @Field(() => [BarangLineInput]) lines: BarangLineInput[];
 }
@@ -52,8 +61,13 @@ export class BarangKeluar {
   @Field({ nullable: true }) tanggal?: string;
   @Field(() => Int, { nullable: true }) divisiId?: number;
   @Field(() => Int, { nullable: true }) gudang?: number;
+  @Field(() => Int, { nullable: true }) perkirId?: number;
+  @Field({ nullable: true }) perkirNama?: string;
+  @Field(() => Int, { nullable: true }) grpsmkId?: number;
+  @Field({ nullable: true }) grpsmkNama?: string;
   @Field({ nullable: true }) catatan?: string;
   @Field({ nullable: true }) totalQty?: string;
+  @Field({ nullable: true }) totalHpp?: string;
   @Field(() => [BarangLine], { nullable: true }) lines?: BarangLine[];
 }
 
@@ -63,6 +77,8 @@ export class BarangKeluarInput {
   @Field({ nullable: true }) tanggal?: string;
   @Field(() => Int, { nullable: true }) divisiId?: number;
   @Field(() => Int, { nullable: true }) gudang?: number;
+  @Field(() => Int, { nullable: true }) perkirId?: number;
+  @Field(() => Int, { nullable: true }) grpsmkId?: number;
   @Field({ nullable: true }) catatan?: string;
   @Field(() => [BarangLineInput]) lines: BarangLineInput[];
 }
@@ -71,6 +87,14 @@ export class BarangKeluarInput {
 export class BarangKeluarPage {
   @Field(() => [BarangKeluar]) rows: BarangKeluar[];
   @Field(() => Int) total: number;
+}
+
+@ObjectType()
+export class GrpsmkRef {
+  @Field(() => Int) id: number;
+  @Field({ nullable: true }) nama?: string;
+  @Field({ nullable: true }) stkMasuk?: boolean;
+  @Field({ nullable: true }) stkKeluar?: boolean;
 }
 
 @ObjectType()

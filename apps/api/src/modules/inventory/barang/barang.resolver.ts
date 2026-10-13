@@ -1,6 +1,6 @@
 import { Args, Int, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { BarangService } from "./barang.service";
-import { BarangKeluar, BarangKeluarInput, BarangKeluarPage, BarangMasuk, BarangMasukInput, BarangMasukPage, BarangExpiredPage, KartuStockPage } from "./barang.types";
+import { GrpsmkRef, BarangKeluar, BarangKeluarInput, BarangKeluarPage, BarangMasuk, BarangMasukInput, BarangMasukPage, BarangExpiredPage, KartuStockPage } from "./barang.types";
 
 @Resolver()
 export class BarangResolver {
@@ -18,6 +18,11 @@ export class BarangResolver {
   @Query(() => BarangMasuk, { nullable: true })
   barangMasukById(@Args("id", { type: () => Int }) id: number) {
     return this.service.byIdMasuk(id);
+  }
+
+  @Query(() => [GrpsmkRef])
+  grpsmkRefList() {
+    return this.service.grpsmkRef();
   }
 
   @Mutation(() => BarangMasuk)
