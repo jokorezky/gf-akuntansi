@@ -1,16 +1,15 @@
 "use client";
 
-import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { MenuBar } from "./MenuBar";
 import { Toolbar } from "./Toolbar";
 import { MdiWindow } from "./MdiWindow";
 import { InfoBox } from "./InfoBox";
 import { StatusBar } from "./StatusBar";
-import { GF_MENU, GF_HOME_TILES, type GfMenuItem } from "@/lib/gf-menu";
-
-const COMPANY = "NAMA PERUSAHAAN";
+import { MenuBox } from "./MenuBox";
+import { GF_MENU, type GfMenuItem } from "@/lib/gf-menu";
+import { GF_MENU_BOXES, type GfBoxButton } from "@/lib/menu-boxes";
 
 /** Menu id GF → rute web (layar yang sudah diimplementasikan). */
 const ROUTES: Record<number, string> = {
@@ -57,16 +56,38 @@ export function Shell() {
   const [view, setView] = useState<string>("home"); // "home" | group label
   const [message, setMessage] = useState<string>("");
 
-  const group = GF_MENU.find((g) => g.label === view) ?? null;
-
-  function onTile(tag: string) {
-    const g = GF_MENU.find((x) => x.label === tag);
-    if (g) {
-      setView(tag);
-      setMessage(`Menu ${tag}`);
-    } else {
-      setMessage(`${tag} — belum diimplementasikan (P1 kerangka)`);
+  useEffect(() => {
+    const b = new URLSearchParams(window.location.search).get("box");
+    if (b && GF_MENU_BOXES.some((x) => x.group === b)) {
+      setView(b);
+      setMessage(`Menu ${b}`);
     }
+  }, []);
+
+  /** Klik item di kotak menu GF (layout 1:1). */
+  function onBoxItem(b: GfBoxButton) {
+    // Menu Utama: item = grup
+    const grp = GF_MENU.find((g) => g.label === b.label);
+    if ((view === "home" || view === "Menu Utama") && grp) {
+      setView(grp.label);
+      setMessage(`Menu ${grp.label}`);
+      return;
+    }
+    if (b.label === "Bantuan") {
+      setMessage("Bantuan — belum diimplementasikan (Fase V2)");
+      return;
+    }
+    if (b.label === "Log Off" || b.label === "Exit") {
+      setMessage(`${b.label} — dinonaktifkan di clone`);
+      return;
+    }
+    if (b.id && ROUTES[b.id]) {
+      router.push(ROUTES[b.id]);
+      return;
+    }
+    setMessage(
+      `${view} › ${b.label}${b.blocked ? " (dinonaktifkan — destruktif/berat)" : " — belum diimplementasikan (Fase V2)"}`,
+    );
   }
 
   function onSelect(menuGroup: string, item: GfMenuItem) {
@@ -80,13 +101,18 @@ export function Shell() {
   }
 
   const infoRows = [
-    { label: "Nama", value: COMPANY },
-    { label: "User Login", value: "—" },
+    { label: "Nama", value: "MONI COSMETIC SUPERMARKET" },
+    { label: "User Login", value: "Acu [U.1 G.Owner]" },
     { label: "System Date", value: new Date().toLocaleDateString("id-ID", { weekday: "long", day: "numeric", month: "long", year: "numeric" }) },
-    { label: "Proteksi", value: "—" },
-    { label: "Tutup Hari", value: "—" },
-    { label: "Tutup Buku", value: "—" },
+    { label: "Proteksi", value: "12/10/2026" },
+    { label: "Tutup Hari", value: "30/06/2026" },
+    { label: "Tutup Buku", value: "31/12/2025" },
   ];
+
+  const currentBox =
+    view === "home"
+      ? GF_MENU_BOXES.find((b) => b.group === "Menu Utama")
+      : GF_MENU_BOXES.find((b) => b.group === view);
 
   return (
     <div className="flex h-screen flex-col bg-gf-bg">
@@ -99,61 +125,30 @@ export function Shell() {
           <span className="text-[64px] font-bold tracking-tight text-gf-accent">GF-AKUNTANSI</span>
         </div>
 
-        <div className="relative w-[520px]">
+        <div className="relative w-[360px]">
           <MdiWindow
-            title={view === "home" ? "Menu Utama" : `Menu ${view}`}
+            title={currentBox?.title ?? "Menu Utama"}
             onClose={() => {
               setView("home");
               setMessage("");
             }}
           >
-            {view === "home" ? (
-              <div className="px-3 pb-2 pt-1">
-                <div className="mb-2 text-center text-[11px] font-bold text-gf-text">{COMPANY}</div>
-                <div className="grid grid-cols-3 gap-2">
-                  {GF_HOME_TILES.map((t) => (
-                    <button
-                      key={t.slug}
-                      type="button"
-                      onClick={() => onTile(t.tag ?? t.label)}
-                      className="gf-3d flex flex-col items-center bg-gf-panel transition-transform hover:-translate-y-[1px] active:translate-y-0"
-                      title={t.label}
-                    >
-                      <Image src={t.icon} alt={t.label} width={124} height={140} className="block" />
-                    </button>
-                  ))}
-                </div>
-                <div className="mt-3 flex justify-end">
-                  <InfoBox rows={infoRows} />
-                </div>
-              </div>
-            ) : (
-              <div className="px-3 pb-3 pt-1">
-                <button
-                  type="button"
-                  className="gf-3d mb-2 w-full bg-gf-panel py-[3px] text-[12px] hover:bg-gf-hl hover:text-white"
-                  onClick={() => setView("home")}
-                >
-                  Menu Utama (ESC)
-                </button>
-                <div className="grid grid-cols-2 gap-1">
-                  {group?.items.map((it) => (
-                    <button
-                      key={it.id}
-                      type="button"
-                      disabled={it.blocked}
-                      onClick={() => onSelect(view, it)}
-                      className={`gf-3d flex items-center justify-between bg-gf-panel px-2 py-[3px] text-left text-[12px] ${
-                        it.blocked ? "cursor-not-allowed text-gf-muted/60" : "hover:bg-gf-hl hover:text-white"
-                      }`}
-                      title={it.blocked ? "Dinonaktifkan (destruktif/berat)" : it.label}
-                    >
-                      <span>{it.label}</span>
-                      {it.hotkey && <span className="text-[11px] opacity-70">{it.hotkey}</span>}
-                    </button>
-                  ))}
-                </div>
-              </div>
+            {currentBox && (
+              <>
+                <MenuBox
+                  box={currentBox}
+                  onItem={onBoxItem}
+                  onHome={() => {
+                    setView("home");
+                    setMessage("");
+                  }}
+                />
+                {view === "home" && (
+                  <div className="mb-2 px-3">
+                    <InfoBox rows={infoRows} />
+                  </div>
+                )}
+              </>
             )}
           </MdiWindow>
         </div>
