@@ -63,3 +63,10 @@ mutation deleteKaryawan(id:Int!): Boolean!     # soft delete
 ## 6. Pertanyaan terbuka
 - `jenpen_id` (Jenis Penjualan) — apakah wajib untuk karyawan bertipe Sales? (cek GF)
 - Tab "Inisialisasi" isinya apa? (belum diobservasi)
+
+## V2 Deep 1:1 (observasi 2026-10-13, deep_explore + PrintWindow)
+- List GF: header `MASTER FILE - KARYAWAN`; toolbar 4 tombol IKON (Insert/Koreksi/Hapus/Tutup, Koreksi+Hapus disabled saat tak ada seleksi); kolom: ID | Nama | Alamat | Tipe | Komisi | Telepon | Non-Aktif | Catatan.
+- Form GF: 2 TAB ber-ikon -> `Data Utama` (ID hijau, Nama, Alamat multiline, Telepon, Komisi %, Catatan, Non-Aktif, Jenis Penj, Divisi, panel kanan checkbox Sales/Supir/Helper/Collector/Admin) & `Inisialisasi` (hint hijau "Tidak dipilih, berarti semuanya boleh." + 3 kolom checkbox Grouping / Grouping *2 / Grouping *3; di GF list 2 & 3 kosong karena tabel `gf.s_grpst2/s_grpst3` kosong).
+- Tombol Simpan & Tutup ber-ikon. Simpan = full-document update (semua field dikirim).
+- Clone: `/master/karyawan` dirombak 1:1 (ikon asli `/gf-icons/screens/karyawan/*`; tab, checkbox jabatan, 3 list grouping dari `grpstkRefList/grpst2RefList/grpst3RefList`); BE: field `grpstk/grpst2/grpst3` + referensi baru. CRUD teruji create->update->softdelete->cleanup.
+- Temuan teknis crop: PrintWindow merender konten 1x di canvas skala fisik -> crop ikon dilakukan dengan koordinat terkalibrasi visual (lihat tools/gf-observe).

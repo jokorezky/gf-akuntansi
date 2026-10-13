@@ -1,0 +1,583 @@
+{
+  "slug": "karyawan",
+  "menu_id": 24553,
+  "max_depth": 3,
+  "nodes": [
+    {
+      "index": 0,
+      "depth": 1,
+      "slug": "karyawan-L1-0",
+      "title": "Karyawan",
+      "class": "DocAppWindow",
+      "path": [
+        "Karyawan"
+      ],
+      "controls": [
+        {
+          "hwnd": 2296116,
+          "class": "WndAppWindow",
+          "text": "",
+          "rect": [
+            93,
+            231,
+            1143,
+            836
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 1379096,
+          "class": "#32770",
+          "text": "",
+          "rect": [
+            95,
+            233,
+            1142,
+            835
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 1902890,
+          "class": "Static",
+          "text": "M A S T E R   F I L E   -   K A R Y A W A N",
+          "rect": [
+            99,
+            237,
+            1133,
+            279
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 1248016,
+          "class": "Static",
+          "text": "",
+          "rect": [
+            99,
+            287,
+            675,
+            346
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 1772102,
+          "class": "Button",
+          "text": "T&ambah",
+          "rect": [
+            683,
+            287,
+            791,
+            346
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 10225826,
+          "class": "Button",
+          "text": "&Koreksi",
+          "rect": [
+            797,
+            287,
+            905,
+            346
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 3344464,
+          "class": "Button",
+          "text": "&Hapus",
+          "rect": [
+            909,
+            287,
+            1017,
+            346
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 854796,
+          "class": "Button",
+          "text": "&Tutup",
+          "rect": [
+            1025,
+            287,
+            1133,
+            346
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 4327952,
+          "class": "SysListView32",
+          "text": "",
+          "rect": [
+            99,
+            353,
+            1133,
+            809
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 1509970,
+          "class": "SysHeader32",
+          "text": "",
+          "rect": [
+            102,
+            356,
+            1130,
+            382
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 1051396,
+          "class": "msctls_progress32",
+          "text": "",
+          "rect": [
+            99,
+            809,
+            1133,
+            826
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 2492290,
+          "class": "msctls_statusbar32",
+          "text": "",
+          "rect": [
+            93,
+            836,
+            1143,
+            869
+          ],
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "depth": 2,
+      "slug": "karyawan-L2-1",
+      "title": "Karyawan",
+      "class": "#32770",
+      "path": [
+        "klik:Koreksi",
+        "Karyawan"
+      ],
+      "controls": [
+        {
+          "hwnd": 525146,
+          "class": "#32770",
+          "text": "Dialog Caption",
+          "rect": [
+            546,
+            282,
+            1370,
+            738
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 394050,
+          "class": "Button",
+          "text": "",
+          "rect": [
+            551,
+            282,
+            1069,
+            551
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 197530,
+          "class": "Button",
+          "text": "",
+          "rect": [
+            551,
+            546,
+            1069,
+            690
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 6097080,
+          "class": "Button",
+          "text": "",
+          "rect": [
+            1073,
+            282,
+            1357,
+            689
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 1706664,
+          "class": "Static",
+          "text": "ID :",
+          "rect": [
+            576,
+            312,
+            656,
+            342
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 3541766,
+          "class": "Static",
+          "text": "Nama :",
+          "rect": [
+            576,
+            341,
+            656,
+            371
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 789256,
+          "class": "Static",
+          "text": "Alamat :",
+          "rect": [
+            576,
+            371,
+            656,
+            403
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 394054,
+          "class": "Static",
+          "text": "Telepon :",
+          "rect": [
+            576,
+            438,
+            660,
+            468
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 197436,
+          "class": "Static",
+          "text": "Komisi :",
+          "rect": [
+            576,
+            468,
+            660,
+            498
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 7078814,
+          "class": "Static",
+          "text": "Catatan :",
+          "rect": [
+            576,
+            497,
+            656,
+            527
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 7408114,
+          "class": "Static",
+          "text": "Non-Aktif :",
+          "rect": [
+            576,
+            575,
+            656,
+            605
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 1966522,
+          "class": "Static",
+          "text": "Jenis Penj :",
+          "rect": [
+            576,
+            605,
+            660,
+            637
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 328612,
+          "class": "Static",
+          "text": "Divisi :",
+          "rect": [
+            576,
+            636,
+            660,
+            666
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 2623984,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            659,
+            312,
+            767,
+            342
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 527088,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            659,
+            341,
+            1045,
+            371
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 3803672,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            659,
+            371,
+            1045,
+            440
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 2362006,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            659,
+            438,
+            1045,
+            468
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 592632,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            659,
+            468,
+            745,
+            498
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 4065864,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            659,
+            497,
+            1045,
+            527
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 2493024,
+          "class": "Edit",
+          "text": "",
+          "rect": [
+            659,
+            575,
+            803,
+            605
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 2361914,
+          "class": "ComboBox",
+          "text": "",
+          "rect": [
+            659,
+            605,
+            1045,
+            635
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 5179970,
+          "class": "ComboBox",
+          "text": "",
+          "rect": [
+            659,
+            636,
+            1045,
+            666
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 1378782,
+          "class": "Button",
+          "text": "Sales",
+          "rect": [
+            1098,
+            324,
+            1200,
+            354
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 2556594,
+          "class": "Button",
+          "text": "Supir",
+          "rect": [
+            1098,
+            360,
+            1200,
+            390
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 1313252,
+          "class": "Button",
+          "text": "Helper",
+          "rect": [
+            1098,
+            395,
+            1200,
+            427
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 3344974,
+          "class": "Button",
+          "text": "Collector",
+          "rect": [
+            1098,
+            431,
+            1200,
+            461
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 3475498,
+          "class": "Button",
+          "text": "Admin",
+          "rect": [
+            1098,
+            468,
+            1200,
+            498
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 3279302,
+          "class": "SysTabControl32",
+          "text": "",
+          "rect": [
+            542,
+            248,
+            1378,
+            746
+          ],
+          "enabled": true
+        },
+        {
+          "hwnd": 4131388,
+          "class": "Button",
+          "text": "&Simpan",
+          "rect": [
+            542,
+            753,
+            956,
+            795
+          ],
+          "enabled": false
+        },
+        {
+          "hwnd": 2491122,
+          "class": "Button",
+          "text": "&Tutup",
+          "rect": [
+            956,
+            753,
+            1378,
+            795
+          ],
+          "enabled": true
+        }
+      ]
+    }
+  ],
+  "clicks": [
+    {
+      "depth": 1,
+      "at": "karyawan-L1-0",
+      "button": "Tambah",
+      "new_windows": []
+    },
+    {
+      "depth": 1,
+      "at": "karyawan-L1-0",
+      "button": "Koreksi",
+      "new_windows": [
+        "Karyawan"
+      ]
+    },
+    {
+      "depth": 2,
+      "at": "karyawan-L2-1",
+      "button": "Sales",
+      "new_windows": []
+    },
+    {
+      "depth": 2,
+      "at": "karyawan-L2-1",
+      "button": "Supir",
+      "new_windows": []
+    },
+    {
+      "depth": 2,
+      "at": "karyawan-L2-1",
+      "button": "Helper",
+      "new_windows": []
+    },
+    {
+      "depth": 2,
+      "at": "karyawan-L2-1",
+      "button": "Collector",
+      "new_windows": []
+    },
+    {
+      "depth": 2,
+      "at": "karyawan-L2-1",
+      "button": "Admin",
+      "new_windows": []
+    }
+  ],
+  "path_stack": []
+}

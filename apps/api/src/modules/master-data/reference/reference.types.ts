@@ -31,6 +31,18 @@ export class GrpstkRef {
 }
 
 @ObjectType()
+export class Grpst2Ref {
+  @Field(() => Int) id: number;
+  @Field() nama: string;
+}
+
+@ObjectType()
+export class Grpst3Ref {
+  @Field(() => Int) id: number;
+  @Field() nama: string;
+}
+
+@ObjectType()
 export class VendorRef {
   @Field(() => Int) id: number;
   @Field() nama: string;

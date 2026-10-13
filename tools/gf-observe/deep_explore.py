@@ -46,7 +46,7 @@ def visible_windows():
     def add(h, _):
         if win32gui.IsWindowVisible(h):
             t = win32gui.GetWindowText(h)
-            if t:
+            if t and win32gui.GetClassName(h) in FORM_CLASSES:
                 out[h] = t
     win32gui.EnumWindows(add, None)
     return out
@@ -139,6 +139,48 @@ def explore_window(hwnd, slug, depth, max_depth, out, counter, visited):
             time.sleep(0.8)
 
 
+def close_form(hwnd):
+    btn = None
+    def cb(h, _):
+        nonlocal btn
+        if win32gui.GetClassName(h) == "Button" and \
+                win32gui.GetWindowText(h).replace("&", "").strip().lower() == "tutup":
+            btn = h
+    win32gui.EnumChildWindows(hwnd, cb, None)
+    if btn:
+        win32gui.PostMessage(btn, BM_CLICK, 0, 0)
+    else:
+        win32gui.PostMessage(hwnd, WM_CLOSE, 0, 0)
+
+
+def cleanup_forms():
+    """GF 1-form rule: tutup semua form sebelum buka screen baru."""
+    opened = all_named_windows()
+    closed = 0
+    for h, t in list(opened.items()):
+        if any(k in t for k in ("Online", "Menu ")) or t.startswith("GF-Akuntansi"):
+            continue
+        close_form(h)
+        closed += 1
+        time.sleep(0.9)
+    return closed
+
+
+def force_focus(hwnd):
+    """GF hanya memproses WM_COMMAND saat window aktif; trik ALT memberi hak foreground."""
+    if win32gui.GetForegroundWindow() == hwnd:
+        return True
+    user32 = ctypes.windll.user32
+    user32.keybd_event(0x12, 0, 0, 0)  # ALT down
+    try:
+        win32gui.SetForegroundWindow(hwnd)
+    except Exception:
+        pass
+    user32.keybd_event(0x12, 0, 2, 0)  # ALT up
+    time.sleep(0.6)
+    return win32gui.GetForegroundWindow() == hwnd
+
+
 def main():
     dpi_aware()
     mid = int(sys.argv[1])
@@ -148,31 +190,33 @@ def main():
 
     sh = shell()
     win32gui.ShowWindow(sh, 3)
-    try:
-        win32gui.SetForegroundWindow(sh)
-    except Exception:
-        pass
-    time.sleep(0.6)
-    user32 = ctypes.windll.user32
-    res = ctypes.c_size_t(0)
-    user32.SendMessageTimeoutW(sh, WM_COMMAND, mid, 0, 2, 8000, ctypes.byref(res))
-    time.sleep(2.2)
-
-    after = all_named_windows()
-    before_known = {"Online", "Menu Utama"}
+    n = cleanup_forms()
+    if n:
+        print(f"cleanup: {n} form ditutup")
+    before = set(all_named_windows().keys())
     target = None
-    best_area = 0
-    for h, t in after.items():
-        if any(k in t for k in before_known) or t.startswith("GF-Akuntansi"):
-            continue
-        try:
-            l, tt, r, b = win32gui.GetWindowRect(h)
-            area = (r - l) * (b - tt)
-        except Exception:
-            area = 0
-        if area > best_area:
-            best_area = area
-            target = h
+    for attempt in range(3):
+        force_focus(sh)
+        user32 = ctypes.windll.user32
+        res = ctypes.c_size_t(0)
+        user32.SendMessageTimeoutW(sh, WM_COMMAND, mid, 0, 2, 8000, ctypes.byref(res))
+        time.sleep(2.2)
+        after = all_named_windows()
+        neww = {h: t for h, t in after.items() if h not in before}
+        best_area = 0
+        for h, t in neww.items():
+            if any(k in t for k in ("Online", "Menu Utama")) or t.startswith("GF-Akuntansi"):
+                continue
+            try:
+                l, tt, r, b = win32gui.GetWindowRect(h)
+                area = (r - l) * (b - tt)
+            except Exception:
+                area = 0
+            if area > best_area:
+                best_area = area
+                target = h
+        if target:
+            break
     if not target:
         print("Tidak ada window baru terbuka; cek WM_COMMAND/fokus.")
         return 1

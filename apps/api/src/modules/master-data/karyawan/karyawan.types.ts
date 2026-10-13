@@ -17,6 +17,9 @@ export class Karyawan {
   @Field({ nullable: true }) admin?: boolean;
   @Field(() => Int, { nullable: true }) jenpenId?: number;
   @Field(() => Int, { nullable: true }) divisiId?: number;
+  @Field({ nullable: true }) grpstk?: string;
+  @Field({ nullable: true }) grpst2?: string;
+  @Field({ nullable: true }) grpst3?: string;
 }
 
 @InputType()
@@ -34,6 +37,9 @@ export class KaryawanInput {
   @Field({ nullable: true }) admin?: boolean;
   @Field(() => Int, { nullable: true }) jenpenId?: number;
   @Field(() => Int, { nullable: true }) divisiId?: number;
+  @Field({ nullable: true }) grpstk?: string;
+  @Field({ nullable: true }) grpst2?: string;
+  @Field({ nullable: true }) grpst3?: string;
 }
 
 @ObjectType()

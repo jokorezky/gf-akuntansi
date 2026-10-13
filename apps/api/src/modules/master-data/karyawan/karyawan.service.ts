@@ -7,7 +7,8 @@ const SELECT = `
   SELECT id, nama, alamat, telepon, komisi::text AS komisi, catatan,
          to_char(non_aktif,'YYYY-MM-DD') AS "nonAktif",
          sales, supir, helper, collector, admin,
-         jenpen_id AS "jenpenId", divisi_id AS "divisiId"
+         jenpen_id AS "jenpenId", divisi_id AS "divisiId",
+         grpstk, grpst2, grpst3
   FROM gf.s_karyaw
 `;
 
@@ -45,16 +46,19 @@ export class KaryawanService {
       INSERT INTO gf.s_karyaw
         (id, nama, alamat, telepon, komisi, catatan, non_aktif,
          sales, supir, helper, collector, admin, jenpen_id, divisi_id,
+         grpstk, grpst2, grpst3,
          input_oleh, tgl_input, jam_input)
       VALUES
         ((SELECT COALESCE(MAX(id),0)+1 FROM gf.s_karyaw), $1,$2,$3,$4,$5,$6,
          $7,$8,$9,$10,$11,$12,$13,
-         $14, now()::date, to_char(now(),'HH24:MI:SS'))
+         $14,$15,$16,
+         $17, now()::date, to_char(now(),'HH24:MI:SS'))
       RETURNING id`;
     const vals = [
       input.nama, nn(input.alamat), nn(input.telepon), nn(input.komisi), nn(input.catatan),
       nn(input.nonAktif), input.sales ?? false, input.supir ?? false, input.helper ?? false,
-      input.collector ?? false, input.admin ?? false, nn(input.jenpenId), nn(input.divisiId), userId,
+      input.collector ?? false, input.admin ?? false, nn(input.jenpenId), nn(input.divisiId),
+      nn(input.grpstk), nn(input.grpst2), nn(input.grpst3), userId,
     ];
     const r = await this.pool.query(sql, vals);
     return (await this.byId(r.rows[0].id as number))!;
@@ -65,12 +69,14 @@ export class KaryawanService {
       UPDATE gf.s_karyaw SET
         nama=$2, alamat=$3, telepon=$4, komisi=$5, catatan=$6, non_aktif=$7,
         sales=$8, supir=$9, helper=$10, collector=$11, admin=$12, jenpen_id=$13, divisi_id=$14,
-        ubah_oleh=$15, tgl_ubah=now()::date, jam_ubah=to_char(now(),'HH24:MI:SS')
+        grpstk=$15, grpst2=$16, grpst3=$17,
+        ubah_oleh=$18, tgl_ubah=now()::date, jam_ubah=to_char(now(),'HH24:MI:SS')
       WHERE id=$1 AND hapus_oleh IS NULL`;
     const vals = [
       id, input.nama, nn(input.alamat), nn(input.telepon), nn(input.komisi), nn(input.catatan),
       nn(input.nonAktif), input.sales ?? false, input.supir ?? false, input.helper ?? false,
-      input.collector ?? false, input.admin ?? false, nn(input.jenpenId), nn(input.divisiId), userId,
+      input.collector ?? false, input.admin ?? false, nn(input.jenpenId), nn(input.divisiId),
+      nn(input.grpstk), nn(input.grpst2), nn(input.grpst3), userId,
     ];
     await this.pool.query(sql, vals);
     return this.byId(id);

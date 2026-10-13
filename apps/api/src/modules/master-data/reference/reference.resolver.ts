@@ -2,7 +2,7 @@ import { Inject } from "@nestjs/common";
 import { Query, Resolver } from "@nestjs/graphql";
 import { Pool } from "pg";
 import { PG_POOL } from "../../../db/pg.provider";
-import { DaerahRef, DivisiRef, GrpstkRef, GrpvenRef, JenpenRef, PelangganRef, VendorRef } from "./reference.types";
+import { DaerahRef, DivisiRef, Grpst2Ref, Grpst3Ref, GrpstkRef, GrpvenRef, JenpenRef, PelangganRef, VendorRef } from "./reference.types";
 
 @Resolver()
 export class ReferenceResolver {
@@ -36,6 +36,18 @@ export class ReferenceResolver {
   async grpstkRefList(): Promise<GrpstkRef[]> {
     const r = await this.pool.query(`SELECT id, nama FROM gf.s_grpstk WHERE hapus_oleh IS NULL ORDER BY id`);
     return r.rows as GrpstkRef[];
+  }
+
+  @Query(() => [Grpst2Ref])
+  async grpst2RefList(): Promise<Grpst2Ref[]> {
+    const r = await this.pool.query(`SELECT id, nama FROM gf.s_grpst2 WHERE hapus_oleh IS NULL ORDER BY id`);
+    return r.rows as Grpst2Ref[];
+  }
+
+  @Query(() => [Grpst3Ref])
+  async grpst3RefList(): Promise<Grpst3Ref[]> {
+    const r = await this.pool.query(`SELECT id, nama FROM gf.s_grpst3 WHERE hapus_oleh IS NULL ORDER BY id`);
+    return r.rows as Grpst3Ref[];
   }
 
   @Query(() => [VendorRef])
